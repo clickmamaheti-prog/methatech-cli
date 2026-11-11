@@ -8,7 +8,12 @@ export type ToolName =
   | 'cloud_plan_ready'
   | 'code_search'
   | 'end_turn'
+  | 'exa_search'
+  | 'exa_find_similar'
   | 'find_files'
+  | 'firecrawl_check_crawl_status'
+  | 'firecrawl_crawl'
+  | 'firecrawl_scrape'
   | 'glob'
   | 'gravity_index'
   | 'list_directory'
@@ -44,7 +49,12 @@ export interface ToolParamsMap {
   cloud_plan_ready: CloudPlanReadyParams
   code_search: CodeSearchParams
   end_turn: EndTurnParams
+  exa_search: ExaSearchParams
+  exa_find_similar: ExaFindSimilarParams
   find_files: FindFilesParams
+  firecrawl_check_crawl_status: FirecrawlCheckCrawlStatusParams
+  firecrawl_crawl: FirecrawlCrawlParams
+  firecrawl_scrape: FirecrawlScrapeParams
   glob: GlobParams
   gravity_index: GravityIndexParams
   list_directory: ListDirectoryParams
@@ -422,6 +432,56 @@ export interface WebSearchParams {
   additional_queries?: string[]
   /** Request fresh pages only when the answer is time-sensitive. Slower; pages fetched within the last 10 minutes may be reused. */
   live?: boolean
+}
+
+/**
+ * Search the web with Exa and get ranked results with page text and highlights. Requires EXA_API_KEY.
+ */
+export interface ExaSearchParams {
+  /** Semantic search query. Phrase it as the question you want answered, not just keywords. */
+  query: string
+  /** How many results to return. Default 5. */
+  num_results?: number
+  /** Search depth: auto (default, balanced), fast (cheaper, quicker), deep (thorough, slower and more expensive). */
+  search_type?: 'auto' | 'fast' | 'deep'
+}
+
+/**
+ * Find pages similar to a given URL, with page text and highlights. Requires EXA_API_KEY.
+ */
+export interface ExaFindSimilarParams {
+  /** A public http(s) URL of a page you already have. */
+  url: string
+  /** How many similar pages to return. Default 5. */
+  num_results?: number
+}
+
+/**
+ * Scrape one page into clean markdown with Firecrawl. Requires FIRECRAWL_API_KEY.
+ */
+export interface FirecrawlScrapeParams {
+  /** A public http(s) URL of the page to scrape. */
+  url: string
+  /** Return only the main article content, dropping navigation, headers, and footers. Default true. */
+  only_main_content?: boolean
+}
+
+/**
+ * Start a Firecrawl crawl of a whole site. Returns a job ID to poll with firecrawl_check_crawl_status. Requires FIRECRAWL_API_KEY.
+ */
+export interface FirecrawlCrawlParams {
+  /** A public http(s) URL to start the crawl from. */
+  url: string
+  /** Maximum number of pages to crawl. Default 10. Each page costs Firecrawl credits, so keep this small. */
+  limit?: number
+}
+
+/**
+ * Check the status of a Firecrawl crawl job and get its pages so far. Requires FIRECRAWL_API_KEY.
+ */
+export interface FirecrawlCheckCrawlStatusParams {
+  /** The job ID returned by firecrawl_crawl. */
+  crawl_id: string
 }
 
 /**

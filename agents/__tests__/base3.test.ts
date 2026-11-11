@@ -240,7 +240,7 @@ describe('base3 CLI roots', () => {
     expect(cli.systemPrompt).not.toContain('only when you cannot safely or correctly continue')
   })
 
-  test('noWeb drops web_search and read_url and nothing else', () => {
+  test('noWeb drops the web tools and nothing else', () => {
     // The eval harness withholds the web from BOTH arms: the evaluated
     // repositories are public, and a search result quoting their current
     // code is the answer key (2026-10-04: 36% of base3's search results in
@@ -249,9 +249,18 @@ describe('base3 CLI roots', () => {
     const withoutWeb = createBase3CliRoot({ noAskUser: true, noWeb: true })
     expect(withWeb.toolNames).toContain('web_search')
     expect(withWeb.toolNames).toContain('read_url')
+    expect(withWeb.toolNames).toContain('exa_search')
+    expect(withWeb.toolNames).toContain('firecrawl_scrape')
     expect(withoutWeb.toolNames).toEqual(
       withWeb.toolNames!.filter(
-        (name) => name !== 'web_search' && name !== 'read_url',
+        (name) =>
+          name !== 'web_search' &&
+          name !== 'read_url' &&
+          name !== 'exa_search' &&
+          name !== 'exa_find_similar' &&
+          name !== 'firecrawl_scrape' &&
+          name !== 'firecrawl_crawl' &&
+          name !== 'firecrawl_check_crawl_status',
       ),
     )
     expect(withoutWeb.systemPrompt).toBe(withWeb.systemPrompt)

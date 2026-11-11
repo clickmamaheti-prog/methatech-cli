@@ -7,7 +7,12 @@ import { handleCodeSearch } from './tool/code-search'
 import { handleCloudPlanReady } from './tool/cloud-plan-ready'
 import { handleCreatePlan } from './tool/create-plan'
 import { handleEndTurn } from './tool/end-turn'
+import { handleExaFindSimilar } from './tool/exa-find-similar'
+import { handleExaSearch } from './tool/exa-search'
 import { handleFindFiles } from './tool/find-files'
+import { handleFirecrawlCheckCrawlStatus } from './tool/firecrawl-check-crawl-status'
+import { handleFirecrawlCrawl } from './tool/firecrawl-crawl'
+import { handleFirecrawlScrape } from './tool/firecrawl-scrape'
 import { handleGlob } from './tool/glob'
 import { handleGravityIndex } from './tool/gravity-index'
 import { handleListDirectory } from './tool/list-directory'
@@ -60,7 +65,12 @@ export const codebuffToolHandlers: {
   cloud_plan_ready: handleCloudPlanReady,
   create_plan: handleCreatePlan,
   end_turn: handleEndTurn,
+  exa_search: handleExaSearch,
+  exa_find_similar: handleExaFindSimilar,
   find_files: handleFindFiles,
+  firecrawl_check_crawl_status: handleFirecrawlCheckCrawlStatus,
+  firecrawl_crawl: handleFirecrawlCrawl,
+  firecrawl_scrape: handleFirecrawlScrape,
   glob: handleGlob,
   gravity_index: handleGravityIndex,
   list_directory: handleListDirectory,

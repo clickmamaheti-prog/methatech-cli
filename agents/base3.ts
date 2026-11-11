@@ -305,6 +305,11 @@ export function createBase3CliRoot(
       ...base3.toolNames!,
       'web_search',
       'read_url',
+      'exa_search',
+      'exa_find_similar',
+      'firecrawl_scrape',
+      'firecrawl_crawl',
+      'firecrawl_check_crawl_status',
       'ask_user',
       'suggest_followups',
       'gravity_index',
@@ -331,7 +336,15 @@ ${extraSystemPrompt ? `${extraSystemPrompt}\n` : ''}${buildCliAppendix({
 }
 
 /** The web, which the eval harness withholds from both arms (see `noWeb`). */
-const WEB_TOOL_NAMES: ReadonlySet<string> = new Set(['web_search', 'read_url'])
+const WEB_TOOL_NAMES: ReadonlySet<string> = new Set([
+  'web_search',
+  'read_url',
+  'exa_search',
+  'exa_find_similar',
+  'firecrawl_scrape',
+  'firecrawl_crawl',
+  'firecrawl_check_crawl_status',
+])
 
 /** Offered only when there is a human on the other end. */
 const HUMAN_TOOL_NAMES: ReadonlySet<string> = new Set([

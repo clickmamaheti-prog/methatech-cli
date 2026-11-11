@@ -10,7 +10,12 @@ import { codeSearchParams } from './params/tool/code-search'
 import { cloudPlanReadyParams } from './params/tool/cloud-plan-ready'
 import { createPlanParams } from './params/tool/create-plan'
 import { endTurnParams } from './params/tool/end-turn'
+import { exaFindSimilarParams } from './params/tool/exa-find-similar'
+import { exaSearchParams } from './params/tool/exa-search'
 import { findFilesParams } from './params/tool/find-files'
+import { firecrawlCheckCrawlStatusParams } from './params/tool/firecrawl-check-crawl-status'
+import { firecrawlCrawlParams } from './params/tool/firecrawl-crawl'
+import { firecrawlScrapeParams } from './params/tool/firecrawl-scrape'
 import { globParams } from './params/tool/glob'
 import { gravityIndexParams } from './params/tool/gravity-index'
 import { listDirectoryParams } from './params/tool/list-directory'
@@ -53,7 +58,12 @@ export const toolParams = {
   cloud_plan_ready: cloudPlanReadyParams,
   create_plan: createPlanParams,
   end_turn: endTurnParams,
+  exa_search: exaSearchParams,
+  exa_find_similar: exaFindSimilarParams,
   find_files: findFilesParams,
+  firecrawl_check_crawl_status: firecrawlCheckCrawlStatusParams,
+  firecrawl_crawl: firecrawlCrawlParams,
+  firecrawl_scrape: firecrawlScrapeParams,
   glob: globParams,
   gravity_index: gravityIndexParams,
   list_directory: listDirectoryParams,

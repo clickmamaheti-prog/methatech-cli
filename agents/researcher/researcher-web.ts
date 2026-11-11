@@ -18,10 +18,18 @@ const definition: SecretAgentDefinition = {
   },
   outputMode: 'last_message',
   includeMessageHistory: false,
-  toolNames: ['web_search', 'read_url'],
+  toolNames: [
+    'web_search',
+    'read_url',
+    'exa_search',
+    'exa_find_similar',
+    'firecrawl_scrape',
+    'firecrawl_crawl',
+    'firecrawl_check_crawl_status',
+  ],
   spawnableAgents: [],
 
-  systemPrompt: `You are an expert researcher who can search the web to find relevant information. Start with web_search using a focused keyword query and a standalone objective. Base your answer on the returned excerpts when they cover the question. Cite their URLs. Use read_url for a specific page the user asked you to read, or when an excerpt lacks context, a precise detail, or evidence for a claim.`,
+  systemPrompt: `You are an expert researcher who can search the web to find relevant information. Start with web_search using a focused keyword query and a standalone objective. Base your answer on the returned excerpts when they cover the question. Cite their URLs. Use read_url for a specific page the user asked you to read, or when an excerpt lacks context, a precise detail, or evidence for a claim. When EXA_API_KEY is configured, prefer exa_search for semantic search with page text and highlights, and exa_find_similar when you already have one good example page. When FIRECRAWL_API_KEY is configured, use firecrawl_scrape for pages read_url cannot read (blocked or JavaScript-heavy), and firecrawl_crawl plus firecrawl_check_crawl_status when the question needs a whole site read.`,
   instructionsPrompt: `Prefer primary sources. Combine related keyword variations in one search. Use indexed content by default and set live only when a recent change could affect the answer. If the evidence leaves a gap, fetch the most relevant page with a focused objective, or refine the search if it found the wrong sources. Stop as soon as you can answer. Give concise findings with the source URL supporting each, and say what you could not verify.`,
   // Without this, every step ends the conversation on a raw tool result and
   // the model is never asked for anything, so it ends the step after thinking

@@ -226,3 +226,59 @@ Proven pre-existing by running the same tests on the pristine snapshot
   slicing behaviour, same as the old banner below 40 columns).
 - NOT changed here: binary name (still `freebuff`), package names, login
   seam, BYOK, build domains, `ci.yml`, colours, any other copy.
+
+## 8. Skills (Hermes + ui-ux-pro-max) and web-intelligence tools (2026-11-11)
+
+- Skills: 38 adopted into `.agents/skills/` (37 Hermes + ui-ux-pro-max),
+  loaded from disk by the fork's native skill system
+  (`sdk/src/skills/load-skills.ts`, tool `skill`). The model sees them as
+  the `skill` tool with all 38 names in its description (native `tools`
+  payload, verified in a mock PTY run: `SKILLS_IN_TOOL_DESC=38/38`).
+  Provenance + the 148 deliberately not adopted: `.agents/skills/README.md`.
+- Web-intelligence tools (native fork tools, built on the fork's own tool
+  pattern — params in `common/src/tools/params/tool/`, handlers in
+  `packages/agent-runtime/src/tools/handlers/tool/`, transport in
+  `packages/agent-runtime/src/llm-api/web-intelligence-api.ts`):
+  `exa_search`, `exa_find_similar`, `firecrawl_scrape`, `firecrawl_crawl`,
+  `firecrawl_check_crawl_status`. Wired into `common/src/tools/constants.ts`
+  (`toolNames` + `publishedTools`), `common/src/tools/list.ts`,
+  `packages/agent-runtime/src/tools/handlers/list.ts`,
+  `common/src/templates/initial-agents-dir/types/tools.ts` (public agent
+  types), the base2 main agent, the base3 CLI root, and the
+  `researcher-web` subagent (its prompt now names Exa/Firecrawl). The
+  base3 `noWeb` eval flag withholds all seven web tools.
+- Keys ONLY from the shell environment, read at call time, never written
+  to any file: `EXA_API_KEY`, `FIRECRAWL_API_KEY`. A missing key returns a
+  clear "not set" error instead of failing silently. URL inputs are
+  checked lexically (http/https only, no credentials, no localhost/private
+  hosts); the check does not DNS-resolve, so unlike the SDK's pinned
+  fetch it cannot stop DNS rebinding — the fetch happens provider-side.
+- Fetch fix that makes these tools work at all in BYOK runs: the handlers
+  pass `globalThis.fetch`, NOT the runtime-injected `fetch`. The injected
+  fetch is the Codebuff hosted-services fetch, stubbed to throw in BYOK
+  runs (`sdk/src/impl/agent-runtime.ts:171-177`). Exa/Firecrawl are
+  third-party APIs paid with the user's own keys, not Codebuff hosted
+  services — same precedent as the direct provider fetch in
+  `sdk/src/impl/model-provider.ts`, `sdk/src/tools/read-url.ts`, and
+  `sdk/src/byok.ts`.
+- Test seams: `EXA_API_BASE_URL` (default `https://api.exa.ai`) and
+  `FIRECRAWL_API_BASE_URL` (default `https://api.firecrawl.dev/v2`).
+  Verified against a local fake API + mock provider in PTY (mobile 80x24
+  + desktop 160x40): all five tools executed and returned formatted
+  results; live validation against the real Exa/Firecrawl APIs with real
+  keys is still pending Reza.
+- MCP: already present upstream and wired end to end — `mcp.json` in
+  `{cwd}/.agents`, `{cwd}/../.agents`, or `{homedir}/.agents`
+  (`sdk/src/agents/load-mcp-config.ts`); merged into base agents at
+  `cli/src/utils/local-agent-registry.ts:378`; tool definitions via
+  `packages/agent-runtime/src/mcp.ts` (`getMCPToolData`, exposed as
+  `server__tool`); execution via `sdk/src/run.ts` (`callMCPTool`). No
+  rebuild was needed. Verified in PTY with a local stdio MCP server
+  (`testecho__echo` → `"ECHO: halo mcp"`).
+- Endpoints used (public API docs, checked 2026-11-11): Exa
+  `POST https://api.exa.ai/search` + `POST /findSimilar` (header
+  `x-api-key`; note `/findSimilar` is marked deprecated by Exa in favour
+  of `/search` with a describing query, kept because the tool was
+  explicitly ordered); Firecrawl v2 `POST /scrape`, `POST /crawl`,
+  `GET /crawl/{id}` at `https://api.firecrawl.dev/v2` (header
+  `Authorization: Bearer`).
