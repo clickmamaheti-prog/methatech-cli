@@ -176,7 +176,7 @@ export const getToolsInstructions = (
   return `
 # Tools
 
-You (Buffy) have access to the following tools. Call them when needed.
+You (MethaTech) have access to the following tools. Call them when needed.
 
 ## [CRITICAL] Formatting Requirements
 
@@ -211,7 +211,7 @@ ${getToolCallString(
           old_content_with_newlines:
             "// some context\nconsole.log('Hello world!');\n",
           new_content_with_newlines:
-            "// some context\nconsole.log('Hello from Buffy!');\n",
+            "// some context\nconsole.log('Hello from MethaTech!');\n",
         },
       ],
     },

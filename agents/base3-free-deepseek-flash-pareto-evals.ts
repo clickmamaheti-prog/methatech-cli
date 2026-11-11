@@ -9,7 +9,7 @@ import baseDefinition from './base3-free-deepseek-flash-evals'
 const definition = {
   ...baseDefinition,
   id: 'base3-free-deepseek-flash-pareto-evals',
-  displayName: 'Buffy on DeepSeek Flash via Pareto (evals)',
+  displayName: 'MethaTech on DeepSeek Flash via Pareto (evals)',
   providerOptions: { ...baseDefinition.providerOptions, only: ['pareto'] },
 }
 

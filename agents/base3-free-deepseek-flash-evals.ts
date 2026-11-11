@@ -20,7 +20,7 @@ const definition = {
     noWeb: true,
   }),
   id: 'base3-free-deepseek-flash-evals',
-  displayName: 'Buffy on DeepSeek Flash (evals)',
+  displayName: 'MethaTech on DeepSeek Flash (evals)',
 }
 
 export default definition

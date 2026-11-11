@@ -13,7 +13,7 @@ import { createBase3FastWorker } from './base3-fast'
 const definition = {
   ...createBase3FastWorker(FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID),
   id: 'base3-fast-worker-deepseek-flash-evals',
-  displayName: 'Buffy Worker on DeepSeek Flash (evals)',
+  displayName: 'MethaTech Worker on DeepSeek Flash (evals)',
 }
 
 export default definition

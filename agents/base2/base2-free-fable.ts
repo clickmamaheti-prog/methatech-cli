@@ -12,7 +12,7 @@ const definition = {
     noFollowups: true,
   }),
   id: 'base2-free-fable',
-  displayName: 'Buffy the Claude Fable 5.1 Free Orchestrator',
+  displayName: 'MethaTech Claude Fable 5.1 Free Orchestrator',
   stepPrompt: `Continue working on the user's request. If the task is complete, write your answer in ordinary assistant text, summarizing the subagents' findings and citing source URLs for research.`,
 }
 

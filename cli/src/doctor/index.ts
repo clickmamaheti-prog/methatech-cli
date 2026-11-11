@@ -1,6 +1,6 @@
 import { buildDoctorReport, doctorHelp, formatDoctorReport, parseDoctorArgs } from './run-doctor'
 
-/** `freebuff doctor` (or `codebuff doctor`): the first argument, before any option. */
+/** `methatech doctor`: the first argument, before any option. */
 export function isDoctorInvocation(argv: string[]) {
   return argv[2] === 'doctor'
 }

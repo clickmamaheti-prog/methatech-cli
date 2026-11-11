@@ -48,8 +48,7 @@ export const handleAdsEnable = (): {
  * mode still forced ads on).
  */
 export const FREEBUFF_ADS_FIXED_COPY =
-  'Ads cannot be turned off in MethaTech - they pay for the free sessions. ' +
-  'This switch applies only to the Codebuff client.'
+  'Ads cannot be turned off in MethaTech - they pay for the free sessions.'
 
 export const handleAdsDisable = (
   deps: {

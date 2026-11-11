@@ -3,7 +3,7 @@ import { FREEBUFF_OX_ALPHA_MODEL_ID } from '@codebuff/common/constants/freebuff-
 import { createBase3CliRoot } from './base3'
 
 /**
- * Buffy on Ox Alpha, for CLI and Desktop (2026-08-24).
+ * MethaTech on Ox Alpha, for CLI and Desktop (2026-08-24).
  *
  * No `reasoningOptions`, for the reason spelled out on base3-free-luna: an
  * agent-declared reasoning reaches the wire as `body.reasoning` and makes the
@@ -22,7 +22,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-ox-alpha',
-  displayName: 'Buffy on Ox Alpha',
+  displayName: 'MethaTech on Ox Alpha',
 }
 
 export default definition

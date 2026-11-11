@@ -8,7 +8,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-glm',
-  displayName: 'Buffy on GLM 5.2',
+  displayName: 'MethaTech on GLM 5.2',
 }
 
 export default definition

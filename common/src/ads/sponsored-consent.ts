@@ -34,7 +34,7 @@ export const SPONSORED_CONSENT_SENTENCE =
  * (`SPONSORED_IN_PLACE_SENTENCE` in `mcp-consent-bridge.cjs`).
  */
 export const SPONSORED_CONSENT_IN_PLACE_SENTENCE =
-  ' is sponsoring this agent run, so it’s free for you. Freebuff’s agent edits the files in the folder below and commits nothing. It runs in the background so you can keep working, and you can undo it after.'
+  ' is sponsoring this agent run, so it’s free for you. MethaTech’s agent edits the files in the folder below and commits nothing. It runs in the background so you can keep working, and you can undo it after.'
 
 /**
  * The same question for a hosted DEVICE CHAT (COD-1277): Cloud's agent runs the task, but on the
@@ -47,7 +47,7 @@ export const SPONSORED_CONSENT_IN_PLACE_SENTENCE =
  * no sandbox, so it gets {@link SPONSORED_CONSENT_DEVICE_WINDOWS_SENTENCE} instead.
  */
 export const SPONSORED_CONSENT_DEVICE_SENTENCE =
-  ' is sponsoring this agent run, so it’s free for you. Freebuff’s agent runs it on your computer, in the folder below: its commands are contained to that folder, it edits the files there and commits nothing. It runs in the background so you can keep working.'
+  ' is sponsoring this agent run, so it’s free for you. MethaTech’s agent runs it on your computer, in the folder below: its commands are contained to that folder, it edits the files there and commits nothing. It runs in the background so you can keep working.'
 
 /**
  * The device-chat question for a WINDOWS computer (COD-1335). The run is on the Windows floor
@@ -61,7 +61,7 @@ export const SPONSORED_CONSENT_DEVICE_SENTENCE =
  * (`acceptClientSurfacePairsWithRow`), never from anything the advertiser wrote.
  */
 export const SPONSORED_CONSENT_DEVICE_WINDOWS_SENTENCE =
-  ' is sponsoring this agent run, so it’s free for you. Freebuff’s agent runs it on your Windows computer, in the folder below: it edits the files there and commits nothing. It runs in the background so you can keep working.'
+  ' is sponsoring this agent run, so it’s free for you. MethaTech’s agent runs it on your Windows computer, in the folder below: it edits the files there and commits nothing. It runs in the background so you can keep working.'
 
 /**
  * The second sentence, shown ONLY where the run has no OS sandbox: Windows (COD-642). Plain words

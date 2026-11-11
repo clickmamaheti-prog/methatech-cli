@@ -45,9 +45,8 @@ const CATEGORY_OPTIONS = [
     label: 'App bug',
     shortLabel: 'Bug',
     highlightKey: 'warning',
-    placeholder: IS_FREEBUFF
-      ? 'Report a problem with MethaTech (crashes, errors, UI issues, etc.)'
-      : 'Report a problem with Codebuff (crashes, errors, UI issues, etc.)',
+    placeholder:
+      'Report a problem with MethaTech (crashes, errors, UI issues, etc.)',
   },
   {
     id: 'other',

@@ -65,7 +65,7 @@ const callCodebuffV1 = async (params: {
   const apiKey = params.apiKey ?? env.ciEnv.CODEBUFF_API_KEY
 
   if (!baseUrl || !apiKey) {
-    return { error: 'Missing Codebuff base URL or API key' }
+    return { error: 'Missing MethaTech base URL or API key' }
   }
 
   const url = `${baseUrl}${endpoint}`

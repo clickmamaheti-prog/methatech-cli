@@ -334,7 +334,7 @@ describe('bash-mode', () => {
     })
 
     test('placeholder changes in bash mode', () => {
-      const normalPlaceholder = 'Ask Buffy anything...'
+      const normalPlaceholder = 'Ask MethaTech anything...'
       const bashPlaceholder = 'enter bash command...'
       const inputMode: InputMode = 'bash'
 
@@ -345,7 +345,7 @@ describe('bash-mode', () => {
     })
 
     test('placeholder is normal when not in bash mode', () => {
-      const normalPlaceholder = 'Ask Buffy anything...'
+      const normalPlaceholder = 'Ask MethaTech anything...'
       const bashPlaceholder = 'enter bash command...'
       const inputMode = 'default' as InputMode
 
@@ -354,7 +354,7 @@ describe('bash-mode', () => {
           ? bashPlaceholder
           : normalPlaceholder
 
-      expect(effectivePlaceholder).toBe('Ask Buffy anything...')
+      expect(effectivePlaceholder).toBe('Ask MethaTech anything...')
     })
   })
 

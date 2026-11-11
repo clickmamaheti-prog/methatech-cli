@@ -1,6 +1,6 @@
-# Freebuff
+# MethaTech
 
-Freebuff is the public, free coding agent built from the Codebuff agent framework.
+MethaTech is the AI coding agent CLI from MethaTech. Models come from the MethaTech panel (see `common/src/constants/methatech-models.ts`); the panel is the source of truth for models, prices, and availability. This project is MethaTech — never describe it as Freebuff or Codebuff.
 
 ## Key Technologies
 
@@ -19,7 +19,7 @@ Freebuff is the public, free coding agent built from the Codebuff agent framewor
 - `packages/agent-runtime/` - agent runtime and tool handling
 - `packages/code-map/` - source parsing helpers
 - `packages/llm-providers/` - public LLM provider shims
-- `freebuff/` - Freebuff CLI, release files, and e2e tests
+- `freebuff/` - CLI release files and e2e tests
 - `scripts/tmux/` - tmux helpers for CLI testing
 
 ## Conventions
@@ -31,5 +31,6 @@ Freebuff is the public, free coding agent built from the Codebuff agent framewor
 
 ## Docs
 
+- `docs/FORK-METHATECH.md` - what changed in this fork
 - `docs/agents-and-tools.md`
 - `docs/testing.md`

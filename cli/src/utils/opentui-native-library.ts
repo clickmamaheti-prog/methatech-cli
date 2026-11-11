@@ -130,7 +130,7 @@ export function describeRenderLibraryFailure(
     `Free up space there, or start MethaTech with TMPDIR pointing at a writable directory that allows programs, for example:`,
     process.platform === 'win32'
       ? '  set the TMPDIR environment variable to a folder such as %USERPROFILE%\\methatech-tmp'
-      : '  mkdir -p "$HOME/.cache/methatech-tmp" && TMPDIR="$HOME/.cache/methatech-tmp" freebuff',
+      : '  mkdir -p "$HOME/.cache/methatech-tmp" && TMPDIR="$HOME/.cache/methatech-tmp" methatech',
     '',
     `Details: ${detail}`,
   ]

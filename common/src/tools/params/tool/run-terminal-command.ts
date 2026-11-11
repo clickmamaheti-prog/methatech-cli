@@ -122,8 +122,8 @@ export function buildGitCommitGuidePrompt(options: {
 
 const GIT_COMMIT_ATTRIBUTION_STEP = `4. **Create the commit, ending with this specific footer:**
    \`\`\`
-   Generated with Codebuff 🤖
-   Co-Authored-By: Codebuff <noreply@codebuff.com>
+   Generated with MethaTech 🤖
+   Co-Authored-By: MethaTech <noreply@methatech.eu.org>
    \`\`\`
    **Unless this repository or this user has asked for no attribution.** If the user says so, or an instruction file you have read (AGENTS.md, CLAUDE.md, a knowledge file) says not to add AI attribution, co-author lines or trailers, then end the message at its own last line: no footer, no \`Co-Authored-By\`, no "Generated with" line, and the footer in the examples below does not apply.
    Commands run in bash on every OS (Git Bash on Windows), so always use HEREDOC syntax to format the message:
@@ -131,8 +131,8 @@ const GIT_COMMIT_ATTRIBUTION_STEP = `4. **Create the commit, ending with this sp
    git commit -m "$(cat <<'EOF'
    Your commit message here.
 
-   🤖 Generated with Codebuff
-   Co-Authored-By: Codebuff <noreply@codebuff.com>
+   🤖 Generated with MethaTech
+   Co-Authored-By: MethaTech <noreply@methatech.eu.org>
    EOF
    )"
    \`\`\`
@@ -270,8 +270,8 @@ ${$getNativeToolCallExampleString({
     command: options.attribution
       ? `git commit -m "Your commit message here.
 
-🤖 Generated with Codebuff
-Co-Authored-By: Codebuff <noreply@codebuff.com>"`
+🤖 Generated with MethaTech
+Co-Authored-By: MethaTech <noreply@methatech.eu.org>"`
       : `git commit -m "Your commit message here."`,
   },
   endsAgentStep,

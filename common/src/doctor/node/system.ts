@@ -94,7 +94,7 @@ export function watcherLimitFinding(platform = process.platform, read: (path: st
     if (Number.isFinite(watches) && watches < 65_536)
       return finding('system.inotify-low', 'warning', 'system', `The file-watch limit is low (${watches})`,
         'Linux limits how many folders one user can watch. Large projects exceed a low limit, and file changes then go unnoticed (or tools fail with ENOSPC).',
-        ['Raise it: `echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/60-freebuff.conf && sudo sysctl --system`.'],
+        ['Raise it: `echo fs.inotify.max_user_watches=524288 | sudo tee /etc/sysctl.d/60-methatech.conf && sudo sysctl --system`.'],
         { learnMore: LEARN_MORE.linuxInotify })
   } catch { /* not exposed in this container */ }
   return null

@@ -15,7 +15,7 @@ const definition = {
     noAskUser: true,
   }),
   id: 'base2-free-deepseek-flash-evals',
-  displayName: 'Buffy the DeepSeek Flash Evals Orchestrator',
+  displayName: 'MethaTech DeepSeek Flash Evals Orchestrator',
 }
 
 export default definition

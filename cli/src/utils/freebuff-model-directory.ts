@@ -271,7 +271,7 @@ export function catalogFreebuffModelDirectory(
     // The rows are already this viewer's; nothing else is admissible.
     resolveForAccessTier: (id) => rowFor(id)?.key ?? recommendedKey,
     withdrawnMessage: (id) =>
-      `${displayNameOf(id)} is no longer available in Freebuff. We recommend using ${displayNameOf(recommendedKey)} instead.`,
+      `${displayNameOf(id)} is no longer available in MethaTech. We recommend using ${displayNameOf(recommendedKey)} instead.`,
     plansUrl: catalog.plansUrl,
   }
 }

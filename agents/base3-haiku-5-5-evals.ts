@@ -22,7 +22,7 @@ const definition = {
     },
   }),
   id: 'base3-haiku-5-5-evals',
-  displayName: 'Buffy on Claude Haiku 5.5 (evals)',
+  displayName: 'MethaTech on Claude Haiku 5.5 (evals)',
 }
 
 export default definition

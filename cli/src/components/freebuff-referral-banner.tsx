@@ -35,7 +35,7 @@ import type {
  *  bare landing page; the `?ref=` code is still captured into the attribution
  *  cookie there via the root layout's ReferralCodeCapture. When we know the
  *  inviter's name we pass `?referrer=` too so the page greets the friend with
- *  "X invited you to try Freebuff!". `via=cli_link` names this placement for
+ *  "X invited you to try MethaTech!". `via=cli_link` names this placement for
  *  the friend's landing and activation (product-funnel.ts, REFERRAL_INVITE_VIA). */
 export function referralLink(code: string, referrerName: string | null): string {
   const params = new URLSearchParams({

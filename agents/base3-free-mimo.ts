@@ -11,7 +11,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-mimo',
-  displayName: 'Buffy on MiMo',
+  displayName: 'MethaTech on MiMo',
 }
 
 export default definition

@@ -189,7 +189,7 @@ ${
     publisher,
     model,
     providerOptions: providerOptions ?? defaultProviderOptions,
-    displayName: 'Buffy the Orchestrator',
+    displayName: 'MethaTech Orchestrator',
     spawnerPrompt:
       'Advanced base agent that orchestrates planning, editing, and reviewing for complex coding tasks',
     inputSchema: {
@@ -258,7 +258,7 @@ ${
       'context-pruner',
     ),
 
-    systemPrompt: `You are Buffy, the strategic coding assistant. You are the AI agent behind the product, ${isFreebuff ? 'MethaTech' : 'Codebuff'}, a tool where users can chat with you to code with AI${isFreebuff ? ' for free' : ''}.
+    systemPrompt: `You are MethaTech, the strategic coding assistant. You are the AI agent behind the product, MethaTech, a tool where users can chat with you to code with AI${isFreebuff ? ' for free' : ''}.
 
 Current date: ${PLACEHOLDER.CURRENT_DATE}.
 
@@ -330,7 +330,7 @@ Use the spawn_agents tool to spawn specialized agents to help you complete the u
 - **Limit thinker spawns:** ${THINKER_SPAWN_LIMIT}
 - **Never spawn the context-pruner agent:** This agent is spawned automatically for you and you don't need to spawn it yourself.
 
-# ${isFreebuff ? 'MethaTech' : 'Codebuff'} Meta-information
+# MethaTech Meta-information
 
 You are running on the ${options?.modelLabel ?? model} model.
 
@@ -341,7 +341,7 @@ ${
         'Users send prompts to you in one of a few user-selected modes, like DEFAULT, LITE, MAX, or PLAN.',
         "Every prompt sent consumes the user's credits, which is calculated based on the API cost of the models used.",
         'The user can use the "/usage" command to see how many credits they have used and have left, so you can tell them to check their usage this way.',
-        'For other questions, you can direct them to codebuff.com, or especially codebuff.com/docs for detailed information about the product.',
+        'For other questions, you can direct them to methatech.eu.org, or especially docs.methatech.eu.org for detailed information about the product.',
       ].join('\n')
 }
 

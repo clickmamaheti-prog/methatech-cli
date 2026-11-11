@@ -108,7 +108,7 @@ describe('sign-in and history', () => {
 
 describe('command', () => {
   test('argument parsing and dispatch', () => {
-    expect(isDoctorInvocation(['bun', 'freebuff', 'doctor'])).toBe(true)
+    expect(isDoctorInvocation(['bun', 'methatech', 'doctor'])).toBe(true)
     expect(isDoctorInvocation(['bun', 'freebuff', 'login'])).toBe(false)
     expect(parseDoctorArgs(['--markdown', '--full-paths'])).toEqual({ includePaths: true, format: 'markdown', verbose: false })
     expect(parseDoctorArgs(['--help'])).toEqual({ help: true })
@@ -125,10 +125,10 @@ describe('command', () => {
     expect(report.product).toBe('cli')
     expect(report.findings.some(f => f.id === 'network.unreachable.api')).toBe(true)
     expect(report.findings.some(f => f.id === 'auth.signed-out')).toBe(true)
-    const text = formatDoctorReport(report, { includePaths: false, format: 'text', verbose: false }, 'freebuff')
-    expect(text).toContain('freebuff doctor --ask')
-    expect(formatDoctorReport(report, { includePaths: false, format: 'ask', verbose: false }, 'freebuff')).toContain('Explain what each one means')
-    expect(JSON.parse(formatDoctorReport(report, { includePaths: false, format: 'json', verbose: false }, 'freebuff')).version).toBe(1)
+    const text = formatDoctorReport(report, { includePaths: false, format: 'text', verbose: false }, 'methatech')
+    expect(text).toContain('methatech doctor --ask')
+    expect(formatDoctorReport(report, { includePaths: false, format: 'ask', verbose: false }, 'methatech')).toContain('Explain what each one means')
+    expect(JSON.parse(formatDoctorReport(report, { includePaths: false, format: 'json', verbose: false }, 'methatech')).version).toBe(1)
     expect(JSON.stringify(report)).not.toContain(configDir)
   })
 

@@ -7,7 +7,7 @@ const definition = {
     model: FREEBUFF_GLM_V52_MODEL_ID,
   }),
   id: 'base2-free-glm',
-  displayName: 'Buffy the GLM 5.2 Free Orchestrator',
+  displayName: 'MethaTech GLM 5.2 Free Orchestrator',
 }
 
 export default definition

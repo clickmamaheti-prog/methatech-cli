@@ -7,7 +7,7 @@ const definition = {
     model: moonshotModels.kimiK27Code,
   }),
   id: 'base2-kimi-2-7-code',
-  displayName: 'Buffy the Kimi K2.7 Code Orchestrator',
+  displayName: 'MethaTech Kimi K2.7 Code Orchestrator',
 }
 
 export default definition

@@ -548,7 +548,7 @@ describe('the toolset the run is actually offered', () => {
       agentId: 'base3',
       isFreebuff: true,
     })
-    expect(plain.systemPrompt?.startsWith('You are Buffy')).toBe(true)
+    expect(plain.systemPrompt?.startsWith('You are MethaTech')).toBe(true)
     expect(plain.systemPrompt).toContain('UNCOMMITTED')
   })
 

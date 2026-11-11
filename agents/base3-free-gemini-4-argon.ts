@@ -16,7 +16,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-gemini-4-argon',
-  displayName: 'Buffy on Gemini 4 Argon',
+  displayName: 'MethaTech on Gemini 4 Argon',
 }
 
 export default definition

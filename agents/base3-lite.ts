@@ -11,7 +11,7 @@ import { LITE_MODEL } from './constants'
 const definition = {
   ...createBase3CliRoot({ model: LITE_MODEL }),
   id: 'base3-lite',
-  displayName: 'Buffy Lite',
+  displayName: 'MethaTech Lite',
 }
 
 export default definition

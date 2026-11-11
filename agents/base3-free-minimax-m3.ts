@@ -8,7 +8,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-minimax-m3',
-  displayName: 'Buffy on MiniMax M3',
+  displayName: 'MethaTech on MiniMax M3',
 }
 
 export default definition

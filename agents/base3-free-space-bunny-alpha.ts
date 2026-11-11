@@ -3,7 +3,7 @@ import { FREEBUFF_SPACE_BUNNY_ALPHA_MODEL_ID } from '@codebuff/common/constants/
 import { createBase3CliRoot } from './base3'
 
 /**
- * Buffy on Space Bunny Alpha (2026-09-23).
+ * MethaTech on Space Bunny Alpha (2026-09-23).
  *
  * No `reasoningOptions`, as on base3-free-ox-alpha: the endpoint makes
  * reasoning mandatory with a provider default of `max`, the catalog row names
@@ -16,7 +16,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-space-bunny-alpha',
-  displayName: 'Buffy on Space Bunny Alpha',
+  displayName: 'MethaTech on Space Bunny Alpha',
 }
 
 export default definition

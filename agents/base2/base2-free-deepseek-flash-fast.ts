@@ -15,7 +15,7 @@ const definition = {
     model: FREEBUFF_DEEPSEEK_V4_FLASH_FAST_MODEL_ID,
   }),
   id: 'base2-free-deepseek-flash-fast',
-  displayName: 'Buffy the DeepSeek Flash Fast Free Orchestrator',
+  displayName: 'MethaTech DeepSeek Flash Fast Free Orchestrator',
 }
 
 export default definition

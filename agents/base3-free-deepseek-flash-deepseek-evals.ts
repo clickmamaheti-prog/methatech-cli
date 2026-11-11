@@ -9,7 +9,7 @@ import baseDefinition from './base3-free-deepseek-flash-evals'
 const definition = {
   ...baseDefinition,
   id: 'base3-free-deepseek-flash-deepseek-evals',
-  displayName: 'Buffy on DeepSeek Flash via DeepSeek direct (evals)',
+  displayName: 'MethaTech on DeepSeek Flash via DeepSeek direct (evals)',
   providerOptions: { ...baseDefinition.providerOptions, only: ['deepseek'] },
 }
 

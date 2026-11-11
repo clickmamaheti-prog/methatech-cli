@@ -16,7 +16,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-muse-spark-1-3',
-  displayName: 'Buffy on Muse Spark 1.3',
+  displayName: 'MethaTech on Muse Spark 1.3',
 }
 
 export default definition

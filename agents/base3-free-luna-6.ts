@@ -14,7 +14,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-luna-6',
-  displayName: 'Buffy on GPT-6 Luna',
+  displayName: 'MethaTech on GPT-6 Luna',
 }
 
 export default definition

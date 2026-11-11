@@ -316,13 +316,13 @@ describe('base2 product branding', () => {
   const CREDITS_LINE =
     "Every prompt sent consumes the user's credits, which is calculated based on the API cost of the models used."
 
-  test('lite is branded as paid Codebuff, not as Freebuff', () => {
+  test('lite is branded as paid MethaTech, not as Freebuff', () => {
     // Lite charges credits. It used to inherit free mode's branding and tell
     // paying users they were coding with AI for free.
     const systemPrompt = createBase2('lite').systemPrompt
 
-    expect(systemPrompt).toContain('the product, Codebuff')
-    expect(systemPrompt).toContain('# Codebuff Meta-information')
+    expect(systemPrompt).toContain('the product, MethaTech')
+    expect(systemPrompt).toContain('# MethaTech Meta-information')
     expect(systemPrompt).not.toContain('Freebuff')
     expect(systemPrompt).not.toContain('for free')
     expect(systemPrompt).not.toContain('freebuff.com')
@@ -333,7 +333,7 @@ describe('base2 product branding', () => {
 
     expect(lite).toContain(CREDITS_LINE)
     expect(lite).toContain('"/usage"')
-    expect(lite).toContain('codebuff.com/docs')
+    expect(lite).toContain('docs.methatech.eu.org')
     // The mode list the block recites should name lite as well.
     expect(lite).toContain('DEFAULT, LITE, MAX, or PLAN')
     // And lite introduces itself exactly as the other paid modes do.

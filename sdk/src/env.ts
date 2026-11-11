@@ -71,7 +71,7 @@ const warnRejectedRuntimeAppUrl = (
       ? 'the runtime app URL must be https, or http on localhost'
       : `the host is not a MethaTech domain; set ${ALLOW_CUSTOM_APP_URL_ENV_VAR}=1 in your shell to send your credentials to it`
   console.warn(
-    `[codebuff] Ignoring ${variable} (${origin}): ${why}. Using the bundled URL instead.`,
+    `[methatech] Ignoring ${variable} (${origin}): ${why}. Using the bundled URL instead.`,
   )
 }
 

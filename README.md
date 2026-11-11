@@ -1,122 +1,107 @@
-# Freebuff
+# MethaTech
 
-English | [简体中文](./README.zh-CN.md)
+**The MethaTech coding agent.** An AI coding agent that runs in your terminal — describe what you want, and MethaTech edits your code.
 
-**Five free AI products for coding, building, and research.** No subscription, credits, or API key required.
-
-[Freebuff](https://freebuff.com) brings specialized agents and a choice of leading models to your terminal, desktop, browser, and GitHub repositories. Text ads support access to the included models.
-
-## Choose your Freebuff
-
-| Product              | What it does                        | Get started                                                           |
-| -------------------- | ----------------------------------- | --------------------------------------------------------------------- |
-| **Freebuff Desktop** | Run parallel agents locally         | [Download for macOS, Windows, or Linux](https://freebuff.com/desktop) |
-| **Freebuff CLI**     | Code from your terminal             | [Install the CLI](https://freebuff.com/cli)                           |
-| **Freebuff Web**     | Build and ship full-stack apps      | [Build an app](https://freebuff.com/web)                              |
-| **Freebuff Cloud**   | Run agents on any GitHub repository | [Connect a repository](https://freebuff.com/cloud)                    |
-| **Freebuff Chat**    | Research and think with AI          | [Start a chat](https://freebuff.com/chat)                             |
+MethaTech brings specialized agents and a choice of models to your terminal. Models come from the MethaTech panel at [console.methatech.eu.org](https://console.methatech.eu.org): 9 free models and 18 paid models, priced per 1M tokens. You can also bring your own provider key (OpenRouter or any OpenAI-compatible API) with `/byok`.
 
 ## Quick start
 
-Run Freebuff in any project from your terminal:
+Run MethaTech from source:
 
 ```bash
-npm install -g freebuff
-cd ~/my-project
-freebuff
+git clone https://github.com/clickmamaheti-prog/methatech-cli.git
+cd methatech-cli
+bun install
+bun run build:sdk
+bun run dev:methatech
 ```
 
-Then describe what you want. Freebuff finds the relevant files, makes changes, and runs the checks that matter for your project.
+Then press ENTER to sign in through the MethaTech panel, and describe what you want. MethaTech finds the relevant files, makes changes, and runs the checks that matter for your project.
+
+Or build the standalone binary:
+
+```bash
+bun run build:methatech
+./cli/bin/methatech
+```
 
 ## Models
 
-Freebuff includes a curated model catalog. The regular picker currently offers:
+The model catalog comes from the MethaTech panel, which is the source of truth for models, prices, and availability. The default model is **DeepSeek V4 Flash**. The picker shows 27 models:
 
-| Model                       | Access                  | Best for                                                          |
-| --------------------------- | ----------------------- | ----------------------------------------------------------------- |
-| **DeepSeek V4.1 Flash 10/17** | Full and limited access | The default everywhere; fast coding and tool use |
-| **MiMo v2.6 Flash Fast**    | Full and limited access | Balanced performance with image support; no longer the default |
-| **GLM 5.3 Flash**           | Full and limited access | Deepest reasoning                                                 |
-| **DeepSeek V4.1 Flash Fast 10/17** | Full access; paid plans at limited access | Fast mode: the same model on DeepSeek's own API, splitting work across parallel subagents and verifying the result; priced on DeepSeek's peak and off-peak hours |
-| **GPT-6 Luna**              | Full access             | Strong all-around with native images; runs on OpenAI flex capacity |
-| **MiMo 2.6 Pro**            | Full access             | Xiaomi's stronger reasoning model, with image support |
-| **Solar Mini 4**            | Full and limited access | Upstage's fast, compact model; 524K context, text only |
-| **Solar Pro 4**             | Full and limited access | Upstage's larger, stronger model; 524K context, text only |
-| **Gemini 3.8 Flash**        | Paid plans              | 1M context, and the only model that accepts audio, video and PDF |
-| **Muse Spark 1.3**          | Paid plans              | Meta's agentic coding model; 1M context. When it is busy or unavailable, it answers on DeepSeek V4.1 Flash rather than making you wait |
-| **Gemini 4 Argon**          | US, or paid plans elsewhere | Google's flagship reasoning model, one session a day for every account; 1M context, images |
-| **GPT-6.1 Terra**           | Full access; paid plans at limited access | OpenAI's model at a temporary promotional price, one session a day for every account; 1M context, images |
-| **GPT-6.1 Sol**             | US, or paid plans elsewhere | OpenAI's flagship, one session a day for every account; 1M context, images |
+**Free (9):**
 
-Prices change often, so this README does not list them: the model picker shows what each model costs as a multiplier. An hour on a 1x model uses one hour of your balance, an hour on a 3x model uses three, and models in the picker's Unlimited section use none. Models may still serve from a quantized (Q8_0) build.
+| Model | Best for |
+| ----- | -------- |
+| **DeepSeek V4 Flash** | The default; smart and fast |
+| **GLM 5.3 Flash** | Deep reasoning |
+| **GPT-6 Luna** | Fast and capable |
+| **Gemini 3.8 Flash** | Fast multimodal |
+| **GPT-6 Astra** | Flagship reasoning |
+| **Gemini 3.1 Pro** | Deep reasoning |
+| **Qwen 3.8 Flash** | Fast and efficient |
+| **Qwen 3.7 Max** | Strong all-rounder |
+| **DeepSeek V4.1 Flash** | Smart and fast |
 
-DeepSeek V4 Pro was retired from the catalog; GLM 5.3 Flash replaces it as the deep-reasoning pick.
+**Paid (18, cheapest first, $ input / $ output per 1M tokens):**
 
-Beyond the regular picker:
+| Model | Price |
+| ----- | ----- |
+| **Command R7B 12-2024** | $0.07 / $0.25 |
+| **MethaTech Uncensored** | $0.20 / $0.60 |
+| **Command R 08-2024** | $0.25 / $1.00 |
+| **GPT-OSS 120B Medium** | $0.25 / $1.00 |
+| **Qwen 3.7 Plus** | $0.70 / $2.70 |
+| **Qwen 3.6 Plus** | $0.85 / $5.00 |
+| **GPT-6.1 Terra** | $1.70 / $8.35 |
+| **DeepSeek V4 Pro** | $2.20 / $6.60 |
+| **GLM 5.2** | $2.35 / $7.35 |
+| **GLM 5.3** | $2.35 / $7.35 |
+| **GPT-6.1 Sol** | $3.35 / $16.65 |
+| **Grok 4.7** | $3.35 / $10.00 |
+| **Kimi K3.1 Pro** | $3.35 / $16.65 |
+| **Command A 03-2025** | $4.20 / $16.65 |
+| **Command R+ 08-2024** | $4.20 / $16.65 |
+| **Claude Sonnet 4.6** | $5.00 / $25.00 |
+| **Gemini 4 Argon** | $6.70 / $33.30 |
+| **Claude Opus 4.6 Thinking** | $8.35 / $41.60 |
 
-- **Referrals and bounties** earn extra hours on top of the free daily allowance.
-- **Gemini 3.1 Flash Lite** powers specialist tasks such as file finding and research rather than appearing in the main picker.
+Prices change; the panel is always authoritative. Paid models charge against your panel balance; the panel enforces balance server-side.
 
-Availability and limits depend on your access tier, product, and current capacity. Freebuff Desktop can also run locally installed Claude Code and Codex agents using your existing provider account; those connected models are separate from Freebuff's included catalog.
+## How MethaTech works
 
-## How Freebuff works
-
-Freebuff uses specialized agents instead of sending every task through one model and one prompt. Depending on the task, agents gather context, plan, edit or research, run tools, and review the result.
+MethaTech uses specialized agents instead of sending every task through one model and one prompt. Depending on the task, agents gather context, plan, edit or research, run tools, and review the result.
 
 - **Codebase context** — File-finding agents map the relevant parts of a project before editing.
 - **Implementation and review** — Agents can divide work, make changes, run commands, and inspect the result.
 - **Research and browser use** — Agents can investigate documentation and test applications in a real browser.
-- **Parallel local work** — Desktop isolates concurrent agents in separate workspaces.
-- **Hosted environments** — Web and Cloud provide sandboxes, previews, terminals, and deployment workflows.
+- **Tools** — Read and edit files, run shell commands, search code, manage todos, and use skills.
+- **Bring your own key** — `/byok` connects the MethaTech panel, OpenRouter, or any OpenAI-compatible provider. Run `/byok list` to see connections, `/byok validate <name>` to check one, `/byok select <name>` to switch.
 
-## Free access
-
-Freebuff is available in every country. Supported regions receive full access; other regions and VPN users receive limited access to GLM 5.3 Flash, DeepSeek V4.1 Flash 10/17, MiMo v2.6 Flash Fast, Solar Mini 4, and Solar Pro 4. Every model is paid for in hours at the multiplier shown in the picker: an hour of MiMo v2.6 Flash Slow uses one hour of balance, a 3x model uses three. The free limited-access allowance is 5 hours a day, or 4 on a VPN or proxy, spent first on every model, GLM included; earned hours go into your wallet and are used after it. (Balances read in hours since 2026-10-15; 1 hour = 5 Freebucks.)
-
-Text ads support the included models. Freebuff shows the applicable session limits and any model-specific data-use notice before you start.
-
-<!-- BEGIN GENERATED FREEBUFF DATA USE -->
-
-**Is my data used to train AI?** Only when a model or feature says data may be used for AI training. Freebuff or the provider may then keep submissions to develop, train, test, evaluate, fine-tune, and improve AI models or products, and Freebuff may share or sell them to third parties. Separately, Freebuff may use your data to train the models that choose and measure ads.
-
-**How is my data used and stored?** Freebuff uses your messages, agent traces, and files to run the service and respond to your requests. We may analyze this data, and how you use the app, to personalize ads and train ad models. We do not give separately uploaded files, project files, or connected repositories to advertising providers. Restricted partners may evaluate repositories you connect to Freebuff Cloud, but cannot otherwise use, broadly share, or train on them. See the Privacy Policy for details.
-
-**Does Freebuff read files outside my project?** No, with a few exceptions, such as files an agent reads in the conversation, files you share, and settings like your agent instructions and skills. See the Privacy Policy for details.
-
-See the [Privacy Policy](https://freebuff.com/privacy-policy) for complete details.
-
-<!-- END GENERATED FREEBUFF DATA USE -->
+Prompts you send go to the model provider you select; panel models are relayed by the MethaTech panel to its upstream providers.
 
 ## Contributing
 
-Freebuff is a TypeScript monorepo built with Bun. Contributions to the products, agents, tools, documentation, and underlying runtime are welcome.
-
-Local development requires Docker and a configured `.env.local`; see the
-[Contributing Guide](./CONTRIBUTING.md) before starting the services.
+MethaTech is a TypeScript monorepo built with Bun. Contributions to the CLI, agents, tools, documentation, and underlying runtime are welcome. See the [Contributing Guide](./CONTRIBUTING.md) before starting.
 
 ```bash
-git clone https://github.com/CodebuffAI/freebuff.git
-cd freebuff
+git clone https://github.com/clickmamaheti-prog/methatech-cli.git
+cd methatech-cli
 bun install
-bun up
+bun run build:sdk
 ```
 
 Start the CLI separately with:
 
 ```bash
-bun start-cli
+bun run dev:methatech
 ```
 
-See the [Contributing Guide](./CONTRIBUTING.md), [development guide](./docs/development.md), and [testing guide](./docs/testing.md) for environment setup and the checks to run before opening a pull request.
-
-## Built on Codebuff
-
-Freebuff is built on [Codebuff](https://codebuff.com), the open multi-agent framework that powers its orchestration, tools, and SDK. To create custom agents or embed them in another application, see the [Codebuff documentation](https://codebuff.com/docs) and [`@codebuff/sdk`](https://www.npmjs.com/package/@codebuff/sdk).
+See the [Contributing Guide](./CONTRIBUTING.md) and the docs in `./docs/` for environment setup and the checks to run before opening a pull request.
 
 ## Links
 
-- [Website](https://freebuff.com)
-- [GitHub](https://github.com/CodebuffAI/freebuff)
-- [Discord](https://discord.gg/yXG3w7wxfs)
-- [Privacy Policy](https://freebuff.com/privacy-policy)
+- [Website](https://methatech.eu.org)
+- [Panel](https://console.methatech.eu.org)
+- [GitHub](https://github.com/clickmamaheti-prog/methatech-cli)
 - [License](./LICENSE)

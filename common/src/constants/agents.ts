@@ -2,9 +2,9 @@ import type { AgentTemplateTypes } from '../types/session-state'
 
 // Define agent personas with their shared characteristics
 export const AGENT_PERSONAS = {
-  // Base agents - all use Buffy persona
+  // Base agents - all use MethaTech persona
   base: {
-    displayName: 'Buffy the Base Agent',
+    displayName: 'MethaTech Base Agent',
     purpose: 'Base agent that orchestrates the full response.',
   } as const,
 
@@ -44,7 +44,7 @@ export const AGENT_PERSONAS = {
   } as const,
   'agent-builder': {
     displayName: 'Bob the Agent Builder',
-    purpose: 'Creates new agent templates for the codebuff multi-agent system',
+    purpose: 'Creates new agent templates for the MethaTech multi-agent system',
     hidden: false,
   } as const,
 } as const satisfies Partial<

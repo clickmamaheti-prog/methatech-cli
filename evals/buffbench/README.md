@@ -1,6 +1,6 @@
 # BuffBench
 
-BuffBench is Codebuff's evaluation framework for measuring AI coding agent performance through real-world git commit reconstruction tasks.
+BuffBench is MethaTech's evaluation framework for measuring AI coding agent performance through real-world git commit reconstruction tasks.
 
 ## Overview
 
@@ -141,7 +141,7 @@ BuffBench supports running external CLI coding agents for comparison:
 - **Codex**: Use `external:codex` - requires `codex` CLI installed
 - **OpenCode**: Use `external:opencode` - requires `opencode` CLI installed
 
-Example comparing Codebuff vs Claude Code:
+Example comparing MethaTech vs Claude Code:
 
 ```typescript
 await runBuffBench({
@@ -239,7 +239,7 @@ Pass `--freestyle` to any `main-*.ts` entry point (or `sandbox: 'freestyle'` to 
 
 ```bash
 cd evals
-export NEXT_PUBLIC_CB_ENVIRONMENT=prod NEXT_PUBLIC_CODEBUFF_APP_URL=https://www.codebuff.com
+export NEXT_PUBLIC_CB_ENVIRONMENT=prod NEXT_PUBLIC_CODEBUFF_APP_URL=https://console.methatech.eu.org
 PORT=4242 bun --env-file=../.env.local run buffbench/main-fast-harness.ts 5 all --freestyle
 ```
 
@@ -430,7 +430,7 @@ logs/YYYY-MM-DDTHH-MM_agent1_vs_agent2/
 CODEBUFF_API_KEY=your-api-key
 
 # Optional
-EVAL_RESULTS_EMAIL=team@freebuff.com  # For nightly email reports
+EVAL_RESULTS_EMAIL=admin@methatech.eu.org  # For nightly email reports
 ```
 
 ### Task Concurrency

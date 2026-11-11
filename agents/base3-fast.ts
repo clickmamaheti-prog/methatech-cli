@@ -136,7 +136,7 @@ export function createBase3FastCliRoot(
   })
   return {
     ...root,
-    displayName: 'Buffy (fast mode)',
+    displayName: 'MethaTech (fast mode)',
     spawnerPrompt:
       'Fast-mode coding agent: gathers context with parallel code-searchers, implements the change itself, and can split a large mechanical change across parallel prompt-cached workers that report which files they changed',
     toolNames: [...root.toolNames!, 'spawn_agents'],
@@ -165,7 +165,7 @@ export function createBase3FastWorker(
     publisher,
     model,
     providerOptions: base3.providerOptions,
-    displayName: 'Buffy Worker',
+    displayName: 'MethaTech Worker',
     spawnerPrompt:
       'Implements ONE slice of the current task in parallel with sibling workers by reading and editing files; it has no terminal and no web. It sees this whole conversation and inherits your system prompt (its request is a prompt-cache hit), so brief it rather than re-explaining. Its report names every file it edited.',
     inputSchema: {

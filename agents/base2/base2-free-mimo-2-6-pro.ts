@@ -10,7 +10,7 @@ const definition = {
     model: FREEBUFF_MIMO_V26_PRO_MODEL_ID,
   }),
   id: 'base2-free-mimo-2-6-pro',
-  displayName: 'Buffy the MiMo 2.6 Pro Free Orchestrator',
+  displayName: 'MethaTech MiMo 2.6 Pro Free Orchestrator',
 }
 
 export default definition

@@ -9,7 +9,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-mimo-2-6-pro',
-  displayName: 'Buffy on MiMo 2.6 Pro',
+  displayName: 'MethaTech on MiMo 2.6 Pro',
 }
 
 export default definition

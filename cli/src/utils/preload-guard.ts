@@ -102,7 +102,7 @@ export const REFUSE_FOREIGN_PRELOAD = false
  */
 export function describeForeignPreload(preloadPath: string): string {
   return [
-    `freebuff warning: code was injected into this process before it began (${preloadPath}).`,
+    `methatech warning: code was injected into this process before it began (${preloadPath}).`,
     'It has already run; the CLI continues.',
   ].join('\n')
 }

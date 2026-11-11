@@ -478,13 +478,13 @@ describe('getToolSet: commit-attribution suppression', () => {
     const ordinary = await build()
     const ordinaryDescription = ordinary.run_terminal_command
       ?.description as string
-    expect(ordinaryDescription).toContain('Co-Authored-By: Codebuff')
-    expect(ordinaryDescription).toContain('noreply@codebuff.com')
+    expect(ordinaryDescription).toContain('Co-Authored-By: MethaTech')
+    expect(ordinaryDescription).toContain('noreply@methatech.eu.org')
 
     const suppressed = await build(true)
     const suppressedDescription = suppressed.run_terminal_command
       ?.description as string
-    expect(suppressedDescription).not.toContain('noreply@codebuff.com')
+    expect(suppressedDescription).not.toContain('noreply@methatech.eu.org')
     expect(suppressedDescription).toContain('Do NOT add any trailer')
 
     // Explicit false is the default, not a third state.

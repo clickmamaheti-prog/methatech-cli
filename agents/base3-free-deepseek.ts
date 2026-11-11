@@ -15,7 +15,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-deepseek',
-  displayName: 'Buffy on DeepSeek',
+  displayName: 'MethaTech on DeepSeek',
 }
 
 export default definition

@@ -384,7 +384,7 @@ async function requestFreebuffSession(
     }
     if (catalog) noteFreebuffDeviceKeyError(token, endpoint, errorCode)
     throw new FreebuffSessionRequestError(
-      `freebuff session ${method} failed: ${response.status} ${sanitizeTerminalText(text.slice(0, 200))}`,
+      `methatech session ${method} failed: ${response.status} ${sanitizeTerminalText(text.slice(0, 200))}`,
       response.status,
       parseRetryAfterMs(response.headers.get('retry-after')),
       errorCode,

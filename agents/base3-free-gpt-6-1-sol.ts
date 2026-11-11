@@ -15,7 +15,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-gpt-6-1-sol',
-  displayName: 'Buffy on GPT-6.1 Sol',
+  displayName: 'MethaTech on GPT-6.1 Sol',
 }
 
 export default definition

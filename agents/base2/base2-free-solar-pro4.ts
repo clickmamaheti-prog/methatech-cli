@@ -7,7 +7,7 @@ const definition = {
     model: FREEBUFF_SOLAR_PRO_4_MODEL_ID,
   }),
   id: 'base2-free-solar-pro4',
-  displayName: 'Buffy the Solar Pro 4 Free Orchestrator',
+  displayName: 'MethaTech Solar Pro 4 Free Orchestrator',
 }
 
 export default definition

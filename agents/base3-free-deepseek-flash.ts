@@ -8,7 +8,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-deepseek-flash',
-  displayName: 'Buffy on DeepSeek Flash',
+  displayName: 'MethaTech on DeepSeek Flash',
 }
 
 export default definition

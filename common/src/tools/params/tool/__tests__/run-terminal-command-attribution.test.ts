@@ -11,15 +11,15 @@ import {
  * Every spelling of the trailer that has ever shipped in this description.
  *
  * Asserted as a LIST rather than as one string because the guidance carries it
- * twice, in two different orders (`Generated with Codebuff 🤖` in the footer
- * block, `🤖 Generated with Codebuff` in the HEREDOC), and a suppression that
+ * twice, in two different orders (`Generated with MethaTech 🤖` in the footer
+ * block, `🤖 Generated with MethaTech` in the HEREDOC), and a suppression that
  * removed only one of them would still put a co-author line in a stranger's
  * repository.
  */
 const ATTRIBUTION_MARKERS = [
   'Co-Authored-By',
-  'noreply@codebuff.com',
-  'Generated with Codebuff',
+  'noreply@methatech.eu.org',
+  'Generated with MethaTech',
   '🤖',
 ]
 
@@ -58,7 +58,7 @@ describe('run_terminal_command commit attribution', () => {
       }
       // The address and the emoji are never needed to state the rule, so they
       // must be absent outright.
-      expect(text).not.toContain('noreply@codebuff.com')
+      expect(text).not.toContain('noreply@methatech.eu.org')
       expect(text).not.toContain('🤖')
     }
   })

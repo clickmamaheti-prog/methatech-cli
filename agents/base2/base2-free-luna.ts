@@ -10,7 +10,7 @@ const definition = {
     model: FREEBUFF_GPT_5_6_LUNA_MODEL_ID,
   }),
   id: 'base2-free-luna',
-  displayName: 'Buffy the GPT-5.6 Luna Free Orchestrator',
+  displayName: 'MethaTech GPT-5.6 Luna Free Orchestrator',
   // Luna is cheap enough per token that high effort is worth the reasoning
   // tokens. The server applies the same default (applyFreebuffReasoningDefaults)
   // for callers that don't come through a bundled agent; both read the shared

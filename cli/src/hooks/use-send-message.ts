@@ -669,7 +669,7 @@ export const useSendMessage = ({
         if (releaseIfStopped()) return
         logger.error(
           { error },
-          '[send-message] Failed to create Codebuff client',
+          '[send-message] Failed to create MethaTech client',
         )
         setMessages((prev) => [
           ...prev,
@@ -688,7 +688,7 @@ export const useSendMessage = ({
       if (!client) {
         logger.error(
           {},
-          '[send-message] No Codebuff client available. Please ensure you are authenticated.',
+          '[send-message] No MethaTech client available. Please ensure you are authenticated.',
         )
         // Show error to user instead of silently failing
         const brandName = 'MethaTech'

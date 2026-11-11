@@ -288,7 +288,7 @@ describe('gravity_index tool', () => {
           [rootAgentId]: {
             ...gravityTestAgent,
             id: rootAgentId,
-            displayName: 'Buffy on DeepSeek',
+            displayName: 'MethaTech on DeepSeek',
           },
         },
       }

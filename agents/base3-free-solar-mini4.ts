@@ -8,7 +8,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-solar-mini4',
-  displayName: 'Buffy on Solar Mini 4',
+  displayName: 'MethaTech on Solar Mini 4',
 }
 
 export default definition

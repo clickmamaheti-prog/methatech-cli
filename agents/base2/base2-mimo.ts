@@ -7,7 +7,7 @@ const definition = {
     model: mimoModels.mimoV25Pro,
   }),
   id: 'base2-mimo',
-  displayName: 'Buffy the MiMo Orchestrator',
+  displayName: 'MethaTech MiMo Orchestrator',
 }
 
 export default definition

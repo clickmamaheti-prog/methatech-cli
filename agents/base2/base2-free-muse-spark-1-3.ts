@@ -11,7 +11,7 @@ const definition = {
     model: FREEBUFF_MUSE_SPARK_13_CONTRIBUTOR_MODEL_ID,
   }),
   id: 'base2-free-muse-spark-1-3',
-  displayName: 'Buffy the Muse Spark 1.3 Free Orchestrator',
+  displayName: 'MethaTech Muse Spark 1.3 Free Orchestrator',
 }
 
 export default definition

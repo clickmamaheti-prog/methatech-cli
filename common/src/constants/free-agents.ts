@@ -94,7 +94,7 @@ export const FREE_COST_MODE = 'free' as const
  * has one root id per model (`base2-free-<model>`) — the desktop root ids support
  * every picker model and vary only by execution mode. They are first-party
  * free-mode roots just like `base2-free*`, so they are listed in
- * FREEBUFF_ROOT_AGENT_IDS below and carry the "You are Buffy" CLI marker in their
+ * FREEBUFF_ROOT_AGENT_IDS below and carry the "You are MethaTech" CLI marker in their
  * system prompts so they pass requestHasFreebuffSystemMarker.
  */
 export const FREEBUFF_DESKTOP_THREAD_AGENT_ID = 'freebuff-desktop-thread'
@@ -564,7 +564,7 @@ export const FREEBUFF_ROOT_AGENT_IDS = [
   // free_mode_invalid_agent_hierarchy (2026-07-09 incident: trial runs failed
   // at spawn_agent_inline). EVERY root in FREE_MODE_AGENT_MODELS that can spawn
   // subagents MUST also be listed here. Their shared system prompt carries the
-  // "You are Buffy" marker so they also pass requestHasFreebuffSystemMarker.
+  // "You are MethaTech" marker so they also pass requestHasFreebuffSystemMarker.
   'base2-free-cloud-planner',
   'base2-free-cloud-planner-limited',
   // Freebuff Web and Cloud base3 roots (single-loop harness). Listed
@@ -1219,24 +1219,24 @@ export function isFreebuffRootAgent(fullAgentId: string): boolean {
 export const FREEBUFF_ROOT_SYSTEM_PROMPT_OPENINGS = [
   // agents/base2/base2.ts createBase2('free', …) — every `base2-free-*` CLI
   // root.
-  'You are Buffy, the strategic coding assistant.',
+  'You are MethaTech, the strategic coding assistant.',
   // agents/base3.ts createBase3(…) — the desktop thread agents and the
   // `base3-free-*` Web/Cloud roots both compose their prompt onto it, so it
   // stays at position 0 for all of them.
-  'You are Buffy, the coding agent behind Codebuff.',
+  'You are MethaTech, the coding agent behind MethaTech.',
   // freebuff_bundled_agents.ts CLOUD_PLANNER_SYSTEM_PROMPT — planner roots.
-  'You are Buffy, the MethaTech Cloud project planner.',
+  'You are MethaTech, the MethaTech Cloud project planner.',
   // freebuff-desktop/.../services/mission.ts — the Desktop mission decider.
   // Its own opening rather than base3's: that prompt tells the model it is the
   // coding agent, and this one spends its length establishing the opposite
   // ("you never edit files or run commands"). Position 0 is the worst place to
   // say the wrong thing about who is reading.
-  'You are Buffy, the auto-run agent behind MethaTech Desktop.',
+  'You are MethaTech, the auto-run agent behind MethaTech Desktop.',
   // common/src/project-understanding/agent.ts — the project-understanding agent.
-  'You are Buffy, the project-understanding agent behind MethaTech.',
+  'You are MethaTech, the project-understanding agent behind MethaTech.',
   // LEGACY — base2's opening before 92371caa8 (2026-07-07), for installs that
   // have not updated since.
-  'You are Buffy, a strategic assistant that orchestrates complex coding tasks through specialized sub-agents.',
+  'You are MethaTech, a strategic assistant that orchestrates complex coding tasks through specialized sub-agents.',
 ] as const
 
 /**

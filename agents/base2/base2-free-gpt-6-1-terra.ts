@@ -12,7 +12,7 @@ const definition = {
     model: FREEBUFF_GPT_61_TERRA_MODEL_ID,
   }),
   id: 'base2-free-gpt-6-1-terra',
-  displayName: 'Buffy the GPT-6.1 Terra Free Orchestrator',
+  displayName: 'MethaTech GPT-6.1 Terra Free Orchestrator',
   // The server applies this default too (applyFreebuffReasoningDefaults), both
   // reading the shared constant.
   reasoningOptions: {

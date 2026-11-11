@@ -12,7 +12,7 @@ const definition = {
     model: FREEBUFF_GEMINI_4_ARGON_MODEL_ID,
   }),
   id: 'base2-free-gemini-4-argon',
-  displayName: 'Buffy the Gemini 4 Argon Free Orchestrator',
+  displayName: 'MethaTech Gemini 4 Argon Free Orchestrator',
   // The server applies this default too (applyFreebuffReasoningDefaults), both
   // reading the shared constant.
   reasoningOptions: {

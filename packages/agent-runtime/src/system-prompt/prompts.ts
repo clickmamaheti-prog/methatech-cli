@@ -26,12 +26,12 @@ User has typed "export". Export the current conversation. (It's ok to proceed ev
    - All key decisions made during the conversation.
    - All significant file changes. If you have access to write_file blocks from our history, reproduce their paths and content accurately. If you only have diffs or descriptions of changes, summarize those.
    - The reasoning behind those decisions and changes.
-4. Use the 'write_file' tool to save this Markdown summary to a new file with a generated name starting with the prefix 'codebuff-export-' like 'codebuff-export-topic-of-conversation.md' in the project root directory.
+4. Use the 'write_file' tool to save this Markdown summary to a new file with a generated name starting with the prefix 'methatech-export-' like 'methatech-export-topic-of-conversation.md' in the project root directory.
 
 Write file tool format:
 
 <write_file>
-<path>codebuff-export-file-name.md${closeXml('path')}
+<path>methatech-export-file-name.md${closeXml('path')}
 <content>
 [Insert markdown content here]
 ${closeXml('content')}
@@ -108,7 +108,7 @@ export const getProjectFileTreePrompt = (params: {
   return `
 # Project file tree
 
-As Buffy, you have access to all the files in the project.
+As MethaTech, you have access to all the files in the project.
 
 The following is the path to the project on the user's computer. It is also the current working directory for terminal commands:
 <project_path>

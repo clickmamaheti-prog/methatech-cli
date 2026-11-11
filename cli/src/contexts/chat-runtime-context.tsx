@@ -163,7 +163,7 @@ export const ChatRuntimeProvider = ({
     if (freebuffSessionOver) {
       logger.info(
         {},
-        '[chat-runtime] Freebuff session over; holding queued messages until rejoin',
+        '[chat-runtime] MethaTech session over; holding queued messages until rejoin',
       )
     }
   }, [freebuffSessionOver])

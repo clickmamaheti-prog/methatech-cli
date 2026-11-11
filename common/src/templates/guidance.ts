@@ -1,14 +1,14 @@
 import type { SelectedTemplate } from './selected'
 
 /**
- * Templates that call the Freebuff API (the ai-chat starter) run on the
+ * Templates that call the MethaTech API (the ai-chat starter) run on the
  * owner's own prepaid API key. The key is a live credential, so the agent
  * never handles it; the README in the template says where it goes.
  */
 export const FREEBUFF_API_TEMPLATE_IDS: ReadonlySet<string> = new Set(['ai-chat'])
-export const FREEBUFF_API_TEMPLATE_GUIDANCE = `Templates that use AI call the MethaTech API (OpenAI-compatible, https://api.methatech.eu.org/v1) from their Worker with the owner's own key in OPENAI_API_KEY; the browser never sees it. Never ask for that key in chat, print it, log it, commit it, or put it in client code. The owner creates and funds one at https://freebuff.com/account/api (Desktop: Account → Developer API, which can write it into the project's .env); in Cloud it is a project secret named OPENAI_API_KEY; on Sites it goes in Sites → Secrets after the first deploy. Keep the key in .env, never .dev.vars (its presence stops Wrangler reading .env). Until the key is set the app shows its setup card; that is expected, not a bug. Keep the template's server-side model allowlist, per-user daily limit and loopback-only development user: every reply spends the owner's credits.`
+export const FREEBUFF_API_TEMPLATE_GUIDANCE = `Templates that use AI call the MethaTech API (OpenAI-compatible, https://api.methatech.eu.org/v1) from their Worker with the owner's own key in OPENAI_API_KEY; the browser never sees it. Never ask for that key in chat, print it, log it, commit it, or put it in client code. The owner creates and funds one at https://console.methatech.eu.org; it goes in the project's .env as OPENAI_API_KEY. Keep the key in .env, never .dev.vars (its presence stops Wrangler reading .env). Until the key is set the app shows its setup card; that is expected, not a bug. Keep the template's server-side model allowlist, per-user daily limit and loopback-only development user: every reply spends the owner's credits.`
 
-/** Standing template guidance shared by Desktop and Cloud harnesses. */
+/** Standing template guidance shared by template harnesses. */
 export function templatesGuidance(
   mode: 'plan' | 'build',
   runtime: 'desktop' | 'cloud' = 'desktop',

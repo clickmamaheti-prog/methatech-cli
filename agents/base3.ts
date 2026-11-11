@@ -161,7 +161,7 @@ export function createBase3(
     providerOptions: model.startsWith('anthropic/')
       ? { only: ['amazon-bedrock'], data_collection: 'deny' }
       : { data_collection: 'deny' },
-    displayName: 'Buffy',
+    displayName: 'MethaTech',
     spawnerPrompt:
       'Single-loop coding agent that explores, edits, and verifies directly with its own tools',
     inputSchema: {
@@ -206,7 +206,7 @@ export function createBase3(
     // host gives the model a deadline, and that wording made models invent
     // one and stop short. A host with a real deadline passes `deadlineAt`; the
     // runtime then states it.
-    systemPrompt: `You are Buffy, the coding agent behind Codebuff. You help users with software engineering tasks: fixing bugs, adding functionality, refactoring, and explaining code.
+    systemPrompt: `You are MethaTech, the coding agent behind MethaTech. You help users with software engineering tasks: fixing bugs, adding functionality, refactoring, and explaining code.
 
 Current date: ${PLACEHOLDER.CURRENT_DATE}.
 
@@ -255,7 +255,7 @@ ${leanGuidance}${batching ? `\n${BATCHING_GUIDANCE}` : ''}`,
 export function createBase3CliRoot(
   options: {
     model?: SecretAgentDefinition['model']
-    /** Freebuff branding and meta-information instead of Codebuff's. */
+    /** MethaTech branding and meta-information instead of Codebuff's. */
     isFreebuff?: boolean
     /** Drop the tools that address a human. For the eval harness, where an
      *  ask_user call would stall the run rather than gather anything. */
@@ -368,7 +368,7 @@ ${
 ${gravityIndexGuidance()}
 ${SKILL_DISCOVERY_GUIDANCE}
 
-# ${isFreebuff ? 'MethaTech' : 'Codebuff'} Meta-information
+# MethaTech Meta-information
 
 You are running on the ${model} model.
 
@@ -379,7 +379,7 @@ ${
         'Users send prompts to you in one of a few user-selected modes, like DEFAULT, LITE, MAX, or PLAN.',
         "Every prompt sent consumes the user's credits, which is calculated based on the API cost of the models used.",
         'The user can use the "/usage" command to see how many credits they have used and have left, so you can tell them to check their usage this way.',
-        'For other questions, you can direct them to codebuff.com, or especially codebuff.com/docs for detailed information about the product.',
+        'For other questions, you can direct them to methatech.eu.org, or especially docs.methatech.eu.org for detailed information about the product.',
       ].join('\n')
 }
 

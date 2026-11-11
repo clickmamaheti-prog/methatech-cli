@@ -376,7 +376,7 @@ describe('free mode agent model allowlist', () => {
         expect(isFreeModeAllowedAgentModel(agentId, model)).toBe(true)
       }
       // Each variant is a recognized free-mode root, so its subagents pass the
-      // hierarchy gate and the "You are Buffy" marker gate applies to it.
+      // hierarchy gate and the "You are MethaTech" marker gate applies to it.
       expect(isFreebuffRootAgent(agentId)).toBe(true)
       // Kimi K2.7 Code was removed from free mode (see free-agents.ts).
       expect(isFreeModeAllowedAgentModel(agentId, FREEBUFF_KIMI_MODEL_ID)).toBe(
@@ -759,9 +759,9 @@ describe('hasFreebuffRootSystemPromptOpening', () => {
     // CLI binaries older than 0.0.119 carry this opening.
     expect(
       hasFreebuffRootSystemPromptOpening(
-        'You are Buffy, a strategic assistant that orchestrates complex ' +
+        'You are MethaTech, a strategic assistant that orchestrates complex ' +
           'coding tasks through specialized sub-agents. You are the AI agent ' +
-          'behind the product, Codebuff, a CLI tool where users can chat with ' +
+          'behind the product, MethaTech, a CLI tool where users can chat with ' +
           'you to code with AI.',
       ),
     ).toBe(true)
@@ -822,13 +822,13 @@ describe('hasFreebuffRootSystemPromptOpening', () => {
  * or add its opening to the constant.
  */
 describe('every freebuff root agent declares a prompt opening', () => {
-  const BASE2 = 'You are Buffy, the strategic coding assistant.'
-  const BASE3 = 'You are Buffy, the coding agent behind Codebuff.'
-  const CLOUD_PLANNER = 'You are Buffy, the MethaTech Cloud project planner.'
+  const BASE2 = 'You are MethaTech, the strategic coding assistant.'
+  const BASE3 = 'You are MethaTech, the coding agent behind MethaTech.'
+  const CLOUD_PLANNER = 'You are MethaTech, the MethaTech Cloud project planner.'
   const DESKTOP_AUTORUN =
-    'You are Buffy, the auto-run agent behind MethaTech Desktop.'
+    'You are MethaTech, the auto-run agent behind MethaTech Desktop.'
   const PROJECT_UNDERSTANDING =
-    'You are Buffy, the project-understanding agent behind MethaTech.'
+    'You are MethaTech, the project-understanding agent behind MethaTech.'
 
   /** Root agent id → the opening its system prompt starts with. */
   const PROMPT_FAMILY: Record<string, string> = {
@@ -966,10 +966,10 @@ describe('canonical root prompt openings match their source definitions', () => 
     const source = read('agents', 'base2', 'base2.ts')
     // The literal is interpolated, so pin the static head of the sentence.
     expect(source).toContain(
-      'systemPrompt: `You are Buffy, the strategic coding assistant.',
+      'systemPrompt: `You are MethaTech, the strategic coding assistant.',
     )
     expect(FREEBUFF_ROOT_SYSTEM_PROMPT_OPENINGS).toContain(
-      'You are Buffy, the strategic coding assistant.',
+      'You are MethaTech, the strategic coding assistant.',
     )
   })
 
@@ -982,7 +982,7 @@ describe('canonical root prompt openings match their source definitions', () => 
       'cli_agent',
       'freebuff_bundled_agents.ts',
     )
-    const opening = 'You are Buffy, the MethaTech Cloud project planner.'
+    const opening = 'You are MethaTech, the MethaTech Cloud project planner.'
     // The literal opens with a newline that `.trim()` strips at build time.
     expect(source).toContain(`\`\n${opening}`)
     expect(FREEBUFF_ROOT_SYSTEM_PROMPT_OPENINGS).toContain(opening)
@@ -1020,7 +1020,7 @@ describe('canonical root prompt openings match their source definitions', () => 
       'shared',
       'mission-prompt.ts',
     )
-    const opening = 'You are Buffy, the auto-run agent behind MethaTech Desktop.'
+    const opening = 'You are MethaTech, the auto-run agent behind MethaTech Desktop.'
     // The decision is a free-mode ROOT request, so this sentence has to sit at
     // position 0 of the first system message or the gate 403s every tab on Auto
     // — which is a silent failure, since a tab that cannot decide just stops.
@@ -1034,10 +1034,10 @@ describe('canonical root prompt openings match their source definitions', () => 
   test('base3 createBase3 prompt (desktop thread roots)', () => {
     const source = read('agents', 'base3.ts')
     expect(source).toContain(
-      'systemPrompt: `You are Buffy, the coding agent behind Codebuff.',
+      'systemPrompt: `You are MethaTech, the coding agent behind MethaTech.',
     )
     expect(FREEBUFF_ROOT_SYSTEM_PROMPT_OPENINGS).toContain(
-      'You are Buffy, the coding agent behind Codebuff.',
+      'You are MethaTech, the coding agent behind MethaTech.',
     )
   })
 })

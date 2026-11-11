@@ -137,7 +137,7 @@ export const SPONSORED_FRICTION_BULLET =
  * the prompt when the tool is handed to the run.
  */
 export const SPONSORED_SIGNUP_BULLET =
-  '- The one exception: when the account or API key the procedure needs blocks further progress, call request_sponsored_signup. Freebuff asks the user for it and waits for their answer.'
+  '- The one exception: when the account or API key the procedure needs blocks further progress, call request_sponsored_signup. MethaTech asks the user for it and waits for their answer.'
 
 /**
  * THE AUTHORISATION, first. MIRRORED from Desktop's `SPONSORED_TASK_FRAMING`

@@ -17,7 +17,7 @@ const definition = {
     compaction: LEAN_COMPACTION_POLICY,
   }),
   id: 'base3-haiku-5-5-lean-evals',
-  displayName: 'Buffy on Claude Haiku 5.5, lean context (evals)',
+  displayName: 'MethaTech on Claude Haiku 5.5, lean context (evals)',
 }
 
 export default definition

@@ -1,6 +1,6 @@
-# @codebuff/cli
+# methatech
 
-A Terminal User Interface (TUI) package built with OpenTUI and React.
+A Terminal User Interface (TUI) package built with OpenTUI and React. This is the MethaTech CLI client.
 
 ## Installation
 
@@ -74,7 +74,7 @@ bun run start
 Or use the binary directly:
 
 ```bash
-codebuff-tui
+methatech
 ```
 
 ## Features

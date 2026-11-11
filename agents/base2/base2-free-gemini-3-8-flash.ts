@@ -10,7 +10,7 @@ const definition = {
     model: FREEBUFF_GEMINI_38_FLASH_MODEL_ID,
   }),
   id: 'base2-free-gemini-3-8-flash',
-  displayName: 'Buffy the Gemini 3.8 Flash Free Orchestrator',
+  displayName: 'MethaTech Gemini 3.8 Flash Free Orchestrator',
 }
 
 export default definition

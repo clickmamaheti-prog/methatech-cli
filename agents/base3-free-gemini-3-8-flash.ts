@@ -17,7 +17,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: 'base3-free-gemini-3-8-flash',
-  displayName: 'Buffy on Gemini 3.8 Flash',
+  displayName: 'MethaTech on Gemini 3.8 Flash',
 }
 
 export default definition

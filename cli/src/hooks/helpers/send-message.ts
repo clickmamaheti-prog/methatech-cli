@@ -669,7 +669,7 @@ function handleFreebuffGateError(
         opts.serverMessage?.trim() ||
           'MethaTech could not run this turn on your free session.',
       )
-      logger.warn({ kind: unhandled }, 'Unhandled freebuff gate error kind')
+      logger.warn({ kind: unhandled }, 'Unhandled MethaTech gate error kind')
       return
     }
   }

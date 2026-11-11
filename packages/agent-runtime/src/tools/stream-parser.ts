@@ -59,7 +59,7 @@ export const PROVIDER_ERROR_TAG = 'PROVIDER_ERROR'
 export const MAX_CONSECUTIVE_STREAM_RECOVERIES = 3
 
 export const REPEATED_STREAM_INTERRUPTIONS_MESSAGE =
-  'Freebuff could not confirm that the provider finished its response after several retries. This can be a connection problem or an incompatible provider response. Check the provider settings or try a different model.'
+  'MethaTech could not confirm that the provider finished its response after several retries. This can be a connection problem or an incompatible provider response. Check the provider settings or try a different model.'
 
 export const REPEATED_OUTPUT_LIMIT_MESSAGE =
   'The model kept ending after reasoning without producing a response. Try a simpler request or a different model.'

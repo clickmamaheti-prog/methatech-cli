@@ -10,7 +10,7 @@ const definition = {
     model: FREEBUFF_SPACE_BUNNY_ALPHA_MODEL_ID,
   }),
   id: 'base2-free-space-bunny-alpha',
-  displayName: 'Buffy the Space Bunny Alpha Free Orchestrator',
+  displayName: 'MethaTech Space Bunny Alpha Free Orchestrator',
 }
 
 export default definition

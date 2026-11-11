@@ -18,7 +18,7 @@ const definition = {
     workerAgentId: 'base3-fast-worker-deepseek-flash-evals',
   }),
   id: 'base3-fast-free-deepseek-flash-evals',
-  displayName: 'Buffy on DeepSeek Flash (fast mode, evals)',
+  displayName: 'MethaTech on DeepSeek Flash (fast mode, evals)',
 }
 
 export default definition

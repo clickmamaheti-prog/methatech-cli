@@ -36,7 +36,7 @@ export function freebuffCatalogRootAgent(
   return {
     ...root,
     id: FREEBUFF_CLI_CATALOG_ROOT_AGENT_ID,
-    // The bundled roots' naming ("Buffy on MiMo"), from the row.
-    displayName: `Buffy on ${row.displayName}`,
+    // The bundled roots' naming ("MethaTech on MiMo"), from the row.
+    displayName: `MethaTech on ${row.displayName}`,
   } as AgentDefinition
 }

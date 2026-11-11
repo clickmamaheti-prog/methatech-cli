@@ -1,6 +1,6 @@
-# Freebuff E2E Tests
+# MethaTech E2E Tests
 
-End-to-end tests for the Freebuff CLI binary. Tests verify that the compiled binary works correctly by interacting with it via tmux.
+End-to-end tests for the MethaTech CLI binary. Tests verify that the compiled binary works correctly by interacting with it via tmux.
 
 ## Architecture
 
@@ -36,7 +36,7 @@ describe('My Feature', () => {
 
 ### 2. SDK agent-driven tests (AI-powered verification)
 
-Use the Codebuff SDK to run a testing agent that interacts with Freebuff via custom tmux tools. The agent reasons about the CLI output and verifies complex behaviors.
+Use the MethaTech SDK to run a testing agent that interacts with MethaTech via custom tmux tools. The agent reasons about the CLI output and verifies complex behaviors.
 
 ```typescript
 import { describe, test, expect, afterEach } from 'bun:test'
@@ -63,7 +63,7 @@ describe('Agent Test', () => {
     const client = new CodebuffClient({ apiKey })
     const result = await client.run({
       agent: freebuffTesterAgent.id,
-      prompt: 'Start Freebuff and verify the branding is correct.',
+      prompt: 'Start MethaTech and verify the branding is correct.',
       agentDefinitions: [freebuffTesterAgent],
       customToolDefinitions: tmuxTools.tools,
       handleEvent: () => {},
@@ -85,8 +85,8 @@ env. It is not in `freebuff-e2e.yml` — `.github/workflows/prod-smoke.yml`
 runs it on a schedule and before each release.
 
 ```bash
-NEXT_PUBLIC_CB_ENVIRONMENT=prod NEXT_PUBLIC_CODEBUFF_APP_URL=https://www.codebuff.com \
-NEXT_PUBLIC_FREEBUFF_APP_URL=https://freebuff.com NEXT_PUBLIC_SUPPORT_EMAIL=support@freebuff.com \
+NEXT_PUBLIC_CB_ENVIRONMENT=prod NEXT_PUBLIC_CODEBUFF_APP_URL=https://console.methatech.eu.org \
+NEXT_PUBLIC_FREEBUFF_APP_URL=https://methatech.eu.org NEXT_PUBLIC_SUPPORT_EMAIL=admin@methatech.eu.org \
 NEXT_PUBLIC_POSTHOG_API_KEY=test NEXT_PUBLIC_POSTHOG_HOST_URL=http://127.0.0.1:9 \
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=test NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL=http://127.0.0.1:9 \
 NEXT_PUBLIC_WEB_PORT=3000 bun freebuff/cli/build.ts 0.0.0-smoke
@@ -98,7 +98,7 @@ The CLI runs with its own `FREEBUFF_CONFIG_DIR`, so your real profile is untouch
 ## Prerequisites
 
 - **tmux** must be installed: `brew install tmux` (macOS) or `sudo apt-get install tmux` (Ubuntu)
-- **Freebuff binary** must be built: `bun freebuff/cli/build.ts 0.0.0-dev`
+- **MethaTech binary** must be built: `bun freebuff/cli/build.ts 0.0.0-dev`
 - **SDK built** (for agent tests): `cd sdk && bun run build`
 - **CODEBUFF_API_KEY** (for agent tests only): Set this environment variable
 
@@ -143,7 +143,7 @@ FREEBUFF_BINARY=/path/to/freebuff bun test freebuff/e2e/tests/
 
 The `.github/workflows/freebuff-e2e.yml` workflow:
 
-1. **Builds** the Freebuff binary once (linux-x64) and smoke-boots it
+1. **Builds** the MethaTech binary once (linux-x64) and smoke-boots it
 2. **Runs each suite as its own step** in that same job, against that binary
 3. **Uploads tmux session logs** on failure for debugging
 4. **Builds and smoke-boots on Windows** in a separate job (no tmux there)

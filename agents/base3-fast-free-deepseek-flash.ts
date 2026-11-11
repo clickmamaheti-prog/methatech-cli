@@ -16,7 +16,7 @@ const definition = {
     isFreebuff: true,
   }),
   id: FREEBUFF_BASE3_FAST_AGENT_ID,
-  displayName: 'Buffy on DeepSeek Flash (fast mode)',
+  displayName: 'MethaTech on DeepSeek Flash (fast mode)',
 }
 
 export default definition

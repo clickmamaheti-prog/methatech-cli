@@ -3568,7 +3568,7 @@ export function freebuffWithdrawnModelMessage(id: string): string {
   const replacement =
     SUPPORTED_FREEBUFF_MODELS.find((m) => m.id === DEFAULT_FREEBUFF_MODEL_ID)
       ?.displayName ?? DEFAULT_FREEBUFF_MODEL_ID
-  return `${name} is no longer available in Freebuff. We recommend using ${replacement} instead.`
+  return `${name} is no longer available in MethaTech. We recommend using ${replacement} instead.`
 }
 
 /** The same fact as `freebuffWithdrawnModelMessage`, shaped to sit inside the
@@ -3671,7 +3671,7 @@ export function freebuffRetiredModelMessage(id: string): string {
   const name =
     SUPPORTED_FREEBUFF_MODELS.find((m) => freebuffModelIdMatches(id, m.id))
       ?.displayName ?? id
-  return `${name} is no longer available in Freebuff. Update to the latest version to keep coding: run \`npm install -g freebuff@latest\` for the CLI, or restart Freebuff Desktop to update it.`
+  return `${name} is no longer available in MethaTech. Update to the latest version to keep coding.`
 }
 
 /** The same fact shaped to sit inside "<model> isn't available right now (…)",

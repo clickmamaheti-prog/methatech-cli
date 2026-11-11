@@ -7,7 +7,7 @@ const definition = {
     model: FREEBUFF_DEEPSEEK_V4_PRO_MODEL_ID,
   }),
   id: 'base2-free-deepseek',
-  displayName: 'Buffy the DeepSeek Free Orchestrator',
+  displayName: 'MethaTech DeepSeek Free Orchestrator',
 }
 
 export default definition

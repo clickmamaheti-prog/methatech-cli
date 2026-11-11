@@ -26,13 +26,13 @@ export async function fetchFreebuffStreak(params: {
   if (!response.ok) {
     logger.error(
       { status: response.status, error: response.error },
-      'Failed to fetch freebuff streak',
+      'Failed to fetch MethaTech streak',
     )
-    throw new Error(`Failed to fetch freebuff streak (HTTP ${response.status})`)
+    throw new Error(`Failed to fetch MethaTech streak (HTTP ${response.status})`)
   }
 
   if (!response.data) {
-    throw new Error('Failed to fetch freebuff streak: empty response')
+    throw new Error('Failed to fetch MethaTech streak: empty response')
   }
 
   return response.data
