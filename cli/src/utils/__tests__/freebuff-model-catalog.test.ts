@@ -304,10 +304,22 @@ describe('createFreebuffCatalogController', () => {
 })
 
 describe('applyFreebuffCatalog', () => {
-  test('migrates a pre-catalog pick onto its row by legacy digest', () => {
-    useFreebuffModelStore
-      .getState()
-      .setSelectedModel(FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID)
+  // FORK (MethaTech): the fork's pre-catalog pick is a PANEL id, and a
+  // panel id has no row in a Freebuff catalog — so it lands on the
+  // catalog's recommendation, not on a legacy row. (The legacy-digest
+  // mapping itself still works: a wire id that reaches the store without
+  // the panel coercion — e.g. a session re-key — still migrates onto its
+  // row, asserted below via direct state.)
+  test('a pre-catalog panel pick lands on the catalog recommendation', () => {
+    useFreebuffModelStore.getState().setSelectedModel('glm-5.3-flash')
+    applyFreebuffCatalog(CATALOG)
+    expect(getSelectedFreebuffModel()).toBe('m-only-here')
+  })
+
+  test('a legacy wire id still migrates onto its row by legacy digest', () => {
+    useFreebuffModelStore.setState({
+      selectedModel: FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
+    })
     applyFreebuffCatalog(CATALOG)
     expect(getSelectedFreebuffModel()).toBe('m-flash')
   })
@@ -323,19 +335,21 @@ describe('applyFreebuffCatalog', () => {
     expect(getSelectedFreebuffModel()).toBe('m-mimo')
   })
 
+  // FORK (MethaTech): the newer compiled pick is a panel id, which has no
+  // catalog row — so after the key clears, the pick maps onto the
+  // recommendation, not onto a stale key's row. The key is still cleared:
+  // the result follows the pick, not the older 'm-mimo' key.
   test('a compiled pick made after the key clears it, so the newer pick wins', () => {
     setFreebuffCatalog(CATALOG)
     persistFreebuffModelPick('m-mimo')
     expect(loadSettings().freebuffModelKey).toBe('m-mimo')
     setFreebuffCatalog(null)
-    saveFreebuffModelPreference(FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID)
+    saveFreebuffModelPreference('glm-5.3-flash')
     expect(loadSettings().freebuffModelKey).toBeUndefined()
-    expect(loadSettings().freebuffModel).toBe(FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID)
-    useFreebuffModelStore
-      .getState()
-      .setSelectedModel(FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID)
+    expect(loadSettings().freebuffModel).toBe('glm-5.3-flash')
+    useFreebuffModelStore.getState().setSelectedModel('glm-5.3-flash')
     applyFreebuffCatalog(CATALOG)
-    expect(getSelectedFreebuffModel()).toBe('m-flash')
+    expect(getSelectedFreebuffModel()).toBe('m-only-here')
   })
 
   test('an id no row replaces lands on the recommendation', () => {
@@ -357,15 +371,26 @@ describe('applyFreebuffCatalog', () => {
     expect(getSelectedFreebuffModel()).toBe('m-mimo')
   })
 
-  test('leaving catalog mode restores the saved compiled pick', () => {
-    saveFreebuffModelPreference(FREEBUFF_MIMO_V26_PRO_MODEL_ID)
+  // FORK (MethaTech): leaving catalog mode restores the saved PANEL pick.
+  // A saved Freebuff wire id is not a panel model, so it no longer
+  // restores — it falls to the panel default instead.
+  test('leaving catalog mode restores the saved panel pick', () => {
+    saveFreebuffModelPreference('glm-5.3-flash')
     applyFreebuffCatalog(CATALOG)
     useFreebuffModelStore.getState().setSelectedModel('m-only-here')
     useFreebuffChatStore.setState({ nextModel: 'm-mimo' })
     applyFreebuffCatalog(null)
     expect(getFreebuffCatalog()).toBeNull()
-    expect(getSelectedFreebuffModel()).toBe(FREEBUFF_MIMO_V26_PRO_MODEL_ID)
+    expect(getSelectedFreebuffModel()).toBe('glm-5.3-flash')
     expect(useFreebuffChatStore.getState().nextModel).toBeNull()
+  })
+
+  test('leaving catalog mode drops a saved Freebuff wire id to the default', () => {
+    saveFreebuffModelPreference(FREEBUFF_MIMO_V26_PRO_MODEL_ID)
+    applyFreebuffCatalog(CATALOG)
+    useFreebuffModelStore.getState().setSelectedModel('m-only-here')
+    applyFreebuffCatalog(null)
+    expect(getSelectedFreebuffModel()).toBe('deepseek-v4-flash')
   })
 
   test('re-keys an unsent chat pick', () => {
@@ -448,15 +473,15 @@ describe('the default for an account with no explicit pick', () => {
       freebucks: { balance, planId: null, prices: { [FLASH]: 15, [MIMO]: 10 } },
     }) as never
 
-  // DeepSeek V4.1 Flash at both tiers without a catalog since the fallback
-  // moved off MiMo (product, 2026-11-08, Victor).
-  test('is the Balanced stop: DeepSeek V4.1 Flash at both tiers', () => {
+  // FORK (MethaTech): there is no Balanced preset stop and no tier split —
+  // the default is the panel default on every tier, whatever the balance.
+  test('is the panel default at full and limited access', () => {
     expect(
       resolveFreebuffModelSelectionForSession(MIMO, none('full'), false),
-    ).toBe(FLASH)
+    ).toBe('deepseek-v4-flash')
     expect(
-      resolveFreebuffModelSelectionForSession(MIMO, none('limited'), false),
-    ).toBe(FLASH)
+      resolveFreebuffModelSelectionForSession(FLASH, none('limited'), false),
+    ).toBe('deepseek-v4-flash')
   })
 
   test('an explicit pick keeps its model', () => {
@@ -465,11 +490,14 @@ describe('the default for an account with no explicit pick', () => {
     ).toBe(MIMO)
   })
 
-  // Without a catalog the recommendation is DeepSeek V4.1 Flash too since
-  // 2026-11-08 (MiMo before), so there is no cheaper row to step down to.
-  test('steps down to the recommendation when the balance cannot start Balanced', () => {
+  // FORK (MethaTech): no balance gating in the fork — the panel enforces
+  // balance server-side, so a low balance never steps the default down.
+  test('a low balance does not step the default down', () => {
     expect(freebuffDefaultModelForSession(none('full', 12))).toBe(
-      DEFAULT_FREEBUFF_MODEL_ID,
+      'deepseek-v4-flash',
+    )
+    expect(freebuffDefaultModelForSession(none('full', 0))).toBe(
+      'deepseek-v4-flash',
     )
   })
 

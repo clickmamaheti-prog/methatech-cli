@@ -3,18 +3,18 @@ import { describe, expect, test } from 'bun:test'
 import { freebuffModeDefine } from '../../scripts/freebuff-mode'
 
 describe('freebuffModeDefine', () => {
-  test('refuses a freebuff artifact that is not the free build', () => {
-    expect(() => freebuffModeDefine('freebuff', {})).toThrow(/FREEBUFF_MODE/)
+  test('refuses a methatech artifact that is not the free build', () => {
+    expect(() => freebuffModeDefine('methatech', {})).toThrow(/FREEBUFF_MODE/)
     expect(() =>
-      freebuffModeDefine('freebuff', { FREEBUFF_MODE: 'false' }),
+      freebuffModeDefine('methatech', { FREEBUFF_MODE: 'false' }),
     ).toThrow(/FREEBUFF_MODE/)
     expect(() =>
-      freebuffModeDefine('freebuff', { FREEBUFF_MODE: '1' }),
+      freebuffModeDefine('methatech', { FREEBUFF_MODE: '1' }),
     ).toThrow(/FREEBUFF_MODE/)
   })
 
-  test('builds freebuff with the flag', () => {
-    expect(freebuffModeDefine('freebuff', { FREEBUFF_MODE: 'true' })).toBe(
+  test('builds methatech with the flag', () => {
+    expect(freebuffModeDefine('methatech', { FREEBUFF_MODE: 'true' })).toBe(
       'true',
     )
   })

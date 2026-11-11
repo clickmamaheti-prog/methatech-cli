@@ -471,7 +471,7 @@ export async function routeUserPrompt(
     setMessages((prev) => [
       ...prev,
       getSystemMessage(
-        'Select a BYOK connection first: `/byok add …`, then `/byok select <name>`. `/byok off` returns to Freebuff.',
+        'Select a BYOK connection first: `/byok add …`, then `/byok select <name>`. `/byok off` returns to MethaTech.',
       ),
     ])
     return

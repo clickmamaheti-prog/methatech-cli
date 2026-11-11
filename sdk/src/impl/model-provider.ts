@@ -285,7 +285,7 @@ export function getByokProviderErrorMessage(
   }
   if (status === 401)
     return detail.credentialVariable
-      ? `BYOK provider rejected the API key in ${detail.credentialVariable} (HTTP 401). ${detail.credentialVariable} is set in this Freebuff process; check that it holds the key this endpoint expects, then restart Freebuff from that terminal.`
+      ? `BYOK provider rejected the API key in ${detail.credentialVariable} (HTTP 401). ${detail.credentialVariable} is set in this MethaTech process; check that it holds the key this endpoint expects, then restart MethaTech from that terminal.`
       : 'BYOK provider rejected the API key (HTTP 401). Check or replace the key.'
   if (status === 403)
     return 'BYOK API key cannot access this model or account (HTTP 403). Choose an allowed model or use another key.'
@@ -355,7 +355,7 @@ const FINAL_REFUSALS: readonly {
     status: FREEBUFF_GATE_CODES.session_superseded.status,
     error: 'session_superseded',
     fallbackMessage:
-      'This Freebuff session has ended. Start a new session to try again.',
+      'This MethaTech session has ended. Start a new session to try again.',
   },
   {
     status: 503,
@@ -533,7 +533,7 @@ export function getModelForRequest({
           throw new Error(
             error instanceof ByokConnectionStateError
               ? error.message
-              : 'Could not verify the saved BYOK connection. Reselect the provider and retry. If the problem persists, fully quit and restart Freebuff.',
+              : 'Could not verify the saved BYOK connection. Reselect the provider and retry. If the problem persists, fully quit and restart MethaTech.',
           )
         }
         try {
@@ -701,7 +701,7 @@ export function getChatGptErrorMessage(
   const model = detail.model.slice(0, MAX_MODEL_ID_IN_MESSAGE)
   if (status === 401) return CHATGPT_SIGN_IN_AGAIN
   if (status === 429 || /usage_limit|rate_limit/i.test(detail.body))
-    return 'You have reached your ChatGPT plan’s usage limit. Wait for it to reset, or choose a Freebuff model to continue.'
+    return 'You have reached your ChatGPT plan’s usage limit. Wait for it to reset, or choose a MethaTech model to continue.'
   if (status === 403)
     return `Your ChatGPT plan cannot use "${model}" (HTTP 403). Choose another model or check your plan.`
   if (

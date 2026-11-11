@@ -621,7 +621,7 @@ describe('wave 2 fields', () => {
       parseAdClientContext({
         v: 1,
         sys: { cores: '5-8', cpuModel: 'Apple M3 Max', homedir: '/Users/x' },
-        app: { channel: 'beta', execPath: '/opt/homebrew/bin/freebuff' },
+        app: { channel: 'beta', execPath: '/opt/homebrew/bin/methatech' },
         ui: { language: 'en', languages: ['en-US', 'fr-FR'] },
         work: { tool: 'read', lastErrorText: 'ENOENT /Users/x/repo' },
         web: { referrer: 'search', referrerUrl: 'https://google.com/?q=x' },

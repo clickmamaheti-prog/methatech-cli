@@ -9,6 +9,7 @@ import {
   isFreebuffModelId,
   migrateSupersededFreebuffModelPreference,
 } from '@codebuff/common/constants/freebuff-models'
+import { isMethatechModelId } from '@codebuff/common/constants/methatech-models'
 import {
   isByokReasoningEffort,
   isReasoningEffort,
@@ -174,9 +175,13 @@ const validateSettings = (parsed: unknown): Settings => {
   // Validate freebuffModel against the current picker catalog. Server support
   // may intentionally outlive client visibility during a staged model
   // retirement, but an updated client must not restore a retired selection.
+  // FORK (MethaTech): the picker catalog is the panel catalog, so a saved
+  // panel model id must validate too — otherwise every saved pick would be
+  // dropped on load.
   if (
     typeof obj.freebuffModel === 'string' &&
-    isFreebuffModelId(obj.freebuffModel)
+    (isFreebuffModelId(obj.freebuffModel) ||
+      isMethatechModelId(obj.freebuffModel))
   ) {
     settings.freebuffModel = obj.freebuffModel
   }
@@ -373,7 +378,8 @@ export const loadFreebuffModelPreference = (): string | undefined =>
  * selectable on the next landing screen.
  */
 export const saveFreebuffModelPreference = (model: string): void => {
-  if (!isFreebuffModelId(model)) return
+  // FORK (MethaTech): panel picks must persist too.
+  if (!isFreebuffModelId(model) && !isMethatechModelId(model)) return
   // A compiled pick is the newest pick: drop any saved catalog key so the
   // catalog, when it returns, migrates this id rather than restoring an
   // older row.

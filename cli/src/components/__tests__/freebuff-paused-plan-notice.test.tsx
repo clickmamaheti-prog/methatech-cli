@@ -81,7 +81,7 @@ test('the launch panel shows the paused-plan notice with the account link', asyn
     'Your Plus plan is paused: the renewal payment failed.',
   )
   expect(paused).toContain(
-    'Update your card at freebuff.com/account?tab=subscription',
+    'Update your card at console.methatech.eu.org/',
   )
 
   render(sessionWith({ tierId: 'plus' }))

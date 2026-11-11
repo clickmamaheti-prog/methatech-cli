@@ -24,11 +24,11 @@ const { createLauncher } = require(
 const packageJson = require('./package.json')
 
 const launcher = createLauncher({
-  packageName: 'freebuff',
-  displayName: 'Freebuff',
+  packageName: 'methatech',
+  displayName: 'MethaTech',
   wrapperVersion: packageJson.version,
   binaryChecksums: packageJson.binaryChecksums ?? null,
-  telemetryEvent: 'cli.update_freebuff_failed',
+  telemetryEvent: 'cli.update_methatech_failed',
   deferUpdatesUntilExit: true,
 })
 

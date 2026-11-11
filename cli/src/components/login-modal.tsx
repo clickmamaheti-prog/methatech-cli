@@ -469,7 +469,7 @@ export const LoginModal = ({
                   <span fg={theme.secondary}>
                     Tip: Can't copy? Exit and run{' '}
                   </span>
-                  <span fg={theme.primary}>{IS_FREEBUFF ? 'freebuff' : 'codebuff'} login</span>
+                  <span fg={theme.primary}>{IS_FREEBUFF ? 'methatech' : 'codebuff'} login</span>
                   <span fg={theme.secondary}>
                     {' '}instead.
                   </span>

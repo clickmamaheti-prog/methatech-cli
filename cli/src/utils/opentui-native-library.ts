@@ -88,7 +88,7 @@ export function findEmbeddedRenderLibrary(
 function probeTempDirectory(directory: string): string | null {
   const probePath = path.join(
     directory,
-    `.freebuff-tmp-probe-${process.pid}-${Date.now()}`,
+    `.methatech-tmp-probe-${process.pid}-${Date.now()}`,
   )
   try {
     writeFileSync(probePath, 'x'.repeat(4096), { flag: 'wx' })
@@ -117,20 +117,20 @@ export function describeRenderLibraryFailure(
   const tempProblem = probeTempDirectory(tempDir)
   let cause: string
   if (tempProblem) {
-    cause = `Your temp directory (${tempDir}) ${tempProblem}, and Freebuff unpacks its terminal renderer there on every start.`
+    cause = `Your temp directory (${tempDir}) ${tempProblem}, and MethaTech unpacks its terminal renderer there on every start.`
   } else if (/failed to map segment/i.test(detail)) {
-    cause = `Your temp directory (${tempDir}) does not allow running programs (it is probably mounted noexec), and Freebuff unpacks its terminal renderer there on every start.`
+    cause = `Your temp directory (${tempDir}) does not allow running programs (it is probably mounted noexec), and MethaTech unpacks its terminal renderer there on every start.`
   } else {
-    cause = `Freebuff unpacks its terminal renderer into your temp directory (${tempDir}) on every start, and loading it from there failed.`
+    cause = `MethaTech unpacks its terminal renderer into your temp directory (${tempDir}) on every start, and loading it from there failed.`
   }
   const lines = [
-    'Freebuff could not load its terminal renderer.',
+    'MethaTech could not load its terminal renderer.',
     '',
     cause,
-    `Free up space there, or start Freebuff with TMPDIR pointing at a writable directory that allows programs, for example:`,
+    `Free up space there, or start MethaTech with TMPDIR pointing at a writable directory that allows programs, for example:`,
     process.platform === 'win32'
-      ? '  set the TMPDIR environment variable to a folder such as %USERPROFILE%\\freebuff-tmp'
-      : '  mkdir -p "$HOME/.cache/freebuff-tmp" && TMPDIR="$HOME/.cache/freebuff-tmp" freebuff',
+      ? '  set the TMPDIR environment variable to a folder such as %USERPROFILE%\\methatech-tmp'
+      : '  mkdir -p "$HOME/.cache/methatech-tmp" && TMPDIR="$HOME/.cache/methatech-tmp" freebuff',
     '',
     `Details: ${detail}`,
   ]

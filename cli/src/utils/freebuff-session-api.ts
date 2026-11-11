@@ -178,8 +178,8 @@ export function isFreebuffSessionNetworkError(error: unknown): boolean {
 export function freebuffSessionUnreachableMessage(host: string): string {
   return (
     `Couldn't get a response from ${host}. If your browser can open ` +
-    `freebuff.com, this network isn't routing to that host: try mobile data ` +
-    `or another ISP, or use freebuff.com/web meanwhile.`
+    `methatech.eu.org, this network isn't routing to that host: try mobile data ` +
+    `or another ISP, or use methatech.eu.org meanwhile.`
   )
 }
 

@@ -22,7 +22,7 @@ import { smokeSessionStatus } from '../../../scripts/lib/prod-smoke-session'
 import {
   FREEBUFF_CHAT_READY_TEXT,
   FreebuffSession,
-  requireFreebuffBinary,
+  requireMethatechBinary,
 } from '../utils'
 
 const FLASH_DISPLAY_NAME = 'DeepSeek V4.1 Flash'
@@ -252,14 +252,14 @@ describe('Freebuff: live turn against the backend', () => {
     `completes one ${FLASH_DISPLAY_NAME} turn through the TUI and ends the session`,
     async () => {
       configDir = fs.mkdtempSync(
-        path.join(os.tmpdir(), 'freebuff-smoke-config-'),
+        path.join(os.tmpdir(), 'methatech-smoke-config-'),
       )
       // no first-run card between the test and the chat
       fs.writeFileSync(
         path.join(configDir, 'settings.json'),
         JSON.stringify({ freebucksIntroSeenAt: new Date().toISOString() }),
       )
-      session = await FreebuffSession.start(requireFreebuffBinary(), {
+      session = await FreebuffSession.start(requireMethatechBinary(), {
         waitSeconds: 5,
         height: 50, // tall enough that the picker shows most rows without scrolling
         env: { CODEBUFF_API_KEY: apiKey!, FREEBUFF_CONFIG_DIR: configDir },

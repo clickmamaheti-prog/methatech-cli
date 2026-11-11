@@ -78,7 +78,7 @@ describe('direct BYOK SDK runs', () => {
   })
 
   test('runs a real local write-file tool loop without any Codebuff request', async () => {
-    const cwd = await mkdtemp(path.join(tmpdir(), 'freebuff-byok-'))
+    const cwd = await mkdtemp(path.join(tmpdir(), 'methatech-byok-'))
     await writeFile(path.join(cwd, 'input.txt'), 'source value')
     const seen: Array<{ url: string; auth: string; body: string }> = []
     let completion = 0
@@ -324,9 +324,9 @@ describe('direct BYOK SDK runs', () => {
 
   test.each([
     ['changed', 'BYOK connection changed; select its current revision to continue'],
-    ['removed', 'BYOK connection was removed; select another provider or a Freebuff model to continue'],
+    ['removed', 'BYOK connection was removed; select another provider or a MethaTech model to continue'],
     ['corrupt', 'BYOK connection metadata is corrupt; restore it before continuing'],
-    ['locked', 'BYOK settings are locked. Close other Freebuff processes and retry.'],
+    ['locked', 'BYOK settings are locked. Close other MethaTech processes and retry.'],
     ['unknown', 'Could not verify the saved BYOK connection. Reselect the provider and retry.'],
   ])('reports a %s local connection failure without provider dispatch', async (failure, expected) => {
     let requests = 0

@@ -302,7 +302,7 @@ test.each([404, 405])(
       new Response('Not found', { status }),
     )
     await expect(callFreebuffSession('POST', 'test-token')).rejects.toThrow(
-      'Reload or update Freebuff',
+      'Reload or update MethaTech',
     )
     expect(fetchSpy).toHaveBeenCalledTimes(1)
     expect(String(fetchSpy.mock.calls[0]![0])).toEndWith('/session/admission')
@@ -348,7 +348,7 @@ test('a request that got no answer is a network error, a refused one is not', ()
 test('the unreachable copy names the host and never blames the machine', () => {
   const msg = freebuffSessionUnreachableMessage('www.codebuff.com')
   expect(msg).toContain('www.codebuff.com')
-  expect(msg).toContain('freebuff.com/web')
+  expect(msg).toContain('methatech.eu.org')
   expect(msg).toContain('another ISP')
   expect(msg).not.toMatch(/reinstall|firewall|antivirus/i)
 })

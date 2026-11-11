@@ -50,7 +50,7 @@ export function gitFolderFinding(state: GitFolderState, label: string, dir: stri
       })
   if (state === 'not-repo')
     return finding('git.not-a-repo', 'info', 'git', `${label} is not a git repository`,
-      `${where} has no git history, so Freebuff cannot show changes or run chats in their own worktree.`,
+      `${where} has no git history, so MethaTech cannot show changes or run chats in their own worktree.`,
       ['Run `git init` in the folder if you want changes and worktrees.'])
   return null
 }
@@ -58,8 +58,8 @@ export function gitFolderFinding(state: GitFolderState, label: string, dir: stri
 export async function gitInstallFindings(platform: string, run: RunCommand = runCommand): Promise<DoctorFinding[]> {
   const version = await run('git', ['--version'], { timeoutMs: 4_000 })
   if (version.missing || version.code !== 0)
-    return [finding('git.missing', 'error', 'git', 'Git is not installed', 'Freebuff uses git for changes, worktrees and pull requests.',
-      [platform === 'darwin' ? 'Run `xcode-select --install`, or install git from git-scm.com.' : 'Install git from git-scm.com (or your package manager), then restart Freebuff.'])]
+    return [finding('git.missing', 'error', 'git', 'Git is not installed', 'MethaTech uses git for changes, worktrees and pull requests.',
+      [platform === 'darwin' ? 'Run `xcode-select --install`, or install git from git-scm.com.' : 'Install git from git-scm.com (or your package manager), then restart MethaTech.'])]
   const out: DoctorFinding[] = [finding('git.ok', 'ok', 'git', 'Git is installed', version.stdout.trim())]
   if (platform === 'win32') {
     const longpaths = await run('git', ['config', '--global', '--get', 'core.longpaths'], { timeoutMs: 4_000 })

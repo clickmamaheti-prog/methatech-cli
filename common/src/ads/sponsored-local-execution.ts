@@ -132,11 +132,11 @@ export const SPONSORED_LOCAL_UNAVAILABLE_COPY: Record<
   // for an orchestrator older than COD-642. Freebuff Desktop no longer
   // produces it: Windows there runs under the floor instead.
   'windows-no-containment':
-    'Sponsored tasks can’t run on Windows yet: Freebuff has no way to keep an advertiser’s commands inside the workspace on this operating system.',
+    'Sponsored tasks can’t run on Windows yet: MethaTech has no way to keep an advertiser’s commands inside the workspace on this operating system.',
   'bubblewrap-missing':
     'Sponsored tasks need bubblewrap (`bwrap`) to stay inside the workspace. Install it and reopen this project to accept.',
   'unsupported-platform':
-    'Sponsored tasks can’t run on this operating system: Freebuff has no way to keep an advertiser’s commands inside the workspace here.',
+    'Sponsored tasks can’t run on this operating system: MethaTech has no way to keep an advertiser’s commands inside the workspace here.',
   // NOT a property of the operating system, and it must not borrow the
   // operating system's sentence. `unsupported-platform` used to carry this
   // case too, so a Mac with no desktop shell behind its orchestrator told its
@@ -147,7 +147,7 @@ export const SPONSORED_LOCAL_UNAVAILABLE_COPY: Record<
   // because the first is permanent and the second is fixed by opening the
   // app.
   'no-consent-bridge':
-    'Sponsored tasks need the Freebuff desktop app. Open this project in the app to accept.',
+    'Sponsored tasks need the MethaTech desktop app. Open this project in the app to accept.',
   // About THIS offer, not the machine: another offer can still run here.
   'offered-for-another-os':
     'This sponsored task was offered for a different kind of computer, so it can’t run on this one.',

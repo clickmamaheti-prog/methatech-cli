@@ -266,7 +266,7 @@ describe('SDK delegated user headers', () => {
       if (part.type === 'error') message = String(part.error)
     }
     expect(message).toContain('rejected the API key in OMNIROUTE_API_KEY (HTTP 401)')
-    expect(message).toContain('is set in this Freebuff process')
+    expect(message).toContain('is set in this MethaTech process')
     expect(message).not.toContain(key)
   })
 

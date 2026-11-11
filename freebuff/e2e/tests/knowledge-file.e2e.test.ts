@@ -9,7 +9,7 @@
 
 import { afterEach, describe, expect, test } from 'bun:test'
 
-import { FreebuffSession, requireFreebuffBinary } from '../utils'
+import { FreebuffSession, requireMethatechBinary } from '../utils'
 
 const TEST_TIMEOUT = 180_000
 
@@ -38,7 +38,7 @@ describe('Freebuff: Knowledge Files', () => {
         return
       }
 
-      const binary = requireFreebuffBinary()
+      const binary = requireMethatechBinary()
       const keyword = 'nebula-orchid-731'
 
       session = await FreebuffSession.start(binary, {

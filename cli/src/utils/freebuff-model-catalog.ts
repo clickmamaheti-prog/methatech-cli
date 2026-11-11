@@ -21,10 +21,6 @@
  */
 import { FREEBUFF_CLIENT_HEADER } from '@codebuff/common/constants/freebuff-desktop-sessions'
 import {
-  DEFAULT_FREEBUFF_MODEL_ID,
-  resolveAvailableFreebuffModel,
-} from '@codebuff/common/constants/freebuff-models'
-import {
   FREEBUFF_CATALOG_PROTOCOL_HEADER,
   FREEBUFF_CATALOG_PROTOCOL_VERSION,
   FREEBUFF_CATALOG_STALE_ERROR,
@@ -232,9 +228,14 @@ export function applyFreebuffCatalog(next: FreebuffModelCatalog | null): void {
   }
 
   if (previous) {
+    // FORK (MethaTech): resolve through the directory, so a saved panel
+    // pick survives the return to fallback mode (the old
+    // resolveAvailableFreebuffModel would coerce it to the Freebuff
+    // fallback).
     modelStore.setSelectedModel(
-      resolveAvailableFreebuffModel(
-        loadFreebuffModelPreference() ?? DEFAULT_FREEBUFF_MODEL_ID,
+      directory.resolveSelection(
+        loadFreebuffModelPreference() ??
+          directory.recommendedModelId(undefined),
       ),
     )
     // An unsent pick of a catalog row has no compiled meaning.

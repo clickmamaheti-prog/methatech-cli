@@ -824,11 +824,11 @@ describe('hasFreebuffRootSystemPromptOpening', () => {
 describe('every freebuff root agent declares a prompt opening', () => {
   const BASE2 = 'You are Buffy, the strategic coding assistant.'
   const BASE3 = 'You are Buffy, the coding agent behind Codebuff.'
-  const CLOUD_PLANNER = 'You are Buffy, the Freebuff Cloud project planner.'
+  const CLOUD_PLANNER = 'You are Buffy, the MethaTech Cloud project planner.'
   const DESKTOP_AUTORUN =
-    'You are Buffy, the auto-run agent behind Freebuff Desktop.'
+    'You are Buffy, the auto-run agent behind MethaTech Desktop.'
   const PROJECT_UNDERSTANDING =
-    'You are Buffy, the project-understanding agent behind Freebuff.'
+    'You are Buffy, the project-understanding agent behind MethaTech.'
 
   /** Root agent id → the opening its system prompt starts with. */
   const PROMPT_FAMILY: Record<string, string> = {
@@ -982,7 +982,7 @@ describe('canonical root prompt openings match their source definitions', () => 
       'cli_agent',
       'freebuff_bundled_agents.ts',
     )
-    const opening = 'You are Buffy, the Freebuff Cloud project planner.'
+    const opening = 'You are Buffy, the MethaTech Cloud project planner.'
     // The literal opens with a newline that `.trim()` strips at build time.
     expect(source).toContain(`\`\n${opening}`)
     expect(FREEBUFF_ROOT_SYSTEM_PROMPT_OPENINGS).toContain(opening)
@@ -1020,7 +1020,7 @@ describe('canonical root prompt openings match their source definitions', () => 
       'shared',
       'mission-prompt.ts',
     )
-    const opening = 'You are Buffy, the auto-run agent behind Freebuff Desktop.'
+    const opening = 'You are Buffy, the auto-run agent behind MethaTech Desktop.'
     // The decision is a free-mode ROOT request, so this sentence has to sit at
     // position 0 of the first system message or the gate 403s every tab on Auto
     // — which is a silent failure, since a tab that cannot decide just stops.

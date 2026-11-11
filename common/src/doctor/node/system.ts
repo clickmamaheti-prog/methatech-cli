@@ -25,7 +25,7 @@ export async function diskFinding(label: string, dir: string, redact: DoctorReda
   if (free < CRITICAL_DISK_BYTES)
     return finding('disk.critical', 'error', 'disk', `Almost no disk space left (${gb(free)})`,
       `The drive holding ${label} has ${gb(free)} free. Chats, worktrees and updates fail or are left half written when it fills.`,
-      ['Free up several gigabytes on this drive (empty the trash, remove old downloads or unused node_modules folders).', 'Restart Freebuff.'])
+      ['Free up several gigabytes on this drive (empty the trash, remove old downloads or unused node_modules folders).', 'Restart MethaTech.'])
   if (free < LOW_DISK_BYTES)
     return finding('disk.low', 'warning', 'disk', `Disk space is low (${gb(free)})`,
       `The drive holding ${label} has ${gb(free)} free. Worktrees and dependency installs need room.`, ['Free up a few gigabytes on this drive.'])
@@ -55,10 +55,10 @@ export async function tempDirFinding(dir = tmpdir(), redact?: DoctorRedactor): P
   try {
     const probe = await mkdtemp(join(dir, 'freebuff-doctor-'))
     await rm(probe, { recursive: true, force: true })
-    return finding('temp.ok', 'ok', 'system', 'The temporary folder is writable', 'Freebuff can create temporary files.')
+    return finding('temp.ok', 'ok', 'system', 'The temporary folder is writable', 'MethaTech can create temporary files.')
   } catch {
     return finding('temp.unwritable', 'error', 'system', 'The temporary folder is not writable',
-      `Freebuff could not create a file in ${redact ? redact.path(dir) : 'the temporary folder'}. Installs, downloads and tools that need scratch space fail.`,
+      `MethaTech could not create a file in ${redact ? redact.path(dir) : 'the temporary folder'}. Installs, downloads and tools that need scratch space fail.`,
       ['Check that TMPDIR, TEMP or TMP points at a folder that exists and that you can write to.', 'Free up disk space if the drive is full.'])
   }
 }
@@ -71,17 +71,17 @@ export function architectureFinding(platform = process.platform, arch = process.
   const rosetta = translated ?? (platform === 'darwin' && arch === 'x64' && /Apple/i.test(cpuModel))
   if (rosetta)
     return finding('system.rosetta', 'warning', 'system', 'Running the Intel build on an Apple silicon Mac',
-      'This copy of Freebuff runs under Rosetta translation. It is slower, and tools it starts may not match your Mac.',
-      ['Download Freebuff again from freebuff.com and choose the Apple silicon build.'])
+      'This copy of MethaTech runs under Rosetta translation. It is slower, and tools it starts may not match your Mac.',
+      ['Download MethaTech again from methatech.eu.org and choose the Apple silicon build.'])
   if (platform === 'win32' && arch === 'ia32')
-    return finding('system.32-bit', 'error', 'system', 'A 32-bit runtime is in use', 'Freebuff needs a 64-bit system and runtime.', ['Install the 64-bit version.'])
+    return finding('system.32-bit', 'error', 'system', 'A 32-bit runtime is in use', 'MethaTech needs a 64-bit system and runtime.', ['Install the 64-bit version.'])
   return null
 }
 
 export function memoryFinding(free = freemem(), total = totalmem()): DoctorFinding | null {
   if (total > 0 && free / total < 0.05 && free < 1024 ** 3)
     return finding('system.memory-low', 'warning', 'system', `Memory is almost full (${gb(free)} free)`,
-      'With this little memory left, Freebuff and the tools it runs can be killed or freeze.', ['Close apps you are not using, then try again.'])
+      'With this little memory left, MethaTech and the tools it runs can be killed or freeze.', ['Close apps you are not using, then try again.'])
   return null
 }
 

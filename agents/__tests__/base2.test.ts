@@ -342,13 +342,13 @@ describe('base2 product branding', () => {
     )
   })
 
-  test('free mode keeps its Freebuff branding', () => {
+  test('free mode keeps its MethaTech branding', () => {
     const free = createBase2('free').systemPrompt
 
-    expect(free).toContain('the product, Freebuff')
+    expect(free).toContain('the product, MethaTech')
     expect(free).toContain('to code with AI for free')
-    expect(free).toContain('# Freebuff Meta-information')
-    expect(free).toContain('freebuff.com')
+    expect(free).toContain('# MethaTech Meta-information')
+    expect(free).toContain('methatech.eu.org')
     expect(free).not.toContain(CREDITS_LINE)
     expect(free).not.toContain('"/usage"')
   })

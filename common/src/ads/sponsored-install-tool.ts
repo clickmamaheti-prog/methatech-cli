@@ -40,7 +40,7 @@ import type { CodebuffFileSystem } from '../types/filesystem'
 export const SPONSORED_INSTALL_TOOL_NAME = 'install_package'
 
 export const SPONSORED_INSTALL_TOOL_DESCRIPTION =
-  'Install one package this integration needs into the project. Use it instead of running npm, pnpm, bun, pip or uv install commands in the shell, which are refused. Give the ecosystem (npm or pypi), the package name, and the exact version when the procedure pins one (otherwise Freebuff picks one). Set dev true for a development-only dependency, and dir to the repository-relative subfolder that holds the package manifest when it is not the root. Install scripts never run and Python installs use wheels only. The answer says what was installed, or why not.'
+  'Install one package this integration needs into the project. Use it instead of running npm, pnpm, bun, pip or uv install commands in the shell, which are refused. Give the ecosystem (npm or pypi), the package name, and the exact version when the procedure pins one (otherwise MethaTech picks one). Set dev true for a development-only dependency, and dir to the repository-relative subfolder that holds the package manifest when it is not the root. Install scripts never run and Python installs use wheels only. The answer says what was installed, or why not.'
 
 /** Seconds an install may take before it is stopped. */
 export const SPONSORED_INSTALL_TIMEOUT_SECONDS = 180
@@ -63,7 +63,7 @@ export const sponsoredInstallInputShape = {
     .max(64)
     .optional()
     .describe(
-      'An exact version such as 1.2.3 when the procedure pins one; omit to let Freebuff choose.',
+      'An exact version such as 1.2.3 when the procedure pins one; omit to let MethaTech choose.',
     ),
   dev: z
     .boolean()
@@ -264,7 +264,7 @@ export async function runSponsoredInstallTool(
   if (input.version !== undefined && !validVersion(input.ecosystem, input.version)) {
     return {
       status: 'refused',
-      reason: `The version must be exact (such as 1.2.3), not a range, tag or URL. Omit it to let Freebuff choose.`,
+      reason: `The version must be exact (such as 1.2.3), not a range, tag or URL. Omit it to let MethaTech choose.`,
     }
   }
   const dir = sponsoredInstallSubdir(input.dir ?? '')
@@ -292,7 +292,7 @@ export async function runSponsoredInstallTool(
     ) {
       return {
         status: 'refused',
-        reason: 'Freebuff could not resolve this package to an exact version. Carry on without it and tell the user.',
+        reason: 'MethaTech could not resolve this package to an exact version. Carry on without it and tell the user.',
       }
     }
     const command = sponsoredInstallCommand(project, {
@@ -347,18 +347,18 @@ export function sponsoredPackageResolveOutcome(
     if (parsed.success) return parsed.data
     return {
       allowed: false,
-      reason: 'Freebuff answered this install request in a form this build does not understand. Carry on without it.',
+      reason: 'MethaTech answered this install request in a form this build does not understand. Carry on without it.',
     }
   }
   if (status === 0) {
     return {
       allowed: false,
-      reason: 'Could not reach Freebuff to approve this install. Carry on without it and tell the user.',
+      reason: 'Could not reach MethaTech to approve this install. Carry on without it and tell the user.',
     }
   }
   return {
     allowed: false,
-    reason: message?.trim() || `Freebuff refused this install (${status}).`,
+    reason: message?.trim() || `MethaTech refused this install (${status}).`,
   }
 }
 

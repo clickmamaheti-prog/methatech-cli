@@ -82,12 +82,12 @@ const wrappers = [
     },
   },
   {
-    name: 'freebuff',
+    name: 'methatech',
     directory: 'freebuff/cli/release',
     expectedConfig: {
-      packageName: 'freebuff',
-      displayName: 'Freebuff',
-      telemetryEvent: 'cli.update_freebuff_failed',
+      packageName: 'methatech',
+      displayName: 'MethaTech',
+      telemetryEvent: 'cli.update_methatech_failed',
       deferUpdatesUntilExit: true,
     },
   },

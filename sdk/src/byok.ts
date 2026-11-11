@@ -24,6 +24,15 @@ import { getSystemProcessEnv } from './env'
 import { recoverByokLock } from './impl/byok-lock'
 
 export const BYOK_SECRET_SERVICE = 'com.freebuff.byok.v1'
+/**
+ * FORK (MethaTech): base URL of the MethaTech panel's OpenAI-compatible
+ * API. A MethaTech BYOK connection is a plain `openai-compatible`
+ * connection with this base URL — no new provider type, no schema change.
+ * The user supplies their own panel API key (as an env var); no key is
+ * ever hardcoded here. See the `/byok add ... methatech ...` shorthand in
+ * `cli/src/commands/byok.ts` and `docs/FORK-METHATECH.md`.
+ */
+export const METHATECH_BYOK_BASE_URL = 'https://api.methatech.eu.org/v1'
 const envReference = /^env:[A-Za-z_][A-Za-z0-9_]*$/
 const ownedReference = /^connection:[a-f0-9-]+:[1-9][0-9]*$/
 /** One ChatGPT sign-in, shared by every model saved from it (see saveChatGptSignIn). */
@@ -187,7 +196,7 @@ export function byokCredentialVariable(
  * never sees a later `export`, so saying "restart" is the actual fix.
  */
 export function missingEnvironmentCredentialMessage(variable: string): string {
-  return `${variable} is not set in this Freebuff process. Set it and restart Freebuff from that terminal.`
+  return `${variable} is not set in this MethaTech process. Set it and restart MethaTech from that terminal.`
 }
 
 /**
@@ -201,7 +210,7 @@ export function rejectedByokCredentialMessage(
 ): string {
   const variable = byokCredentialVariable(connection)
   return variable
-    ? `The provider rejected the key in ${variable} (HTTP ${status}). ${variable} is set in this Freebuff process; check that it holds the key this endpoint expects, then restart Freebuff from that terminal.`
+    ? `The provider rejected the key in ${variable} (HTTP ${status}). ${variable} is set in this MethaTech process; check that it holds the key this endpoint expects, then restart MethaTech from that terminal.`
     : `The provider rejected the saved API key (HTTP ${status}). Check or replace the key.`
 }
 
@@ -740,7 +749,7 @@ export function createByokConnectionStore(params: {
     const connection = connections.find((item) => item.id === id)
     if (!connection)
       throw new ByokConnectionStateError(
-        'BYOK connection was removed; select another provider or a Freebuff model to continue',
+        'BYOK connection was removed; select another provider or a MethaTech model to continue',
       )
     if (connection.revision !== revision)
       throw new ByokConnectionStateError(
@@ -770,7 +779,7 @@ export function createByokConnectionStore(params: {
     if (/[\r\n]/.test(trimmed))
       throw new ByokCredentialError(
         variable
-          ? `${variable} contains a line break. Set it to the key alone and restart Freebuff from that terminal.`
+          ? `${variable} contains a line break. Set it to the key alone and restart MethaTech from that terminal.`
           : 'BYOK credential is unavailable or invalid',
       )
     return trimmed
@@ -1215,8 +1224,8 @@ export function createBunByokMetadataStore(
 ): ByokMetadataStore {
   const directory =
     options.directory ??
-    getSystemProcessEnv().FREEBUFF_BYOK_CONFIG_DIR ??
-    path.join(homedir(), '.config', 'freebuff', 'byok')
+    getSystemProcessEnv().METHATECH_BYOK_CONFIG_DIR ??
+    path.join(homedir(), '.config', 'metatech', 'byok')
   const file = path.join(directory, 'connections.json')
   const lock = path.join(directory, 'connections.lock')
   return {
@@ -1271,7 +1280,7 @@ export function createBunByokMetadataStore(
             await recoverByokLock(lock)
             if (Date.now() - started >= 5000)
               throw new ByokConnectionStateError(
-                'BYOK settings are locked. Close other Freebuff processes and retry. If the problem persists, close all Freebuff processes before removing connections.lock from the BYOK configuration directory.',
+                'BYOK settings are locked. Close other MethaTech processes and retry. If the problem persists, close all MethaTech processes before removing connections.lock from the BYOK configuration directory.',
               )
             await new Promise((resolve) => setTimeout(resolve, 25))
           }
@@ -1299,7 +1308,16 @@ export function createBunByokConnectionStore(
   const environment = options.environment ?? getSystemProcessEnv()
   const secretStore: ByokSecretStore = options.secretStore ?? {
     async get(reference) {
-      if (envReference.test(reference)) return environment[reference.slice(4)]
+      if (envReference.test(reference))
+        return (
+          environment[reference.slice(4)] ??
+          // FORK (MethaTech): silent fallback to the pre-rename spelling of
+          // the panel key variable, so a terminal that already exports the
+          // old name keeps working. Canonical name is METHATECH_API_KEY.
+          (reference === 'env:METHATECH_API_KEY'
+            ? environment.METATECH_API_KEY
+            : undefined)
+        )
       return (
         (await bunSecrets().get({
           service: BYOK_SECRET_SERVICE,

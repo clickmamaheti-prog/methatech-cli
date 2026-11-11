@@ -34,14 +34,15 @@ import {
 
 /** Where a wall sends the reader — the same destination as the landing
  *  screen's upgrade line, so the two cannot point at different pages. */
-const FREEBUCKS_PLANS_URL = 'https://freebuff.com/plans'
+// FORK (MethaTech): locked rows open the panel price page, not Freebuff plans.
+const FREEBUCKS_PLANS_URL = 'https://methatech.eu.org/price'
 
 import { FreebuffReferralBanner } from './freebuff-referral-banner'
 import {
   FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
   getFreebuffDeploymentAvailabilityLabel,
-  getFreebuffModelsForAccessTier,
 } from '@codebuff/common/constants/freebuff-models'
+import { isMethatechModelId } from '@codebuff/common/constants/methatech-models'
 import {
   formatFreebuffRowQuota,
   getFreebuffSectionQuotas,
@@ -71,8 +72,16 @@ import { compiledFreebuffModelIdOfRow } from '@codebuff/common/util/freebuff-cat
 
 import { startFreebuffSession } from '../hooks/use-freebuff-session'
 import { useNow } from '../hooks/use-now'
-import { useFreebuffModelDirectory } from '../state/freebuff-catalog-store'
-import { useFreebuffModelStore } from '../state/freebuff-model-store'
+import {
+  getFreebuffModelDirectory,
+  useFreebuffModelDirectory,
+} from '../state/freebuff-catalog-store'
+import {
+  persistFreebuffModelPick,
+  useFreebuffModelStore,
+} from '../state/freebuff-model-store'
+import { ensureMethatechByokConnection } from '../utils/byok'
+import { logger } from '../utils/logger'
 import { useFreebuffSessionStore } from '../state/freebuff-session-store'
 import { useTerminalDimensions } from '../hooks/use-terminal-dimensions'
 import { useTheme } from '../hooks/use-theme'
@@ -197,9 +206,11 @@ export function freebuffCliOfferedModelIds(
   /** Whether the account holds an entitling paid plan. */
   hasPaidSubscription = false,
 ): readonly string[] {
-  return getFreebuffModelsForAccessTier(accessTier, hasPaidSubscription).map(
-    (m) => m.id,
-  )
+  // FORK (MethaTech): the offered set is the panel catalog, read through
+  // the directory — not the Freebuff tier grid.
+  return getFreebuffModelDirectory()
+    .pickerModels(accessTier, hasPaidSubscription)
+    .map((m) => m.id)
 }
 
 export const FreebuffModelSelector: React.FC<FreebuffModelSelectorProps> = ({
@@ -1304,6 +1315,32 @@ export const FreebuffModelSelector: React.FC<FreebuffModelSelectorProps> = ({
         return
       }
       setPendingAsk(null)
+      // FORK (MethaTech): panel models run through the MethaTech BYOK
+      // connection, not a Freebuff session — there is no Freebuff server
+      // in this fork, so starting a session would post to a server that
+      // cannot admit it. Ensure the connection for this model and select
+      // it; the send path then runs BYOK. A setup failure leaves the
+      // selection unchanged and logs, instead of starting a dead session.
+      if (isMethatechModelId(modelId)) {
+        admissionPending.current = true
+        setPending(modelId)
+        void ensureMethatechByokConnection(modelId)
+          .then(() => {
+            setSelectedModel(modelId)
+            persistFreebuffModelPick(modelId)
+          })
+          .catch((error) => {
+            logger.error(
+              { error },
+              '[model-selector] Failed to select MethaTech model',
+            )
+          })
+          .finally(() => {
+            admissionPending.current = false
+            setPending(null)
+          })
+        return
+      }
       // Two Enter events can arrive before React commits the pending state.
       admissionPending.current = true
       setPending(modelId)
@@ -1321,6 +1358,7 @@ export const FreebuffModelSelector: React.FC<FreebuffModelSelectorProps> = ({
       onSelectModel,
       planRequired,
       directory,
+      setSelectedModel,
     ],
   )
 

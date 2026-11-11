@@ -51,8 +51,10 @@ describe('freebuffChatAdmissionMayStart', () => {
 })
 
 test('a send before the first session response runs the default it resolved', async () => {
-  // The send captured the launch seed (MiMo); the response moved the selection
-  // to Flash. `freebucks: null` stops admission at confirm, before the network.
+  // FORK (MethaTech): the default the send resolves is the panel default
+  // 'deepseek-v4-flash', not the Freebuff wire id. The send captured the
+  // launch seed (MiMo); the response moved the selection to Flash.
+  // `freebucks: null` stops admission at confirm, before the network.
   useFreebuffModelStore.setState({
     hasExplicitPick: false,
     selectedModel: FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
@@ -79,7 +81,7 @@ test('a send before the first session response runs the default it resolved', as
   await setup.renderOnce()
   expect(useFreebuffChatStore.getState().admission).toMatchObject({
     phase: 'confirm',
-    model: FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
+    model: 'deepseek-v4-flash',
   })
   flushSync(() => root.unmount())
   setup.renderer.destroy()

@@ -1,8 +1,4 @@
 import {
-  DEFAULT_FREEBUFF_MODEL_ID,
-  resolveAvailableFreebuffModel,
-} from '@codebuff/common/constants/freebuff-models'
-import {
   getFreebucksInfo,
   getFreebuffServerAccessTier,
   getSubscriptionInfo,
@@ -70,8 +66,14 @@ interface FreebuffModelStore {
 const savedFreebuffModelPick = loadFreebuffModelPreference()
 
 export const useFreebuffModelStore = create<FreebuffModelStore>((set) => ({
-  selectedModel: resolveAvailableFreebuffModel(
-    savedFreebuffModelPick ?? DEFAULT_FREEBUFF_MODEL_ID,
+  // FORK (MethaTech): resolve through the directory, so a saved panel pick
+  // survives and a fresh user lands on the panel default
+  // (deepseek-v4-flash), not the Freebuff one. The old
+  // resolveAvailableFreebuffModel would coerce every panel id to the
+  // Freebuff fallback.
+  selectedModel: getFreebuffModelDirectory().resolveSelection(
+    savedFreebuffModelPick ??
+      getFreebuffModelDirectory().recommendedModelId(undefined),
   ),
   setSelectedModel: (model) =>
     set({ selectedModel: getFreebuffModelDirectory().resolveSelection(model) }),

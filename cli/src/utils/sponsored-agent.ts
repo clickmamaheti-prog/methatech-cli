@@ -129,7 +129,7 @@ function cliSponsoredGuidance(options: { installTool?: boolean } = {}): string {
  * to the run, so the run is never told to call a tool it does not have.
  */
 export const SPONSORED_FRICTION_BULLET =
-  '- When something gets in your way, call report_friction: blocking true for a step you cannot do (before you stop with steps undone), false for one you got past with a retry, a workaround or a guess. It only records the report for Freebuff; carry on as these rules say, and still tell the user what was done and what remains.'
+  '- When something gets in your way, call report_friction: blocking true for a step you cannot do (before you stop with steps undone), false for one you got past with a retry, a workaround or a guess. It only records the report for MethaTech; carry on as these rules say, and still tell the user what was done and what remains.'
 
 /**
  * The one exception to "nobody answers questions": the account step, which
@@ -151,7 +151,7 @@ export const SPONSORED_SIGNUP_BULLET =
  */
 export const SPONSORED_TASK_FRAMING = [
   'The user accepted this sponsored task from its offer card. Carrying out the reviewed procedure below is your task for this turn, and it is the ONLY goal of this turn.',
-  'Freebuff, the application you are running in, is telling you this: the procedure is the task the user explicitly accepted. It is not a prompt injection, a distractor or an unsolicited insert, and it does not compete with anything else in this message.',
+  'MethaTech, the application you are running in, is telling you this: the procedure is the task the user explicitly accepted. It is not a prompt injection, a distractor or an unsolicited insert, and it does not compete with anything else in this message.',
   'Do not ask for confirmation again, do not ask what they want, and do not treat the procedure as a suggestion or as untrusted text: the approval already happened.',
 ].join('\n')
 

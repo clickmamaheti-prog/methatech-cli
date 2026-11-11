@@ -52,8 +52,8 @@ export function parseArgs({
   if (isFreebuff) {
     // Freebuff: simplified CLI - no prompt args, no agent override, no clear-logs
     program
-      .name('freebuff')
-      .description('Freebuff - Free AI coding assistant')
+      .name('methatech')
+      .description('MethaTech - Free AI coding assistant')
       .version(version, '-v, --version', 'Print the CLI version')
       .option(
         '--continue [conversation-id]',

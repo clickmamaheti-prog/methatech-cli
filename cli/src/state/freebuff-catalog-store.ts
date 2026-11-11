@@ -3,8 +3,8 @@ import { create } from 'zustand'
 
 import {
   catalogFreebuffModelDirectory,
-  compiledFreebuffModelDirectory,
 } from '../utils/freebuff-model-directory'
+import { methatechModelDirectory } from '../utils/methatech-model-directory'
 
 import type { FreebuffModelDirectory } from '../utils/freebuff-model-directory'
 import type { FreebuffModelCatalog } from '@codebuff/common/types/freebuff-model-catalog'
@@ -37,7 +37,11 @@ interface FreebuffCatalogStore {
 
 export const useFreebuffCatalogStore = create<FreebuffCatalogStore>(() => ({
   catalog: null,
-  directory: compiledFreebuffModelDirectory,
+  // FORK (MethaTech): the fork's fallback directory is the PANEL catalog,
+  // not the compiled Freebuff one. There is no Freebuff server in this
+  // fork, so the catalog fetch can never succeed and this is the directory
+  // the picker, the model store and the session hooks read.
+  directory: methatechModelDirectory,
   refreshAfterStale: null,
 }))
 
@@ -55,7 +59,9 @@ export function setFreebuffCatalog(catalog: FreebuffModelCatalog | null): void {
     catalog: held,
     directory: held
       ? catalogFreebuffModelDirectory(held, now)
-      : compiledFreebuffModelDirectory,
+      : // FORK (MethaTech): no catalog means the panel catalog, never the
+        // compiled Freebuff one.
+        methatechModelDirectory,
   })
 }
 

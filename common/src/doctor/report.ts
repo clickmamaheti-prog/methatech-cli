@@ -19,7 +19,7 @@ export function doctorSummary(report: Pick<DoctorReport, 'findings'>) {
 }
 
 function header(report: DoctorReport) {
-  const product = report.product === 'desktop' ? 'Freebuff Desktop' : 'Freebuff CLI'
+  const product = report.product === 'desktop' ? 'MethaTech Desktop' : 'MethaTech CLI'
   return [
     `${product} ${report.appVersion ?? '(unknown version)'} on ${report.platform} ${report.arch}`,
     `Scanned ${report.generatedAt} in ${(report.durationMs / 1000).toFixed(1)} s` +
@@ -33,7 +33,7 @@ function steps(item: DoctorFinding, bullet: string) {
 
 /** The "Copy report" text: Markdown for a support ticket or Discord. Already redacted by the scan. */
 export function doctorReportMarkdown(report: DoctorReport): string {
-  const lines = ['## Freebuff diagnostics', '', ...header(report).map(line => `- ${line}`), `- ${doctorSummary(report)}`, '']
+  const lines = ['## MethaTech diagnostics', '', ...header(report).map(line => `- ${line}`), `- ${doctorSummary(report)}`, '']
   const shown = report.findings.filter(item => item.severity !== 'ok')
   for (const item of shown) {
     lines.push(`### ${LABEL[item.severity]}: ${item.title}`, '', `\`${item.id}\` (${item.area})`, '', item.detail, '')
@@ -49,7 +49,7 @@ export function doctorReportMarkdown(report: DoctorReport): string {
 
 /** Plain text for a terminal. */
 export function doctorReportText(report: DoctorReport, options: { verbose?: boolean } = {}): string {
-  const lines = ['Freebuff doctor', ...header(report), '']
+  const lines = ['MethaTech doctor', ...header(report), '']
   for (const item of report.findings) {
     if (item.severity === 'ok' && !options.verbose) continue
     lines.push(`[${LABEL[item.severity].toUpperCase()}] ${item.title}`, `  ${item.detail}`)
@@ -67,7 +67,7 @@ export function doctorReportText(report: DoctorReport, options: { verbose?: bool
  * carries only the redacted report the user can already see.
  */
 export function doctorAskPrompt(report: DoctorReport): string {
-  const product = report.product === 'desktop' ? 'Freebuff Desktop' : 'the Freebuff CLI'
+  const product = report.product === 'desktop' ? 'MethaTech Desktop' : 'the MethaTech CLI'
   return [
     `${product}'s built-in diagnostics found the problems below on my computer.`,
     'Explain what each one means and walk me through fixing them, one at a time. Ask before running',

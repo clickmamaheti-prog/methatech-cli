@@ -514,7 +514,7 @@ const TERMINAL_REPORT_RETRY_MAX_MS = 5 * 60_000
  * what they approved (`checkSponsoredRunSpec`). The run is reported failed.
  */
 export const SPONSORED_RUN_SPEC_INVALID_COPY =
-  'Freebuff returned a sponsored task this version could not verify against what you approved. Nothing was started.'
+  'MethaTech returned a sponsored task this version could not verify against what you approved. Nothing was started.'
 
 export const ACCEPT_RETRY_DELAYS_MS = [1_000, 3_000, 9_000] as const
 
@@ -806,7 +806,7 @@ export class SponsoredRun {
     if (!authToken) {
       return {
         ok: false,
-        message: 'Sign in to Freebuff to review this sponsored task.',
+        message: 'Sign in to MethaTech to review this sponsored task.',
       }
     }
     const surface = this.deps.executionSurface()
@@ -899,7 +899,7 @@ export class SponsoredRun {
     if (!authToken) {
       return {
         ok: false,
-        message: 'Sign in to Freebuff to accept a sponsored task.',
+        message: 'Sign in to MethaTech to accept a sponsored task.',
       }
     }
     const prepared = this.prepared
@@ -984,7 +984,7 @@ export class SponsoredRun {
         this.prepared = null
         return {
           ok: false,
-          message: 'Freebuff returned a task different from the reviewed task.',
+          message: 'MethaTech returned a task different from the reviewed task.',
         }
       }
 
@@ -1536,7 +1536,7 @@ export class SponsoredRun {
       return {
         allowed: false,
         reason:
-          'Freebuff could not approve this install (not signed in). Carry on without it and tell the user.',
+          'MethaTech could not approve this install (not signed in). Carry on without it and tell the user.',
       }
     }
     try {
@@ -1567,7 +1567,7 @@ export class SponsoredRun {
       return {
         allowed: false,
         reason:
-          'Could not reach Freebuff to approve this install. Carry on without it and tell the user.',
+          'Could not reach MethaTech to approve this install. Carry on without it and tell the user.',
       }
     }
   }

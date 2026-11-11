@@ -1,10 +1,10 @@
 #!/usr/bin/env bun
 
 /**
- * Freebuff CLI build script.
+ * MethaTech CLI build script.
  *
  * Wraps the existing CLI build-binary.ts with FREEBUFF_MODE=true
- * to produce a free-only variant of the Codebuff CLI.
+ * to produce the MethaTech variant of the Codebuff CLI.
  *
  * Usage:
  *   bun freebuff/cli/build.ts <version>
@@ -26,11 +26,11 @@ if (!version) {
   process.exit(1)
 }
 
-console.log(`Building Freebuff v${version}...`)
+console.log(`Building MethaTech v${version}...`)
 
 const result = spawnSync(
   'bun',
-  ['cli/scripts/build-binary.ts', 'freebuff', version],
+  ['cli/scripts/build-binary.ts', 'methatech', version],
   {
     cwd: repoRoot,
     stdio: 'inherit',
@@ -42,8 +42,8 @@ const result = spawnSync(
 )
 
 if (result.status !== 0) {
-  console.error('Freebuff build failed')
+  console.error('MethaTech build failed')
   process.exit(result.status ?? 1)
 }
 
-console.log(`✅ Freebuff v${version} built successfully`)
+console.log(`✅ MethaTech v${version} built successfully`)

@@ -199,7 +199,7 @@ export const LAB_SPONSORED_AGENT_WORKING = `# Working
  * {@link LAB_SPONSORED_AGENT_WORKING}'s shell-install one.
  */
 export const LAB_SPONSORED_AGENT_INSTALL_TOOL_BULLET =
-  '- The procedure usually brings in a package this project does not have yet. Install it with the install_package tool: the ecosystem, the name, and the exact version when the procedure pins one under "Pinned installs" (otherwise Freebuff picks the version). "Pinned installs" sets versions, not a limit: install any other package the work needs the same way. Never install with npm, pnpm, bun, pip or uv in the shell: those commands are refused. Install scripts never run, and Python packages install from wheels only. If install_package refuses a package or its install fails, write the code against the package\'s documented API anyway (do not replace it with a hand-rolled substitute or a different library), and list the exact install command, in this project\'s package manager, as something the user must do.'
+  '- The procedure usually brings in a package this project does not have yet. Install it with the install_package tool: the ecosystem, the name, and the exact version when the procedure pins one under "Pinned installs" (otherwise MethaTech picks the version). "Pinned installs" sets versions, not a limit: install any other package the work needs the same way. Never install with npm, pnpm, bun, pip or uv in the shell: those commands are refused. Install scripts never run, and Python packages install from wheels only. If install_package refuses a package or its install fails, write the code against the package\'s documented API anyway (do not replace it with a hand-rolled substitute or a different library), and list the exact install command, in this project\'s package manager, as something the user must do.'
 
 /** MIRRORED: Desktop's `sponsoredAgentWorking`. */
 export function labSponsoredAgentWorking(
@@ -287,7 +287,7 @@ export function labInstantSetupQuestion(
   advertiserName: string,
   email: string,
 ): string {
-  return `${advertiserName} can create your account and an API key for this task, with no sign-up. Freebuff will send ${email} to them to do it.`
+  return `${advertiserName} can create your account and an API key for this task, with no sign-up. MethaTech will send ${email} to them to do it.`
 }
 
 /** MIRRORED: Desktop's `{email}` prefill question (COD-830). */

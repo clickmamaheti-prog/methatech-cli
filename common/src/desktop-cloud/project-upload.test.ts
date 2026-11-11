@@ -12,7 +12,7 @@ test('folder contents preserve nesting and Unicode, excluding local metadata and
     'site/.env.example',
     'site/.git/config',
     'site/node_modules/a/index.js',
-    'site/.freebuff/state',
+    'site/.methatech/state',
   ].map((path) => {
     const file = new File(['hello'], path.split('/').at(-1)!)
     Object.defineProperty(file, 'webkitRelativePath', { value: path })
@@ -35,7 +35,7 @@ test.each([
   'a\\b',
   'C:/file',
   '.git/config',
-  'a/.FREEBUFF/state',
+  'a/.METHATECH/state',
   'x\u0000y',
   '',
 ])('rejects unsafe path %j', (path) => {

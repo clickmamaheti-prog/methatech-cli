@@ -1018,7 +1018,7 @@ describe('sponsored network access', () => {
  * standalone repository with `git init` inside the sandbox root, so its `.git`
  * is a directory inside the write allowlist — a layout Desktop never produces.
  * Desktop runs every isolated thread in a LINKED worktree at
- * `<project>/.freebuff/worktrees/<threadId>`, whose `.git` is a GITFILE
+ * `<project>/.methatech/worktrees/<threadId>`, whose `.git` is a GITFILE
  * pointing at `<project>/.git/worktrees/<threadId>`, which is outside the
  * sandbox root entirely. With the write roots at `[workspaceRoot, runtimeDir]`
  * every git command in that layout died at repository discovery:
@@ -1070,9 +1070,9 @@ function desktopLayout(): {
 
   const threadId = 'thread-abc'
   const branch = `freebuff/sponsored-advertiser-${threadId}`
-  const worktree = path.join(project, '.freebuff', 'worktrees', threadId)
+  const worktree = path.join(project, '.methatech', 'worktrees', threadId)
   git(['worktree', 'add', '-q', '-b', branch, worktree, 'main'])
-  const runtime = path.join(project, '.freebuff', 'sponsored-runtime', threadId)
+  const runtime = path.join(project, '.methatech', 'sponsored-runtime', threadId)
   fs.mkdirSync(runtime, { recursive: true })
 
   const resolve = (target: string) => {
@@ -1568,7 +1568,7 @@ describe('which git a contained macOS shell runs', () => {
   })
 
   it('puts stand-ins for every /usr/bin shim right before /usr/bin, whichever git wins', () => {
-    const SHIMS = '/Users/u/.freebuff/sponsored-runtime/r/developer-shims'
+    const SHIMS = '/Users/u/.methatech/sponsored-runtime/r/developer-shims'
     const shims = () => SHIMS
     // Finder PATH: the stand-ins (their `git` is the developer git) win, and
     // the whole Command Line Tools bin is never put on PATH.

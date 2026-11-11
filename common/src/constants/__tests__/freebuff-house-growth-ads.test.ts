@@ -49,7 +49,7 @@ describe('growth house campaign catalog', () => {
     for (const campaign of HOUSE_GROWTH_INTEGRATION_CAMPAIGNS) {
       const slug = integrationSlugForGate(campaign.gate!)
       expect(houseCampaignFaviconFor(campaign.id)).toBe(
-        `https://freebuff.com/api/integrations/logo/${slug}`,
+        `https://methatech.eu.org/api/integrations/logo/${slug}`,
       )
       for (const creative of campaign.creatives)
         expect(creative.favicon).toBe(houseCampaignFaviconFor(campaign.id)!)
@@ -121,7 +121,7 @@ describe('growth house campaign catalog', () => {
       expect(copy).toContain('Invite 3 friends to unlock custom themes')
       // The referral reward is themes; no model time is promised.
       expect(copy).not.toMatch(/terra|hour|session|freebucks/i)
-      expect(creative.url).toBe('https://freebuff.com/referrals')
+      expect(creative.url).toBe('https://methatech.eu.org/referrals')
     }
   })
 

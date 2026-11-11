@@ -66,7 +66,7 @@ export const FREEBUFF_TRUST_LEVEL_BLURBS: Record<FreebuffTrustLevel, string> = {
   verified:
     'Your account is verified. You have solid daily limits, and a bit of history unlocks the next level.',
   established:
-    'You are an established Freebuff user with generous limits on messages, spend and premium sessions.',
+    'You are an established MethaTech user with generous limits on messages, spend and premium sessions.',
   core: 'You are a core member. You get the highest free limits we offer, in every region.',
 }
 

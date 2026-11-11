@@ -27,13 +27,13 @@ export function freebuffAdmissionNotice(
   if (!session) return null
   switch (session.status) {
     case 'banned':
-      return 'This account is suspended. To appeal, visit https://freebuff.com/account?tab=standing. If this is a mistake, contact support@freebuff.com.'
+      return 'This account is suspended. To appeal, visit https://methatech.eu.org/account?tab=standing. If this is a mistake, contact admin@methatech.eu.org.'
     case 'country_blocked':
       return session.countryBlockReason === 'anonymous_network'
-        ? `Freebuff detected ${formatFreebuffHardBlockedPrivacySignals(session.ipPrivacySignals)} traffic. Disable VPN, proxy or Tor traffic and try again.`
+        ? `MethaTech detected ${formatFreebuffHardBlockedPrivacySignals(session.ipPrivacySignals)} traffic. Disable VPN, proxy or Tor traffic and try again.`
         : session.countryCode === 'UNKNOWN'
-          ? 'Freebuff could not verify your location. Check your VPN or proxy settings and try again.'
-          : `Freebuff is unavailable in ${session.countryCode}. Use /byok to use your own API key.`
+          ? 'MethaTech could not verify your location. Check your VPN or proxy settings and try again.'
+          : `MethaTech is unavailable in ${session.countryCode}. Use /byok to use your own API key.`
     case 'rate_limited':
       return session.freebucksShortfall
         ? `${
@@ -42,12 +42,12 @@ export function freebuffAdmissionNotice(
               modelName: getFreebuffModelDirectory().get(session.model)
                 .displayName,
             }).line
-          } Choose another model or visit https://freebuff.com/plans.`
-        : 'Session limit reached. Choose another model or visit https://freebuff.com/plans.'
+          } Choose another model or visit https://methatech.eu.org/price.`
+        : 'Session limit reached. Choose another model or visit https://methatech.eu.org/price.'
     case 'spend_limited':
       return session.message
     case 'ip_capped':
-      return 'Too many Freebuff sessions on this network. Try again after another session finishes.'
+      return 'Too many MethaTech sessions on this network. Try again after another session finishes.'
     case 'superseded':
       return 'This session was taken over elsewhere. Send again to start a new session.'
     default:
@@ -228,7 +228,7 @@ export function useFreebuffChatAdmission(enabled: boolean) {
         admission: {
           ...resolved,
           phase: 'failed',
-          message: `Not enough hours for ${getFreebuffModelDirectory().get(model).displayName}: an hour on it takes ${formatHoursWithUnit(intent.price)}. Choose another model or visit https://freebuff.com/plans.`,
+          message: `Not enough hours for ${getFreebuffModelDirectory().get(model).displayName}: an hour on it takes ${formatHoursWithUnit(intent.price)}. Choose another model or visit https://methatech.eu.org/price.`,
           chooseModel: true,
         },
       })

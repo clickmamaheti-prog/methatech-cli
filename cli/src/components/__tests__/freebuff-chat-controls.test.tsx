@@ -49,6 +49,13 @@ if (process.env.FREEBUFF_CHAT_CONTROLS_TEST !== '1') {
     })
   }, 15_000)
 } else {
+  // FORK (MethaTech): the tests marked test.skip in this file assert
+  // Freebuff-server behavior that does not exist for panel models —
+  // Freebucks hours/pricing ("4 hours", "too few hours"), wallet consent
+  // before an admission POST, and a saved reasoning effort shown in the
+  // reasoning view. Panel models carry no Freebucks meter and no effort
+  // ladder. Skipped, not deleted; the surviving tests still cover the
+  // generic consent/cancel controls.
   let cleanup: (() => void) | undefined
   beforeAll(initializeThemeStore)
   afterEach(() => {
@@ -156,7 +163,7 @@ if (process.env.FREEBUFF_CHAT_CONTROLS_TEST !== '1') {
     return Object.assign(setup, { runtime: runtime! })
   }
 
-  test('reasoning shortcut opens the next model at its saved effort and cancels without admission', async () => {
+  test.skip('reasoning shortcut opens the next model at its saved effort and cancels without admission', async () => {
     const previous = useFreebuffModelStore.getState()
     const model = 'z-ai/glm-5.3-flash'
     useFreebuffModelStore.setState({
@@ -186,7 +193,7 @@ if (process.env.FREEBUFF_CHAT_CONTROLS_TEST !== '1') {
     }
   })
 
-  test('GLM to Luna asks for 4 hours (20 Freebucks)', async () => {
+  test.skip('GLM to Luna asks for 4 hours (20 Freebucks)', async () => {
     const expiresAt = new Date(Date.now() + 3_600_000).toISOString()
     const glm = 'z-ai/glm-5.3-flash'
     const luna = 'openai/gpt-6-luna'
@@ -274,7 +281,7 @@ if (process.env.FREEBUFF_CHAT_CONTROLS_TEST !== '1') {
     expect(useFreebuffChatStore.getState().admission).toBeNull()
   })
 
-  test('too few hours for the old model: Enter opens the picker on another row', async () => {
+  test.skip('too few hours for the old model: Enter opens the picker on another row', async () => {
     const previous = useFreebuffModelStore.getState()
     endedFlashHourWithTwoFreebucks()
     useFreebuffChatStore.setState({
@@ -318,7 +325,7 @@ if (process.env.FREEBUFF_CHAT_CONTROLS_TEST !== '1') {
     }
   })
 
-  test('a message queued behind a running turn can change model before it sends', async () => {
+  test.skip('a message queued behind a running turn can change model before it sends', async () => {
     const previous = useFreebuffModelStore.getState()
     endedFlashHourWithTwoFreebucks()
     useFreebuffChatStore.setState({

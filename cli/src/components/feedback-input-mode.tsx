@@ -46,7 +46,7 @@ const CATEGORY_OPTIONS = [
     shortLabel: 'Bug',
     highlightKey: 'warning',
     placeholder: IS_FREEBUFF
-      ? 'Report a problem with Freebuff (crashes, errors, UI issues, etc.)'
+      ? 'Report a problem with MethaTech (crashes, errors, UI issues, etc.)'
       : 'Report a problem with Codebuff (crashes, errors, UI issues, etc.)',
   },
   {

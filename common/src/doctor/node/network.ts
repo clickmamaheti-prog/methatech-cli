@@ -38,23 +38,23 @@ export async function readClockSkew(url: string, options: { fetch?: Fetch; now?:
 
 function clockSyncSteps(platform: string): string[] {
   if (platform === 'win32')
-    return ['Open Settings > Time & language > Date & time.', 'Turn on "Set time automatically", then click "Sync now".', 'Restart Freebuff.']
+    return ['Open Settings > Time & language > Date & time.', 'Turn on "Set time automatically", then click "Sync now".', 'Restart MethaTech.']
   if (platform === 'darwin')
-    return ['Open System Settings > General > Date & Time.', 'Turn on "Set time and date automatically".', 'Restart Freebuff.']
-  return ['Turn on automatic time sync: `timedatectl set-ntp true` on most distributions.', 'Restart Freebuff.']
+    return ['Open System Settings > General > Date & Time.', 'Turn on "Set time and date automatically".', 'Restart MethaTech.']
+  return ['Turn on automatic time sync: `timedatectl set-ntp true` on most distributions.', 'Restart MethaTech.']
 }
 
 export function clockFinding(reading: ClockReading, platform: string, product: 'desktop' | 'cli'): DoctorFinding {
   if ('error' in reading)
-    return finding('clock.unknown', 'info', 'clock', 'Could not compare your clock with Freebuff',
+    return finding('clock.unknown', 'info', 'clock', 'Could not compare your clock with MethaTech',
       'The server did not answer, so the clock check was skipped. See the network findings.', [])
   const seconds = Math.round(Math.abs(reading.skewMs) / 1000)
   const direction = reading.skewMs > 0 ? 'ahead' : 'behind'
   const amount = seconds >= 120 ? `${Math.round(seconds / 60)} min` : `${seconds} s`
   if (Math.abs(reading.skewMs) <= CLOCK_SKEW_WARN_MS)
-    return finding('clock.ok', 'ok', 'clock', 'Your clock is in sync', `Within ${seconds} s of Freebuff's servers.`)
+    return finding('clock.ok', 'ok', 'clock', 'Your clock is in sync', `Within ${seconds} s of MethaTech's servers.`)
   const effect = product === 'desktop'
-    ? 'Freebuff gives each piece of work it sends to this computer a deadline. With a clock this far off, Desktop treats that work as already expired and silently skips it, so turns can start without your files or terminal.'
+    ? 'MethaTech gives each piece of work it sends to this computer a deadline. With a clock this far off, Desktop treats that work as already expired and silently skips it, so turns can start without your files or terminal.'
     : 'Sign-in tokens and secure connections carry time limits, and a clock this far off can make them fail.'
   return finding('clock.skew', Math.abs(reading.skewMs) > CLOCK_SKEW_ERROR_MS ? 'error' : 'warning', 'clock',
     `Your computer's clock is ${amount} ${direction}`,
@@ -108,13 +108,13 @@ const NETWORK_STEPS: Record<NetworkErrorKind, { why: string; steps: string[] }> 
 export function endpointFindings(results: EndpointResult[]): DoctorFinding[] {
   const failed = results.filter((r): r is Extract<EndpointResult, { ok: false }> => !r.ok)
   if (!failed.length)
-    return [finding('network.reachable', 'ok', 'network', 'Freebuff is reachable',
+    return [finding('network.reachable', 'ok', 'network', 'MethaTech is reachable',
       `Reached ${results.map(r => r.endpoint.label).join(', ')}.`)]
   return failed.map(result => {
     const { why, steps } = NETWORK_STEPS[result.error]
     return finding(`network.unreachable.${result.endpoint.id}`, result.endpoint.id === 'api' ? 'error' : 'warning', 'network',
       result.error === 'tls' ? `Can't reach ${result.endpoint.label}: HTTPS is being intercepted` : `Can't reach ${result.endpoint.label}`,
-      `Freebuff could not reach ${result.endpoint.label} because ${why}.` +
+      `MethaTech could not reach ${result.endpoint.label} because ${why}.` +
       (result.error === 'tls' ? ' This is what HTTPS scanning by antivirus or a corporate proxy looks like from inside the app.' : ''), steps)
   })
 }
@@ -170,8 +170,8 @@ export function tlsFinding(host: string, inspection: TlsInspection): DoctorFindi
   if (!inspection.authorized || interceptor) {
     const by = interceptor ? ` The certificate was issued by "${interceptor}", not by a public authority.` : ''
     return finding('tls.intercepted', inspection.authorized ? 'warning' : 'error', 'network',
-      'HTTPS to Freebuff is being intercepted',
-      `Something between this computer and ${host} replaces Freebuff's certificate.${by} Antivirus HTTPS scanning and corporate proxies do this, and it makes Freebuff fail with "Can't reach Freebuff".`,
+      'HTTPS to MethaTech is being intercepted',
+      `Something between this computer and ${host} replaces MethaTech's certificate.${by} Antivirus HTTPS scanning and corporate proxies do this, and it makes MethaTech fail with "Can't reach MethaTech".`,
       NETWORK_STEPS.tls.steps)
   }
   return finding('tls.ok', 'ok', 'network', 'Secure connections are not intercepted', `${host} presented a certificate from a public authority.`)
@@ -197,8 +197,8 @@ export async function dnsFindings(hosts: string[], resolve: (host: string) => Pr
     if ('error' in result) continue // reported by reachability, which says why
     if (result.addresses.some(isLocalAddress))
       out.push(finding(`dns.blocked.${result.host}`, 'error', 'network', `${result.host} points at this computer or your local network`,
-        `Your system resolves ${result.host} to a local address, so Freebuff's requests never leave your network. A hosts file entry, ad blocker, Pi-hole or DNS filter does this.`,
-        ['Remove the entry from your hosts file, or allow the domain in your DNS filter.', 'Restart Freebuff.']))
+        `Your system resolves ${result.host} to a local address, so MethaTech's requests never leave your network. A hosts file entry, ad blocker, Pi-hole or DNS filter does this.`,
+        ['Remove the entry from your hosts file, or allow the domain in your DNS filter.', 'Restart MethaTech.']))
   }
   return out
 }
@@ -223,10 +223,10 @@ export function hostsFileEntries(text: string, domains = FREEBUFF_DOMAINS): Arra
 }
 
 export function hostsFinding(entries: Array<{ address: string; host: string }>): DoctorFinding {
-  if (!entries.length) return finding('hosts.ok', 'ok', 'network', 'Your hosts file does not redirect Freebuff', 'No entries for Freebuff domains.')
-  return finding('hosts.pinned', 'error', 'network', 'Your hosts file redirects Freebuff',
-    `It has ${entries.length} entr${entries.length === 1 ? 'y' : 'ies'} for ${[...new Set(entries.map(e => e.host))].join(', ')}. Freebuff's addresses change, so a pinned or blocked entry breaks it.`,
-    ['Open the hosts file as an administrator and delete those lines.', 'Restart Freebuff.'])
+  if (!entries.length) return finding('hosts.ok', 'ok', 'network', 'Your hosts file does not redirect MethaTech', 'No entries for MethaTech domains.')
+  return finding('hosts.pinned', 'error', 'network', 'Your hosts file redirects MethaTech',
+    `It has ${entries.length} entr${entries.length === 1 ? 'y' : 'ies'} for ${[...new Set(entries.map(e => e.host))].join(', ')}. MethaTech's addresses change, so a pinned or blocked entry breaks it.`,
+    ['Open the hosts file as an administrator and delete those lines.', 'Restart MethaTech.'])
 }
 
 // ---------------------------------------------------------------- proxy and environment
@@ -267,13 +267,13 @@ export async function proxyFindings(env: Record<string, string | undefined>, rea
   for (const proxy of proxies) {
     if (!proxy.host) {
       out.push(finding(`proxy.invalid.${proxy.variable.toLowerCase()}`, 'warning', 'network', `${proxy.variable} is not a valid proxy address`,
-        'Freebuff sends its requests through this setting, and it cannot be read.', [`Fix or remove the ${proxy.variable} environment variable.`]))
+        'MethaTech sends its requests through this setting, and it cannot be read.', [`Fix or remove the ${proxy.variable} environment variable.`]))
       continue
     }
     if (!(await reachable(proxy.host, proxy.port)))
       out.push(finding(`proxy.down.${proxy.variable.toLowerCase()}`, 'error', 'network', `The proxy in ${proxy.variable} does not answer`,
-        `${proxy.variable} sends Freebuff's requests through ${proxy.host}:${proxy.port}, which refused or ignored a connection.`,
-        ['Start the proxy, or remove the variable if you no longer use it.', 'Restart Freebuff (and your terminal) after changing it.']))
+        `${proxy.variable} sends MethaTech's requests through ${proxy.host}:${proxy.port}, which refused or ignored a connection.`,
+        ['Start the proxy, or remove the variable if you no longer use it.', 'Restart MethaTech (and your terminal) after changing it.']))
   }
   if (proxies.length && !out.length)
     out.push(finding('proxy.ok', 'info', 'network', 'A proxy is configured', `Requests go through ${proxies.map(p => `${p.host}:${p.port}`).join(', ')}, which answers. If it inspects HTTPS, see the secure-connection finding.`))
@@ -291,6 +291,6 @@ export function environmentFindings(env: Record<string, string | undefined>): Do
       'NODE_EXTRA_CA_CERTS or SSL_CERT_FILE adds certificates JavaScript tools trust. This is normal behind a corporate proxy.', []))
   if (env.NODE_OPTIONS && /--(?:require|import|loader|experimental-loader)\b|-r\s/.test(env.NODE_OPTIONS))
     out.push(finding('env.node-options-preload', 'warning', 'environment', 'NODE_OPTIONS loads extra code into every Node process',
-      'A preload in NODE_OPTIONS runs inside Freebuff\'s tools too and can break them.', ['Remove the preload from NODE_OPTIONS, or unset it before starting Freebuff.']))
+      'A preload in NODE_OPTIONS runs inside MethaTech\'s tools too and can break them.', ['Remove the preload from NODE_OPTIONS, or unset it before starting MethaTech.']))
   return out
 }

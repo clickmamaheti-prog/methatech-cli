@@ -45,7 +45,7 @@ describe('ensureSponsoredProjectIdentity', () => {
     const root = project('git@github.com:acme/app.git')
 
     expect(ensureSponsoredProjectIdentity(root)).toBeNull()
-    expect(existsSync(join(root, '.freebuff'))).toBe(false)
+    expect(existsSync(join(root, '.methatech'))).toBe(false)
   })
 
   test('resolves an origin supplied through Git config includes', () => {
@@ -62,7 +62,7 @@ describe('ensureSponsoredProjectIdentity', () => {
     if (included.status !== 0) throw new Error('could not include Git fixture')
 
     expect(ensureSponsoredProjectIdentity(root)).toBeNull()
-    expect(existsSync(join(root, '.freebuff'))).toBe(false)
+    expect(existsSync(join(root, '.methatech'))).toBe(false)
   })
 
   test('creates a fallback marker only for a remote-less Git project', () => {
@@ -113,7 +113,7 @@ describe('in Freebuff: every repository, without dirtying it (#3989)', () => {
     expect(status(root)).toBe('')
     expect(
       readFileSync(join(root, '.git', 'info', 'exclude'), 'utf8'),
-    ).toContain('/.freebuff/')
+    ).toContain('/.methatech/')
     // `.gitignore` -- the SHARED list -- is never touched.
     expect(existsSync(join(root, '.gitignore'))).toBe(false)
   })
@@ -124,7 +124,7 @@ describe('in Freebuff: every repository, without dirtying it (#3989)', () => {
       ensureSponsoredProjectIdentity(root, { everyRepository: true })
     }
     const exclude = readFileSync(join(root, '.git', 'info', 'exclude'), 'utf8')
-    expect(exclude.split('/.freebuff/').length - 1).toBe(1)
+    expect(exclude.split('/.methatech/').length - 1).toBe(1)
   })
 
   test('a COMMITTED marker does not grow the exclude on every launch', () => {
@@ -135,17 +135,17 @@ describe('in Freebuff: every repository, without dirtying it (#3989)', () => {
       everyRepository: true,
     })
     expect(identity).toMatch(UUID)
-    spawnSync('git', ['-C', root, 'add', '-f', '.freebuff/project-id'])
+    spawnSync('git', ['-C', root, 'add', '-f', '.methatech/project-id'])
     for (let launch = 0; launch < 3; launch += 1) {
       ensureSponsoredProjectIdentity(root, { everyRepository: true })
     }
     const exclude = readFileSync(join(root, '.git', 'info', 'exclude'), 'utf8')
-    expect(exclude.split('/.freebuff/').length - 1).toBe(1)
+    expect(exclude.split('/.methatech/').length - 1).toBe(1)
   })
 
-  test('a repository that already ignores .freebuff is left alone', () => {
+  test('a repository that already ignores .methatech is left alone', () => {
     const root = project('git@github.com:acme/app.git')
-    writeFileSync(join(root, '.gitignore'), '.freebuff/\n')
+    writeFileSync(join(root, '.gitignore'), '.methatech/\n')
     const before = readFileSync(join(root, '.git', 'info', 'exclude'), 'utf8')
 
     ensureSponsoredProjectIdentity(root, { everyRepository: true })
@@ -161,6 +161,6 @@ describe('in Freebuff: every repository, without dirtying it (#3989)', () => {
     expect(
       ensureSponsoredProjectIdentity(root, { everyRepository: true }),
     ).toBeNull()
-    expect(existsSync(join(root, '.freebuff'))).toBe(false)
+    expect(existsSync(join(root, '.methatech'))).toBe(false)
   })
 })

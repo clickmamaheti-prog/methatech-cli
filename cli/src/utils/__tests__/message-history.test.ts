@@ -14,20 +14,20 @@ describe('message history persistence', () => {
   let originalConfigDir: string | undefined
   let tempRoot: string
 
-  // FREEBUFF_CONFIG_DIR, not HOME: os.homedir() ignores $HOME on macOS, so a
+  // METHATECH_CONFIG_DIR, not HOME: os.homedir() ignores $HOME on macOS, so a
   // HOME override sent these writes to the developer's real config dir.
   beforeEach(() => {
-    originalConfigDir = process.env.FREEBUFF_CONFIG_DIR
+    originalConfigDir = process.env.METHATECH_CONFIG_DIR
     tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cli-message-history-'))
     // Not created yet, so saveMessageHistory creates it.
-    process.env.FREEBUFF_CONFIG_DIR = path.join(tempRoot, 'config')
+    process.env.METHATECH_CONFIG_DIR = path.join(tempRoot, 'config')
   })
 
   afterEach(() => {
     if (originalConfigDir === undefined) {
-      delete process.env.FREEBUFF_CONFIG_DIR
+      delete process.env.METHATECH_CONFIG_DIR
     } else {
-      process.env.FREEBUFF_CONFIG_DIR = originalConfigDir
+      process.env.METHATECH_CONFIG_DIR = originalConfigDir
     }
     fs.rmSync(tempRoot, { recursive: true, force: true })
   })

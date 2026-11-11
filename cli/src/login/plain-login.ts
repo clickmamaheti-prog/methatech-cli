@@ -25,7 +25,7 @@ export async function runPlainLogin(): Promise<void> {
   const fingerprintId = await getFingerprintId()
 
   console.log()
-  console.log(bold(IS_FREEBUFF ? 'Freebuff Login' : 'Codebuff Login'))
+  console.log(bold('MethaTech Login'))
   console.log()
   console.log('Generating login URL...')
 
@@ -110,7 +110,7 @@ export async function runPlainLogin(): Promise<void> {
       ),
     )
     console.log()
-    const cliName = IS_FREEBUFF ? 'freebuff' : 'codebuff'
+    const cliName = IS_FREEBUFF ? 'methatech' : 'codebuff'
     console.log('You can now run ' + cyan(cliName) + ' to start.')
     process.exit(0)
   } else if (result.status === 'timeout') {

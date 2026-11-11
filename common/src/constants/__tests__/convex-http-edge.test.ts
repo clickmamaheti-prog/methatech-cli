@@ -7,16 +7,16 @@ import {
 } from '../convex-http-edge'
 
 describe('convexHttpUrl', () => {
-  test('prod Convex maps to the freebuff.com edge route', () => {
+  test('prod Convex maps to the methatech.eu.org edge route', () => {
     expect(convexHttpUrl(PLATFORM_CONVEX_SITE_URL_PROD, '/github/webhook')).toBe(
-      'https://freebuff.com/api/edge/github/webhook',
+      'https://methatech.eu.org/api/edge/github/webhook',
     )
     expect(
       convexHttpUrl(
         `${PLATFORM_CONVEX_SITE_URL_PROD}/`,
         '/api/internal/subscription/tier',
       ),
-    ).toBe('https://freebuff.com/api/internal/subscription/tier')
+    ).toBe('https://methatech.eu.org/api/internal/subscription/tier')
   })
 
   test('any other deployment is called directly', () => {

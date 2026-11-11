@@ -29,7 +29,7 @@ export const CODEBUFF_OWN_CREDITS_ERROR_PATTERN = /codebuff\.com\/usage/i
 
 /** Shared copy keeps every Freebuff surface clear that the user is not billed. */
 export const FREEBUFF_PROVIDER_USAGE_MESSAGE =
-  'Freebuff ran out of provider usage and needs a refill. This is on us, not your account.'
+  'MethaTech ran out of provider usage and needs a refill. This is on us, not your account.'
 
 /** Final for the request's turn: the SDK does not retry it. The per-turn spend
  * breaker that introduced it is gone; servers now send it only to a subagent
@@ -52,7 +52,7 @@ export const FREEBUFF_PROMPT_POLICY_REFUSED_ERROR_CODE = 'prompt_policy_refused'
 /** The fixed opening of that refusal's `message`: Freebuff Web's chat
  *  shows the message from here on, and never any text before it. */
 export const FREEBUFF_PROMPT_POLICY_REFUSED_OPENING =
-  'Freebuff did not send this message to the model.'
+  'MethaTech did not send this message to the model.'
 
 /**
  * DeepSeek's platform content filter: HTTP 400 `invalid_request_error`,
@@ -140,7 +140,7 @@ export const FREEBUFF_PROVIDER_UPSTREAM_RATE_LIMIT_MESSAGE =
  * model id, so it is also correct for a presented (bait) request.
  */
 export const FREEBUFF_PROVIDER_UNREACHABLE_MESSAGE =
-  'Freebuff could not get a response from the provider serving this model — the request timed out or the connection was dropped before any reply arrived. This is not a problem with your internet connection or your account. Send the message again, or continue with another model such as GLM 5.3 Flash or DeepSeek V4.1 Flash.'
+  'MethaTech could not get a response from the provider serving this model — the request timed out or the connection was dropped before any reply arrived. This is not a problem with your internet connection or your account. Send the message again, or continue with another model such as GLM 5.3 Flash or DeepSeek V4.1 Flash.'
 
 /** The chat gate's `session_expired` refusal: the hour and its drain window
  *  are over. The Cloud worker swaps it for the allowance line when its own

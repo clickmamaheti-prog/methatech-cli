@@ -1,5 +1,6 @@
 import {
   ByokCredentialError,
+  METHATECH_BYOK_BASE_URL,
   createBunByokConnectionStore,
   withByokReasoningEffort,
   withEffectiveByokLimits,
@@ -143,6 +144,57 @@ export function describeByokConnection(connection: Pick<ByokConnection, 'name' |
 
 export function isByokEnvironmentVariableName(value: string): boolean {
   return /^[A-Z_][A-Z0-9_]*$/.test(value)
+}
+
+/**
+ * FORK (MethaTech): the one stored BYOK connection the fork's panel models
+ * run through. A single connection named `methatech`, fixed to the panel's
+ * OpenAI-compatible API (METHATECH_BYOK_BASE_URL) with the panel key read
+ * from the METHATECH_API_KEY environment variable at send time — never
+ * stored, never echoed.
+ *
+ * Get-or-create for a panel model id: an existing `methatech` connection
+ * keeps its own credential reference (a user who pointed it at their own
+ * env var keeps it) and only has its model updated; a missing one is
+ * created. The returned selection is ALSO saved as the selected
+ * connection, so the send path, the status bar and `/byok list` all agree
+ * on what is running. Callers that already hold a selection for another
+ * provider must not call this — it deliberately switches to MethaTech.
+ */
+export const METHATECH_BYOK_CONNECTION_NAME = 'methatech'
+export const METHATECH_BYOK_CREDENTIAL_VARIABLE = 'METHATECH_API_KEY'
+
+export async function ensureMethatechByokConnection(
+  model: string,
+): Promise<SelectedByokConnection> {
+  const byokStore = getCliByokStore()
+  const existing = (await byokStore.list()).find(
+    (connection) => connection.name === METHATECH_BYOK_CONNECTION_NAME,
+  )
+  const connection =
+    existing && existing.model === model
+      ? existing
+      : existing
+        ? await byokStore.update({
+            id: existing.id,
+            revision: existing.revision,
+            patch: { model },
+          })
+        : await byokStore.create({
+            name: METHATECH_BYOK_CONNECTION_NAME,
+            provider: 'openai-compatible',
+            model,
+            baseUrl: METHATECH_BYOK_BASE_URL,
+            credentialRef: `env:${METHATECH_BYOK_CREDENTIAL_VARIABLE}`,
+          })
+  const selection: SelectedByokConnection = {
+    id: connection.id,
+    revision: connection.revision,
+    provider: connection.provider,
+    model: connection.model,
+  }
+  saveSelectedByokConnection(connection)
+  return selection
 }
 
 export function resetCliByokStoreForTests(): void {

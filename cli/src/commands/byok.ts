@@ -19,7 +19,7 @@ import {
 } from '@codebuff/common/constants/reasoning-effort'
 import { loadSettings, saveSettings } from '../utils/settings'
 
-import { normalizeByokBaseUrl } from '@codebuff/sdk'
+import { METHATECH_BYOK_BASE_URL, normalizeByokBaseUrl } from '@codebuff/sdk'
 
 import type {
   ByokConnection,
@@ -29,18 +29,19 @@ import type {
 import type { RouterParams } from './command-registry'
 
 export const BYOK_USAGE = [
-  'Use your own AI provider with BYOK. Freebuff saves the key variable name, not the key.',
+  'Use your own AI provider with BYOK. MethaTech saves the key variable name, not the key.',
   '',
   '**1. Set your API key in the terminal.**',
-  'Close Freebuff first. Use one command below. Replace `<your-provider-api-key>` with your key.',
+  'Close MethaTech first. Use one command below. Replace `<your-provider-api-key>` with your key.',
   "Bash / Zsh: `export PROVIDER_API_KEY='<your-provider-api-key>'`",
   "Fish: `set -gx PROVIDER_API_KEY '<your-provider-api-key>'`",
   "PowerShell: `$env:PROVIDER_API_KEY = '<your-provider-api-key>'`",
   '',
   '**2. Add your provider.**',
-  'Run `freebuff` in the same terminal. Then enter the command for your provider:',
+  'Run `methatech` in the same terminal. Then enter the command for your provider:',
   'OpenRouter: `/byok add my-provider openrouter openai/gpt-oss-120b PROVIDER_API_KEY`',
   'Ollama Cloud: `/byok add my-provider openai-compatible gpt-oss:120b PROVIDER_API_KEY https://ollama.com/v1`',
+  'MethaTech: `/byok add methatech methatech glm-5.3-flash METHATECH_API_KEY` (uses the panel API at https://api.methatech.eu.org/v1; put your panel key in METHATECH_API_KEY first)',
   'Use `PROVIDER_API_KEY` as shown. Do not put your key in `/byok` commands.',
   '',
   '**3. Check the connection.**',
@@ -52,7 +53,7 @@ export const BYOK_USAGE = [
   '',
   '**Command reference**',
   '`/byok list`',
-  '`/byok add <name> <openrouter|openai-compatible> <model> <ENV_VAR> [base-url] [--context-window=N] [--max-output-tokens=N]`',
+  '`/byok add <name> <openrouter|openai-compatible|methatech> <model> <ENV_VAR> [base-url] [--context-window=N] [--max-output-tokens=N]`',
   '`/byok update <name> <model> [base-url [ENV_VAR]] [--context-window=N] [--max-output-tokens=N]`',
   '`/byok validate <name>`',
   '`/byok select <name>`',
@@ -77,7 +78,7 @@ export function enterByokSetup(): void {
           '',
           BYOK_USAGE,
           '',
-          'Add a connection, then `/byok select <name>` to start. `/byok off` returns to Freebuff.',
+          'Add a connection, then `/byok select <name>` to start. `/byok off` returns to MethaTech.',
         ].join('\n'),
       ),
     ])
@@ -298,7 +299,7 @@ function incompleteCommandMessage(usage: string, missing: string[]): string {
 }
 
 const KEY_REFERENCE_HELP =
-  'The key reference must be an environment-variable name such as PROVIDER_API_KEY. Use the NAME only, without `$`, `${...}`, `$env:`, `env:` or `=value`. Correct the name and retry; if it was already exported before Freebuff started, no restart is needed. Run `/byok help` for shell setup examples.'
+  'The key reference must be an environment-variable name such as PROVIDER_API_KEY. Use the NAME only, without `$`, `${...}`, `$env:`, `env:` or `=value`. Correct the name and retry; if it was already exported before MethaTech started, no restart is needed. Run `/byok help` for shell setup examples.'
 
 export async function handleByokCommand(
   params: RouterParams,
@@ -361,27 +362,33 @@ export async function handleByokCommand(
 
     if (action === 'add') {
       const [name, providerValue, model, environmentVariable, baseUrl] = args
-      const provider = providerValue && parseProvider(providerValue)
+      // FORK (MethaTech): `methatech` is a shorthand for an
+      // `openai-compatible` connection fixed to the panel API
+      // (METHATECH_BYOK_BASE_URL). The stored connection stays a plain
+      // openai-compatible connection — no new provider type, no schema change.
+      const isMethatech = providerValue === 'methatech'
+      const provider =
+        providerValue && (isMethatech ? 'openai-compatible' : parseProvider(providerValue))
       if (providerValue && !provider) {
-        post(params, `Unknown BYOK provider type: ${providerValue}. Use openrouter or openai-compatible.\n\n${BYOK_USAGE}`)
+        post(params, `Unknown BYOK provider type: ${providerValue}. Use openrouter, openai-compatible, or methatech.\n\n${BYOK_USAGE}`)
         return
       }
       if (!name || !provider || !model || !environmentVariable) {
         const missing = [
           !name && '<name>',
-          !provider && '<openrouter|openai-compatible>',
+          !provider && '<openrouter|openai-compatible|methatech>',
           !model && '<model>',
           !environmentVariable && '<ENV_VAR>',
-          provider === 'openai-compatible' && '<base-url>',
+          provider === 'openai-compatible' && !isMethatech && '<base-url>',
         ].filter((item): item is string => Boolean(item))
-        post(params, incompleteCommandMessage('/byok add <name> <openrouter|openai-compatible> <model> <ENV_VAR> [base-url]', missing))
+        post(params, incompleteCommandMessage('/byok add <name> <openrouter|openai-compatible|methatech> <model> <ENV_VAR> [base-url]', missing))
         return
       }
       if (!isByokEnvironmentVariableName(environmentVariable)) {
         post(params, KEY_REFERENCE_HELP)
         return
       }
-      if (provider === 'openai-compatible' && !baseUrl) {
+      if (provider === 'openai-compatible' && !isMethatech && !baseUrl) {
         post(params, `An OpenAI-compatible connection requires a base URL, e.g. http://localhost:20128/v1.\n${PASTE_HINT}`)
         return
       }
@@ -389,11 +396,16 @@ export async function handleByokCommand(
         post(params, 'OpenRouter uses its canonical API endpoint; omit the base URL.')
         return
       }
-      if (baseUrl) {
+      if (isMethatech && baseUrl) {
+        post(params, `MethaTech uses its panel API endpoint (${METHATECH_BYOK_BASE_URL}); omit the base URL.`)
+        return
+      }
+      const resolvedBaseUrl = isMethatech ? METHATECH_BYOK_BASE_URL : baseUrl
+      if (resolvedBaseUrl) {
         try {
-          new URL(baseUrl)
+          new URL(resolvedBaseUrl)
         } catch {
-          post(params, `The OpenAI-compatible base URL is invalid: ${baseUrl}${/[\r\n]/.test(rawArgs) ? `\n${PASTE_HINT}` : ''}`)
+          post(params, `The OpenAI-compatible base URL is invalid: ${resolvedBaseUrl}${/[\r\n]/.test(rawArgs) ? `\n${PASTE_HINT}` : ''}`)
           return
         }
       }
@@ -406,7 +418,7 @@ export async function handleByokCommand(
         name,
         provider,
         model,
-        ...(baseUrl ? { baseUrl } : {}),
+        ...(resolvedBaseUrl ? { baseUrl: resolvedBaseUrl } : {}),
         ...(parsedArgs.contextWindow !== undefined ? { contextWindow: parsedArgs.contextWindow } : {}),
         ...(parsedArgs.maxOutputTokens !== undefined ? { maxOutputTokens: parsedArgs.maxOutputTokens } : {}),
         credentialRef: `env:${environmentVariable}`,
@@ -565,7 +577,7 @@ export async function handleByokCommand(
       }
       saveSelectedByokConnection(undefined)
       resetTranscriptForSourceChange(params)
-      post(params, 'BYOK is off. New runs use the Freebuff session you select.')
+      post(params, 'BYOK is off. New runs use the MethaTech session you select.')
       return
     }
 

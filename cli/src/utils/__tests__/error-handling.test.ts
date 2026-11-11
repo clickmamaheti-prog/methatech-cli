@@ -476,7 +476,7 @@ describe('error-handling', () => {
   describe('FREEBUFF_PROVIDER_USAGE_MESSAGE', () => {
     test('owns the refill without blaming the user account', () => {
       const message = FREEBUFF_PROVIDER_USAGE_MESSAGE.toLowerCase()
-      expect(message).toContain('freebuff ran out of provider usage')
+      expect(message).toContain('methatech ran out of provider usage')
       expect(message).toContain('needs a refill')
       expect(message).toContain('not your account')
       expect(message).not.toContain('add credits')

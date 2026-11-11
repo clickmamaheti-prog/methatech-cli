@@ -1225,15 +1225,15 @@ export const FREEBUFF_ROOT_SYSTEM_PROMPT_OPENINGS = [
   // stays at position 0 for all of them.
   'You are Buffy, the coding agent behind Codebuff.',
   // freebuff_bundled_agents.ts CLOUD_PLANNER_SYSTEM_PROMPT — planner roots.
-  'You are Buffy, the Freebuff Cloud project planner.',
+  'You are Buffy, the MethaTech Cloud project planner.',
   // freebuff-desktop/.../services/mission.ts — the Desktop mission decider.
   // Its own opening rather than base3's: that prompt tells the model it is the
   // coding agent, and this one spends its length establishing the opposite
   // ("you never edit files or run commands"). Position 0 is the worst place to
   // say the wrong thing about who is reading.
-  'You are Buffy, the auto-run agent behind Freebuff Desktop.',
+  'You are Buffy, the auto-run agent behind MethaTech Desktop.',
   // common/src/project-understanding/agent.ts — the project-understanding agent.
-  'You are Buffy, the project-understanding agent behind Freebuff.',
+  'You are Buffy, the project-understanding agent behind MethaTech.',
   // LEGACY — base2's opening before 92371caa8 (2026-07-07), for installs that
   // have not updated since.
   'You are Buffy, a strategic assistant that orchestrates complex coding tasks through specialized sub-agents.',

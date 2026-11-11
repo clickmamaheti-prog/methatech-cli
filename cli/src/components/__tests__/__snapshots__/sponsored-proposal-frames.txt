@@ -710,9 +710,9 @@
 │ Sponsored tasks  │
 │ can’t run on     │
 │ Windows yet:     │
-│ Freebuff has no  │
-│ way to keep an   │
-│ advertiser’s     │
+│ MethaTech has    │
+│ no way to keep   │
+│ an advertiser’s  │
 │ commands inside  │
 │ the workspace    │
 │ on this          │
@@ -732,9 +732,9 @@
 │  [Report 1]                                  │
 │ Add one-click deploys to this project        │
 │ Sponsored tasks can’t run on Windows yet:    │
-│ Freebuff has no way to keep an advertiser’s  │
-│ commands inside the workspace on this        │
-│ operating system.                            │
+│ MethaTech has no way to keep an              │
+│ advertiser’s commands inside the workspace   │
+│ on this operating system.                    │
 │ Not now                                      │
 │ ⌃O details · /ads:dismiss-proposal           │
 └──────────────────────────────────────────────┘
@@ -757,7 +757,7 @@
 │ Acme Deploys                                   SPONSORED │
 │  [Report 1]                                              │
 │ Add one-click deploys to this project                    │
-│ Sponsored tasks can’t run on Windows yet: Freebuff has   │
+│ Sponsored tasks can’t run on Windows yet: MethaTech has  │
 │ no way to keep an advertiser’s commands inside the       │
 │ workspace on this operating system.                      │
 │ Not now                                                  │

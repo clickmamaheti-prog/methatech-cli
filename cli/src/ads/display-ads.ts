@@ -4,8 +4,8 @@
  * colours.
  *
  * FLAGS. Every placement is off. To turn some on, add to the CLI's
- * `settings.json` (`~/.config/manicode/settings.json`, `manicode-dev` on a dev
- * stack, or `$FREEBUFF_CONFIG_DIR/settings.json`):
+ * `settings.json` (`~/.config/metatech/settings.json`, `metatech-dev` on a dev
+ * stack, or `$METHATECH_CONFIG_DIR/settings.json`):
  *   "displayAds": "all"                          or
  *   "displayAds": ["cliSplash", "cliStatusline"]
  * Read once per process; restart the CLI after editing.

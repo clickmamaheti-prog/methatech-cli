@@ -291,7 +291,7 @@ async function main(): Promise<void> {
     process.exit(
       await runDoctorCommand({
         argv: process.argv,
-        packageName: IS_FREEBUFF ? 'freebuff' : 'codebuff',
+        packageName: IS_FREEBUFF ? 'methatech' : 'codebuff',
         version: loadPackageVersion(),
         configDir: getConfigDir(),
         apiUrl: getWebsiteUrl(),

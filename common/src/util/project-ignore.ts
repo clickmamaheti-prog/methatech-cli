@@ -3,7 +3,7 @@ import * as ignore from 'ignore'
 export const PROJECT_IGNORE_FILES = [
   '.gitignore',
   '.codebuffignore',
-  '.manicodeignore',
+  '.metatechignore',
 ] as const
 
 export type DirIgnore = { base: string; ig: ignore.Ignore }

@@ -358,7 +358,7 @@ async function main(): Promise<void> {
     console.error(`smoke-binary: bad seconds arg: ${process.argv[3]}`)
     process.exit(2)
   }
-  // CI passes `./freebuff`; the dotenv probes run from other directories.
+  // CI passes `./methatech`; the dotenv probes run from other directories.
   const binary = resolvePath(binaryArg)
 
   console.log(`smoke-binary: spawning ${binaryArg} for ${runSeconds}s…`)

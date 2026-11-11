@@ -32,7 +32,6 @@ import { useFreebuffChatStore } from '../state/freebuff-chat-store'
 import { formatHours } from '@codebuff/common/util/freebuff-hours'
 import { freebucksOf, freebucksRefundLine } from '../utils/freebucks'
 import { getFreebuffStreakBonusNoteForLayout } from '../utils/freebuff-streak-line'
-import { getFreebuffModelAvailabilityNotice } from '@codebuff/common/util/freebuff-model-availability'
 import type { FreebuffSessionResponse } from '../types/freebuff-session'
 
 const ignoreFocusTargets = () => {}
@@ -73,16 +72,15 @@ export function FreebuffChatHeader({
   const width = Math.max(16, Math.min(68, terminalWidth - 5))
   // Use the panel's padded width budget so the wordmark stays whole on resize.
   const wordmark =
-    wordmarkVariants.find((variant) => variant.width <= width)?.text ?? 'Freebuff'
+    wordmarkVariants.find((variant) => variant.width <= width)?.text ?? 'MethaTech'
   const tier =
     session && 'accessTier' in session ? (session.accessTier ?? 'full') : 'full'
   const referral = getReferralInfo(session)
-  const availability =
-    freebucks === undefined
-      ? getFreebuffModelAvailabilityNotice(
-          session && 'countryBlockReason' in session ? session : null,
-        )
-      : ''
+  // FORK (MethaTech): upstream rendered a "Some models aren't available on
+  // this connection" notice whenever freebucks was undefined — always true
+  // for a panel session, since there is no Freebuff freebucks / limited-mode
+  // system here and the panel catalog is always fully available. The notice
+  // is intentionally absent; do not re-add it.
   const streakBonus = getFreebuffStreakBonusNoteForLayout({
     streak: streak.data?.streak ?? 0,
     accessTier: tier,
@@ -158,11 +156,6 @@ export function FreebuffChatHeader({
             {windows.windows
               .map((w) => `${w.label} ${w.used} of ${w.limit}`)
               .join(' · ')}
-          </text>
-        )}
-        {availability && (
-          <text style={{ fg: theme.muted, wrapMode: 'word' }}>
-            {availability}
           </text>
         )}
         {FREEBUFF_ENABLE_STREAK_IN_UI && Boolean(streak.data?.streak) && (

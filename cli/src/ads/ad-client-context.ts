@@ -537,7 +537,7 @@ export function installMethodOf(
 
 /** The wrapper's bin names: the npm package's `bin` entries. */
 export const launcherBinNames = (freebuff: boolean): readonly string[] =>
-  freebuff ? ['freebuff'] : ['codebuff', 'cb']
+  freebuff ? ['methatech'] : ['codebuff', 'cb']
 
 const binNameOf = (path: string): string =>
   (path.split(/[\\/]/).pop() ?? '')

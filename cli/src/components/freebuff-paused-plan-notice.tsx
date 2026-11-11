@@ -7,9 +7,9 @@ import { safeOpen } from '../utils/open-url'
 
 import type { FreebuffSessionResponse } from '../types/freebuff-session'
 
-/** The account page's subscription tab, where Pay now settles the open invoice. */
+/** The console home, where the account is managed. */
 export const FREEBUFF_SUBSCRIPTION_ACCOUNT_URL =
-  'https://freebuff.com/account?tab=subscription'
+  'https://console.methatech.eu.org/'
 
 /**
  * The sentence for a plan the server paused because its renewal payment

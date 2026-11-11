@@ -695,11 +695,11 @@ describe('wave 2: pure derivations', () => {
         { CODEBUFF_LAUNCHER_PID: '123', _: invoked },
         { isBinary: true },
       )
-    expect(launched('/Users/a/.bun/bin/freebuff')).toBe('bun')
-    expect(launched('/Users/a/Library/pnpm/freebuff')).toBe('pnpm')
-    expect(launched('/Users/a/.nvm/versions/node/v22/bin/freebuff')).toBe('npm')
-    expect(launched('/opt/homebrew/Cellar/freebuff/1.0/bin/freebuff')).toBe('brew')
-    expect(launched('/somewhere/else/freebuff')).toBe('other')
+    expect(launched('/Users/a/.bun/bin/methatech')).toBe('bun')
+    expect(launched('/Users/a/Library/pnpm/methatech')).toBe('pnpm')
+    expect(launched('/Users/a/.nvm/versions/node/v22/bin/methatech')).toBe('npm')
+    expect(launched('/opt/homebrew/Cellar/methatech/1.0/bin/methatech')).toBe('brew')
+    expect(launched('/somewhere/else/methatech')).toBe('other')
     expect(installMethodOf({}, { isBinary: true })).toBe('binary')
     expect(installMethodOf({}, { isBinary: false })).toBe('other')
   })
@@ -708,13 +708,13 @@ describe('wave 2: pure derivations', () => {
     const env = {
       CODEBUFF_LAUNCHER_PID: '123',
       // the bin symlink, whose own name says nothing
-      _: '/opt/homebrew/bin/freebuff',
+      _: '/opt/homebrew/bin/methatech',
     }
     expect(installMethodOf(env, { isBinary: true })).toBe('other')
     expect(
       installMethodOf(env, {
         isBinary: true,
-        launcherPath: '/opt/homebrew/lib/node_modules/freebuff/index.js',
+        launcherPath: '/opt/homebrew/lib/node_modules/methatech/index.js',
       }),
     ).toBe('npm')
     // Windows exports no `_`: the PATH lookup's answer is all there is
@@ -723,7 +723,7 @@ describe('wave 2: pure derivations', () => {
         { CODEBUFF_LAUNCHER_PID: '9' },
         {
           isBinary: true,
-          launcherPath: 'C:\\Users\\a\\AppData\\Roaming\\npm\\freebuff.cmd',
+          launcherPath: 'C:\\Users\\a\\AppData\\Roaming\\npm\\methatech.cmd',
         },
       ),
     ).toBe('npm')
@@ -731,7 +731,7 @@ describe('wave 2: pure derivations', () => {
     expect(
       installMethodOf(
         { ...env, npm_config_user_agent: 'npm/10 node/v22', npm_command: 'exec' },
-        { isBinary: true, launcherPath: '/x/.bun/bin/freebuff' },
+        { isBinary: true, launcherPath: '/x/.bun/bin/methatech' },
       ),
     ).toBe('npx')
   })
@@ -739,32 +739,32 @@ describe('wave 2: pure derivations', () => {
   test('installMethodOfPath reads the real install locations', () => {
     const cases: [string, string | undefined][] = [
       // npm global: macOS (Homebrew node, node.pkg), Linux, ~/.npm-global
-      ['/opt/homebrew/lib/node_modules/freebuff/index.js', 'npm'],
-      ['/usr/local/lib/node_modules/freebuff/index.js', 'npm'],
-      ['/usr/lib/node_modules/freebuff/index.js', 'npm'],
-      ['/home/a/.npm-global/lib/node_modules/freebuff/index.js', 'npm'],
+      ['/opt/homebrew/lib/node_modules/methatech/index.js', 'npm'],
+      ['/usr/local/lib/node_modules/methatech/index.js', 'npm'],
+      ['/usr/lib/node_modules/methatech/index.js', 'npm'],
+      ['/home/a/.npm-global/lib/node_modules/methatech/index.js', 'npm'],
       // npm global on Windows, nvm-windows, scoop
-      ['C:\\Users\\a\\AppData\\Roaming\\npm\\freebuff.cmd', 'npm'],
-      ['C:\\nvm4w\\nodejs\\freebuff.cmd', 'npm'],
-      ['C:\\Users\\a\\scoop\\persist\\nodejs\\bin\\freebuff.cmd', 'npm'],
+      ['C:\\Users\\a\\AppData\\Roaming\\npm\\methatech.cmd', 'npm'],
+      ['C:\\nvm4w\\nodejs\\methatech.cmd', 'npm'],
+      ['C:\\Users\\a\\scoop\\persist\\nodejs\\bin\\methatech.cmd', 'npm'],
       // version managers that install globals with npm
-      ['/Users/a/.nvm/versions/node/v22.9.0/bin/freebuff', 'npm'],
+      ['/Users/a/.nvm/versions/node/v22.9.0/bin/methatech', 'npm'],
       ['/Users/a/.volta/bin/volta-shim', 'npm'],
-      ['/Users/a/.asdf/shims/freebuff', 'npm'],
-      ['/Users/a/.local/state/fnm_multishells/123_456/bin/freebuff', 'npm'],
-      ['/home/a/.local/share/mise/installs/node/22/bin/freebuff', 'npm'],
+      ['/Users/a/.asdf/shims/methatech', 'npm'],
+      ['/Users/a/.local/state/fnm_multishells/123_456/bin/methatech', 'npm'],
+      ['/home/a/.local/share/mise/installs/node/22/bin/methatech', 'npm'],
       // npx / bunx caches
-      ['/Users/a/.npm/_npx/6a9b/node_modules/freebuff/index.js', 'npx'],
-      ['/private/tmp/bunx-501-freebuff@latest/node_modules/freebuff/index.js', 'bunx'],
+      ['/Users/a/.npm/_npx/6a9b/node_modules/methatech/index.js', 'npx'],
+      ['/private/tmp/bunx-501-methatech@latest/node_modules/methatech/index.js', 'bunx'],
       // bun, pnpm, yarn globals
-      ['/Users/a/.bun/install/global/node_modules/freebuff/index.js', 'bun'],
-      ['C:\\Users\\a\\.bun\\bin\\freebuff.exe', 'bun'],
-      ['/Users/a/Library/pnpm/global/5/node_modules/freebuff/index.js', 'pnpm'],
-      ['/Users/a/.config/yarn/global/node_modules/freebuff/index.js', 'yarn'],
-      ['/opt/homebrew/Cellar/freebuff/1.0/bin/freebuff', 'brew'],
+      ['/Users/a/.bun/install/global/node_modules/methatech/index.js', 'bun'],
+      ['C:\\Users\\a\\.bun\\bin\\methatech.exe', 'bun'],
+      ['/Users/a/Library/pnpm/global/5/node_modules/methatech/index.js', 'pnpm'],
+      ['/Users/a/.config/yarn/global/node_modules/methatech/index.js', 'yarn'],
+      ['/opt/homebrew/Cellar/methatech/1.0/bin/methatech', 'brew'],
       // nothing to go on; an NVMe mount is not nvm
-      ['/opt/homebrew/bin/freebuff', undefined],
-      ['/mnt/nvme0/tools/freebuff', undefined],
+      ['/opt/homebrew/bin/methatech', undefined],
+      ['/mnt/nvme0/tools/methatech', undefined],
       ['', undefined],
     ]
     for (const [path, method] of cases)
@@ -774,12 +774,12 @@ describe('wave 2: pure derivations', () => {
   test('invokedLauncherPath trusts `_` only when it names the wrapper', () => {
     const names = launcherBinNames(true)
     const realpath = (path: string) =>
-      path === '/opt/homebrew/bin/freebuff'
-        ? '/opt/homebrew/lib/node_modules/freebuff/index.js'
+      path === '/opt/homebrew/bin/methatech'
+        ? '/opt/homebrew/lib/node_modules/methatech/index.js'
         : path
     expect(
-      invokedLauncherPath({ _: '/opt/homebrew/bin/freebuff' }, names, realpath),
-    ).toBe('/opt/homebrew/lib/node_modules/freebuff/index.js')
+      invokedLauncherPath({ _: '/opt/homebrew/bin/methatech' }, names, realpath),
+    ).toBe('/opt/homebrew/lib/node_modules/methatech/index.js')
     // `node index.js`, `env`, an unrelated last command
     expect(
       invokedLauncherPath({ _: '/usr/local/bin/node' }, names, realpath),
@@ -787,10 +787,10 @@ describe('wave 2: pure derivations', () => {
     expect(invokedLauncherPath({}, names, realpath)).toBeUndefined()
     // a dangling symlink still names its own directory
     expect(
-      invokedLauncherPath({ _: '/home/a/.bun/bin/freebuff' }, names, () => {
+      invokedLauncherPath({ _: '/home/a/.bun/bin/methatech' }, names, () => {
         throw new Error('ENOENT')
       }),
-    ).toBe('/home/a/.bun/bin/freebuff')
+    ).toBe('/home/a/.bun/bin/methatech')
     expect(launcherBinNames(false)).toEqual(['codebuff', 'cb'])
     expect(
       invokedLauncherPath(
@@ -812,43 +812,43 @@ describe('wave 2: pure derivations', () => {
       await findLauncherOnPath(
         { PATH: '/usr/bin:/opt/homebrew/bin:/Users/a/.bun/bin' },
         'darwin',
-        ['freebuff'],
+        ['methatech'],
         fsOf({
-          '/opt/homebrew/bin/freebuff':
-            '/opt/homebrew/lib/node_modules/freebuff/index.js',
-          '/Users/a/.bun/bin/freebuff':
-            '/Users/a/.bun/install/global/node_modules/freebuff/index.js',
+          '/opt/homebrew/bin/methatech':
+            '/opt/homebrew/lib/node_modules/methatech/index.js',
+          '/Users/a/.bun/bin/methatech':
+            '/Users/a/.bun/install/global/node_modules/methatech/index.js',
         }),
       ),
-    ).toBe('/opt/homebrew/lib/node_modules/freebuff/index.js')
+    ).toBe('/opt/homebrew/lib/node_modules/methatech/index.js')
     // Windows: `;` separated, `Path` spelling, shim extensions
     expect(
       await findLauncherOnPath(
         { Path: 'C:\\Windows\\system32;C:\\Users\\a\\AppData\\Roaming\\npm\\' },
         'win32',
-        ['freebuff'],
+        ['methatech'],
         fsOf({
-          'C:\\Users\\a\\AppData\\Roaming\\npm\\freebuff.cmd':
-            'C:\\Users\\a\\AppData\\Roaming\\npm\\freebuff.cmd',
+          'C:\\Users\\a\\AppData\\Roaming\\npm\\methatech.cmd':
+            'C:\\Users\\a\\AppData\\Roaming\\npm\\methatech.cmd',
         }),
       ),
-    ).toBe('C:\\Users\\a\\AppData\\Roaming\\npm\\freebuff.cmd')
+    ).toBe('C:\\Users\\a\\AppData\\Roaming\\npm\\methatech.cmd')
     // not on PATH at all, and no PATH
     expect(
-      await findLauncherOnPath({ PATH: '/usr/bin' }, 'linux', ['freebuff'], fsOf({})),
+      await findLauncherOnPath({ PATH: '/usr/bin' }, 'linux', ['methatech'], fsOf({})),
     ).toBeUndefined()
     expect(
-      await findLauncherOnPath({}, 'linux', ['freebuff'], fsOf({})),
+      await findLauncherOnPath({}, 'linux', ['methatech'], fsOf({})),
     ).toBeUndefined()
     // a realpath failure falls back to the path that was found
     expect(
-      await findLauncherOnPath({ PATH: '/x/pnpm' }, 'linux', ['freebuff'], {
+      await findLauncherOnPath({ PATH: '/x/pnpm' }, 'linux', ['methatech'], {
         access: async () => undefined,
         realpath: async () => {
           throw new Error('EACCES')
         },
       }),
-    ).toBe('/x/pnpm/freebuff')
+    ).toBe('/x/pnpm/methatech')
   })
 
   test('freebuffAgentModeOf speaks Desktop’s build/plan vocabulary', () => {

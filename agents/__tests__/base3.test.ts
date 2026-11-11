@@ -353,8 +353,8 @@ describe('base3 CLI roots', () => {
     }
   })
 
-  test('brands Freebuff roots as Freebuff, and Codebuff roots as Codebuff', () => {
-    expect(base3FreeDeepseek.systemPrompt).toContain('Freebuff')
+  test('brands MethaTech roots as MethaTech, and Codebuff roots as Codebuff', () => {
+    expect(base3FreeDeepseek.systemPrompt).toContain('MethaTech')
     expect(base3FreeDeepseek.systemPrompt).not.toContain('/usage')
     // Codebuff's paid modes explain credits; Freebuff has none to explain.
     expect(base3.systemPrompt).toContain('/usage')

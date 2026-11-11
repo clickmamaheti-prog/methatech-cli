@@ -102,7 +102,7 @@ export type CliEnv = BaseEnv & {
   CODEBUFF_TRUST_AGENT_DIRS?: string
   FREEBUFF_MODE?: string
   /** Absolute per-process override for isolated CLI settings and transcripts. */
-  FREEBUFF_CONFIG_DIR?: string
+  METHATECH_CONFIG_DIR?: string
   /** Local agentic-ads harness only (`scripts/local-agentic-ads`). */
   TEST_AGENTIC_ADS?: string
   TEST_AGENTIC_ADS_CAMPAIGN?: string

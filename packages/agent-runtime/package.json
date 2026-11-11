@@ -31,5 +31,7 @@
     "zod-from-json-schema": "0.4.2",
     "lodash": "4.17.23"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "pg-pool": "^3.14.0"
+  }
 }

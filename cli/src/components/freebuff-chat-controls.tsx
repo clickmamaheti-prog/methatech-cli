@@ -189,7 +189,7 @@ export function FreebuffChatControls() {
       <text style={{ fg: theme.foreground, wrapMode: 'word' }}>
         {takeover
           ? (session.message ??
-            'Freebuff is already running elsewhere. Take over that session?')
+            'MethaTech is already running elsewhere. Take over that session?')
           : (admission.message ??
             (admission.phase === 'requested' && queuePaused
               ? FREEBUFF_ADMISSION_QUEUE_PAUSED_MESSAGE

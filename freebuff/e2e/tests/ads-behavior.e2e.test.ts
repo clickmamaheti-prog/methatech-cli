@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from 'bun:test'
 
-import { FreebuffSession, requireFreebuffBinary } from '../utils'
+import { FreebuffSession, requireMethatechBinary } from '../utils'
 
 const TEST_TIMEOUT = 60_000
 
@@ -17,7 +17,7 @@ describe('Freebuff: Ads Behavior', () => {
   test(
     'ads commands are not available',
     async () => {
-      const binary = requireFreebuffBinary()
+      const binary = requireMethatechBinary()
       session = await FreebuffSession.start(binary)
       await session.waitForReady()
 
@@ -35,7 +35,7 @@ describe('Freebuff: Ads Behavior', () => {
   test(
     'startup screen does not show ad-related UI',
     async () => {
-      const binary = requireFreebuffBinary()
+      const binary = requireMethatechBinary()
       session = await FreebuffSession.start(binary)
       await session.waitForReady()
 

@@ -368,13 +368,13 @@ ${
 ${gravityIndexGuidance()}
 ${SKILL_DISCOVERY_GUIDANCE}
 
-# ${isFreebuff ? 'Freebuff' : 'Codebuff'} Meta-information
+# ${isFreebuff ? 'MethaTech' : 'Codebuff'} Meta-information
 
 You are running on the ${model} model.
 
 ${
   isFreebuff
-    ? 'You are the AI agent behind Freebuff, a tool where users can chat with you to code with AI for free. See freebuff.com for more information about the product.'
+    ? 'You are the AI agent behind MethaTech, a tool where users can chat with you to code with AI for free. See methatech.eu.org for more information about the product.'
     : [
         'Users send prompts to you in one of a few user-selected modes, like DEFAULT, LITE, MAX, or PLAN.',
         "Every prompt sent consumes the user's credits, which is calculated based on the API cost of the models used.",

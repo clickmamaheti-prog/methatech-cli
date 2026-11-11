@@ -81,6 +81,22 @@ if (process.env.CI !== 'true' && process.env.CI !== '1') {
 process.env.NODE_ENV ||= 'test'
 process.env.BUN_ENV ||= 'test'
 
+// readUrl's default transport switches to Bun's own fetch (which resolves
+// names itself, bypassing DNS pinning) whenever a proxy is configured in
+// env (sdk/src/tools/read-url.ts: defaultTransport). The DNS-pinning tests
+// must exercise the pinned path, so proxy vars never leak into SDK tests.
+// Tests that want a proxy set process.env themselves.
+for (const name of [
+  'HTTPS_PROXY',
+  'https_proxy',
+  'HTTP_PROXY',
+  'http_proxy',
+  'ALL_PROXY',
+  'all_proxy',
+] as const) {
+  delete process.env[name]
+}
+
 // No test anywhere ships telemetry to the production Axiom dataset, even if the
 // caller's environment claims NEXT_PUBLIC_CB_ENVIRONMENT is prod. Desktop server
 // children are spawned with { ...process.env }, so they inherit this too.

@@ -49,7 +49,7 @@ async function projectFiles(
   const tree = await getProjectFileTree({
     projectRoot: root,
     fs,
-    extraIgnore: ['/.freebuff/'],
+    extraIgnore: ['/.methatech/'],
   })
   const files = flattenTree(tree)
     .filter((node) => node.type === 'file')

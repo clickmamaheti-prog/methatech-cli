@@ -646,7 +646,7 @@ function handleFreebuffGateError(
         return
       }
       updater.setError(
-        'This Freebuff session was released or taken over by another instance. Restart Freebuff to start another session.',
+        'This MethaTech session was released or taken over by another instance. Restart MethaTech to start another session.',
       )
       // Terminal state: stop polling and flip UI to a "please restart" screen
       // so we don't silently fight the other instance for the seat.
@@ -667,7 +667,7 @@ function handleFreebuffGateError(
       const unhandled: never = kind
       updater.setError(
         opts.serverMessage?.trim() ||
-          'Freebuff could not run this turn on your free session.',
+          'MethaTech could not run this turn on your free session.',
       )
       logger.warn({ kind: unhandled }, 'Unhandled freebuff gate error kind')
       return

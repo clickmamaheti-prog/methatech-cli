@@ -481,7 +481,7 @@ describe('shared persistent BYOK store', () => {
         ok: false,
         connection: { id: added.id, name: 'omniroute' },
         message:
-          'OMNIROUTE_API_KEY is not set in this Freebuff process. Set it and restart Freebuff from that terminal.',
+          'OMNIROUTE_API_KEY is not set in this MethaTech process. Set it and restart MethaTech from that terminal.',
       })
       expect(fetched).toBe(0)
       // A run start sees the same precise reason, as a typed credential error.
@@ -506,7 +506,7 @@ describe('shared persistent BYOK store', () => {
       const result = await store.validate(added)
       expect(result.ok).toBe(false)
       expect(result.ok ? '' : result.message).toBe(
-        'The provider rejected the key in OMNIROUTE_API_KEY (HTTP 401). OMNIROUTE_API_KEY is set in this Freebuff process; check that it holds the key this endpoint expects, then restart Freebuff from that terminal.',
+        'The provider rejected the key in OMNIROUTE_API_KEY (HTTP 401). OMNIROUTE_API_KEY is set in this MethaTech process; check that it holds the key this endpoint expects, then restart MethaTech from that terminal.',
       )
       expect(JSON.stringify(result)).not.toContain(syntheticKey)
     })
@@ -518,6 +518,44 @@ describe('shared persistent BYOK store', () => {
         environment: { OMNIROUTE_API_KEY: `${syntheticKey}\r` },
       })
       const added = await store.create(omniroute)
+      expect((await store.resolve(added)).apiKey).toBe(syntheticKey)
+    })
+
+    // FORK (MethaTech): the panel key variable was renamed METATECH_API_KEY
+    // -> METHATECH_API_KEY. A terminal that already exports the old spelling
+    // keeps working through a silent fallback at the secret-store read.
+    test('the pre-rename METATECH_API_KEY spelling still resolves env:METHATECH_API_KEY', async () => {
+      const directory = await temporaryDirectory()
+      const store = createBunByokConnectionStore({
+        directory,
+        environment: { METATECH_API_KEY: syntheticKey },
+      })
+      const added = await store.create({
+        name: 'methatech',
+        provider: 'openai-compatible' as const,
+        model: 'glm-5.3-flash',
+        baseUrl: 'https://api.methatech.eu.org/v1',
+        credentialRef: 'env:METHATECH_API_KEY',
+      })
+      expect((await store.resolve(added)).apiKey).toBe(syntheticKey)
+    })
+
+    test('the new name wins when both spellings are set', async () => {
+      const directory = await temporaryDirectory()
+      const store = createBunByokConnectionStore({
+        directory,
+        environment: {
+          METHATECH_API_KEY: syntheticKey,
+          METATECH_API_KEY: 'old-spelling-key',
+        },
+      })
+      const added = await store.create({
+        name: 'methatech',
+        provider: 'openai-compatible' as const,
+        model: 'glm-5.3-flash',
+        baseUrl: 'https://api.methatech.eu.org/v1',
+        credentialRef: 'env:METHATECH_API_KEY',
+      })
       expect((await store.resolve(added)).apiKey).toBe(syntheticKey)
     })
 

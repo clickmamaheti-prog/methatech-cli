@@ -2583,7 +2583,7 @@ const GPT_5_6_LUNA_MODEL = {
 export const FREEBUFF_LEAVING_SOON = {
   short: 'Leaving',
   tooltip:
-    'This model is leaving Freebuff soon. Pick another model to keep working without interruption.',
+    'This model is leaving MethaTech soon. Pick another model to keep working without interruption.',
 } as const
 
 /** The tooltip on every "Price change" badge (2026-10-21, product). */
@@ -3593,7 +3593,7 @@ export function freebuffWithdrawnModelAvailabilityLabel(): string {
 export function freebuffUpdateRequiredModelMessage(id: string): string {
   const model = SUPPORTED_FREEBUFF_MODELS.find((m) => m.id === id)
   const name = model?.displayName ?? id
-  return `Update Freebuff Desktop to keep using ${name}. This version can't resume your purchased time — the model itself is fine, and updating won't charge you again.`
+  return `Update MethaTech Desktop to keep using ${name}. This version can't resume your purchased time — the model itself is fine, and updating won't charge you again.`
 }
 
 /** The same fact shaped to sit inside "<model> isn't available right now (…)",
@@ -3865,7 +3865,7 @@ export const FREEBUFF_SESSION_ADMISSION_PATH =
   '/api/v1/freebuff/session/admission'
 export const FREEBUFF_SESSION_REUSE_PATH = '/api/v1/freebuff/session/reuse'
 export const FREEBUFF_SESSION_UNSUPPORTED_MESSAGE =
-  'This server cannot safely start or resume your session yet. Reload or update Freebuff and try again shortly. No purchase was made.'
+  'This server cannot safely start or resume your session yet. Reload or update MethaTech and try again shortly. No purchase was made.'
 /** Server-to-server header; honoured only from the Freebuff Web service account. */
 export const FREEBUFF_ACTING_USER_HEADER = 'x-freebuff-acting-user-id'
 /** Server-to-server header; honoured only from the Freebuff Web service account. */

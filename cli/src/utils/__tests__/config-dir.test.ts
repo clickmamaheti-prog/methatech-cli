@@ -10,29 +10,29 @@ ensureCliTestEnv()
 
 const { getConfigDir, tightenConfigDirMode } = await import('../config-dir')
 
-const originalConfigDir = process.env.FREEBUFF_CONFIG_DIR
+const originalConfigDir = process.env.METHATECH_CONFIG_DIR
 
 afterEach(() => {
   if (originalConfigDir === undefined) {
-    delete process.env.FREEBUFF_CONFIG_DIR
+    delete process.env.METHATECH_CONFIG_DIR
   } else {
-    process.env.FREEBUFF_CONFIG_DIR = originalConfigDir
+    process.env.METHATECH_CONFIG_DIR = originalConfigDir
   }
 })
 
 describe('getConfigDir', () => {
-  test('uses an absolute FREEBUFF_CONFIG_DIR override', () => {
-    const isolatedDir = path.join(os.tmpdir(), 'freebuff-cli-config-test')
-    process.env.FREEBUFF_CONFIG_DIR = isolatedDir
+  test('uses an absolute METHATECH_CONFIG_DIR override', () => {
+    const isolatedDir = path.join(os.tmpdir(), 'methatech-cli-config-test')
+    process.env.METHATECH_CONFIG_DIR = isolatedDir
 
     expect(getConfigDir()).toBe(isolatedDir)
   })
 
-  test('rejects a relative FREEBUFF_CONFIG_DIR override', () => {
-    process.env.FREEBUFF_CONFIG_DIR = 'relative-settings'
+  test('rejects a relative METHATECH_CONFIG_DIR override', () => {
+    process.env.METHATECH_CONFIG_DIR = 'relative-settings'
 
     expect(() => getConfigDir()).toThrow(
-      'FREEBUFF_CONFIG_DIR must be an absolute path',
+      'METHATECH_CONFIG_DIR must be an absolute path',
     )
   })
 })
@@ -47,10 +47,10 @@ describe.skipIf(process.platform === 'win32')('tightenConfigDirMode', () => {
 
   test('clamps an existing world-readable config dir to 0700', () => {
     tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cli-config-mode-'))
-    const configDir = path.join(tempRoot, 'manicode')
+    const configDir = path.join(tempRoot, 'metatech')
     fs.mkdirSync(configDir)
     fs.chmodSync(configDir, 0o755)
-    process.env.FREEBUFF_CONFIG_DIR = configDir
+    process.env.METHATECH_CONFIG_DIR = configDir
 
     tightenConfigDirMode()
 
@@ -67,7 +67,7 @@ describe.skipIf(process.platform === 'win32')('tightenConfigDirMode', () => {
   })
 
   test('never throws, even when the config dir cannot be resolved', () => {
-    process.env.FREEBUFF_CONFIG_DIR = 'relative-settings'
+    process.env.METHATECH_CONFIG_DIR = 'relative-settings'
 
     expect(() => tightenConfigDirMode()).not.toThrow()
   })

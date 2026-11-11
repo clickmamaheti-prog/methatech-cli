@@ -15,11 +15,11 @@ import { getCliEnv } from './env'
  * otherwise create an import cycle.
  */
 export const getConfigDir = (): string => {
-  const configuredDir = getCliEnv().FREEBUFF_CONFIG_DIR
+  const configuredDir = getCliEnv().METHATECH_CONFIG_DIR
   if (configuredDir) {
     if (!path.isAbsolute(configuredDir)) {
       throw new Error(
-        'FREEBUFF_CONFIG_DIR must be an absolute path so CLI settings cannot be written relative to the current project.',
+        'METHATECH_CONFIG_DIR must be an absolute path so CLI settings cannot be written relative to the current project.',
       )
     }
     return configuredDir
@@ -28,7 +28,7 @@ export const getConfigDir = (): string => {
   return path.join(
     os.homedir(),
     '.config',
-    'manicode' +
+    'metatech' +
       // on a development stack?
       (env.NEXT_PUBLIC_CB_ENVIRONMENT !== 'prod'
         ? `-${env.NEXT_PUBLIC_CB_ENVIRONMENT}`
@@ -52,7 +52,7 @@ const CONFIG_DIR_MODE = 0o700
 export const tightenConfigDirMode = (configDir?: string): void => {
   if (process.platform === 'win32') return
   try {
-    // Resolved inside the try: a relative FREEBUFF_CONFIG_DIR throws here.
+    // Resolved inside the try: a relative METHATECH_CONFIG_DIR throws here.
     const dir = configDir ?? getConfigDir()
     const stat = fs.statSync(dir, { throwIfNoEntry: false })
     if (!stat?.isDirectory()) return

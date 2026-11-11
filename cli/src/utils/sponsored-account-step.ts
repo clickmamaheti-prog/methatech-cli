@@ -173,8 +173,8 @@ export function sponsoredCredentialSavedLine(
   savedTo: string | undefined,
 ): string {
   return savedTo
-    ? `- Freebuff already saved ${count === 1 ? 'it' : 'them'} to \`${savedTo}\` in this project for the user, under the same name${count === 1 ? '' : 's'}, so the app can read ${count === 1 ? 'it' : 'them'} after this run. Do not write an env file yourself: this run cannot read or write one. Tell the user it is in \`${savedTo}\`.`
-    : '- Freebuff did NOT save the value to an env file in this project, and this run cannot write one. In your final message, tell the user to add it to their local env file themselves, naming the variable.'
+    ? `- MethaTech already saved ${count === 1 ? 'it' : 'them'} to \`${savedTo}\` in this project for the user, under the same name${count === 1 ? '' : 's'}, so the app can read ${count === 1 ? 'it' : 'them'} after this run. Do not write an env file yourself: this run cannot read or write one. Tell the user it is in \`${savedTo}\`.`
+    : '- MethaTech did NOT save the value to an env file in this project, and this run cannot write one. In your final message, tell the user to add it to their local env file themselves, naming the variable.'
 }
 
 export type SponsoredAccountStepDeps = {

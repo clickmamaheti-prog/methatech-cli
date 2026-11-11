@@ -95,7 +95,7 @@ export const getCliEnv = (): CliEnv => ({
   CODEBUFF_NO_TERMINAL_WATCHDOG: process.env.CODEBUFF_NO_TERMINAL_WATCHDOG,
   CODEBUFF_TRUST_AGENT_DIRS: process.env.CODEBUFF_TRUST_AGENT_DIRS,
   FREEBUFF_MODE: process.env.FREEBUFF_MODE,
-  FREEBUFF_CONFIG_DIR: process.env.FREEBUFF_CONFIG_DIR,
+  METHATECH_CONFIG_DIR: process.env.METHATECH_CONFIG_DIR,
   // `bun run dev:agentic-ads cli` only: force one LOCAL campaign on the offer
   // route. Honoured only by a backend whose own environment names the same
   // campaign (`common/src/ads/local-agentic-test.ts`).

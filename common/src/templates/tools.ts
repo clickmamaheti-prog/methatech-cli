@@ -24,7 +24,7 @@ export const TEMPLATE_TOOL_SPECS: TemplateToolSpec[] = [
   {
     name: 'template_list',
     description:
-      'List the starter templates Freebuff can install into an empty project: each id, name, what it is, and which Freebuff integrations (auth, database, storage) it already wires up. Inspect the workspace first: a new chat or project may already contain the user’s selected template or other code. Use this to choose a starting point for an empty workspace, or when the user explicitly asks to explore templates.',
+      'List the starter templates MethaTech can install into an empty project: each id, name, what it is, and which MethaTech integrations (auth, database, storage) it already wires up. Inspect the workspace first: a new chat or project may already contain the user’s selected template or other code. Use this to choose a starting point for an empty workspace, or when the user explicitly asks to explore templates.',
     shape: {},
   },
   {

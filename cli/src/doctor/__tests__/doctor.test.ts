@@ -23,25 +23,25 @@ afterEach(() => { for (const dir of dirs.splice(0)) fs.rmSync(dir, { recursive: 
 
 describe('install', () => {
   test('an outdated version and an old npm launcher', () => {
-    const found = installFindings({ version: '0.2.30', latest: '0.2.35', launcherVersion: '0.2.10', packageName: 'freebuff' })
+    const found = installFindings({ version: '0.2.30', latest: '0.2.35', launcherVersion: '0.2.10', packageName: 'methatech' })
     expect(found.map(f => f.id)).toEqual(['install.outdated', 'install.old-launcher'])
-    expect(found[0]!.steps.join(' ')).toContain('npm install -g freebuff@latest')
-    expect(installFindings({ version: '0.2.35', latest: '0.2.35', launcherVersion: null, packageName: 'freebuff' })[0]!.id).toBe('install.current')
-    expect(installFindings({ version: 'dev', latest: '9.9.9', launcherVersion: null, packageName: 'freebuff' })).toEqual([])
+    expect(found[0]!.steps.join(' ')).toContain('npm install -g methatech@latest')
+    expect(installFindings({ version: '0.2.35', latest: '0.2.35', launcherVersion: null, packageName: 'methatech' })[0]!.id).toBe('install.current')
+    expect(installFindings({ version: 'dev', latest: '9.9.9', launcherVersion: null, packageName: 'methatech' })).toEqual([])
   })
 
   test('an empty or non-executable downloaded binary', async () => {
     const dir = scratch()
-    fs.writeFileSync(path.join(dir, 'freebuff'), '')
-    expect((await binaryFindings({ configDir: dir, packageName: 'freebuff', platform: 'linux', redact }))[0]!.id).toBe('install.binary-empty')
-    fs.writeFileSync(path.join(dir, 'freebuff'), 'binary')
-    fs.chmodSync(path.join(dir, 'freebuff'), 0o644)
-    expect((await binaryFindings({ configDir: dir, packageName: 'freebuff', platform: 'linux', redact }))[0]!.id).toBe('install.binary-not-executable')
-    fs.chmodSync(path.join(dir, 'freebuff'), 0o755)
-    const quarantined = await binaryFindings({ configDir: dir, packageName: 'freebuff', platform: 'darwin', redact,
+    fs.writeFileSync(path.join(dir, 'methatech'), '')
+    expect((await binaryFindings({ configDir: dir, packageName: 'methatech', platform: 'linux', redact }))[0]!.id).toBe('install.binary-empty')
+    fs.writeFileSync(path.join(dir, 'methatech'), 'binary')
+    fs.chmodSync(path.join(dir, 'methatech'), 0o644)
+    expect((await binaryFindings({ configDir: dir, packageName: 'methatech', platform: 'linux', redact }))[0]!.id).toBe('install.binary-not-executable')
+    fs.chmodSync(path.join(dir, 'methatech'), 0o755)
+    const quarantined = await binaryFindings({ configDir: dir, packageName: 'methatech', platform: 'darwin', redact,
       run: async () => ({ code: 0, stdout: '0081;abc;Safari;', stderr: '' }) })
     expect(quarantined[0]!.id).toBe('install.binary-quarantined')
-    expect(await binaryFindings({ configDir: scratch(), packageName: 'freebuff', platform: 'linux', redact })).toEqual([])
+    expect(await binaryFindings({ configDir: scratch(), packageName: 'methatech', platform: 'linux', redact })).toEqual([])
   })
 
   test('two copies on PATH and a repeated PATH entry', () => {
@@ -117,7 +117,7 @@ describe('command', () => {
   test('a full offline scan builds a report in every format', async () => {
     const configDir = scratch()
     const report = await buildDoctorReport({
-      includePaths: false, version: '0.2.35', packageName: 'freebuff', configDir, apiUrl: 'https://api.example.test',
+      includePaths: false, version: '0.2.35', packageName: 'methatech', configDir, apiUrl: 'https://api.example.test',
       launcherVersion: null, cwd: configDir, env: {}, platform: 'linux',
       fetch: async () => { throw Object.assign(new Error('getaddrinfo ENOTFOUND'), { code: 'ENOTFOUND' }) },
       run: async () => ({ code: 1, stdout: '', stderr: '' }),
@@ -134,9 +134,9 @@ describe('command', () => {
 
   test('--help prints usage and exits 0', async () => {
     let out = ''
-    const code = await runDoctorCommand({ argv: ['bun', 'freebuff', 'doctor', '--help'], packageName: 'freebuff', version: '0.2.35',
+    const code = await runDoctorCommand({ argv: ['bun', 'methatech', 'doctor', '--help'], packageName: 'methatech', version: '0.2.35',
       configDir: scratch(), apiUrl: 'https://api.example.test', launcherVersion: null, write: text => { out += text } })
     expect(code).toBe(0)
-    expect(out).toContain('Usage: freebuff doctor')
+    expect(out).toContain('Usage: methatech doctor')
   })
 })

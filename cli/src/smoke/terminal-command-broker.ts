@@ -405,7 +405,7 @@ export async function runPackagedTerminalBrokerSmoke({
       commandStarted: existsSync(forbiddenSpawnPath),
     }
     assertSmoke(
-      failureMessage.includes('Restart Freebuff'),
+      failureMessage.includes('Restart MethaTech'),
       'broker failure did not include actionable recovery guidance',
     )
     assertSmoke(

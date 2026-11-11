@@ -112,6 +112,53 @@ describe('/byok', () => {
     expect(messages.join('\n')).toContain('authenticated')
   })
 
+  test('adds a MethaTech connection as openai-compatible fixed to the panel API', async () => {
+    const create = mock(async () => connection)
+    const store = {
+      create,
+      list: async () => [],
+      validate: async () => ({ ok: true, connection }),
+    } as unknown as ByokConnectionStore
+    setCliByokStoreForTests(store)
+    const { params } = createParams(
+      '/byok add methatech methatech glm-5.3-flash METHATECH_API_KEY',
+    )
+
+    await handleByokCommand(
+      params,
+      'add methatech methatech glm-5.3-flash METHATECH_API_KEY',
+    )
+
+    expect(create).toHaveBeenCalledWith({
+      name: 'methatech',
+      provider: 'openai-compatible',
+      model: 'glm-5.3-flash',
+      baseUrl: 'https://api.methatech.eu.org/v1',
+      credentialRef: 'env:METHATECH_API_KEY',
+    })
+  })
+
+  test('rejects an explicit base URL with the methatech shorthand', async () => {
+    const create = mock(async () => connection)
+    const store = {
+      create,
+      list: async () => [],
+      validate: async () => ({ ok: true, connection }),
+    } as unknown as ByokConnectionStore
+    setCliByokStoreForTests(store)
+    const { params, messages } = createParams(
+      '/byok add methatech methatech glm-5.3-flash METHATECH_API_KEY https://example.test/v1',
+    )
+
+    await handleByokCommand(
+      params,
+      'add methatech methatech glm-5.3-flash METHATECH_API_KEY https://example.test/v1',
+    )
+
+    expect(create).not.toHaveBeenCalled()
+    expect(messages.join('\n')).toContain('https://api.methatech.eu.org/v1')
+  })
+
   test('rejects and redacts a credential-like command argument before history persistence', async () => {
     const store = { list: async () => [] } as unknown as ByokConnectionStore
     setCliByokStoreForTests(store)

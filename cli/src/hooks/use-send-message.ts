@@ -23,10 +23,12 @@ import {
 import { getCodebuffClient } from '../utils/codebuff-client'
 import {
   byokLoadFailureMessage,
+  ensureMethatechByokConnection,
   isByokSetupOpen,
   resolveByokConnection,
   selectedByokConnection,
 } from '../utils/byok'
+import { isMethatechModelId } from '@codebuff/common/constants/methatech-models'
 import { AGENT_MODE_TO_COST_MODE, IS_FREEBUFF } from '../utils/constants'
 import { createEventHandlerState } from '../utils/create-event-handler-state'
 import { captureCliFunnel, cliFunnelKey } from '../utils/cli-product-funnel'
@@ -334,8 +336,35 @@ export const useSendMessage = ({
 
       // Snapshot the source before any await. A selected connection always
       // runs directly and must never attempt Freebuff session admission.
-      const selectedByok =
+      let selectedByok =
         IS_FREEBUFF && !sponsored ? selectedByokConnection() : undefined
+      // FORK (MethaTech): panel models run through the MethaTech BYOK
+      // connection. When none is selected yet — fresh user on the default
+      // model, or after `/byok off` — resolve the MethaTech connection for
+      // the selected panel model so the first send works without a manual
+      // `/byok select`. Only the connection metadata is created/updated
+      // here; the key itself is resolved at send time from
+      // METHATECH_API_KEY, and a missing key still fails loudly at resolve
+      // below. A store failure leaves selectedByok unset, so the send
+      // falls through to the Freebuff admission path (and its error)
+      // instead of throwing here.
+      if (
+        IS_FREEBUFF &&
+        !sponsored &&
+        !selectedByok &&
+        isMethatechModelId(getSelectedFreebuffModel())
+      ) {
+        try {
+          selectedByok = await ensureMethatechByokConnection(
+            getSelectedFreebuffModel(),
+          )
+        } catch (error) {
+          logger.error(
+            { error },
+            '[send-message] Failed to select MethaTech connection',
+          )
+        }
+      }
       const shouldUseByok = selectedByok !== undefined
 
       // Preserve the submitted text and attachments until send-time admission
@@ -662,7 +691,7 @@ export const useSendMessage = ({
           '[send-message] No Codebuff client available. Please ensure you are authenticated.',
         )
         // Show error to user instead of silently failing
-        const brandName = IS_FREEBUFF ? 'Freebuff' : 'Codebuff'
+        const brandName = 'MethaTech'
         setMessages((prev) => [
           ...prev,
           createErrorChatMessage(

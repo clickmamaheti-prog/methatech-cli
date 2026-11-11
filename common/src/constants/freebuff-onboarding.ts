@@ -74,7 +74,7 @@ export const OTHER_OPTION_ID = 'other'
 export const FREEBUFF_ONBOARDING_QUESTIONS: readonly OnboardingQuestion[] = [
   {
     id: 'referral_source',
-    prompt: 'Where did you hear about Freebuff?',
+    prompt: 'Where did you hear about MethaTech?',
     // Attribution is the one answer we cannot reconstruct later: referrer
     // headers are stripped, and self-report is the only signal for word of
     // mouth, which is where most of it actually comes from.
@@ -136,7 +136,7 @@ export const FREEBUFF_ONBOARDING_QUESTIONS: readonly OnboardingQuestion[] = [
   },
   {
     id: 'intended_use',
-    prompt: 'What will you build with Freebuff?',
+    prompt: 'What will you build with MethaTech?',
     options: [
       { id: 'website', label: 'Websites and apps' },
       { id: 'work', label: 'Work projects' },

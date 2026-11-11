@@ -23,7 +23,7 @@ describe('product discovery house copy', () => {
         expect(creative.adText.length).toBeLessThanOrEqual(500)
         expect(creative.title).toMatch(/Freebuff/)
         expect(creative.title).toMatch(feature[tip as keyof typeof feature])
-        expect(new URL(creative.url).origin).toBe('https://freebuff.com')
+        expect(new URL(creative.url).origin).toBe('https://methatech.eu.org')
       }
     }
   })

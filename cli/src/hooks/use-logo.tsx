@@ -28,7 +28,7 @@ interface UseLogoOptions {
   blockColor?: string
   /**
    * Optional vertical budget (in rows) for the logo. When fewer than the
-   * ASCII art's 6 lines are available, the hook downgrades to the single-line
+   * ASCII art's 5 lines are available, the hook downgrades to the single-line
    * text variant so callers on short terminals don't have to special-case it.
    */
   maxHeight?: number
@@ -69,21 +69,21 @@ export const useLogo = ({
   blockColor = '#ffffff',
   maxHeight,
 }: UseLogoOptions): LogoResult => {
-  // The ASCII art (full and small) is 6 lines tall. If the caller can't spare
-  // that many rows, collapse straight to the single-line text variant.
-  const ASCII_LOGO_LINES = 6
+  // The ASCII art (full) is 5 lines tall (small: 4). If the caller can't
+  // spare that many rows, collapse straight to the single-line text variant.
+  const ASCII_LOGO_LINES = 5
   const rawLogoString = useMemo(() => {
     if (maxHeight != null && maxHeight < ASCII_LOGO_LINES) {
-      return IS_FREEBUFF ? 'FREEBUFF' : 'CODEBUFF'
+      return IS_FREEBUFF ? 'METHATECH' : 'CODEBUFF'
     }
     if (availableWidth >= 70) return LOGO
     if (availableWidth >= 20) return LOGO_SMALL
-    return IS_FREEBUFF ? 'FREEBUFF' : 'CODEBUFF'
+    return IS_FREEBUFF ? 'METHATECH' : 'CODEBUFF'
   }, [availableWidth, maxHeight])
 
   // Format text block for plain text contexts (chat messages, etc.)
   const textBlock = useMemo(() => {
-    if (rawLogoString === 'CODEBUFF' || rawLogoString === 'FREEBUFF') {
+    if (rawLogoString === 'CODEBUFF' || rawLogoString === 'METHATECH') {
       return '' // Don't show ASCII art for text-only variant in plain text contexts
     }
     // Parse and format for plain text display
@@ -95,10 +95,10 @@ export const useLogo = ({
   // Format component for React contexts (login modal, etc.)
   const component = useMemo(() => {
     // Text-only variant for very narrow widths
-    if (rawLogoString === 'CODEBUFF' || rawLogoString === 'FREEBUFF') {
-      const brandName = IS_FREEBUFF ? 'Freebuff' : 'Codebuff'
+    if (rawLogoString === 'CODEBUFF' || rawLogoString === 'METHATECH') {
+      const brandName = IS_FREEBUFF ? 'MethaTech' : 'Codebuff'
       // When we collapsed to text purely to fit a short terminal (not because
-      // the terminal is narrow), keep it to the bare brand name — "Freebuff
+      // the terminal is narrow), keep it to the bare brand name — "MethaTech
       // CLI" reads as filler in that already-cramped space.
       const forcedByHeight = maxHeight != null && maxHeight < ASCII_LOGO_LINES
       const displayText =

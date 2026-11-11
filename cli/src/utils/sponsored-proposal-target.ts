@@ -117,7 +117,7 @@ async function resolve(
 export function sponsoredWorkspaceId(root: string): string | null {
   try {
     const workspaceId = readFileSync(
-      join(root, '.freebuff', 'project-id'),
+      join(root, '.methatech', 'project-id'),
       'utf8',
     )
       .trim()

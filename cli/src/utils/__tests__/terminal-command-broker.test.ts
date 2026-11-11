@@ -286,7 +286,7 @@ describe('terminal command broker', () => {
         terminalCommandBroker: broker,
       }),
     ).rejects.toThrow(
-      'Failed to start terminal command broker: helper executable is unavailable\n\nRestart Freebuff and try again.',
+      'Failed to start terminal command broker: helper executable is unavailable\n\nRestart MethaTech and try again.',
     )
     expect(failures).toEqual([{ stage: 'spawn', failureCode: 'unknown' }])
   })
@@ -332,7 +332,7 @@ describe('terminal command broker', () => {
         timeout_seconds: 10,
         terminalCommandBroker: broker,
       }),
-    ).rejects.toThrow('Restart Freebuff and try again.')
+    ).rejects.toThrow('Restart MethaTech and try again.')
   })
 
   test('adds recovery guidance when the helper exits before responding', async () => {
@@ -364,7 +364,7 @@ describe('terminal command broker', () => {
     }
 
     expect(failureMessage).toContain('Terminal command broker failed:')
-    expect(failureMessage).toContain('Restart Freebuff and try again.')
+    expect(failureMessage).toContain('Restart MethaTech and try again.')
     expect(failures).toEqual([
       { stage: 'completion', failureCode: 'protocol_missing' },
     ])
@@ -418,7 +418,7 @@ describe('terminal command broker', () => {
     expect(failureMessage).toContain('Terminal command broker failed:')
     expect(failureMessage).not.toContain('JSON Parse error')
     expect(failureMessage).toContain('The temp directory /tmp is full.')
-    expect(failureMessage).toContain('Freebuff does not need to be restarted.')
+    expect(failureMessage).toContain('MethaTech does not need to be restarted.')
     expect(failureMessage).not.toContain('Restart Freebuff and try again.')
     expect(failures).toEqual([
       { stage: 'completion', failureCode: 'invalid_response' },
@@ -444,7 +444,7 @@ describe('terminal command broker', () => {
         timeout_seconds: 10,
         terminalCommandBroker: broker,
       }),
-    ).rejects.toThrow('Restart Freebuff and try again.')
+    ).rejects.toThrow('Restart MethaTech and try again.')
   })
 
   test('a failed result write removes the partial file and explains itself on stderr', () => {

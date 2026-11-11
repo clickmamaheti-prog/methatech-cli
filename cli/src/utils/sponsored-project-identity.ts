@@ -21,7 +21,7 @@
  * The marker's directory is added to `.git/info/exclude` -- the repository's
  * LOCAL ignore list, which is never committed or shared -- unless something
  * already ignores it. So `git status` stays clean and nothing the CLI wrote
- * can be committed by accident. A repository that already ignores `.freebuff/`
+ * can be committed by accident. A repository that already ignores `.methatech/`
  * is left alone.
  */
 import { randomUUID } from 'node:crypto'
@@ -66,7 +66,7 @@ function originRemoteUrl(root: string): string | null {
   return result.status === 0 ? result.stdout.trim() : null
 }
 
-const EXCLUDE_LINE = '/.freebuff/'
+const EXCLUDE_LINE = '/.methatech/'
 
 /**
  * The repository's LOCAL exclude file. Read straight off `<root>/.git` in the
@@ -90,7 +90,7 @@ function localExcludePath(root: string): string | null {
 }
 
 /**
- * Keep `.freebuff/` out of `git status` with the LOCAL exclude file. Best
+ * Keep `.methatech/` out of `git status` with the LOCAL exclude file. Best
  * effort: a repository we cannot write the exclude for still gets its marker,
  * which is no worse than Desktop.
  *
@@ -109,7 +109,7 @@ export function excludeFreebuffDirectory(root: string): void {
       return
     }
     if (
-      git(root, ['check-ignore', '-q', '.freebuff/project-id']).status === 0
+      git(root, ['check-ignore', '-q', '.methatech/project-id']).status === 0
     ) {
       return
     }
@@ -117,7 +117,7 @@ export function excludeFreebuffDirectory(root: string): void {
     const separator = current === '' || current.endsWith('\n') ? '' : '\n'
     appendFileSync(
       exclude,
-      `${separator}# Freebuff's local project state\n${EXCLUDE_LINE}\n`,
+      `${separator}# MethaTech's local project state\n${EXCLUDE_LINE}\n`,
     )
   } catch {
     // Best effort; see above.
@@ -135,7 +135,7 @@ export function ensureSponsoredProjectIdentity(
   // repository when a supported remote identity is present.
   if (!options.everyRepository && repoFullNameFromRemote(originRemoteUrl(root)))
     return null
-  const directory = join(root, '.freebuff')
+  const directory = join(root, '.methatech')
   const marker = join(directory, 'project-id')
   try {
     const current = readFileSync(marker, 'utf8').trim().toLowerCase()

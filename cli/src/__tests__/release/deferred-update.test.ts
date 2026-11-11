@@ -52,12 +52,12 @@ async function withFixture(
     configDir: string
   }) => Promise<void>,
 ) {
-  const root = mkdtempSync(join(tmpdir(), 'freebuff-deferred-update-'))
+  const root = mkdtempSync(join(tmpdir(), 'methatech-deferred-update-'))
   const configDir = join(root, 'config')
   const archiveDir = join(root, 'archive')
   mkdirSync(configDir)
   mkdirSync(archiveDir)
-  const binaryName = process.platform === 'win32' ? 'freebuff.exe' : 'freebuff'
+  const binaryName = process.platform === 'win32' ? 'methatech.exe' : 'methatech'
   const target = `${process.platform}-${process.arch}`
   writeFileSync(join(archiveDir, binaryName), 'new binary')
   writeFileSync(join(archiveDir, 'tree-sitter.wasm'), 'new wasm')
@@ -101,7 +101,7 @@ async function withFixture(
 
   try {
     const launcher = createLauncher({
-      packageName: 'freebuff',
+      packageName: 'methatech',
       displayName: 'Freebuff',
       configDir,
       deferUpdatesUntilExit: true,
@@ -302,7 +302,7 @@ describe('an update the terminal closed on is installed on the next launch', () 
       ).toBe('2.0.0')
       expect(existsSync(dir)).toBe(false)
       expect(existsSync(`${config.tempDownloadDir}.adopting`)).toBe(false)
-      // Quiet: stdout may be piped (`freebuff --help | …`).
+      // Quiet: stdout may be piped (`methatech --help | …`).
       expect(output).toEqual([])
     })
   })
@@ -323,7 +323,7 @@ describe('an update the terminal closed on is installed on the next launch', () 
     await withFixture(async ({ check, config, adopt }) => {
       await check()
       const binaryName =
-        process.platform === 'win32' ? 'freebuff.exe' : 'freebuff'
+        process.platform === 'win32' ? 'methatech.exe' : 'methatech'
       writeFileSync(join(config.tempDownloadDir, binaryName), 'truncat')
       const dir = orphan(config)
 
@@ -373,19 +373,19 @@ describe('an update the terminal closed on is installed on the next launch', () 
       await check()
       orphan(config)
       // Older leftovers: one complete, one cut short.
-      const older = join(configDir, `.freebuff-download-temp-${deadPid()}`)
+      const older = join(configDir, `.methatech-download-temp-${deadPid()}`)
       mkdirSync(older)
       writeFileSync(
         join(older, 'staged.json'),
         JSON.stringify({ version: '1.5.0', target: 'linux-x64', files: {} }),
       )
-      mkdirSync(join(configDir, `.freebuff-download-temp-${deadPid()}`))
+      mkdirSync(join(configDir, `.methatech-download-temp-${deadPid()}`))
 
       expect(await adopt()).toBe('2.0.0')
       expect(readFileSync(config.binaryPath, 'utf8')).toBe('new binary')
       expect(
         readdirSync(configDir).filter((name) =>
-          name.startsWith('.freebuff-download-temp-'),
+          name.startsWith('.methatech-download-temp-'),
         ),
       ).toEqual([])
     })

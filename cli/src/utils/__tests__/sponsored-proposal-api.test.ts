@@ -221,7 +221,7 @@ describe('acceptSponsoredProposal renders a refusal, never a code', () => {
     if (result.ok) return
     expect(result.status).toBe(409)
     expect(result.message).not.toContain('funded_accept_required')
-    expect(result.message).toContain('Update Freebuff')
+    expect(result.message).toContain('Update MethaTech')
     expect(result.message).not.toContain('Desktop')
     expect(result.message.endsWith('.')).toBe(true)
     expect(result.code).toBe('funded_accept_required')
@@ -275,7 +275,7 @@ describe('acceptSponsoredProposal renders a refusal, never a code', () => {
     )
     expect(result.ok).toBe(false)
     if (result.ok) return
-    expect(result.message).toBe('Freebuff refused this sponsored task.')
+    expect(result.message).toBe('MethaTech refused this sponsored task.')
   })
 
   test('genuine prose in `error` is still shown as-is', async () => {

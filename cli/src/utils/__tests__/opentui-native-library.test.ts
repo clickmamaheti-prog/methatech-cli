@@ -149,7 +149,7 @@ describe('ensureRenderLibrary', () => {
     expect(error).toBeInstanceOf(RenderLibraryLoadError)
     const message = (error as Error).message
     expect(message).toStartWith(
-      'Freebuff could not load its terminal renderer.',
+      'MethaTech could not load its terminal renderer.',
     )
     expect(message).toContain('mounted noexec')
     expect(message).toContain('TMPDIR')

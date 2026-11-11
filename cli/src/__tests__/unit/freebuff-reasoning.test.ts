@@ -2,14 +2,19 @@ import { afterEach, describe, expect, test } from 'bun:test'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import {
-  FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
-  getFreebuffModelDefaultEffort,
-} from '@codebuff/common/constants/freebuff-models'
-import {
   useFreebuffModelStore,
   getFreebuffReasoningEffortForModel,
   getEffectiveFreebuffReasoningEffort,
 } from '../../state/freebuff-model-store'
+
+// FORK (MethaTech): panel models carry no reasoning-effort ladder — the
+// panel advertises no effort support, and the MethaTech directory declares
+// efforts: () => null ("the provider default stands untouched"). So a saved
+// effort is never honored and no default is advertised for a panel model.
+// The Freebuff-server effort machinery below stays in the code for the
+// Freebuff send path, but it is inert for panel rows. If a later stage
+// probes which panel models accept reasoning_effort, the ladder belongs in
+// the MethaTech directory with that evidence — not guessed here.
 
 const previous = useFreebuffModelStore.getState().reasoningEffortByModel
 afterEach(() =>
@@ -17,23 +22,18 @@ afterEach(() =>
 )
 
 describe('per-model reasoning', () => {
-  const model = FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID
-  test('uses the catalog default without sending an override', () => {
+  const model = 'deepseek-v4-flash'
+  test('a panel model advertises no effort default', () => {
     useFreebuffModelStore.setState({ reasoningEffortByModel: {} })
     expect(getFreebuffReasoningEffortForModel(model)).toBeNull()
-    expect(getEffectiveFreebuffReasoningEffort(model)).toBe(
-      getFreebuffModelDefaultEffort(model),
-    )
+    expect(getEffectiveFreebuffReasoningEffort(model)).toBeNull()
   })
-  test('uses supported overrides and ignores stale unsupported levels', () => {
+  test('a saved effort is not honored for a panel model', () => {
     useFreebuffModelStore.setState({
       reasoningEffortByModel: { [model]: 'low' },
     })
-    expect(getFreebuffReasoningEffortForModel(model)).toBe('low')
-    useFreebuffModelStore.setState({
-      reasoningEffortByModel: { [model]: 'xhigh' },
-    })
     expect(getFreebuffReasoningEffortForModel(model)).toBeNull()
+    expect(getEffectiveFreebuffReasoningEffort(model)).toBeNull()
   })
 })
 

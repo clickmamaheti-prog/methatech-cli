@@ -64,7 +64,7 @@ test.each([130, 42])(
     expect(frame).not.toContain('/history')
     expect(frame).not.toContain('/dashboard')
     expect(frame.split('\n')[0]!.trim()).toStartWith(
-      width === 130 ? '███████' : 'Freebuff',
+      width === 130 ? '██   ██' : 'MethaTech',
     )
     expect(frame).not.toContain('─ Freebuff ')
     rememberReferral({

@@ -53,5 +53,5 @@ export function sponsoredRuntimeDir(
   projectRoot: string,
   runId: string,
 ): string {
-  return join(projectRoot, '.freebuff', 'sponsored-runtime', runId)
+  return join(projectRoot, '.methatech', 'sponsored-runtime', runId)
 }

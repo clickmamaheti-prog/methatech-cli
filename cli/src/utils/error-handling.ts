@@ -16,7 +16,6 @@ import type {
   FreebuffIpPrivacySignal,
 } from '@codebuff/common/types/freebuff-session'
 
-import { IS_FREEBUFF } from './constants'
 
 const defaultAppUrl = env.NEXT_PUBLIC_CODEBUFF_APP_URL || 'https://codebuff.com'
 
@@ -207,7 +206,7 @@ export const getFreeModeUnavailableErrorMessage = (
   const details = getCliApiErrorDetails(error)
   const block = getCountryBlockFromFreeModeError(error)
   if (block?.countryBlockReason === 'anonymous_network') {
-    return `${IS_FREEBUFF ? 'Freebuff' : 'Free mode'} cannot be used from ${formatFreebuffHardBlockedPrivacySignals(
+    return `MethaTech cannot be used from ${formatFreebuffHardBlockedPrivacySignals(
       block.ipPrivacySignals,
     )} traffic. Please disable it and try again.`
   }
@@ -279,15 +278,14 @@ export const FREEBUFF_REFUNDED_START_HINT =
 export const OUT_OF_CREDITS_MESSAGE =`Out of credits. Please add credits at ${defaultAppUrl}/usage`
 
 export const FREEBUFF_RATE_LIMIT_MESSAGE =
-  'Freebuff is temporarily busy. Please try again in a moment.'
+  'MethaTech is temporarily busy. Please try again in a moment.'
 
 /** Fallback for a `model_unavailable` gate refusal without a server message. */
 export const FREEBUFF_MODEL_UNAVAILABLE_MESSAGE =
-  'This model is no longer available in Freebuff. Pick another model with /model and send your message again.'
+  'This model is no longer available on MethaTech. Pick another model with /model and send your message again.'
 
-export const FREE_MODE_UNAVAILABLE_MESSAGE = IS_FREEBUFF
-  ? 'Freebuff is not available in your country.'
-  : 'Free mode is not available in your country. You can use another mode to continue.'
+export const FREE_MODE_UNAVAILABLE_MESSAGE =
+  'MethaTech is not available in your country.'
 
 export const createErrorMessage = (
   error: unknown,

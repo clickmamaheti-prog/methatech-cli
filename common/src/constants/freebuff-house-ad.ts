@@ -42,7 +42,11 @@ export interface HouseAdCreative {
  * accepts the renderer's ellipsis in narrow panes (120/500/80 field limits).
  */
 export const HOUSE_AD_TITLE_BUDGET = 12
-export const HOUSE_AD_TEXT_BUDGET = 28
+// FORK (MethaTech): 26, not upstream's 28 — the destination URL
+// (HOUSE_AD_DESTINATION_URL, derived from FREEBUFF_WEB_URL_PROD) is 2 chars
+// longer on methatech.eu.org, so the description gets 2 fewer columns. The
+// test in __tests__/freebuff-house-ad.test.ts names this constant to update.
+export const HOUSE_AD_TEXT_BUDGET = 26
 
 const creative = (title: string, adText: string): HouseAdCreative => ({
   title,

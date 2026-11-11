@@ -22,7 +22,7 @@ beforeEach(async () => {
   const files = {
     '.gitignore': 'sandbox/\nartifacts/\n.env.example\n',
     '.codebuffignore': 'private/\n',
-    '.manicodeignore': 'legacy-private/\n',
+    '.metatechignore': 'legacy-private/\n',
     'sandbox/note.txt': 'requested artifact',
     'artifacts/render.png': png,
     'node_modules/example/index.js': 'dependency source',

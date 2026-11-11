@@ -18,7 +18,7 @@ export type ProjectUploadOptions = {
 }
 
 export function skipProjectUploadEntry(name: string) {
-  return ['.git', '.freebuff', 'node_modules'].includes(name.toLowerCase())
+  return ['.git', '.methatech', 'node_modules'].includes(name.toLowerCase())
 }
 
 export function validateProjectUpload(
@@ -44,7 +44,7 @@ export function validateProjectUpload(
           !part ||
           part === '.' ||
           part === '..' ||
-          ['.git', '.freebuff'].includes(part.toLowerCase()),
+          ['.git', '.methatech'].includes(part.toLowerCase()),
       )
     )
       throw new Error(`Unsupported file path: ${path}`)

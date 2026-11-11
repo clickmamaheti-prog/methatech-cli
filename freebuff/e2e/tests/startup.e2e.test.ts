@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from 'bun:test'
 
-import { FreebuffSession, requireFreebuffBinary } from '../utils'
+import { FreebuffSession, requireMethatechBinary } from '../utils'
 
 const STARTUP_TIMEOUT = 60_000
 
@@ -17,7 +17,7 @@ describe('Freebuff: Startup', () => {
   test(
     'binary renders its boot screen',
     async () => {
-      const binary = requireFreebuffBinary()
+      const binary = requireMethatechBinary()
       session = await FreebuffSession.start(binary)
 
       // CI can land on multiple post-init screens; accept any known boot marker.
@@ -38,7 +38,7 @@ describe('Freebuff: Startup', () => {
   test(
     'responds to Ctrl+C gracefully',
     async () => {
-      const binary = requireFreebuffBinary()
+      const binary = requireMethatechBinary()
       session = await FreebuffSession.start(binary)
       await session.waitForReady()
 

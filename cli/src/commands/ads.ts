@@ -48,7 +48,7 @@ export const handleAdsEnable = (): {
  * mode still forced ads on).
  */
 export const FREEBUFF_ADS_FIXED_COPY =
-  'Ads cannot be turned off in Freebuff - they pay for the free sessions. ' +
+  'Ads cannot be turned off in MethaTech - they pay for the free sessions. ' +
   'This switch applies only to the Codebuff client.'
 
 export const handleAdsDisable = (
@@ -232,7 +232,7 @@ export function handleProposalAccept(messages: ChatMessage[]): string | null {
 }
 
 function proposalRefreshUnavailableMessage(): string {
-  return 'Could not refresh this sponsored proposal. Try again when Freebuff reconnects.'
+  return 'Could not refresh this sponsored proposal. Try again when MethaTech reconnects.'
 }
 
 /**

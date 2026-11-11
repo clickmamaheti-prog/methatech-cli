@@ -22,7 +22,7 @@ import type { AgentDefinition } from '../templates/initial-agents-dir/types/agen
 
 /** The project-understanding agent's first sentence, at position 0 of its system prompt. */
 export const PROJECT_UNDERSTANDING_OPENING =
-  'You are Buffy, the project-understanding agent behind Freebuff.'
+  'You are Buffy, the project-understanding agent behind MethaTech.'
 
 /** The sentence that follows it (root-prompt-shape.ts pins the pair). */
 export const PROJECT_UNDERSTANDING_CONTINUATION =

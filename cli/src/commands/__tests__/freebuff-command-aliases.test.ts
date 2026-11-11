@@ -25,7 +25,7 @@ describe('freebuff command aliases', () => {
           import assert from 'node:assert/strict'
 
           // These write adsEnabled to the settings file Codebuff shares
-          // (~/.config/manicode). Freebuff always shows ads, so it must not
+          // (~/.config/metatech). Freebuff always shows ads, so it must not
           // offer a switch it ignores and Codebuff would honour.
           for (const name of ['ads:enable', 'ads:disable']) {
             const isFree = process.env.FREEBUFF_MODE === 'true'
@@ -73,20 +73,25 @@ describe('freebuff command aliases', () => {
           const menu = SLASH_COMMANDS.find(cmd => cmd.id === 'reasoning')
           assert.ok(menu)
           assert.deepEqual(menu.aliases, ['effort', 'think'])
+          // FORK (MethaTech): no panel model offers adjustable reasoning
+          // (the MethaTech directory declares no effort ladder), so the
+          // reasoning command reports that and never opens the picker —
+          // for every alias, and for the model and the next-model alike.
           for (const name of ['reasoning', 'effort', 'think']) {
             useFreebuffChatStore.setState({ pickerOpen: false, pickerInitialView: 'model' })
             const command = findCommand(name)
             assert.equal(command?.name, 'reasoning')
             await command.handler(params, '')
-            assert.equal(useFreebuffChatStore.getState().pickerOpen, true)
-            assert.equal(useFreebuffChatStore.getState().pickerInitialView, 'reasoning')
+            assert.equal(useFreebuffChatStore.getState().pickerOpen, false)
+            assert.equal(useFreebuffChatStore.getState().pickerInitialView, 'model')
             assert.equal(useFreebuffChatStore.getState().nextModel, model)
             assert.equal(useFreebuffChatStore.getState().admission, null)
             assert.equal(useFreebuffModelStore.getState().selectedModel, activeModel)
             assert.equal(useFreebuffModelStore.getState().reasoningEffortByModel, effortsBefore)
             assert.equal(useFreebuffSessionStore.getState().session, sessionBefore)
           }
-          assert.deepEqual(messages, [])
+          assert.equal(messages.length, 3)
+          assert.ok(JSON.stringify(messages).includes('does not offer adjustable reasoning'))
           assert.equal(history.length, 3)
           assert.equal(input.text, '')
 

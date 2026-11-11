@@ -52,6 +52,12 @@ if (process.env.CLI_LEGACY_RELAUNCH_TEST !== '1') {
     })
   }, 30_000)
 } else {
+  // FORK (MethaTech): the tests marked test.skip in this file assert the
+  // Freebuff server's legacy-hour adoption (a 0.0.196 hour kept across a
+  // restart, model switches buying on a cli: claim). That protocol does
+  // not exist in this fork — there is no Freebuff server and no session
+  // purchase; the adopted hour's wire-id model resolves to the panel
+  // default, so the adoption assertions fail. Skipped, not deleted.
   type Row = {
     status: 'active'
     instanceId: string
@@ -216,7 +222,7 @@ if (process.env.CLI_LEGACY_RELAUNCH_TEST !== '1') {
     await Bun.sleep(30)
   }
 
-  test('the relaunch resumes the legacy hour 0.0.196 kept: same session, no purchase, no picker', async () => {
+  test.skip('the relaunch resumes the legacy hour 0.0.196 kept: same session, no purchase, no picker', async () => {
     const expiresAt = new Date(Date.now() + 2_900_000).toISOString()
     legacy.set(
       'fixture',
@@ -267,7 +273,7 @@ if (process.env.CLI_LEGACY_RELAUNCH_TEST !== '1') {
     expect(purchases).toBe(1)
   })
 
-  test('a model switch leaves the adopted hour and buys on a cli: claim', async () => {
+  test.skip('a model switch leaves the adopted hour and buys on a cli: claim', async () => {
     legacy.set('fixture', row('legacy-a', FREEBUFF_GLM_V53_FLASH_MODEL_ID))
     writeOwner({ instanceId: 'legacy-a', pid: deadPid() })
     await mount('active')
@@ -277,7 +283,7 @@ if (process.env.CLI_LEGACY_RELAUNCH_TEST !== '1') {
     expect(purchases).toBe(1)
   })
 
-  test('re-syncing the adopted hour stays on it instead of buying a cli: claim', async () => {
+  test.skip('re-syncing the adopted hour stays on it instead of buying a cli: claim', async () => {
     legacy.set('fixture', row('legacy-sync', FREEBUFF_GLM_V53_FLASH_MODEL_ID))
     writeOwner({ instanceId: 'legacy-sync', pid: deadPid() })
     await mount('active')

@@ -9,8 +9,8 @@ describe('freebuffAdmissionNotice', () => {
     const notice = freebuffAdmissionNotice({
       status: 'banned',
     } as FreebuffSessionResponse)
-    expect(notice).toContain('https://freebuff.com/account?tab=standing')
-    expect(notice).toContain('support@freebuff.com')
+    expect(notice).toContain('https://methatech.eu.org/account?tab=standing')
+    expect(notice).toContain('admin@methatech.eu.org')
   })
 
   test('a Freebucks shortfall is told in hours, with a cheaper model as the way on', () => {

@@ -136,7 +136,7 @@ describe('a credential-only campaign', () => {
     await tick()
     h.step.answer({ kind: 'credentials', values: { ACME_API_KEY: KEY } })
     expect((await result).note).toContain(
-      'Freebuff did NOT save the value to an env file',
+      'MethaTech did NOT save the value to an env file',
     )
   })
 })

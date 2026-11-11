@@ -41,4 +41,4 @@ export const AGENT_CORE_APP_UPDATE_REQUIRED_KIND = 'APP_UPDATE_REQUIRED'
  * (iOS `ConvexCallError`, Android `ConvexCallError`).
  */
 export const AGENT_CORE_APP_UPDATE_REQUIRED_MESSAGE =
-  'This version of Freebuff is out of date. Update the app to keep working on your projects.'
+  'This version of MethaTech is out of date. Update the app to keep working on your projects.'

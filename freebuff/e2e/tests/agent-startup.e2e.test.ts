@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from 'bun:test'
 
-import { FreebuffSession, requireFreebuffBinary } from '../utils'
+import { FreebuffSession, requireMethatechBinary } from '../utils'
 
 const TEST_TIMEOUT = 60_000
 
@@ -17,7 +17,7 @@ describe('Freebuff: Agent startup smoke', () => {
   test(
     'starts the CLI and renders visible output',
     async () => {
-      const binary = requireFreebuffBinary()
+      const binary = requireMethatechBinary()
       session = await FreebuffSession.start(binary)
 
       const output = await session.waitForBootSignal()
@@ -34,7 +34,7 @@ describe('Freebuff: Agent startup smoke', () => {
   test(
     'can open help from the running CLI when chat input is available',
     async () => {
-      const binary = requireFreebuffBinary()
+      const binary = requireMethatechBinary()
       session = await FreebuffSession.start(binary)
       await session.waitForReady()
 

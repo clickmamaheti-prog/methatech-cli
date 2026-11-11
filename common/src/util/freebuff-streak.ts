@@ -26,7 +26,7 @@ function dateKeyFromParts(parts: Intl.DateTimeFormatPart[]): string {
   const day = get('day')
 
   if (!year || !month || !day) {
-    throw new Error('Failed to format Freebuff usage date')
+    throw new Error('Failed to format MethaTech usage date')
   }
 
   return `${year}-${month}-${day}`

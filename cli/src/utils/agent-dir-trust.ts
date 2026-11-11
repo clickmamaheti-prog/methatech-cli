@@ -190,7 +190,7 @@ export const inspectAgentDir = (dir: string): AgentDirInventory => {
 // Prompt text
 // ============================================================================
 
-const cliName = (): string => (IS_FREEBUFF ? 'freebuff' : 'codebuff')
+const cliName = (): string => (IS_FREEBUFF ? 'methatech' : 'codebuff')
 
 export const formatTrustPrompt = (inventory: AgentDirInventory): string => {
   const lines: string[] = []

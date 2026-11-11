@@ -12,14 +12,14 @@ const { getCurrentChatDir, setCurrentChatId, setProjectRoot } = await import(
   '../project-files'
 )
 
-const originalConfigDir = process.env.FREEBUFF_CONFIG_DIR
+const originalConfigDir = process.env.METHATECH_CONFIG_DIR
 let tempRoot = ''
 
 afterEach(() => {
   if (originalConfigDir === undefined) {
-    delete process.env.FREEBUFF_CONFIG_DIR
+    delete process.env.METHATECH_CONFIG_DIR
   } else {
-    process.env.FREEBUFF_CONFIG_DIR = originalConfigDir
+    process.env.METHATECH_CONFIG_DIR = originalConfigDir
   }
   if (tempRoot) fs.rmSync(tempRoot, { recursive: true, force: true })
   tempRoot = ''
@@ -33,7 +33,7 @@ describe.skipIf(process.platform === 'win32')('chat directory mode', () => {
     const project = path.join(tempRoot, 'my-project')
     // Not a git repo, so setProjectRoot writes no project marker.
     fs.mkdirSync(project)
-    process.env.FREEBUFF_CONFIG_DIR = configDir
+    process.env.METHATECH_CONFIG_DIR = configDir
     setProjectRoot(project)
     setCurrentChatId('2026-10-26T00-00-00.000Z')
 

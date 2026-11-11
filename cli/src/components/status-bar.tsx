@@ -12,7 +12,6 @@ import { useTheme } from '../hooks/use-theme'
 import { useChatStore } from '../state/chat-store'
 import { useFreebuffModelDirectory } from '../state/freebuff-catalog-store'
 import { useByokSelectionStore } from '../utils/byok'
-import { IS_FREEBUFF } from '../utils/constants'
 import { freebucksOf } from '../utils/freebucks'
 import { formatElapsedTime } from '../utils/format-elapsed-time'
 import { formatContextUsage } from '../utils/format-token-count'
@@ -186,7 +185,7 @@ export const StatusBar = ({
         // The connection monitor starts optimistic; this state means a check failed.
         return (
           <span fg={theme.warning}>
-            {`Can't reach ${IS_FREEBUFF ? 'Freebuff' : 'Codebuff'}'s servers. Retrying… Try another network.`}
+            {`Can't reach MethaTech's servers. Retrying… Try another network.`}
           </span>
         )
 

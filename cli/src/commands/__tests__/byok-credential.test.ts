@@ -31,7 +31,7 @@ function useStore(
   environment: Record<string, string | undefined>,
   fetch?: typeof globalThis.fetch,
 ) {
-  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'freebuff-byok-cred-'))
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'methatech-byok-cred-'))
   directories.push(directory)
   const store = createBunByokConnectionStore({
     directory,
@@ -64,7 +64,7 @@ describe('/byok with an environment-variable key', () => {
 
     expect(added).toContain('Saved omniroute (OpenAI-compatible · mistral/codestral-latest)')
     expect(added).toContain(
-      'OMNIROUTE_API_KEY is not set in this Freebuff process. Set it and restart Freebuff from that terminal.',
+      'OMNIROUTE_API_KEY is not set in this MethaTech process. Set it and restart MethaTech from that terminal.',
     )
     expect(added).toContain('/byok validate omniroute')
     expect(added).not.toContain('BYOK error')
@@ -90,11 +90,11 @@ describe('/byok with an environment-variable key', () => {
     expect(
       byokLoadFailureMessage(
         new ByokCredentialError(
-          'OMNIROUTE_API_KEY is not set in this Freebuff process. Set it and restart Freebuff from that terminal.',
+          'OMNIROUTE_API_KEY is not set in this MethaTech process. Set it and restart MethaTech from that terminal.',
         ),
       ),
     ).toBe(
-      '⚠️ Unable to load the selected BYOK connection: OMNIROUTE_API_KEY is not set in this Freebuff process. Set it and restart Freebuff from that terminal.',
+      '⚠️ Unable to load the selected BYOK connection: OMNIROUTE_API_KEY is not set in this MethaTech process. Set it and restart MethaTech from that terminal.',
     )
     // Arbitrary errors may carry anything; they keep the fixed line.
     expect(byokLoadFailureMessage(new Error(`boom ${SYNTHETIC_KEY}`))).toBe(
