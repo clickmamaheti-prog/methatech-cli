@@ -1,4 +1,12 @@
 # MethaTech CLI Changelog
+## 1.0.2 — 2026-11-12
+
+- Linux ARM64 build alongside x64: one package, two binaries, the
+  launcher picks the right one. Installs on ARM64 Linux and inside
+  proot-distro Ubuntu on Termux (Android ARM). Direct Termux without
+  proot is not supported: the binary needs glibc, Termux ships Bionic.
+- Nothing else changed from 1.0.1.
+
 
 ## 1.0.1 — 2026-11-12
 
