@@ -66,7 +66,7 @@ const RESERVED_PREFIXES: readonly string[] = Object.freeze([
   'GIT_',
   'SSH_',
   'GCM_',
-  'CODEBUFF_',
+  'METHATECH_',
   'FREEBUFF_',
 ])
 

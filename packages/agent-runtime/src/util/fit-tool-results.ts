@@ -1,7 +1,7 @@
 import { countTokensMessages } from './token-counter'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { JSONValue } from '@codebuff/common/types/json'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { JSONValue } from '@methatech/common/types/json'
 
 /** Only used when fresh results cannot fit even with all older history removed. */
 export function fitToolResults(

@@ -4,7 +4,7 @@ import { assertUrlAllowed } from './ssrf'
 
 import type { AddressPolicy, HostLookup } from './ssrf'
 
-import type { CodebuffToolOutput } from '../../../common/src/tools/list'
+import type { MethaTechToolOutput } from '../../../common/src/tools/list'
 
 const DEFAULT_MAX_CHARS = 20_000
 const MAX_RESPONSE_BYTES = 2_000_000
@@ -12,9 +12,9 @@ const FETCH_TIMEOUT_MS = 20_000
 const MAX_REDIRECTS = 5
 const REDIRECT_STATUSES = new Set([301, 302, 303, 307, 308])
 const USER_AGENT =
-  'Mozilla/5.0 (compatible; CodebuffResearchBot/1.0; +https://codebuff.com)'
+  'Mozilla/5.0 (compatible; MethaTechResearchBot/1.0; +https://console.methatech.eu.org)'
 
-type ReadUrlOutput = CodebuffToolOutput<'read_url'>
+type ReadUrlOutput = MethaTechToolOutput<'read_url'>
 type FetchLike = (
   input: string | URL | Request,
   init?: RequestInit,

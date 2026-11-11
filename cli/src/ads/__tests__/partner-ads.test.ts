@@ -192,8 +192,8 @@ describe('the request', () => {
   test('is a body the CLI rail accepts', async () => {
     // `/api/v1/ads` takes `provider` from the paid networks only and answers
     // anything else with a 400, which would leave every partner slot dark.
-    const saved = process.env.CODEBUFF_API_KEY
-    process.env.CODEBUFF_API_KEY = saved || 'test-key'
+    const saved = process.env.METHATECH_API_KEY
+    process.env.METHATECH_API_KEY = saved || 'test-key'
     try {
       const built = await buildAdAuctionRequest(partnerAuctionParams(PLACEMENT))
       const body = JSON.parse(String(built?.init.body))
@@ -204,16 +204,16 @@ describe('the request', () => {
         placementId: PLACEMENT,
       })
     } finally {
-      if (saved === undefined) delete process.env.CODEBUFF_API_KEY
-      else process.env.CODEBUFF_API_KEY = saved
+      if (saved === undefined) delete process.env.METHATECH_API_KEY
+      else process.env.METHATECH_API_KEY = saved
     }
   })
 })
 
 describe('the composer intent request body', () => {
   test('names CLI-Intent and ends with the draft', async () => {
-    const saved = process.env.CODEBUFF_API_KEY
-    process.env.CODEBUFF_API_KEY = saved || 'test-key'
+    const saved = process.env.METHATECH_API_KEY
+    process.env.METHATECH_API_KEY = saved || 'test-key'
     try {
       const built = await buildAdAuctionRequest({
         surface: 'cli_chat',
@@ -232,8 +232,8 @@ describe('the composer intent request body', () => {
         content: 'review my pr',
       })
     } finally {
-      if (saved === undefined) delete process.env.CODEBUFF_API_KEY
-      else process.env.CODEBUFF_API_KEY = saved
+      if (saved === undefined) delete process.env.METHATECH_API_KEY
+      else process.env.METHATECH_API_KEY = saved
     }
   })
 })

@@ -1,6 +1,6 @@
-import { buildCompactionSummaryPrompt } from '@codebuff/common/constants/compaction-summary'
-import { promptSuccess } from '@codebuff/common/util/error'
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import { buildCompactionSummaryPrompt } from '@methatech/common/constants/compaction-summary'
+import { promptSuccess } from '@methatech/common/util/error'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import { beforeEach, describe, expect, it } from 'bun:test'
 
 import {
@@ -19,8 +19,8 @@ import {
 } from '../conversation-summary'
 
 import type { SummaryStream } from '../conversation-summary'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { ConversationSummary } from '@codebuff/common/types/session-state'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { ConversationSummary } from '@methatech/common/types/session-state'
 
 const MINUTE = 60_000
 const TEXT = `## Objective\n- ${'keep going '.repeat(30)}`
@@ -270,7 +270,7 @@ describe('generateConversationSummary', () => {
     let metadata: Record<string, string> = {}
     const { summary } = await generate(history, (request) => {
       sent = request.messages
-      metadata = request.extraCodebuffMetadata
+      metadata = request.extraMethaTechMetadata
       return streamOf([{ type: 'text', text: TEXT }])(request)
     })
     expect(sent.slice(1, -1)).toEqual(history)

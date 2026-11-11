@@ -7,13 +7,13 @@ import {
   FREEBUFF_GPT_6_LUNA_MODEL_ID,
   FREEBUFF_MINIMAX_M3_MODEL_ID,
   FREEBUFF_MIMO_V25_MODEL_ID,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import {
   compactionPolicyForModel,
   DEEPSEEK_FLASH_COMPACTION_POLICY,
   DEFAULT_COMPACTION_POLICY,
-} from '@codebuff/common/constants/compaction-policy'
-import { contextPrunerBudgetForModel } from '@codebuff/common/constants/model-config'
+} from '@methatech/common/constants/compaction-policy'
+import { contextPrunerBudgetForModel } from '@methatech/common/constants/model-config'
 
 import { createBase2 } from '../base2/base2'
 import { createBaseDeep } from '../base2/base-deep'
@@ -24,7 +24,7 @@ const FREEBUFF_KIMI_MODEL_ID = 'moonshotai/kimi-k2.7-code'
 const FREEBUFF_MIMO_V25_PRO_MODEL_ID = 'mimo/mimo-v2.5-pro'
 
 describe('base2 reviewer selection', () => {
-  test('Codebuff lite uses GPT-5.6 Luna and the lite reviewer', () => {
+  test('MethaTech lite uses GPT-5.6 Luna and the lite reviewer', () => {
     const base2 = createBase2('lite')
 
     expect(base2.model).toBe('openai/gpt-5.6-luna')
@@ -51,7 +51,7 @@ describe('base2 reviewer selection', () => {
   })
 
   test('a free model without a matching reviewer falls back to DeepSeek Flash', () => {
-    // Never code-reviewer-lite: that one runs Codebuff's paid lite model now,
+    // Never code-reviewer-lite: that one runs MethaTech's paid lite model now,
     // which free mode is not allowed to spend on.
     const base2 = createBase2('free', { model: 'some/unmapped-free-model' })
 
@@ -259,7 +259,7 @@ describe('base2 escalation guidance', () => {
     )
     expect(systemPrompt).toContain('costs about the same per token')
     expect(systemPrompt).toContain('DEFAULT or MAX mode')
-    // The rationale must be Codebuff's cost story, not Freebuff's.
+    // The rationale must be MethaTech's cost story, not Freebuff's.
     expect(systemPrompt).not.toContain('ChatGPT subscription')
   })
 

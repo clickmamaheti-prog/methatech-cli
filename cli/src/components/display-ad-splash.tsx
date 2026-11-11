@@ -17,7 +17,7 @@
  * the billed impression on insertion and the billed click before opening its
  * clickUrl. No fill draws nothing. "Hide for today" stays local.
  */
-import { sponsorFor } from '@codebuff/common/ads/display-ads/sponsors'
+import { sponsorFor } from '@methatech/common/ads/display-ads/sponsors'
 import { TextAttributes } from '@opentui/core'
 
 import { Button } from './button'
@@ -44,7 +44,7 @@ import { useTheme } from '../hooks/use-theme'
 import { safeOpen } from '../utils/open-url'
 
 import type { CliSponsorColors } from '../ads/display-ads'
-import type { DisplaySponsor } from '@codebuff/common/ads/display-ads/served'
+import type { DisplaySponsor } from '@methatech/common/ads/display-ads/served'
 
 export type DisplayAdSplashVariant = 'boxed' | 'line'
 

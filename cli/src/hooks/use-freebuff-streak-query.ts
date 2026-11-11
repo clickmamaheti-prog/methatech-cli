@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { getAuthToken } from '../utils/auth'
-import { getApiClient, setApiClientAuthToken } from '../utils/codebuff-api'
+import { getApiClient, setApiClientAuthToken } from '../utils/methatech-api'
 import { logger as defaultLogger } from '../utils/logger'
 
-import type { FreebuffStreakResponse } from '@codebuff/common/types/freebuff-streak'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { FreebuffStreakResponse } from '@methatech/common/types/freebuff-streak'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 export const freebuffStreakQueryKeys = {
   all: ['freebuffStreak'] as const,

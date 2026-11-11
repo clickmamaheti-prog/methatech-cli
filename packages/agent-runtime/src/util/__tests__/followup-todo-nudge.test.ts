@@ -1,4 +1,4 @@
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import { describe, expect, it } from 'bun:test'
 
 import {
@@ -8,7 +8,7 @@ import {
   MAX_FOLLOWUP_TODO_NUDGES,
 } from '../followup-todo-nudge'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 type Todo = { task: string; completed: boolean }
 

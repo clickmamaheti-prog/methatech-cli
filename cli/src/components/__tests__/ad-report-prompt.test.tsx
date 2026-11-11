@@ -2,7 +2,7 @@ import { beforeAll, afterEach, describe, expect, test } from 'bun:test'
 import { createTestRenderer } from '@opentui/core/testing'
 import { createRoot, flushSync } from '@opentui/react'
 import React from 'react'
-import type { AdReport } from '@codebuff/common/ads/ad-report'
+import type { AdReport } from '@methatech/common/ads/ad-report'
 
 import { AdReportButton } from '../ad-report-button'
 import { AdReportPrompt, useAdReportPrompt } from '../ad-report-prompt'

@@ -1,8 +1,8 @@
 import { z } from 'zod/v4'
 
-import type { ClientEnv, CiEnv } from '@codebuff/common/types/contracts/env'
-import type { JSONObject } from '@codebuff/common/types/json'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { ClientEnv, CiEnv } from '@methatech/common/types/contracts/env'
+import type { JSONObject } from '@methatech/common/types/json'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 const FETCH_TIMEOUT_MS = 30_000
 const MAX_RETRIES = 3
@@ -11,14 +11,14 @@ const RETRYABLE_STATUS_CODES = new Set([408, 429, 500, 502, 503, 504])
 
 /**
  * Thrown by a runtime `fetch` that will never reach the hosted service (a
- * direct BYOK run has no Codebuff allowance). Retrying it cannot succeed, so
+ * direct BYOK run has no MethaTech allowance). Retrying it cannot succeed, so
  * the tool fails at once instead of after the 1s + 2s network-error backoff.
  */
 export class HostedServiceUnavailableError extends Error {
   override name = 'HostedServiceUnavailableError'
 }
 
-interface CodebuffWebApiEnv {
+interface MethaTechWebApiEnv {
   clientEnv: ClientEnv
   ciEnv: CiEnv
 }
@@ -45,7 +45,7 @@ const getNumberField = (value: unknown, key: string): number | undefined => {
   return typeof field === 'number' ? field : undefined
 }
 
-const callCodebuffV1 = async (params: {
+const callMethaTechV1 = async (params: {
   endpoint:
     | '/api/v1/web-search'
     | '/api/v1/web-fetch'
@@ -54,15 +54,15 @@ const callCodebuffV1 = async (params: {
   payload: unknown
   fetch: typeof globalThis.fetch
   logger: Logger
-  env: CodebuffWebApiEnv
+  env: MethaTechWebApiEnv
   baseUrl?: string
   apiKey?: string
   signal?: AbortSignal
   requestName: 'web-search' | 'web-fetch' | 'docs-search' | 'gravity-index'
 }): Promise<{ json?: unknown; error?: string; creditsUsed?: number }> => {
   const { endpoint, payload, fetch, logger, env, requestName } = params
-  const baseUrl = params.baseUrl ?? env.clientEnv.NEXT_PUBLIC_CODEBUFF_APP_URL
-  const apiKey = params.apiKey ?? env.ciEnv.CODEBUFF_API_KEY
+  const baseUrl = params.baseUrl ?? env.clientEnv.NEXT_PUBLIC_METHATECH_APP_URL
+  const apiKey = params.apiKey ?? env.ciEnv.METHATECH_API_KEY
 
   if (!baseUrl || !apiKey) {
     return { error: 'Missing MethaTech base URL or API key' }
@@ -85,7 +85,7 @@ const callCodebuffV1 = async (params: {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${apiKey}`,
-          'x-codebuff-api-key': apiKey,
+          'x-methatech-api-key': apiKey,
         },
         body: JSON.stringify(payload),
         signal: params.signal
@@ -182,7 +182,7 @@ const callCodebuffV1 = async (params: {
 type WebToolClient = {
   fetch: typeof globalThis.fetch
   logger: Logger
-  env: CodebuffWebApiEnv
+  env: MethaTechWebApiEnv
   baseUrl?: string
   apiKey?: string
   signal?: AbortSignal
@@ -199,7 +199,7 @@ export async function callWebSearchAPI(
   },
 ): Promise<{ result?: string; error?: string; creditsUsed?: number }> {
   const { query, searchQueries, objective, live, sessionId, repoUrl } = params
-  const res = await callCodebuffV1({
+  const res = await callMethaTechV1({
     ...params,
     endpoint: '/api/v1/web-search',
     payload: {
@@ -242,7 +242,7 @@ export async function callWebFetchAPI(
   },
 ) {
   const { url, maxChars, objective, live, sessionId } = params
-  const res = await callCodebuffV1({
+  const res = await callMethaTechV1({
     ...params,
     endpoint: '/api/v1/web-fetch',
     payload: { url, maxChars, objective, live, sessionId },
@@ -267,7 +267,7 @@ export async function callDocsSearchAPI(params: {
   repoUrl?: string | null
   fetch: typeof globalThis.fetch
   logger: Logger
-  env: CodebuffWebApiEnv
+  env: MethaTechWebApiEnv
   baseUrl?: string
   apiKey?: string
 }): Promise<{ documentation?: string; error?: string; creditsUsed?: number }> {
@@ -277,7 +277,7 @@ export async function callDocsSearchAPI(params: {
   if (typeof maxTokens === 'number') payload.maxTokens = maxTokens
   if (repoUrl) payload.repoUrl = repoUrl
 
-  const res = await callCodebuffV1({
+  const res = await callMethaTechV1({
     endpoint: '/api/v1/docs-search',
     payload,
     fetch,
@@ -302,7 +302,7 @@ export async function callGravityIndexAPI(params: {
   input: JSONObject
   fetch: typeof globalThis.fetch
   logger: Logger
-  env: CodebuffWebApiEnv
+  env: MethaTechWebApiEnv
   baseUrl?: string
   apiKey?: string
 }): Promise<{
@@ -312,7 +312,7 @@ export async function callGravityIndexAPI(params: {
 }> {
   const { input, fetch, logger, env } = params
 
-  const res = await callCodebuffV1({
+  const res = await callMethaTechV1({
     endpoint: '/api/v1/gravity-index',
     payload: input,
     fetch,

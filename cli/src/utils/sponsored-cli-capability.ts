@@ -3,12 +3,12 @@ import {
   type CapabilityInspection,
   type SponsoredCapability,
   type SponsoredCapabilityReason,
-} from '@codebuff/common/ads/sponsored-capability'
-import { repoFullNameFromRemote } from '@codebuff/common/ads/sponsored-proposal-target'
+} from '@methatech/common/ads/sponsored-capability'
+import { repoFullNameFromRemote } from '@methatech/common/ads/sponsored-proposal-target'
 import {
   sponsoredLocalContainmentIsFloor,
   type SponsoredLocalContainment,
-} from '@codebuff/common/ads/sponsored-local-execution'
+} from '@methatech/common/ads/sponsored-local-execution'
 import { existsSync, readFileSync } from 'fs'
 import { release } from 'node:os'
 import { join } from 'path'

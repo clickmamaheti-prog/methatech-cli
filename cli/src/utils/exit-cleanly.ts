@@ -1,4 +1,4 @@
-import { withTimeoutOr } from '@codebuff/common/util/promise'
+import { withTimeoutOr } from '@methatech/common/util/promise'
 import { flushAdEngagementOnExit } from '../ads/use-ad-engagement'
 import { flushAnalytics } from './analytics'
 import { IS_FREEBUFF } from './constants'

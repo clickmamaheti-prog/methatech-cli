@@ -1,4 +1,4 @@
-import { getActiveTerminalCommandProcesses } from '@codebuff/sdk'
+import { getActiveTerminalCommandProcesses } from '@methatech/sdk'
 
 import { getTerminalWatchdogDiagnostics } from '../utils/terminal-watchdog'
 import { getCliEnv } from '../utils/env'
@@ -100,7 +100,7 @@ export function collectProcessDiagnostics(): ProcessDiagnosticsSnapshot {
   const cpuUsage = process.cpuUsage()
   return {
     product: 'MethaTech',
-    version: getCliEnv().CODEBUFF_CLI_VERSION ?? 'dev',
+    version: getCliEnv().METHATECH_CLI_VERSION ?? 'dev',
     runtime:
       typeof Bun !== 'undefined'
         ? `Bun ${Bun.version}`

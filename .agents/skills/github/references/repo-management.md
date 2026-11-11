@@ -4,7 +4,7 @@ Create, clone, fork, configure, and manage GitHub repositories. Each section sho
 
 ## Prerequisites
 
-- Authenticated with GitHub (see `github-auth` skill)
+- Authenticated with GitHub (see the `github` skill's auth reference (`references/auth.md`))
 
 ### Setup
 
@@ -14,10 +14,10 @@ if command -v gh &>/dev/null && gh auth status &>/dev/null; then
 else
   AUTH="git"
   if [ -z "$GITHUB_TOKEN" ]; then
-    if _hermes_env="${HERMES_HOME:-$HOME/.hermes}/.env"; [ -f "$_hermes_env" ] && grep -q "^GITHUB_TOKEN=" "$_hermes_env"; then
-      GITHUB_TOKEN=$(grep "^GITHUB_TOKEN=" "$_hermes_env" | head -1 | cut -d= -f2 | tr -d '\n\r')
+    if _methatech_env="${METHATECH_CONFIG_DIR:-$HOME/.config/metatech}/.env"; [ -f "$_methatech_env" ] && grep -q "^GITHUB_TOKEN=" "$_methatech_env"; then
+      GITHUB_TOKEN=$(grep "^GITHUB_TOKEN=" "$_methatech_env" | head -1 | cut -d= -f2 | tr -d '\n\r')
     elif grep -q "github.com" ~/.git-credentials 2>/dev/null; then
-      GITHUB_TOKEN=$(uv run python "${HERMES_HOME:-$HOME/.hermes}/skills/github/github-auth/scripts/git-credential-token.py")
+      GITHUB_TOKEN=$(uv run python ".agents/skills/github/scripts/git-credential-token.py")
     fi
   fi
 fi
@@ -432,8 +432,8 @@ RUN_ID=<run_id>
 curl -s -L \
   -H "Authorization: token $GITHUB_TOKEN" \
   https://api.github.com/repos/$OWNER/$REPO/actions/runs/$RUN_ID/logs \
-  -o ~/.hermes/cache/scratch/ci-logs.zip
-cd ~/.hermes/cache/scratch && unzip -o ci-logs.zip -d ci-logs
+  -o ~/.config/metatech/cache/scratch/ci-logs.zip
+cd ~/.config/metatech/cache/scratch && unzip -o ci-logs.zip -d ci-logs
 
 # Re-run a failed workflow
 curl -s -X POST \

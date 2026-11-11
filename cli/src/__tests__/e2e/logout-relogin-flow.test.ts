@@ -19,14 +19,14 @@ import {
   logoutUser,
 } from '../../utils/auth'
 import * as AuthModule from '../../utils/auth'
-import * as CodebuffApiModule from '../../utils/codebuff-api'
+import * as MethaTechApiModule from '../../utils/methatech-api'
 
 type User = AuthModule.User
 
 const ORIGINAL_USER: User = {
   id: 'user-001',
   name: 'CLI Tester',
-  email: 'tester@codebuff.dev',
+  email: 'tester@methatech.dev',
   authToken: 'token-original',
   fingerprintId: 'fingerprint-original',
   fingerprintHash: 'fingerprint-hash-original',
@@ -63,9 +63,9 @@ describe('Logout and Re-login helpers', () => {
   }
 
   const mockLogoutApi = () => {
-    spyOn(CodebuffApiModule, 'getApiClient').mockReturnValue({
+    spyOn(MethaTechApiModule, 'getApiClient').mockReturnValue({
       logout: async () => ({ ok: true, status: 200 }),
-    } as ReturnType<typeof CodebuffApiModule.getApiClient>)
+    } as ReturnType<typeof MethaTechApiModule.getApiClient>)
   }
 
   test('logoutUser removes credentials file and returns true', async () => {

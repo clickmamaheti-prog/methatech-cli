@@ -22,7 +22,7 @@
  */
 
 import { getCliEnv } from './env'
-import { withTimeout } from '@codebuff/common/util/promise'
+import { withTimeout } from '@methatech/common/util/promise'
 
 export type SecretStore = {
   get(): Promise<string | null>

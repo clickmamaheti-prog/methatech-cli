@@ -167,9 +167,9 @@ async function main() {
 
   const defineFlags = [
     ['process.env.NODE_ENV', '"production"'],
-    ['process.env.CODEBUFF_IS_BINARY', '"true"'],
-    ['process.env.CODEBUFF_CLI_VERSION', `"${version}"`],
-    ['process.env.CODEBUFF_CLI_TARGET', `"${getCliTargetLabel(targetInfo)}"`],
+    ['process.env.METHATECH_IS_BINARY', '"true"'],
+    ['process.env.METHATECH_CLI_VERSION', `"${version}"`],
+    ['process.env.METHATECH_CLI_TARGET', `"${getCliTargetLabel(targetInfo)}"`],
     ['process.env.FREEBUFF_MODE', `"${freebuffMode}"`],
     ...nextPublicEnvVars,
   ]
@@ -182,7 +182,7 @@ async function main() {
     '--no-compile-autoload-bunfig', // User project bunfig.toml must not affect the standalone CLI.
     // Bun's standalone executables load `.env` / `.env.local` from the
     // working directory by default. The SDK resolves its API base URL from
-    // `NEXT_PUBLIC_CODEBUFF_APP_URL` / `CODEBUFF_APP_URL` at runtime, so a
+    // `NEXT_PUBLIC_METHATECH_APP_URL` / `METHATECH_APP_URL` at runtime, so a
     // repository's `.env` could send every bearer-authenticated SDK call
     // (/api/v1/me, completions, agent runs) to a host of its choosing the
     // moment the CLI starts in it. A value exported in the user's own shell
@@ -316,7 +316,7 @@ function prepareOpenTuiNativeBundle(targetInfo: TargetInfo) {
 
   const packagesDir = dirname(corePackage.packageDir)
   const registry =
-    process.env.CODEBUFF_NPM_REGISTRY ?? process.env.NPM_REGISTRY_URL
+    process.env.METHATECH_NPM_REGISTRY ?? process.env.NPM_REGISTRY_URL
 
   for (const target of openTuiNativeTargets(targetInfo)) {
     const packageFolder = openTuiNativePackageFolder(target)

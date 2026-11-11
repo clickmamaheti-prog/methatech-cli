@@ -1,12 +1,12 @@
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { promptSuccess } from '@codebuff/common/util/error'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { promptSuccess } from '@methatech/common/util/error'
 import { beforeEach, describe, expect, it } from 'bun:test'
 
 import { processStreamWithTools } from '../tool-stream-parser'
 import { createToolCallChunk } from './test-utils'
 
-import type { AgentRuntimeDeps } from '@codebuff/common/types/contracts/agent-runtime'
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
+import type { AgentRuntimeDeps } from '@methatech/common/types/contracts/agent-runtime'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
 
 describe('processStreamWithTags', () => {
   async function* createMockStream(chunks: StreamChunk[]) {

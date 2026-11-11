@@ -117,7 +117,7 @@ export const UsageBanner = ({ showTime }: { showTime: number }) => {
           />
         )}
 
-        {/* Codebuff credits section - structured layout */}
+        {/* MethaTech credits section - structured layout */}
         <Button
           onClick={() => {
             safeOpen(WEBSITE_URL + '/usage')

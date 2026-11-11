@@ -12,7 +12,7 @@ import {
 } from '../sponsored-git-probe-cache'
 
 import type { GitResult, GitRunner } from '../sponsored-git'
-import type { SponsoredLocalContainment } from '@codebuff/common/ads/sponsored-local-execution'
+import type { SponsoredLocalContainment } from '@methatech/common/ads/sponsored-local-execution'
 
 const roots: string[] = []
 afterEach(() =>

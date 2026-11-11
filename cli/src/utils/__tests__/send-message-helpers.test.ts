@@ -1367,7 +1367,7 @@ describe('createAgentBlock', () => {
 
 describe('getAgentBaseName', () => {
   test('extracts base name from scoped versioned name', () => {
-    expect(getAgentBaseName('codebuff/file-picker@0.0.2')).toBe('file-picker')
+    expect(getAgentBaseName('methatech/file-picker@0.0.2')).toBe('file-picker')
   })
 
   test('extracts base name from simple versioned name', () => {
@@ -1386,7 +1386,7 @@ describe('getAgentBaseName', () => {
 describe('agentTypesMatch', () => {
   test('matches same base names with different versions', () => {
     expect(
-      getAgentBaseName('codebuff/file-picker@0.0.2') ===
+      getAgentBaseName('methatech/file-picker@0.0.2') ===
         getAgentBaseName('file-picker@1.0.0'),
     ).toBe(true)
   })

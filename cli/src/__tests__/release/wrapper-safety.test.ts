@@ -35,19 +35,19 @@ async function withLocalReleaseServer(
   })
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
 
-  const previousAppUrl = process.env.NEXT_PUBLIC_CODEBUFF_APP_URL
+  const previousAppUrl = process.env.NEXT_PUBLIC_METHATECH_APP_URL
   const previousNoProxy = process.env.NO_PROXY
   const address = server.address() as AddressInfo
-  process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = `http://127.0.0.1:${address.port}`
+  process.env.NEXT_PUBLIC_METHATECH_APP_URL = `http://127.0.0.1:${address.port}`
   process.env.NO_PROXY = '127.0.0.1'
 
   try {
     await run(requestedPaths)
   } finally {
     if (previousAppUrl === undefined) {
-      delete process.env.NEXT_PUBLIC_CODEBUFF_APP_URL
+      delete process.env.NEXT_PUBLIC_METHATECH_APP_URL
     } else {
-      process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = previousAppUrl
+      process.env.NEXT_PUBLIC_METHATECH_APP_URL = previousAppUrl
     }
     if (previousNoProxy === undefined) {
       delete process.env.NO_PROXY
@@ -62,11 +62,11 @@ async function withLocalReleaseServer(
 
 const wrappers = [
   {
-    name: 'codebuff',
+    name: 'methatech',
     directory: 'cli/release',
     expectedConfig: {
-      packageName: 'codebuff',
-      displayName: 'Codebuff',
+      packageName: 'methatech',
+      displayName: 'MethaTech',
       tempDownloadDirName: '.download-temp',
     },
   },
@@ -363,7 +363,7 @@ describe('shared release launcher safety', () => {
     expect(spawnFunction).not.toBe('')
 
     expect(spawnFunction).toContain(
-      'CODEBUFF_LAUNCHER_PID: String(process.pid)',
+      'METHATECH_LAUNCHER_PID: String(process.pid)',
     )
     // stderr is teed on Windows to keep native-crash output (see watchLaunch),
     // but stdin/stdout must stay inherited or the TUI loses its tty.

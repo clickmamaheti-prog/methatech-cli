@@ -44,11 +44,11 @@
  * `private-state.ts` holds the file helpers, shared with `sponsored-run.ts`,
  * so this module needs nothing from the run itself.
  */
-import { SPONSORED_RUN_TOKEN_TTL_MS } from '@codebuff/common/ads/sponsored-run-token'
+import { SPONSORED_RUN_TOKEN_TTL_MS } from '@methatech/common/ads/sponsored-run-token'
 import {
   SPONSORED_PARTIAL_EDITS_COPY,
   sponsoredPartialEditsDiagnostic,
-} from '@codebuff/common/ads/sponsored-in-place'
+} from '@methatech/common/ads/sponsored-in-place'
 import { readdirSync, readFileSync, unlinkSync } from 'fs'
 import { createHash } from 'node:crypto'
 import path from 'path'

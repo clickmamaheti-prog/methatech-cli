@@ -1,20 +1,20 @@
-import { buildArray } from '@codebuff/common/util/array'
-import { jsonToolResult } from '@codebuff/common/util/messages'
+import { buildArray } from '@methatech/common/util/array'
+import { jsonToolResult } from '@methatech/common/util/messages'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { Subgoal } from '@codebuff/common/types/session-state'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { Subgoal } from '@methatech/common/types/session-state'
 
 export const handleAddSubgoal = (async (params: {
   previousToolCallFinished: Promise<void>
-  toolCall: CodebuffToolCall<'add_subgoal'>
+  toolCall: MethaTechToolCall<'add_subgoal'>
 
   agentContext: Record<string, Subgoal>
 }): Promise<{
-  output: CodebuffToolOutput<'add_subgoal'>
+  output: MethaTechToolOutput<'add_subgoal'>
 }> => {
   const { previousToolCallFinished, toolCall, agentContext } = params
 
@@ -27,4 +27,4 @@ export const handleAddSubgoal = (async (params: {
 
   await previousToolCallFinished
   return { output: jsonToolResult({ message: 'Successfully added subgoal' }) }
-}) satisfies CodebuffToolHandlerFunction<'add_subgoal'>
+}) satisfies MethaTechToolHandlerFunction<'add_subgoal'>

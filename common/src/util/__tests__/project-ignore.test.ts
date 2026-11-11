@@ -36,8 +36,8 @@ describe('isProjectFileIgnored', () => {
     ).toBe(false)
   })
 
-  test('reads Codebuff ignore files and rejects paths escaping the project', async () => {
-    const readIgnoreFile = reader({ '.codebuffignore': '.env.example\n' })
+  test('reads MethaTech ignore files and rejects paths escaping the project', async () => {
+    const readIgnoreFile = reader({ '.methatechignore': '.env.example\n' })
 
     expect(
       await isProjectFileIgnored({
@@ -70,7 +70,7 @@ describe('createProjectIgnoreFileReader', () => {
     })
 
     expect(await readIgnoreFile('.gitignore')).toBe('*.secret\n')
-    expect(await readIgnoreFile('.codebuffignore')).toBeNull()
+    expect(await readIgnoreFile('.methatechignore')).toBeNull()
     expect(listed).toEqual([''])
     expect(read).toEqual(['.gitignore'])
   })

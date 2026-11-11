@@ -1,18 +1,18 @@
-import * as analytics from '@codebuff/common/analytics'
+import * as analytics from '@methatech/common/analytics'
 import {
   createTestAgentRuntimeParams,
   mockFileContext,
-} from '@codebuff/common/testing/fixtures/agent-runtime'
+} from '@methatech/common/testing/fixtures/agent-runtime'
 import {
   createMockDbOperations,
   setupDbSpies,
-} from '@codebuff/common/testing/mocks/database'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
+} from '@methatech/common/testing/mocks/database'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
 import {
   createFileReadLimiter,
   windowFileRead,
-} from '@codebuff/common/util/file-read-limits'
+} from '@methatech/common/util/file-read-limits'
 import { afterEach, expect, it, mock, spyOn } from 'bun:test'
 
 import { byokModelLimits } from '../../../../sdk/src/byok'
@@ -21,7 +21,7 @@ import { countTokens, countTokensMessages } from '../util/token-counter'
 import { createToolCallChunk } from './test-utils'
 
 import type { AgentTemplate } from '../templates/types'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 afterEach(() => mock.restore())
 
@@ -85,12 +85,12 @@ for (const contextWindow of [32768, 131072]) {
     })
     runtime.promptAiSdkStream = mock(async function* ({
       messages,
-      extraCodebuffMetadata,
+      extraMethaTechMetadata,
     }: {
       messages: Message[]
-      extraCodebuffMetadata?: Record<string, string>
+      extraMethaTechMetadata?: Record<string, string>
     }) {
-      if (extraCodebuffMetadata?.compaction_summary === '1') {
+      if (extraMethaTechMetadata?.compaction_summary === '1') {
         yield { type: 'text' as const, text: `## Objective\n${'- summary\n'.repeat(40)}` }
         return promptSuccess('summary')
       }

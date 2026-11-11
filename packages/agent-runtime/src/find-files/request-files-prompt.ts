@@ -1,14 +1,14 @@
 import { dirname, isAbsolute, normalize } from 'path'
 
-import { CLAUDE_SONNET_4_6_MODEL_ID } from '@codebuff/common/constants/anthropic'
+import { CLAUDE_SONNET_4_6_MODEL_ID } from '@methatech/common/constants/anthropic'
 import {
   finetunedVertexModels,
   models,
   type FinetunedVertexModel,
-} from '@codebuff/common/old-constants'
-import { getAllFilePaths } from '@codebuff/common/project-file-tree'
-import { isAbortError, unwrapPromptResult } from '@codebuff/common/util/error'
-import { systemMessage, userMessage } from '@codebuff/common/util/messages'
+} from '@methatech/common/old-constants'
+import { getAllFilePaths } from '@methatech/common/project-file-tree'
+import { isAbortError, unwrapPromptResult } from '@methatech/common/util/error'
+import { systemMessage, userMessage } from '@methatech/common/util/messages'
 import { range, shuffle, uniq } from 'lodash'
 
 import { promptFlashWithFallbacks } from '../llm-api/gemini-with-fallbacks'
@@ -19,11 +19,11 @@ import {
 } from '../util/messages'
 
 import type { TextBlock } from '../llm-api/claude'
-import type { PromptAiSdkFn } from '@codebuff/common/types/contracts/llm'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+import type { PromptAiSdkFn } from '@methatech/common/types/contracts/llm'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 const NUMBER_OF_EXAMPLE_FILES = 100
 const MAX_FILES_PER_REQUEST = 30
@@ -205,12 +205,12 @@ async function getRelevantFiles(
     logger,
   })
   const start = performance.now()
-  let codebuffMessages = [systemMessage(system), ...messagesWithPrompt]
+  let methatechMessages = [systemMessage(system), ...messagesWithPrompt]
 
   // Converts assistant messages to user messages for finetuned model
-  codebuffMessages = codebuffMessages
+  methatechMessages = methatechMessages
     .map((msg, i) => {
-      if (msg.role === 'assistant' && i !== codebuffMessages.length - 1) {
+      if (msg.role === 'assistant' && i !== methatechMessages.length - 1) {
         return castAssistantMessage(msg)
       } else {
         return msg
@@ -221,7 +221,7 @@ async function getRelevantFiles(
 
   let response = await promptFlashWithFallbacks({
     ...params,
-    messages: codebuffMessages,
+    messages: methatechMessages,
     model: models.openrouter_gemini2_5_flash,
     useFinetunedModel: finetunedModel,
   })

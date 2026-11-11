@@ -1,15 +1,15 @@
 import type { AgentTemplate } from './templates/types'
-import type { TrackEventFn } from '@codebuff/common/types/contracts/analytics'
-import type { SendActionFn } from '@codebuff/common/types/contracts/client'
+import type { TrackEventFn } from '@methatech/common/types/contracts/analytics'
+import type { SendActionFn } from '@methatech/common/types/contracts/client'
 import type {
   CacheDebugUsageData,
   ModelUsageData,
   PromptAiSdkStreamFn,
-} from '@codebuff/common/types/contracts/llm'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ParamsOf } from '@codebuff/common/types/function-params'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { OpenRouterProviderOptions } from '@codebuff/common/types/agent-template'
+} from '@methatech/common/types/contracts/llm'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ParamsOf } from '@methatech/common/types/function-params'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { OpenRouterProviderOptions } from '@methatech/common/types/agent-template'
 import type { ToolSet } from 'ai'
 
 export const getAgentStreamFromTemplate = (params: {
@@ -17,7 +17,7 @@ export const getAgentStreamFromTemplate = (params: {
   apiKey: string
   clientSessionId: string
   costMode?: string
-  extraCodebuffMetadata?: Record<string, string>
+  extraMethaTechMetadata?: Record<string, string>
   fingerprintId: string
   includeCacheControl?: boolean
   localAgentTemplates: Record<string, AgentTemplate>
@@ -52,7 +52,7 @@ export const getAgentStreamFromTemplate = (params: {
     apiKey,
     clientSessionId,
     costMode,
-    extraCodebuffMetadata,
+    extraMethaTechMetadata,
     fingerprintId,
     includeCacheControl,
     localAgentTemplates,
@@ -87,7 +87,7 @@ export const getAgentStreamFromTemplate = (params: {
     apiKey,
     clientSessionId,
     costMode,
-    extraCodebuffMetadata,
+    extraMethaTechMetadata,
     fingerprintId,
     includeCacheControl,
     logger,
@@ -123,7 +123,7 @@ export const getAgentStreamFromTemplate = (params: {
   if (!aiSdkStreamParams.providerOptions) {
     aiSdkStreamParams.providerOptions = {}
   }
-  for (const provider of ['openrouter', 'codebuff'] as const) {
+  for (const provider of ['openrouter', 'methatech'] as const) {
     if (!aiSdkStreamParams.providerOptions[provider]) {
       aiSdkStreamParams.providerOptions[provider] = {}
     }

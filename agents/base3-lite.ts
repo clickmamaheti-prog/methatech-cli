@@ -2,7 +2,7 @@ import { createBase3CliRoot } from './base3'
 import { LITE_MODEL } from './constants'
 
 /**
- * Codebuff's paid LITE mode.
+ * MethaTech's paid LITE mode.
  *
  * base2-lite spawned a `code-reviewer-lite` and could escalate to the Gemini
  * thinker; neither survives the single-loop harness, so lite is now literally

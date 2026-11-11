@@ -1,14 +1,14 @@
-import { CLAUDE_HAIKU_4_5_MODEL_ID } from '@codebuff/common/constants/anthropic'
-import { openaiModels } from '@codebuff/common/old-constants'
-import { isAbortError, unwrapPromptResult } from '@codebuff/common/util/error'
+import { CLAUDE_HAIKU_4_5_MODEL_ID } from '@methatech/common/constants/anthropic'
+import { openaiModels } from '@methatech/common/old-constants'
+import { isAbortError, unwrapPromptResult } from '@methatech/common/util/error'
 
 import type {
   FinetunedVertexModel,
-} from '@codebuff/common/old-constants'
-import type { PromptAiSdkFn } from '@codebuff/common/types/contracts/llm'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+} from '@methatech/common/old-constants'
+import type { PromptAiSdkFn } from '@methatech/common/types/contracts/llm'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 /**
  * Prompts a Gemini model with fallback logic.

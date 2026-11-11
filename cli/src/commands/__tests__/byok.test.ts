@@ -16,7 +16,7 @@ import {
 } from '../../utils/byok'
 
 import type { RouterParams } from '../command-registry'
-import type { ByokConnection, ByokConnectionStore } from '@codebuff/sdk'
+import type { ByokConnection, ByokConnectionStore } from '@methatech/sdk'
 
 const connection: ByokConnection = {
   id: '3f5cd55a-eaca-48f5-bd24-ef37618f89a8',

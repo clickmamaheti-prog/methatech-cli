@@ -1,5 +1,5 @@
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
 import { beforeEach, describe, expect, it } from 'bun:test'
 
 import { mockFileContext } from './test-utils'
@@ -10,13 +10,13 @@ import type { AgentTemplate } from '../templates/types'
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
 import type {
   AssistantMessage,
   Message,
-} from '@codebuff/common/types/messages/codebuff-message'
-import type { PromptResult } from '@codebuff/common/util/error'
+} from '@methatech/common/types/messages/methatech-message'
+import type { PromptResult } from '@methatech/common/util/error'
 
 describe.skipIf(!INCLUDE_REASONING_IN_MESSAGE_HISTORY)(
   'stream parser reasoning history',

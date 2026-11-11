@@ -16,10 +16,10 @@ const {
   SPONSORED_INSTALL_TIMEOUT_SECONDS,
   SPONSORED_INSTALL_YARN_REFUSAL,
   sponsoredPackageResolveOutcome,
-} = await import('@codebuff/common/ads/sponsored-install-tool')
+} = await import('@methatech/common/ads/sponsored-install-tool')
 
-import type { SponsoredInstallToolDeps } from '@codebuff/common/ads/sponsored-install-tool'
-import type { SponsoredPackageResolveResponse } from '@codebuff/common/ads/sponsored-package-resolve'
+import type { SponsoredInstallToolDeps } from '@methatech/common/ads/sponsored-install-tool'
+import type { SponsoredPackageResolveResponse } from '@methatech/common/ads/sponsored-package-resolve'
 
 function harness(
   files: string[],

@@ -8,7 +8,7 @@ import type { ChatMessage, ContentBlock } from '../../types/chat'
 
 // The default filename prefix follows the product branding, like the
 // transcript header in serializeConversation.
-const PRODUCT = IS_FREEBUFF ? 'freebuff' : 'codebuff'
+const PRODUCT = IS_FREEBUFF ? 'freebuff' : 'methatech'
 
 const msg = (
   variant: ChatMessage['variant'],

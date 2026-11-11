@@ -3,7 +3,7 @@ import { writeFileSync } from 'fs'
 import {
   getActiveTerminalCommandProcesses,
   runTerminalCommand,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
 import { createTerminalCommandBroker } from '../../terminal-command-broker'
 

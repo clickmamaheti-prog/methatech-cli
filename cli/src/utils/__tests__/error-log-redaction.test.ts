@@ -1,4 +1,4 @@
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 import { describe, expect, test } from 'bun:test'
 
 import {

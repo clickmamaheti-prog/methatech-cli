@@ -2,7 +2,7 @@ import {
   FREEBUFF_CLI_CATALOG_ROOT_AGENT_ID,
   getFreebuffBase3RootAgentIdForModel,
   getFreebuffRootAgentIdForModel,
-} from '@codebuff/common/constants/free-agents'
+} from '@methatech/common/constants/free-agents'
 
 import { getFreebuffModelDirectory } from '../state/freebuff-catalog-store'
 import { getSelectedFreebuffModel } from '../state/freebuff-model-store'

@@ -1,15 +1,15 @@
-import * as analytics from '@codebuff/common/analytics'
-import { FREEBUFF_TURN_SPEND_LIMIT_MESSAGE } from '@codebuff/common/constants/freebuff-errors'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { createTestAgentRuntimeParams } from '@codebuff/common/testing/fixtures/agent-runtime'
-import { clearMockedModules } from '@codebuff/common/testing/mock-modules'
+import * as analytics from '@methatech/common/analytics'
+import { FREEBUFF_TURN_SPEND_LIMIT_MESSAGE } from '@methatech/common/constants/freebuff-errors'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { createTestAgentRuntimeParams } from '@methatech/common/testing/fixtures/agent-runtime'
+import { clearMockedModules } from '@methatech/common/testing/mock-modules'
 import {
   createMockDbOperations,
   setupDbSpies,
-} from '@codebuff/common/testing/mocks/database'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { AbortError, promptSuccess } from '@codebuff/common/util/error'
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+} from '@methatech/common/testing/mocks/database'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { AbortError, promptSuccess } from '@methatech/common/util/error'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import {
   afterAll,
   afterEach,
@@ -61,9 +61,9 @@ import { TODO_PROGRESS_REMINDER_TAG } from '../util/todo-progress-reminder'
 import { createToolCallChunk, mockFileContext } from './test-utils'
 
 import type { AgentTemplate } from '../templates/types'
-import type { DbSpies } from '@codebuff/common/testing/mocks/database'
-import type { StepGenerator } from '@codebuff/common/types/agent-template'
-import type { AgentState } from '@codebuff/common/types/session-state'
+import type { DbSpies } from '@methatech/common/testing/mocks/database'
+import type { StepGenerator } from '@methatech/common/types/agent-template'
+import type { AgentState } from '@methatech/common/types/session-state'
 
 describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => {
   let mockTemplate: AgentTemplate
@@ -325,14 +325,14 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
                 yield {
                   type: 'text',
                   text:
-                    '<codebuff_tool_call>' +
+                    '<methatech_tool_call>' +
                     JSON.stringify({
                       cb_tool_name: 'write_file',
                       path: 'repair.txt',
                       content: 'repair',
                       instructions: 'Repair result',
                     }) +
-                    '</codebuff_tool_call>',
+                    '</methatech_tool_call>',
                 }
               }
               if (
@@ -1504,7 +1504,7 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
     }
 
     expect(await runIdFor('context-pruner')).toStartWith('untracked-')
-    expect(await runIdFor('codebuff/context-pruner@1.0.0')).toStartWith(
+    expect(await runIdFor('methatech/context-pruner@1.0.0')).toStartWith(
       'untracked-',
     )
     // The web API refuses untracked ids, so a model-calling agent whose id
@@ -1955,10 +1955,10 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
     let capturedAgentState: AgentState | null = null
 
     loopAgentStepsBaseParams.promptAiSdkStream = async function* ({
-      extraCodebuffMetadata,
+      extraMethaTechMetadata,
     }) {
       llmCallNumber++
-      llmStepNumbers.push(extraCodebuffMetadata?.llm_step_number ?? '')
+      llmStepNumbers.push(extraMethaTechMetadata?.llm_step_number ?? '')
       if (llmCallNumber === 1) {
         // First call: agent tries to end turn without setting output
         yield {
@@ -2406,7 +2406,7 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
         throw new APICallError({
           statusCode: 403,
           message: 'Forbidden',
-          url: 'https://api.codebuff.com/v1/chat/completions',
+          url: 'https://api.console.methatech.eu.org/v1/chat/completions',
           requestBodyValues: {},
           responseBody: JSON.stringify({
             error: 'free_mode_unavailable',
@@ -2458,7 +2458,7 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
         throw new APICallError({
           statusCode: 500,
           message: 'Internal Server Error',
-          url: 'https://api.codebuff.com/v1/chat/completions',
+          url: 'https://api.console.methatech.eu.org/v1/chat/completions',
           requestBodyValues: {},
           responseBody: undefined,
           isRetryable: true,
@@ -2497,7 +2497,7 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
         throw new APICallError({
           statusCode: 428,
           message: 'Precondition Required',
-          url: 'https://api.codebuff.com/v1/chat/completions',
+          url: 'https://api.console.methatech.eu.org/v1/chat/completions',
           requestBodyValues: {},
           responseBody: JSON.stringify({
             error: 'waiting_room_required',
@@ -2544,7 +2544,7 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
       const apiError = new APICallError({
         statusCode: 409,
         message: 'Conflict',
-        url: 'https://api.codebuff.com/v1/chat/completions',
+        url: 'https://api.console.methatech.eu.org/v1/chat/completions',
         requestBodyValues: {},
         responseBody: JSON.stringify({
           error: 'session_superseded',
@@ -2980,9 +2980,9 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
         promptAiSdkStream: async function* ({
           onUsageReceived,
           messages,
-          extraCodebuffMetadata,
+          extraMethaTechMetadata,
         }) {
-          if (extraCodebuffMetadata?.compaction_summary === '1') {
+          if (extraMethaTechMetadata?.compaction_summary === '1') {
             yield { type: 'text', text: `## Objective\n${'- found it\n'.repeat(40)}` }
             return promptSuccess('summary')
           }

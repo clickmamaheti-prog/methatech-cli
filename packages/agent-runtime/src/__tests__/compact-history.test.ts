@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test'
 
 import { compactMessages } from '../compact-history'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const user = (text: string, tags?: string[]): Message => ({
   role: 'user',

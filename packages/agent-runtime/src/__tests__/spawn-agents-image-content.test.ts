@@ -1,7 +1,7 @@
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import {
   describe,
   expect,
@@ -17,13 +17,13 @@ import * as runAgentStep from '../run-agent-step'
 import { handleSpawnAgentInline } from '../tools/handlers/tool/spawn-agent-inline'
 import { handleSpawnAgents } from '../tools/handlers/tool/spawn-agents'
 
-import type { CodebuffToolCall } from '@codebuff/common/tools/list'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
+import type { MethaTechToolCall } from '@methatech/common/tools/list'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
 import type {
   ImagePart,
   TextPart,
-} from '@codebuff/common/types/messages/content-part'
+} from '@methatech/common/types/messages/content-part'
 
 /**
  * Tests to verify that image content is NOT propagated to spawned subagents via the `content` parameter.
@@ -122,7 +122,7 @@ describe('Spawn Agents Image Content Propagation', () => {
   const createSpawnToolCall = (
     agentType: string,
     prompt = 'test prompt',
-  ): CodebuffToolCall<'spawn_agents'> => ({
+  ): MethaTechToolCall<'spawn_agents'> => ({
     toolName: 'spawn_agents' as const,
     toolCallId: 'test-tool-call-id',
     input: {
@@ -133,7 +133,7 @@ describe('Spawn Agents Image Content Propagation', () => {
   const createInlineSpawnToolCall = (
     agentType: string,
     prompt = 'test prompt',
-  ): CodebuffToolCall<'spawn_agent_inline'> => ({
+  ): MethaTechToolCall<'spawn_agent_inline'> => ({
     toolName: 'spawn_agent_inline' as const,
     toolCallId: 'test-tool-call-id',
     input: {
@@ -297,7 +297,7 @@ describe('Spawn Agents Image Content Propagation', () => {
 
       const imageContent = createImageContent()
 
-      const toolCall: CodebuffToolCall<'spawn_agents'> = {
+      const toolCall: MethaTechToolCall<'spawn_agents'> = {
         toolName: 'spawn_agents' as const,
         toolCallId: 'test-tool-call-id',
         input: {

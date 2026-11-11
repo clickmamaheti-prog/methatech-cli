@@ -1,7 +1,7 @@
-import { FREEBUFF_CLIENT_VERSION_HEADER } from '@codebuff/common/constants/freebuff-desktop-sessions'
-import { API_KEY_ENV_VAR } from '@codebuff/common/old-constants'
-import { AskUserBridge } from '@codebuff/common/utils/ask-user-bridge'
-import { CodebuffClient } from '@codebuff/sdk'
+import { METHATECH_CLIENT_VERSION_HEADER } from '@methatech/common/constants/freebuff-desktop-sessions'
+import { API_KEY_ENV_VAR } from '@methatech/common/old-constants'
+import { AskUserBridge } from '@methatech/common/utils/ask-user-bridge'
+import { MethaTechClient } from '@methatech/sdk'
 
 import { getAuthTokenDetails } from './auth'
 import { getCliEnv, getSystemProcessEnv } from './env'
@@ -13,10 +13,10 @@ import { terminalCommandBroker } from './terminal-command-broker'
 import { getRgPath } from '../native/ripgrep'
 import { getProjectRoot } from '../project-files'
 
-import type { ClientToolCall } from '@codebuff/common/tools/list'
-import type { ResolvedByokConnection } from '@codebuff/sdk'
+import type { ClientToolCall } from '@methatech/common/tools/list'
+import type { ResolvedByokConnection } from '@methatech/sdk'
 
-let clientInstance: CodebuffClient | null = null
+let clientInstance: MethaTechClient | null = null
 let byokClientIdentity: string | null = null
 
 /**
@@ -44,22 +44,22 @@ function removeUndefinedValues<T>(obj: T): T {
 
 /** This build's version, which the server logs on the feedback flag line. */
 function cliVersionHeaders(): Record<string, string> {
-  const version = getCliEnv().CODEBUFF_CLI_VERSION
-  return version ? { [FREEBUFF_CLIENT_VERSION_HEADER]: version } : {}
+  const version = getCliEnv().METHATECH_CLI_VERSION
+  return version ? { [METHATECH_CLIENT_VERSION_HEADER]: version } : {}
 }
 
 /**
- * Reset the cached CodebuffClient instance.
+ * Reset the cached MethaTechClient instance.
  * This should be called after login to ensure the client is re-initialized with new credentials.
  */
-export function resetCodebuffClient(): void {
+export function resetMethaTechClient(): void {
   clientInstance = null
   byokClientIdentity = null
 }
 
-export async function getCodebuffClient(
+export async function getMethaTechClient(
   options: { byok?: ResolvedByokConnection } = {},
-): Promise<CodebuffClient | null> {
+): Promise<MethaTechClient | null> {
   const byokIdentity = options.byok
     ? `${options.byok.id}:${options.byok.revision}`
     : null
@@ -78,11 +78,11 @@ export async function getCodebuffClient(
 
     // Set up ripgrep path for SDK to use
     const env = getCliEnv()
-    if (env.CODEBUFF_IS_BINARY) {
+    if (env.METHATECH_IS_BINARY) {
       try {
         const rgPath = await getRgPath()
         // Note: We still set process.env here because SDK reads from it
-        getSystemProcessEnv().CODEBUFF_RG_PATH = rgPath
+        getSystemProcessEnv().METHATECH_RG_PATH = rgPath
       } catch (error) {
         logger.error(error, 'Failed to set up ripgrep binary for SDK')
       }
@@ -90,7 +90,7 @@ export async function getCodebuffClient(
 
     try {
       const agentDefinitions = loadAgentDefinitions()
-      clientInstance = new CodebuffClient({
+      clientInstance = new MethaTechClient({
         ...(apiKey ? { apiKey } : {}),
         ...(options.byok ? { byok: options.byok } : {}),
         // This build's version on every completions request (observe-only),
@@ -135,7 +135,7 @@ export async function getCodebuffClient(
       })
       byokClientIdentity = byokIdentity
     } catch (error) {
-      logger.error(error, 'Failed to initialize CodebuffClient')
+      logger.error(error, 'Failed to initialize MethaTechClient')
       return null
     }
   }

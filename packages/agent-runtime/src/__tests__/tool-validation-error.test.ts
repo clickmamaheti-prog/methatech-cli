@@ -1,7 +1,7 @@
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
-import { jsonToolResult } from '@codebuff/common/util/messages'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
+import { jsonToolResult } from '@methatech/common/util/messages'
 import { beforeEach, describe, expect, it } from 'bun:test'
 
 import { mockFileContext } from './test-utils'
@@ -9,17 +9,17 @@ import { processStream } from '../tools/stream-parser'
 import { parseRawToolCall } from '../tools/tool-executor'
 
 import type { AgentTemplate } from '../templates/types'
-import type { ToolName } from '@codebuff/common/tools/constants'
+import type { ToolName } from '@methatech/common/tools/constants'
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
 import type {
   AssistantMessage,
   ToolMessage,
-} from '@codebuff/common/types/messages/codebuff-message'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+} from '@methatech/common/types/messages/methatech-message'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 describe('tool validation error handling', () => {
   let agentRuntimeImpl: AgentRuntimeDeps & AgentRuntimeScopedDeps

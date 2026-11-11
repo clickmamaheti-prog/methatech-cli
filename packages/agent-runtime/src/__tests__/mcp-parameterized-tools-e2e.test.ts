@@ -2,7 +2,7 @@ import {
   callMCPTool,
   getMCPClient,
   listMCPTools,
-} from '@codebuff/common/mcp/client'
+} from '@methatech/common/mcp/client'
 import { beforeAll, describe, expect, test } from 'bun:test'
 import { asSchema } from 'ai'
 
@@ -10,8 +10,8 @@ import { getMCPToolData } from '../mcp'
 import { getToolSet } from '../tools/prompts'
 import { parseRawCustomToolCall } from '../tools/tool-executor'
 
-import type { MCPConfig } from '@codebuff/common/types/mcp'
-import type { CustomToolDefinitions } from '@codebuff/common/util/file'
+import type { MCPConfig } from '@methatech/common/types/mcp'
+import type { CustomToolDefinitions } from '@methatech/common/util/file'
 
 /**
  * One parameterized MCP tool call, end to end over a real stdio server:
@@ -33,7 +33,7 @@ const config: MCPConfig = {
   command: process.execPath,
   args: [
     Bun.resolveSync(
-      '@codebuff/common/mcp/__tests__/parameterized-tools-server',
+      '@methatech/common/mcp/__tests__/parameterized-tools-server',
       import.meta.dir,
     ),
   ],

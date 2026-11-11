@@ -1,24 +1,27 @@
-import { jsonToolResult } from '@codebuff/common/util/messages'
+import { jsonToolResult } from '@methatech/common/util/messages'
 
 import { callFirecrawlCrawl } from '../../../llm-api/web-intelligence-api'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { ClientEnv } from '@methatech/common/types/contracts/env'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 export const handleFirecrawlCrawl = (async (params: {
   previousToolCallFinished: Promise<void>
-  toolCall: CodebuffToolCall<'firecrawl_crawl'>
+  toolCall: MethaTechToolCall<'firecrawl_crawl'>
   logger: Logger
+  apiKey?: string | undefined
   fetch: typeof globalThis.fetch
   signal: AbortSignal
+  clientEnv?: ClientEnv
 }): Promise<{
-  output: CodebuffToolOutput<'firecrawl_crawl'>
+  output: MethaTechToolOutput<'firecrawl_crawl'>
 }> => {
-  const { previousToolCallFinished, toolCall, logger, signal } = params
+  const { previousToolCallFinished, toolCall, logger, signal, apiKey, clientEnv } = params
   const { url, limit } = toolCall.input
 
   await previousToolCallFinished
@@ -28,10 +31,15 @@ export const handleFirecrawlCrawl = (async (params: {
       url,
       limit,
       // globalThis.fetch, not the injected fetch: the injected fetch is the
-      // Codebuff hosted-services fetch, stubbed to throw in BYOK runs.
+      // MethaTech hosted-services fetch, stubbed to throw in BYOK runs.
       fetch: globalThis.fetch,
       signal,
       logger,
+      // Panel-first: the login token + panel base URL let the transport
+      // call the panel proxy (keys in the backend); without them it falls
+      // back to the direct env-key call.
+      apiKey,
+      clientEnv,
     })
     return { output: jsonToolResult({ result }) }
   } catch (error) {
@@ -41,4 +49,4 @@ export const handleFirecrawlCrawl = (async (params: {
     logger.error({ error }, 'Firecrawl crawl failed')
     return { output: jsonToolResult({ errorMessage }) }
   }
-}) satisfies CodebuffToolHandlerFunction<'firecrawl_crawl'>
+}) satisfies MethaTechToolHandlerFunction<'firecrawl_crawl'>

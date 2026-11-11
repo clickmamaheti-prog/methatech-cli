@@ -16,7 +16,7 @@ interface FreebuffToolDefinition {
 type ToolOutput = { type: 'json'; value: Record<string, unknown> }[]
 
 /**
- * Creates custom tool definitions that allow a Codebuff SDK agent
+ * Creates custom tool definitions that allow a MethaTech SDK agent
  * to interact with a Freebuff CLI binary via tmux.
  *
  * Returns the tools array and a cleanup function to call in afterEach.

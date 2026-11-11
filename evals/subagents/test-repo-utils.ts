@@ -3,7 +3,7 @@ import fs from 'fs'
 import * as os from 'os'
 import path from 'path'
 
-import { getErrorObject } from '@codebuff/common/util/error'
+import { getErrorObject } from '@methatech/common/util/error'
 
 const CLONE_RETRY_DELAYS_MS = [5_000, 20_000]
 

@@ -2,7 +2,7 @@ import { describe, expect, test } from 'bun:test'
 
 import { convertToAdMessages } from '../ad-request'
 
-import type { Message } from '@codebuff/sdk'
+import type { Message } from '@methatech/sdk'
 
 const text = (value: string) => [{ type: 'text' as const, text: value }]
 

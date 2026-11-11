@@ -3,8 +3,8 @@
  * thought in `content` instead of `reasoning_content` must not reach a surface
  * as prose, and must never reach one carrying a literal `</think>`.
  */
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
 import { beforeEach, describe, expect, it } from 'bun:test'
 
 import { mockFileContext } from './test-utils'
@@ -14,11 +14,11 @@ import type { AgentTemplate } from '../templates/types'
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
-import type { PromptResult } from '@codebuff/common/util/error'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
+import type { PromptResult } from '@methatech/common/util/error'
 
 const testAgentTemplate: AgentTemplate = {
   id: 'test-agent',
@@ -172,7 +172,7 @@ describe('processStream — leaked think tags', () => {
     expect(fullResponse).toBe('thought</think>done')
   })
 
-  // CodebuffAI/freebuff#1155
+  // MethaTechAI/freebuff#1155
   it('shows an unclosed head block as the reply when the model ended the step', async () => {
     const { text, reasoning, fullResponse } = await render(
       textChunks('<think>', 'Here is the answer.'),

@@ -78,11 +78,11 @@ async function withFixture(
   })
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
   const originalEnv = {
-    app: process.env.NEXT_PUBLIC_CODEBUFF_APP_URL,
+    app: process.env.NEXT_PUBLIC_METHATECH_APP_URL,
     proxy: process.env.NO_PROXY,
     target: process.env.FREEBUFF_BINARY_TARGET,
   }
-  process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = `http://127.0.0.1:${(server.address() as AddressInfo).port}`
+  process.env.NEXT_PUBLIC_METHATECH_APP_URL = `http://127.0.0.1:${(server.address() as AddressInfo).port}`
   process.env.NO_PROXY = '127.0.0.1'
   process.env.FREEBUFF_BINARY_TARGET = target
   const output: string[] = []
@@ -149,7 +149,7 @@ async function withFixture(
     console.error = originals.error
     process.exit = originals.exit
     for (const [key, value] of Object.entries({
-      NEXT_PUBLIC_CODEBUFF_APP_URL: originalEnv.app,
+      NEXT_PUBLIC_METHATECH_APP_URL: originalEnv.app,
       NO_PROXY: originalEnv.proxy,
       FREEBUFF_BINARY_TARGET: originalEnv.target,
     })) {

@@ -113,7 +113,7 @@ describe('BoundedOutputBuffer', () => {
 
 describe('terminal command process diagnostics', () => {
   test('does not run when the terminal command broker cannot start', async () => {
-    const tempDir = mkdtempSync(join(tmpdir(), 'codebuff-broker-failure-'))
+    const tempDir = mkdtempSync(join(tmpdir(), 'methatech-broker-failure-'))
     const marker = join(tempDir, 'spawned')
 
     try {
@@ -143,7 +143,7 @@ describe('terminal command process diagnostics', () => {
     // Spawning in a missing cwd fails with an ENOENT naming the shell
     // ("uv_spawn 'C:\Program Files\Git\bin\bash.exe'"), which models read as
     // bash being missing and retried for hundreds of calls.
-    const tempDir = mkdtempSync(join(tmpdir(), 'codebuff-missing-cwd-'))
+    const tempDir = mkdtempSync(join(tmpdir(), 'methatech-missing-cwd-'))
     const missing = join(tempDir, 'not-created-yet')
 
     try {
@@ -320,7 +320,7 @@ describe('terminal command process diagnostics', () => {
   test('bounds direct cleanup while reaping a stubborn background descendant', async () => {
     if (process.platform === 'win32') return
 
-    const tempDir = mkdtempSync(join(tmpdir(), 'codebuff-direct-cleanup-'))
+    const tempDir = mkdtempSync(join(tmpdir(), 'methatech-direct-cleanup-'))
     const pidFile = join(tempDir, 'descendant.pid')
     const readyFile = join(tempDir, 'descendant.ready')
     const fixture = join(
@@ -514,7 +514,7 @@ describe('terminal command process diagnostics', () => {
   test('cancels a detached Windows grandchild with its terminal-tool tree', async () => {
     if (process.platform !== 'win32') return
 
-    const tempDir = mkdtempSync(join(tmpdir(), 'codebuff-process-tree-'))
+    const tempDir = mkdtempSync(join(tmpdir(), 'methatech-process-tree-'))
     const pidFile = join(tempDir, 'grandchild.pid')
     const fixture = join(
       import.meta.dir,
@@ -754,7 +754,7 @@ describe('managed background commands', () => {
       runTerminalCommand({
         command: 'echo impossible',
         process_type: 'BACKGROUND',
-        cwd: '/nonexistent-codebuff-background-directory',
+        cwd: '/nonexistent-methatech-background-directory',
         timeout_seconds: 1,
       }),
     ).rejects.toThrow()

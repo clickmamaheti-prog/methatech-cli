@@ -1,4 +1,4 @@
-import { buildArray } from '@codebuff/common/util/array'
+import { buildArray } from '@methatech/common/util/array'
 
 import { FOLLOWUP_STYLE_GUIDANCE, publisher } from '../constants'
 import {

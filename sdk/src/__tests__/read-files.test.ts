@@ -1,8 +1,8 @@
-import { FILE_READ_STATUS } from '@codebuff/common/old-constants'
-import { countTokens } from '@codebuff/agent-runtime/util/token-counter'
-import { MAX_READ_FILES_TOKENS } from '@codebuff/common/util/file-read-limits'
-import * as projectFileTree from '@codebuff/common/project-file-tree'
-import { createNodeError } from '@codebuff/common/testing/errors'
+import { FILE_READ_STATUS } from '@methatech/common/old-constants'
+import { countTokens } from '@methatech/agent-runtime/util/token-counter'
+import { MAX_READ_FILES_TOKENS } from '@methatech/common/util/file-read-limits'
+import * as projectFileTree from '@methatech/common/project-file-tree'
+import { createNodeError } from '@methatech/common/testing/errors'
 import {
   describe,
   test,
@@ -15,14 +15,14 @@ import {
 
 import { getFiles, getImageFile } from '../tools/read-files'
 
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 import type { PathLike } from 'node:fs'
 
 // Helper to create a mock filesystem
 function createMockFs(config: {
   files?: Record<string, { content: string; size?: number }>
   errors?: Record<string, { code?: string; message?: string }>
-}): CodebuffFileSystem {
+}): MethaTechFileSystem {
   const { files = {}, errors = {} } = config
 
   return {
@@ -67,7 +67,7 @@ function createMockFs(config: {
     readdir: async () => [],
     mkdir: async () => undefined,
     writeFile: async () => undefined,
-  } as unknown as CodebuffFileSystem
+  } as unknown as MethaTechFileSystem
 }
 
 describe('getFiles', () => {

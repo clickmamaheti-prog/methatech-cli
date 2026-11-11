@@ -1,13 +1,13 @@
 import { createHash, randomUUID } from 'node:crypto'
 
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 import {
   productFunnelEventSchema,
   type ProductFunnelEvent,
   type ProductFunnelProperties,
   type ProductFunnelStage,
   type ProductFunnelState,
-} from '@codebuff/common/constants/product-funnel'
+} from '@methatech/common/constants/product-funnel'
 
 import { loadPackageVersion } from '../cli-args'
 import { trackEvent } from './analytics'

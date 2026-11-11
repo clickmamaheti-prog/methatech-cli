@@ -62,15 +62,15 @@ import {
   type SponsoredFloorGrantFacts,
   type SponsoredLocalContainment,
   type SponsoredWindowsRunPaths,
-} from '@codebuff/common/ads/sponsored-local-execution'
+} from '@methatech/common/ads/sponsored-local-execution'
 import {
   CREDENTIAL_BASENAMES,
   CREDENTIAL_SUFFIXES,
   evaluateSponsoredReadPath,
-} from '@codebuff/common/ads/sponsored-capabilities'
-import { withSponsoredRunCredentialEnv } from '@codebuff/common/ads/sponsored-run-credentials'
-import { parseCodeSearchFlags } from '@codebuff/common/util/code-search-flags'
-import { ENV_TEMPLATE_FILE_PATTERNS } from '@codebuff/common/util/env-file-path'
+} from '@methatech/common/ads/sponsored-capabilities'
+import { withSponsoredRunCredentialEnv } from '@methatech/common/ads/sponsored-run-credentials'
+import { parseCodeSearchFlags } from '@methatech/common/util/code-search-flags'
+import { ENV_TEMPLATE_FILE_PATTERNS } from '@methatech/common/util/env-file-path'
 
 import { getSystemProcessEnv } from '../env'
 import { getBundledRgPath } from '../native/ripgrep'

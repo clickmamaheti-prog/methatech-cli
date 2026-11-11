@@ -1,7 +1,7 @@
 import {
   FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
   FREEBUFF_MIMO_V25_MODEL_ID,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import { createTestRenderer } from '@opentui/core/testing'
 import { createRoot, flushSync } from '@opentui/react'
 import { describe, expect, test } from 'bun:test'

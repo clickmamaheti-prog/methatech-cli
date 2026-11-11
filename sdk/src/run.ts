@@ -1,38 +1,38 @@
 import path from 'path'
 
-import { callWebFetchAPI } from '@codebuff/agent-runtime/llm-api/codebuff-web-api'
-import { callMainPrompt } from '@codebuff/agent-runtime/main-prompt'
-import { adjustContextTokenCountForHistoryEdit } from '@codebuff/agent-runtime/util/context-token-count'
+import { callWebFetchAPI } from '@methatech/agent-runtime/llm-api/methatech-web-api'
+import { callMainPrompt } from '@methatech/agent-runtime/main-prompt'
+import { adjustContextTokenCountForHistoryEdit } from '@methatech/agent-runtime/util/context-token-count'
 import {
   buildUserMessageContent,
   USER_INTERRUPTED_MESSAGE,
   withSystemTags,
-} from '@codebuff/agent-runtime/util/messages'
-import { MAX_AGENT_STEPS_DEFAULT } from '@codebuff/common/constants/agents'
-import { BYOK_LOCAL_USER_ID } from '@codebuff/common/constants/byok'
-import { toRepoSnapshot } from '@codebuff/common/util/file'
-import { dropUnansweredToolCalls } from '@codebuff/common/util/messages'
+} from '@methatech/agent-runtime/util/messages'
+import { MAX_AGENT_STEPS_DEFAULT } from '@methatech/common/constants/agents'
+import { BYOK_LOCAL_USER_ID } from '@methatech/common/constants/byok'
+import { toRepoSnapshot } from '@methatech/common/util/file'
+import { dropUnansweredToolCalls } from '@methatech/common/util/messages'
 import {
   FILE_READ_STATUS,
   toOptionalFile,
-} from '@codebuff/common/constants/paths'
+} from '@methatech/common/constants/paths'
 import {
   getMCPClient,
   listMCPTools,
   callMCPTool,
-} from '@codebuff/common/mcp/client'
-import { toolNames } from '@codebuff/common/tools/constants'
-import { clientToolCallSchema, type CodebuffToolCall } from '@codebuff/common/tools/list'
-import { AgentOutputSchema } from '@codebuff/common/types/session-state'
+} from '@methatech/common/mcp/client'
+import { toolNames } from '@methatech/common/tools/constants'
+import { clientToolCallSchema, type MethaTechToolCall } from '@methatech/common/tools/list'
+import { AgentOutputSchema } from '@methatech/common/types/session-state'
 import {
   FETCH_IDLE_TIMEOUT_USER_MESSAGE,
   TRANSIENT_NETWORK_ERROR_USER_MESSAGE,
   extractApiErrorDetails,
   isFetchIdleTimeoutError,
   isTransientNetworkError,
-} from '@codebuff/common/util/error'
-import { isSensitiveEnvFilePath } from '@codebuff/common/util/env-file-path'
-import { PROJECT_UNDERSTANDING_OUTSIDE_PROJECT_MESSAGE } from '@codebuff/common/project-understanding/non-text-files'
+} from '@methatech/common/util/error'
+import { isSensitiveEnvFilePath } from '@methatech/common/util/env-file-path'
+import { PROJECT_UNDERSTANDING_OUTSIDE_PROJECT_MESSAGE } from '@methatech/common/project-understanding/non-text-files'
 import { cloneDeep } from 'lodash'
 
 import { byokModelLimits } from './byok'
@@ -64,36 +64,36 @@ import { runTerminalCommand } from './tools/run-terminal-command'
 import type { TerminalCommandBroker } from './tools/run-terminal-command'
 
 import type { CustomToolDefinition } from './custom-tool'
-import type { CodebuffRequestHeadersProvider } from './impl/model-provider'
+import type { MethaTechRequestHeadersProvider } from './impl/model-provider'
 import type { RunState } from './run-state'
 import type { ProjectFence } from './tools/project-confinement'
 import type { FileFilter } from './tools/read-files'
-import type { ServerAction } from '@codebuff/common/actions'
-import type { FileReadWindow } from '@codebuff/common/types/contracts/client'
-import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
-import type { ToolName } from '@codebuff/common/tools/constants'
-import type { PublishedClientToolName } from '@codebuff/common/tools/list'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { ServerAction } from '@methatech/common/actions'
+import type { FileReadWindow } from '@methatech/common/types/contracts/client'
+import type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
+import type { ToolName } from '@methatech/common/tools/constants'
+import type { PublishedClientToolName } from '@methatech/common/tools/list'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 import type {
   AgentUsageData,
   ContextCompactionData,
-} from '@codebuff/common/types/contracts/llm'
-import type { TraceWriter } from '@codebuff/common/types/contracts/trace'
-import type { DrainSteeringMessages } from '@codebuff/common/types/contracts/steering'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+} from '@methatech/common/types/contracts/llm'
+import type { TraceWriter } from '@methatech/common/types/contracts/trace'
+import type { DrainSteeringMessages } from '@methatech/common/types/contracts/steering'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 import type {
   Message,
   ToolMessage,
-} from '@codebuff/common/types/messages/codebuff-message'
-import type { ToolResultOutput } from '@codebuff/common/types/messages/content-part'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+} from '@methatech/common/types/messages/methatech-message'
+import type { ToolResultOutput } from '@methatech/common/types/messages/content-part'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 import type {
   ConversationSummary,
   SessionState,
-} from '@codebuff/common/types/session-state'
-import type { SkillsMap } from '@codebuff/common/types/skill'
-import type { Source } from '@codebuff/common/types/source'
-import type { CodebuffSpawn } from '@codebuff/common/types/spawn'
+} from '@methatech/common/types/session-state'
+import type { SkillsMap } from '@methatech/common/types/skill'
+import type { Source } from '@methatech/common/types/source'
+import type { MethaTechSpawn } from '@methatech/common/types/spawn'
 
 /**
  * Client-side replacements for the tools the SDK would otherwise execute
@@ -109,7 +109,7 @@ export type OverrideToolHandlers = {
     context?: { toolCallId?: string },
   ) => Promise<ToolResultOutput[]>
 } & {
-  read_image?: import('@codebuff/common/types/contracts/client').RequestImageFileFn
+  read_image?: import('@methatech/common/types/contracts/client').RequestImageFileFn
   read_files?: (input: {
     filePaths: string[]
     /** Present only for `windowedFileReads` agents. An override that ignores
@@ -132,10 +132,10 @@ function isRunPauseError(error: unknown) {
   return (
     !!error &&
     typeof error === 'object' &&
-    (('codebuffRunPaused' in error &&
-      (error as { codebuffRunPaused?: unknown }).codebuffRunPaused === true) ||
+    (('methatechRunPaused' in error &&
+      (error as { methatechRunPaused?: unknown }).methatechRunPaused === true) ||
       ('name' in error &&
-        (error as { name?: unknown }).name === 'CodebuffRunPausedError'))
+        (error as { name?: unknown }).name === 'MethaTechRunPausedError'))
   )
 }
 
@@ -155,7 +155,7 @@ function scrubByokCredentialEnv(
   return result
 }
 
-export type CodebuffClientOptions = {
+export type MethaTechClientOptions = {
   apiKey?: string
   /** Direct, local inference for this run. The key is intentionally runtime-only. */
   byok?: ResolvedByokConnection
@@ -163,8 +163,8 @@ export type CodebuffClientOptions = {
    * Registry publishers whose agents may run executable `handleSteps` in this
    * process. A template fetched from the public registry with a `handleSteps`
    * source string is code the runtime evals on this machine, so it is refused
-   * unless its publisher is `codebuff`, listed here, or named in the
-   * `CODEBUFF_TRUSTED_AGENT_PUBLISHERS` env var (comma-separated). Local
+   * unless its publisher is `methatech`, listed here, or named in the
+   * `METHATECH_TRUSTED_AGENT_PUBLISHERS` env var (comma-separated). Local
    * `.agents` files and `agentDefinitions` are never gated. See
    * `sdk/src/agent-publisher-trust.ts`.
    */
@@ -172,20 +172,20 @@ export type CodebuffClientOptions = {
   /**
    * Refuse every agent-registry fetch for this run. Unknown or missing agent
    * ids fail as "not found" instead of falling back to
-   * `codebuff/<id>@latest` on the public registry. For hosts that bundle
+   * `methatech/<id>@latest` on the public registry. For hosts that bundle
    * every agent they will ever run (the embedded Freebuff Web runner): a
-   * registry template can carry executable `handleSteps`, and `codebuff` is
+   * registry template can carry executable `handleSteps`, and `methatech` is
    * an always-trusted publisher, so on a server the fallback is a code path
    * from a publisher account into the host process for no benefit.
    */
   disableAgentRegistry?: boolean
   /**
-   * Extra headers for every request this client makes to the Codebuff
+   * Extra headers for every request this client makes to the MethaTech
    * backend's completions endpoint, computed per request from its final body
    * (so a host can sign it). Not used by BYOK runs. Omitted: requests are
-   * unchanged. See `CodebuffRequestHeadersProvider`.
+   * unchanged. See `MethaTechRequestHeadersProvider`.
    */
-  requestHeaders?: CodebuffRequestHeadersProvider
+  requestHeaders?: MethaTechRequestHeadersProvider
 
   cwd?: string
   /** Optional directory path to load skills from. Skills found here will be available to the `skill` tool. */
@@ -249,8 +249,8 @@ export type CodebuffClientOptions = {
   overrideTools?: OverrideToolHandlers
   customToolDefinitions?: CustomToolDefinition[]
 
-  fsSource?: Source<CodebuffFileSystem>
-  spawnSource?: Source<CodebuffSpawn>
+  fsSource?: Source<MethaTechFileSystem>
+  spawnSource?: Source<MethaTechSpawn>
   logger?: Logger
   /** Optional debug trace of agent message histories. Called with the full
    *  history at each agent step boundary; implementations should append each
@@ -308,10 +308,10 @@ export type RunOptions = {
    * never swaps the history for its summary on that ground. */
   promptIsContinuation?: boolean
   costMode?: string
-  /** Extra key/values merged into each LLM request's `codebuff_metadata`.
+  /** Extra key/values merged into each LLM request's `methatech_metadata`.
    *  Used by hosts (e.g. the CLI) to forward client-scoped identifiers like
    *  `freebuff_instance_id`, sent with the request. */
-  extraCodebuffMetadata?: Record<string, string>
+  extraMethaTechMetadata?: Record<string, string>
   /** Optional checkpoint hook. Called once when the run starts and then
    * periodically while it is in flight, with a RunState snapshot that
    * preserves all progress so far (the user's prompt plus any completed
@@ -581,7 +581,7 @@ const createAbortError = (signal?: AbortSignal) => {
 }
 
 type RunExecutionOptions = RunOptions &
-  CodebuffClientOptions & {
+  MethaTechClientOptions & {
     apiKey: string
     fingerprintId: string
   }
@@ -590,7 +590,7 @@ type RunReturnType = RunState
 export async function run(options: RunExecutionOptions): Promise<RunState> {
   const requestedInference = options.byok
     ? { source: 'byok' as const, connectionId: options.byok.id, revision: options.byok.revision, model: options.byok.model }
-    : { source: 'codebuff' as const }
+    : { source: 'methatech' as const }
   const previousInference = options.previousRun?.inference
   if (options.previousRun && !previousInference && options.byok && !options.allowInferenceSourceChange) {
     return {
@@ -608,7 +608,7 @@ export async function run(options: RunExecutionOptions): Promise<RunState> {
     !options.allowInferenceSourceChange &&
     previousInference &&
     ((previousInference.source !== requestedInference.source &&
-        !(previousInference.source === 'codebuff' && requestedInference.source === 'byok')) ||
+        !(previousInference.source === 'methatech' && requestedInference.source === 'byok')) ||
       (previousInference.source === 'byok' &&
         requestedInference.source === 'byok' &&
         (previousInference.connectionId !== requestedInference.connectionId ||
@@ -702,7 +702,7 @@ async function runOnce({
   drainSteeringMessages,
   promptIsContinuation,
   costMode,
-  extraCodebuffMetadata,
+  extraMethaTechMetadata,
   onStateSnapshot,
   onUsage,
   onUsageIncomplete,
@@ -718,12 +718,12 @@ async function runOnce({
 }: RunExecutionOptions): Promise<RunState> {
   const fsSourceValue = typeof fsSource === 'function' ? fsSource() : fsSource
   const fs = await fsSourceValue
-  let spawn: CodebuffSpawn
+  let spawn: MethaTechSpawn
   if (spawnSource) {
     const spawnSourceValue = await spawnSource
-    spawn = spawnSourceValue as CodebuffSpawn
+    spawn = spawnSourceValue as MethaTechSpawn
   } else {
-    spawn = require('child_process').spawn as CodebuffSpawn
+    spawn = require('child_process').spawn as MethaTechSpawn
   }
   let activeCustomToolDefinitions = customToolDefinitions ?? []
   // Never hand a provider credential to an agent subprocess. The credential is
@@ -1133,7 +1133,7 @@ async function runOnce({
   // for the whole retry budget with the abort unable to reach it.
   let userId: string | undefined
   if (byok) {
-    // BYOK is intentionally auth-free: no Codebuff identity, run ledger,
+    // BYOK is intentionally auth-free: no MethaTech identity, run ledger,
     // token-count, analytics, or helper request is necessary for inference.
     userId = requestedUserId ?? BYOK_LOCAL_USER_ID
   } else if (apiKeyUserId) {
@@ -1240,7 +1240,7 @@ async function runOnce({
           apiKey,
           userId: requestedUserId,
           projectKey: resolvedProjectKey,
-          surface: projectProfileSurface(extraCodebuffMetadata),
+          surface: projectProfileSurface(extraMethaTechMetadata),
         })
       : {}),
     promptId,
@@ -1263,8 +1263,8 @@ async function runOnce({
     repoId: undefined,
     clientSessionId: promptId,
     userId,
-    extraCodebuffMetadata: {
-      ...(extraCodebuffMetadata ?? {}),
+    extraMethaTechMetadata: {
+      ...(extraMethaTechMetadata ?? {}),
       trace_session_id: traceSessionId,
       // Aggregate repository scale, collected once per thread by getGitChanges
       // (#2138) and reused on later turns. Sent as the allowlisted projection
@@ -1325,7 +1325,7 @@ async function runOnce({
 function requireCwd(cwd: string | undefined, toolName: string): string {
   if (!cwd) {
     throw new Error(
-      `cwd is required for the ${toolName} tool. Please provide cwd in CodebuffClientOptions or override the ${toolName} tool.`,
+      `cwd is required for the ${toolName} tool. Please provide cwd in MethaTechClientOptions or override the ${toolName} tool.`,
     )
   }
   return cwd
@@ -1345,11 +1345,11 @@ async function readFiles({
   filePaths: string[]
   fileWindows?: Record<string, FileReadWindow[]>
   override?: NonNullable<
-    Required<CodebuffClientOptions>['overrideTools']['read_files']
+    Required<MethaTechClientOptions>['overrideTools']['read_files']
   >
   fileFilter?: FileFilter
   cwd?: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   limitContent?: boolean
   enforceEnvPolicy?: boolean
   /** RunOptions.refuseNonTextFileReads; local reads only. */
@@ -1459,11 +1459,11 @@ async function handleToolCall({
   projectFence,
 }: {
   action: ServerAction<'tool-call-request'>
-  overrides: NonNullable<CodebuffClientOptions['overrideTools']>
-  readPage: (input: CodebuffToolCall<'read_url'>['input']) => Promise<ToolResultOutput[]>
+  overrides: NonNullable<MethaTechClientOptions['overrideTools']>
+  readPage: (input: MethaTechToolCall<'read_url'>['input']) => Promise<ToolResultOutput[]>
   customToolDefinitions: Record<string, CustomToolDefinition>
   cwd?: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   env?: Record<string, string>
   terminalCommandBroker?: TerminalCommandBroker
   byok?: ResolvedByokConnection
@@ -1589,7 +1589,7 @@ async function handleToolCall({
         terminalCommandBroker,
       } as Parameters<typeof runTerminalCommand>[0])
     } else if (toolName === 'read_url') {
-      result = await readPage(input as CodebuffToolCall<'read_url'>['input'])
+      result = await readPage(input as MethaTechToolCall<'read_url'>['input'])
     } else if (toolName === 'code_search' && projectFence) {
       result = confinedToolError(
         'code_search is not available in this run: it cannot be held to the project directory. Use glob and read_files instead.',

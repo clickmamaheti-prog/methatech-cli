@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, expect, test } from 'bun:test'
-import { servedDisplayAdToSponsor } from '@codebuff/common/ads/display-ads/served'
+import { servedDisplayAdToSponsor } from '@methatech/common/ads/display-ads/served'
 import { RGBA } from '@opentui/core'
 import { createTestRenderer } from '@opentui/core/testing'
 import { createRoot, flushSync } from '@opentui/react'
@@ -48,8 +48,8 @@ function served(placementId: 'CLI-Splash' | 'CLI-Statusline' | 'CLI-Deals') {
   const ad = {
     placementId,
     provider: 'first_party' as const,
-    impUrl: `https://www.codebuff.com/imp/${placementId}`,
-    clickUrl: `https://www.codebuff.com/click/${placementId}`,
+    impUrl: `https://console.methatech.eu.org/imp/${placementId}`,
+    clickUrl: `https://console.methatech.eu.org/click/${placementId}`,
     url: 'https://acme.dev/start',
     title: 'Ship faster with Acme',
     adText: 'Acme builds the boring parts.',
@@ -135,7 +135,7 @@ test('served statusline: draws the served sponsor in its brand colours, billed o
   expect(billed).toEqual([
     [
       'impression',
-      'https://www.codebuff.com/imp/CLI-Statusline',
+      'https://console.methatech.eu.org/imp/CLI-Statusline',
       'CLI-Statusline',
     ],
   ])
@@ -144,10 +144,10 @@ test('served statusline: draws the served sponsor in its brand colours, billed o
   await setup.mockMouse.click(5, y)
   expect(billed.at(-1)).toEqual([
     'click',
-    'https://www.codebuff.com/imp/CLI-Statusline',
+    'https://console.methatech.eu.org/imp/CLI-Statusline',
     'CLI-Statusline',
   ])
-  expect(opened).toEqual(['https://www.codebuff.com/click/CLI-Statusline'])
+  expect(opened).toEqual(['https://console.methatech.eu.org/click/CLI-Statusline'])
   // Served units never send the mock analytics events.
   expect(events).toEqual([])
 })
@@ -170,13 +170,13 @@ test('served splash: served copy through the boxed view, billed impression and c
   expect(frame).toContain('acme.dev ↗')
   await settle(setup, () => billed.some(([kind]) => kind === 'impression'))
   expect(billed).toEqual([
-    ['impression', 'https://www.codebuff.com/imp/CLI-Splash', 'CLI-Splash'],
+    ['impression', 'https://console.methatech.eu.org/imp/CLI-Splash', 'CLI-Splash'],
   ])
   const lines = frame.split('\n')
   const y = lines.findIndex((l) => l.includes('Acme Cloud'))
   await setup.mockMouse.click(lines[y]!.indexOf('Acme Cloud') + 1, y)
   expect(billed.at(-1)?.[0]).toBe('click')
-  expect(opened).toEqual(['https://www.codebuff.com/click/CLI-Splash'])
+  expect(opened).toEqual(['https://console.methatech.eu.org/click/CLI-Splash'])
   expect(events).toEqual([])
 })
 
@@ -247,17 +247,17 @@ test('served /deals card: position 1 only, billed impression on insertion, bille
   expect(frame.match(/Sponsored/g)?.length).toBe(1)
   await settle(setup, () => billed.some(([kind]) => kind === 'impression'))
   expect(billed).toEqual([
-    ['impression', 'https://www.codebuff.com/imp/CLI-Deals', 'CLI-Deals'],
+    ['impression', 'https://console.methatech.eu.org/imp/CLI-Deals', 'CLI-Deals'],
   ])
   const lines = frame.split('\n')
   const y = lines.findIndex((l) => l.includes('Open ↗'))
   await setup.mockMouse.click(lines[y]!.indexOf('Open ↗') + 1, y)
   expect(billed.at(-1)).toEqual([
     'click',
-    'https://www.codebuff.com/imp/CLI-Deals',
+    'https://console.methatech.eu.org/imp/CLI-Deals',
     'CLI-Deals',
   ])
-  expect(opened).toEqual(['https://www.codebuff.com/click/CLI-Deals'])
+  expect(opened).toEqual(['https://console.methatech.eu.org/click/CLI-Deals'])
   expect(events).toEqual([])
 })
 

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID } from '@methatech/common/constants/freebuff-models'
 
 import {
   AGENT_MODE_TO_ID,
@@ -12,7 +12,7 @@ import { getFreebuffCliAgentIdForModel } from '../utils/freebuff-agent-selection
 /**
  * Which harness real CLI turns run.
  *
- * `CLI_HARNESS` routes Codebuff DEFAULT and LITE plus every Freebuff picker
+ * `CLI_HARNESS` routes MethaTech DEFAULT and LITE plus every Freebuff picker
  * model to base3 (docs/freebuff-base3-harness.md).
  *
  * The values below are written out rather than derived from `CLI_HARNESS`, and
@@ -26,7 +26,7 @@ describe('CLI harness routing', () => {
     expect(AGENT_MODE_TO_ID.DEFAULT).toBe('base3')
     // Freebuff overrides LITE per selected model at send time
     // (getAgentIdForMode); this constant is the non-runtime fallback, so it is
-    // the paid Codebuff value that tracks the harness.
+    // the paid MethaTech value that tracks the harness.
     // IS_FREEBUFF is a build flag, not the harness — deriving from it is fine.
     expect(AGENT_MODE_TO_ID.LITE).toBe(
       IS_FREEBUFF ? 'base2-free' : 'base3-lite',

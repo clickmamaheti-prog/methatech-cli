@@ -2,7 +2,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { env } from '@codebuff/common/env'
+import { env } from '@methatech/common/env'
 
 import { getCliEnv } from './env'
 

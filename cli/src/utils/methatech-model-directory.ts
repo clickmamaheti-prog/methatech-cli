@@ -18,6 +18,9 @@
  * - `catalog` is null: this is a compiled-style directory, not a server
  *   catalog. (The server catalog fetch can never succeed in this fork —
  *   there is no Freebuff server — so nothing ever replaces it.)
+ * - `row()` IS implemented (see `methatechCatalogRow`): the catalog-root
+ *   flow needs a row per model, or every turn runs plain base3 whose
+ *   model defaults to OPUS_MODEL instead of the user's pick.
  */
 import {
   getMethatechModel,
@@ -28,10 +31,43 @@ import {
   METHATECH_MODELS,
   methatechModelContextWindow,
   resolveMethatechModel,
-} from '@codebuff/common/constants/methatech-models'
+} from '@methatech/common/constants/methatech-models'
 
 import type { FreebuffModelDirectory } from './freebuff-model-directory'
-import type { FreebuffAccessTier } from '@codebuff/common/constants/freebuff-models'
+import type { FreebuffAccessTier } from '@methatech/common/constants/freebuff-models'
+import type { FreebuffCatalogRow } from '@methatech/common/types/freebuff-model-catalog'
+
+/**
+ * FORK (MethaTech): the catalog row for a panel model, built from the
+ * compiled panel catalog. This is what makes a turn run the ONE catalog
+ * root (`freebuffCatalogRootAgent`, model = the row handle) instead of
+ * the plain base3 root whose model defaults to OPUS_MODEL — the Freebuff
+ * catalog flow, with the panel as the backend. The panel relay resolves
+ * the plain panel model id, so the handle IS the id (no opaque server
+ * handle); `compaction` stays undefined so base3 falls back to
+ * `compactionPolicyForModel(handle)`, and `legacyDigests` stays empty so
+ * the compiled-model lookup falls back to the handle too.
+ */
+export function methatechCatalogRow(
+  id: string | null | undefined,
+): FreebuffCatalogRow | undefined {
+  if (!id || !isMethatechModelId(id)) return undefined
+  const model = getMethatechModel(id)
+  return {
+    key: id,
+    handle: id,
+    displayName: model.displayName,
+    tagline: model.tagline,
+    badges: [],
+    multimodal: false,
+    premium: isMethatechPremiumModelId(id),
+    dataUse: 'service',
+    access: 'open',
+    sortOrder: METHATECH_MODELS.findIndex((candidate) => candidate.id === id),
+    contextWindow: methatechModelContextWindow(id),
+    legacyDigests: [],
+  }
+}
 
 export const methatechModelDirectory: FreebuffModelDirectory = {
   catalog: null,
@@ -42,7 +78,7 @@ export const methatechModelDirectory: FreebuffModelDirectory = {
   get: (id) => getMethatechModel(id),
   isKnown: (id) => isMethatechModelId(id),
   isPickerModel: (id) => isMethatechModelId(id),
-  row: () => undefined,
+  row: (id) => methatechCatalogRow(id),
   efforts: () => null,
   defaultEffort: () => null,
   isAvailable: () => true,

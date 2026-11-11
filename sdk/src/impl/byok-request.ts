@@ -3,11 +3,11 @@ import { createHash } from 'node:crypto'
 import { byokCompletionUrl } from '../byok'
 
 import type { ResolvedByokConnection } from '../byok'
-import { isByokReasoningEffort } from '@codebuff/common/constants/reasoning-effort'
+import { isByokReasoningEffort } from '@methatech/common/constants/reasoning-effort'
 import type {
   ByokReasoningEffort,
   ReasoningEffort,
-} from '@codebuff/common/constants/reasoning-effort'
+} from '@methatech/common/constants/reasoning-effort'
 
 /**
  * Which request field a connection's endpoint reads reasoning effort from.

@@ -268,7 +268,7 @@ export const productFunnelPropertiesSchema = z
     model: modelId.optional(),
     previous_model: modelId.optional(),
     harness: z
-      .enum(['codebuff', 'codex', 'claude-code', 'external', 'unknown'])
+      .enum(['methatech', 'codex', 'claude-code', 'external', 'unknown'])
       .optional(),
     project_kind: z
       .enum([

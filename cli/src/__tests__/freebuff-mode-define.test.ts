@@ -19,8 +19,8 @@ describe('freebuffModeDefine', () => {
     )
   })
 
-  test('other artifacts default to the Codebuff client', () => {
-    expect(freebuffModeDefine('codebuff', {})).toBe('false')
+  test('other artifacts default to the MethaTech client', () => {
+    expect(freebuffModeDefine('codecane', {})).toBe('false')
     expect(freebuffModeDefine('codecane', { FREEBUFF_MODE: '1' })).toBe('false')
     expect(freebuffModeDefine('codecane', { FREEBUFF_MODE: 'true' })).toBe(
       'true',

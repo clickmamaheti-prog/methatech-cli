@@ -20,7 +20,7 @@
  */
 import { spawnSync } from 'node:child_process'
 
-import { sponsoredLocalAvailability } from '@codebuff/common/ads/sponsored-local-execution'
+import { sponsoredLocalAvailability } from '@methatech/common/ads/sponsored-local-execution'
 
 import { sponsoredContainment } from '../src/tools/sponsored-sandbox'
 

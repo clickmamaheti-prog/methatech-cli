@@ -1,8 +1,8 @@
 import {
   compactionPolicyForModel,
   type RootCompactionPolicy,
-} from '@codebuff/common/constants/compaction-policy'
-import { BASE3_BATCHING_STEP_PROMPT } from '@codebuff/common/constants/base3-step-prompt'
+} from '@methatech/common/constants/compaction-policy'
+import { BASE3_BATCHING_STEP_PROMPT } from '@methatech/common/constants/base3-step-prompt'
 import {
   FREEBUFF_DEEPSEEK_V4_FLASH_FAST_MODEL_ID,
   FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
@@ -10,16 +10,16 @@ import {
   FREEBUFF_SOLAR_MINI_4_MODEL_ID,
   FREEBUFF_SOLAR_PRO_4_MODEL_ID,
   freebuffModelIdMatches,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import {
   TURN_ENDING_NOTE,
   TURN_ENDING_RULE,
-} from '@codebuff/common/constants/turn-ending-rule'
+} from '@methatech/common/constants/turn-ending-rule'
 import {
   AGENT_PROGRESS_GUIDANCE,
   AGENT_VERIFICATION_GUIDANCE,
   WORKSPACE_QUESTION_GUIDANCE,
-} from '@codebuff/common/constants/agent-work-style'
+} from '@methatech/common/constants/agent-work-style'
 
 import { leanContextGuidance } from './lean-context'
 import {
@@ -239,7 +239,7 @@ ${leanGuidance}${batching ? `\n${BATCHING_GUIDANCE}` : ''}`,
 }
 
 /**
- * The CLI's own base3 roots — Codebuff's DEFAULT and LITE modes, and every
+ * The CLI's own base3 roots — MethaTech's DEFAULT and LITE modes, and every
  * Freebuff model the picker offers.
  *
  * Kept separate from `createBase3` rather than folded into it, because Freebuff
@@ -255,7 +255,7 @@ ${leanGuidance}${batching ? `\n${BATCHING_GUIDANCE}` : ''}`,
 export function createBase3CliRoot(
   options: {
     model?: SecretAgentDefinition['model']
-    /** MethaTech branding and meta-information instead of Codebuff's. */
+    /** MethaTech branding and meta-information for the free-tier root. */
     isFreebuff?: boolean
     /** Drop the tools that address a human. For the eval harness, where an
      *  ask_user call would stall the run rather than gather anything. */
@@ -400,7 +400,7 @@ ${PLACEHOLDER.SYSTEM_INFO_PROMPT}
 `
 }
 
-/** Codebuff's DEFAULT mode. */
+/** MethaTech's DEFAULT mode. */
 const definition: SecretAgentDefinition = {
   ...createBase3CliRoot(),
   id: 'base3',

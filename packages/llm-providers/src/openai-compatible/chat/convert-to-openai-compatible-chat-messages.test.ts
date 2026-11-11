@@ -656,7 +656,7 @@ describe('provider-specific metadata merging', () => {
           {
             type: 'reasoning',
             text: 'Need the weather.',
-            providerOptions: { codebuff: { reasoning_details: details } },
+            providerOptions: { methatech: { reasoning_details: details } },
           },
           {
             type: 'tool-call',
@@ -705,7 +705,7 @@ describe('provider-specific metadata merging', () => {
               type: 'reasoning',
               text: 'Need the weather.',
               providerOptions: {
-                codebuff: {
+                methatech: {
                   reasoning_details: details,
                   model: 'anthropic/claude-opus-4.8',
                 },
@@ -714,7 +714,7 @@ describe('provider-specific metadata merging', () => {
           ],
         },
       ],
-      { providerOptionsName: 'codebuff', modelId: 'anthropic/claude-opus-4.8' },
+      { providerOptionsName: 'methatech', modelId: 'anthropic/claude-opus-4.8' },
     )
 
     expect(result[0].reasoning_details).toEqual(details)
@@ -738,7 +738,7 @@ describe('provider-specific metadata merging', () => {
               type: 'reasoning',
               text: 'Need the weather.',
               providerOptions: {
-                codebuff: {
+                methatech: {
                   reasoning_details: details,
                   model: 'anthropic/claude-opus-4.8',
                 },
@@ -747,7 +747,7 @@ describe('provider-specific metadata merging', () => {
           ],
         },
       ],
-      { providerOptionsName: 'codebuff', modelId: 'deepseek/deepseek-v3' },
+      { providerOptionsName: 'methatech', modelId: 'deepseek/deepseek-v3' },
     )
 
     expect(result[0].reasoning_details).toBeUndefined()
@@ -769,7 +769,7 @@ describe('provider-specific metadata merging', () => {
           ],
         },
       ],
-      { providerOptionsName: 'codebuff' },
+      { providerOptionsName: 'methatech' },
     )
 
     expect(result[0].reasoning_details).toBeUndefined()

@@ -2,13 +2,13 @@
 
 - Prefer dependency injection over module mocking; define contracts in `common/src/types/contracts/`.
 - Use `spyOn()` only for globals / legacy seams.
-- Avoid `mock.module()` for functions; use `@codebuff/common/testing/mock-modules.ts` helpers for constants only. A module mock lasts for the rest of the `bun test` process, and `mock.restore()` does not undo it (see "the FILE ORDER").
+- Avoid `mock.module()` for functions; use `@methatech/common/testing/mock-modules.ts` helpers for constants only. A module mock lasts for the rest of the `bun test` process, and `mock.restore()` does not undo it (see "the FILE ORDER").
 
 CLI hook testing note: React 19 + Bun + RTL `renderHook()` is unreliable; prefer integration tests via components for hook behavior.
 
 ## Test env must come from a fixture, not the developer's `.env`
 
-`@codebuff/common`'s `env.ts` validates the `NEXT_PUBLIC_*` vars at **import** time and throws, and Bun loads `.env` files from the process cwd — so a package-local `bun test` sees none of the repo-root env even when the root run is green. A whole test file then dies with `Invalid environment configuration` before a single test runs, which bun reports as an unhandled error rather than a failure, so the suite silently stops covering that file.
+`@methatech/common`'s `env.ts` validates the `NEXT_PUBLIC_*` vars at **import** time and throws, and Bun loads `.env` files from the process cwd — so a package-local `bun test` sees none of the repo-root env even when the root run is green. A whole test file then dies with `Invalid environment configuration` before a single test runs, which bun reports as an unhandled error rather than a failure, so the suite silently stops covering that file.
 
 Every package must therefore have a `bunfig.toml` preloading `sdk/test/setup-env.ts` — the one shared fixture, which supplies placeholder values for every var the schemas require. This is not just a local-dev nicety: CI runs `cd <package> && bun test`, i.e. exactly the package-local mode. Placeholders only — tests must never need real credentials, so `bun test` means the same thing in a fresh worktree and in a provisioned checkout.
 
@@ -23,7 +23,7 @@ or `postMessage`; the production webhook stays configured for real submissions.
 
 The same rule covers generated inputs. `cli/src/agents/bundled-agents.generated.ts` is gitignored, and importing it at module scope wiped 17 files (~371 tests) in a fresh worktree; `cli/test/setup-agents-artifact.ts` now builds it on demand instead of relying on everyone knowing to run `bun run prebuild:agents`.
 
-Tests that need a **service** rather than a variable should skip cleanly and say why, but never in CI. `@codebuff/internal/testing/test-db` probes Postgres once, skips the DB suites locally with the docker command to fix it, and throws when `CODEBUFF_GITHUB_ACTIONS=true` — otherwise a broken CI service container would read as a pass. Gate on **reachability**, never on `!process.env.DATABASE_URL`: the fixtures supply a placeholder URL, so presence stopped meaning availability.
+Tests that need a **service** rather than a variable should skip cleanly and say why, but never in CI. `@methatech/internal/testing/test-db` probes Postgres once, skips the DB suites locally with the docker command to fix it, and throws when `METHATECH_GITHUB_ACTIONS=true` — otherwise a broken CI service container would read as a pass. Gate on **reachability**, never on `!process.env.DATABASE_URL`: the fixtures supply a placeholder URL, so presence stopped meaning availability.
 
 A unit test that leaks a database call gets the same answer locally as in CI. `test/setup-db-leak-guard.ts`, the first preload in the bunfig of every package whose tests can reach Postgres (the root, `web`, `freebuff/web`, `packages/{internal,billing,auth,jobs}`, and `scripts`, which preloads nothing else), answers CI's `must-not-reach-a-database` URLs with an instant Postgres error that names the leak. When none of `DATABASE_URL`, `DIRECT_DATABASE_URL` and `SCRIPTS_DATABASE_URL` is set, it supplies that URL itself. Without it, a local run fell through to `setup-env.ts`'s localhost placeholder, where postgres-js's reconnect backoff let a swallowed leak time out some later test (2026-10-13). It must stay ahead of `setup-env.ts` in those lists, and `scripts/__tests__/db-leak-guard.test.ts` fails if it does not. Set any of the three, as an integration run does, and it leaves them all alone. `probeTestDb` reports the sentinel as unreachable without connecting, so integration files skip without tripping the guard.
 
@@ -64,7 +64,7 @@ screenshots and video come back as proof.
 
 ## Cloud Agent smoke test (no credentials)
 
-A Cloud Agent — or any checkout without Infisical — can confirm the workspace can run a package-local unit test from the placeholder fixture alone. This is one file in `@codebuff/internal`. A pass does not validate the rest of the application, CI, or production runtime.
+A Cloud Agent — or any checkout without Infisical — can confirm the workspace can run a package-local unit test from the placeholder fixture alone. This is one file in `@methatech/internal`. A pass does not validate the rest of the application, CI, or production runtime.
 
 The repo pins Bun **1.3.14** (`.bun-version`, `package.json` `engines.bun` / `packageManager`) and Node **24.21.0** (`.node-version`, which Render applies to every repo-root service; only `web` runs on Node, the rest start Bun). The smoke test runs under Bun, not Node. If the VM has no Bun, install that pin from the official installer without changing tracked runtime files:
 
@@ -128,10 +128,10 @@ from 22.x to 20.15.1 on 2026-09-13, breaking its build on a Node 20 flag while
 CI stayed green; the job now installs that Node _before_ the compile, since the
 app's build script runs `node` itself. And the journey is a chat turn behind a
 seeded database session cookie rather than an API-key completion, because that
-is the path that `import()`s `@codebuff/sdk` out of the standalone tree at
+is the path that `import()`s `@methatech/sdk` out of the standalone tree at
 request time and runs the agent in-process; the SDK's calls to the backend
 (`/api/v1/me`, the run ledger, the model) all land in the stub's table.
-Hiding `@codebuff/sdk` from the standalone tree makes it fail, which is the
+Hiding `@methatech/sdk` from the standalone tree makes it fail, which is the
 proof that it exercises what the build's import check only approximates. The
 embedded agent runner is made _required_ (as on a deployed instance) with
 placeholder Convex credentials, so a runner that cannot boot is a 503 from
@@ -177,7 +177,7 @@ restore, SDK build) costs far more than the tests in almost every job.
 
 ### Typecheck runs in lanes
 
-`bun --filter='*' run typecheck` scheduled `@codebuff/freebuff-web` last: it did
+`bun --filter='*' run typecheck` scheduled `@methatech/freebuff-web` last: it did
 not start until 114s into a 227s step, then ran ~113s alone while all 17 other
 packages had finished and the runner idled on one tsc. So the typecheck job is a
 matrix over *lanes* — `freebuff-web` gets its own runner, `rest` takes the other
@@ -193,7 +193,7 @@ the work when the prior build info is usable.
 Membership lives in that script rather than in `ci.yml` because both obvious
 ways to write it in YAML fail silently:
 
-- **`--filter='*' --filter='!@codebuff/freebuff-web'` does not exclude
+- **`--filter='*' --filter='!@methatech/freebuff-web'` does not exclude
   anything.** bun 1.3.14 ignores the negation and runs all 18 packages
   (verified), so the `rest` lane would re-run the package it exists to hand off
   and the split would buy nothing while looking correct.
@@ -213,7 +213,7 @@ check nothing loud. Each of these **exits 0** on its own:
   run still passes. This is why the step passes `--expect-lanes`: the two lists
   must match or the build fails. Keep them in sync when adding a lane.
 - **A filter that matches nothing, next to filters that do.** Measured on bun
-  1.3.14: `--filter=@codebuff/common --filter=@codebuff/nope` runs `common`,
+  1.3.14: `--filter=@methatech/common --filter=@methatech/nope` runs `common`,
   ignores the bad one and **exits 0**. A lone non-matching filter exits 1, so
   only the multi-package case is silent — which is exactly what `rest` is. The
   script therefore asserts every lane member actually reported a result.
@@ -663,7 +663,7 @@ The first monorepo-wide sweep found the shared-state pattern twice more, both
 in `cli` and both fixed the same way — give the run its own `mkdtemp` directory
 instead of a name every run shares. One wrote to a fixed path *inside the
 working tree* (`__dirname/temp-test-images`, deleted in `afterEach`, not
-gitignored); the other to seven fixed `os.tmpdir()/codebuff-test-*` paths whose
+gitignored); the other to seven fixed `os.tmpdir()/methatech-test-*` paths whose
 `beforeEach` deleted them recursively. Overlapped they failed 6/10 and 4/10
 runs; solo they always passed. Note the asymmetry that hid them: CI gives each
 package's suite its own runner, so nothing there ever runs two copies at once —
@@ -801,7 +801,7 @@ Bun 1.3.14 (2026-10-13):
 - **`mock.restore()` does not restore a module mock.** It restores spies. A file
   that ends `afterAll(() => mock.restore())` leaves its module fakes in place for
   every file after it. Only `clearMockedModules()` from
-  `@codebuff/common/testing/mock-modules.ts` puts a module back.
+  `@methatech/common/testing/mock-modules.ts` puts a module back.
 - **The fake behaves two ways, depending on whether anything loaded the module
   first.** If nothing did, later importers get only the factory's exports, and
   any file that imports another one fails to load:

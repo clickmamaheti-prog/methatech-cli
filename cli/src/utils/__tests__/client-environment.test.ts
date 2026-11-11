@@ -12,15 +12,15 @@ import {
   zoneFromZoneinfo,
 } from '../client-environment'
 
-import type { CiEnv } from '@codebuff/common/types/contracts/env'
+import type { CiEnv } from '@methatech/common/types/contracts/env'
 
 const noCi: CiEnv = {
   CI: undefined,
   GITHUB_ACTIONS: undefined,
   RENDER: undefined,
   IS_PULL_REQUEST: undefined,
-  CODEBUFF_GITHUB_TOKEN: undefined,
-  CODEBUFF_API_KEY: undefined,
+  METHATECH_GITHUB_TOKEN: undefined,
+  METHATECH_API_KEY: undefined,
 }
 
 describe('bucketTerminalProgram', () => {

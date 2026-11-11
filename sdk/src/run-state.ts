@@ -1,18 +1,18 @@
 import * as os from 'os'
 import path from 'path'
 
-import { getSystemInfo } from '@codebuff/common/util/system-info'
+import { getSystemInfo } from '@methatech/common/util/system-info'
 import {
   KNOWLEDGE_FILE_NAMES_LOWERCASE,
   isKnowledgeFile,
-} from '@codebuff/common/constants/knowledge'
+} from '@methatech/common/constants/knowledge'
 import {
   DEFAULT_MAX_FILES,
   getProjectFileTree,
   getAllFilePaths,
-} from '@codebuff/common/project-file-tree'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getErrorObject } from '@codebuff/common/util/error'
+} from '@methatech/common/project-file-tree'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getErrorObject } from '@methatech/common/util/error'
 import { cloneDeep } from 'lodash'
 import z from 'zod/v4'
 
@@ -23,23 +23,23 @@ import { loadSkills } from './skills/load-skills'
 export {
   KNOWLEDGE_FILE_NAMES,
   isKnowledgeFile,
-} from '@codebuff/common/constants/knowledge'
+} from '@methatech/common/constants/knowledge'
 
 import type { CustomToolDefinition } from './custom-tool'
-import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 import type {
   AgentOutput,
   SessionState,
-} from '@codebuff/common/types/session-state'
-import type { SkillsMap } from '@codebuff/common/types/skill'
-import type { CodebuffSpawn } from '@codebuff/common/types/spawn'
+} from '@methatech/common/types/session-state'
+import type { SkillsMap } from '@methatech/common/types/skill'
+import type { MethaTechSpawn } from '@methatech/common/types/spawn'
 import type {
   CustomToolDefinitions,
   FileTreeNode,
-} from '@codebuff/common/util/file'
+} from '@methatech/common/util/file'
 import type * as fsType from 'fs'
 
 /**
@@ -65,7 +65,7 @@ export type RunState = {
   traceSessionId: string
   /** Non-secret inference identity pinned for resumed conversations. */
   inference?:
-    | { source: 'codebuff' }
+    | { source: 'methatech' }
     | { source: 'byok'; connectionId: string; revision: number; model: string }
 }
 
@@ -134,8 +134,8 @@ export type InitialSessionStateOptions = {
   agentDirs?: string[]
   customToolDefinitions?: CustomToolDefinition[]
   maxAgentSteps?: number
-  fs?: CodebuffFileSystem
-  spawn?: CodebuffSpawn
+  fs?: MethaTechFileSystem
+  spawn?: MethaTechSpawn
   logger?: Logger
 }
 
@@ -347,7 +347,7 @@ async function computeProjectIndex(params: ProjectIndexInput): Promise<{
 
   if (filePaths.length > 0) {
     try {
-      const { getFileTokenScores } = await import('@codebuff/code-map/parse')
+      const { getFileTokenScores } = await import('@methatech/code-map/parse')
       const tokenData = await getFileTokenScores(cwd, filePaths, readFile)
       fileTokenScores = tokenData.tokenScores
       tokenCallers = tokenData.tokenCallers
@@ -381,7 +381,7 @@ export async function computeProjectIndexFromFiles(params: {
 
 function getProjectIndexInput(params: {
   cwd: string
-  fs?: CodebuffFileSystem
+  fs?: MethaTechFileSystem
   logger?: Logger
   projectFiles?: Record<string, string>
   discoveredProject?: { fileTree: FileTreeNode[]; filePaths: string[] }
@@ -414,7 +414,7 @@ function getProjectIndexInput(params: {
 
 function createDiscoveredProjectReader(params: {
   cwd: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   logger: Logger
 }): (filePath: string) => Promise<string | null> {
   const { cwd, fs, logger } = params
@@ -437,7 +437,7 @@ function createDiscoveredProjectReader(params: {
   }
 }
 
-function getFileSize(stats: Awaited<ReturnType<CodebuffFileSystem['stat']>>) {
+function getFileSize(stats: Awaited<ReturnType<MethaTechFileSystem['stat']>>) {
   return typeof stats.size === 'number' ? stats.size : 0
 }
 
@@ -445,7 +445,7 @@ function getFileSize(stats: Awaited<ReturnType<CodebuffFileSystem['stat']>>) {
  * Helper to convert ChildProcess to Promise with stdout/stderr
  */
 function childProcessToPromise(
-  proc: ReturnType<CodebuffSpawn>,
+  proc: ReturnType<MethaTechSpawn>,
   maxOutputChars: number = MAX_SUBPROCESS_OUTPUT_CHARS,
   timeoutMs?: number,
 ): Promise<{ stdout: string; stderr: string; truncated: boolean }> {
@@ -510,7 +510,7 @@ function childProcessToPromise(
  */
 export async function getGitChanges(params: {
   cwd: string
-  spawn: CodebuffSpawn
+  spawn: MethaTechSpawn
   logger: Logger
   fileCount?: number
   fileCountIsLowerBound?: boolean
@@ -707,7 +707,7 @@ export async function getGitChanges(params: {
  */
 async function discoverProjectPaths(params: {
   cwd: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
 }): Promise<{ fileTree: FileTreeNode[]; filePaths: string[] }> {
   const { cwd, fs } = params
 
@@ -725,7 +725,7 @@ async function discoverProjectPaths(params: {
  * @internal Exported for testing
  */
 export async function loadUserKnowledgeFiles(params: {
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   logger: Logger
   /** Optional home directory override for testing */
   homeDir?: string
@@ -833,7 +833,7 @@ function deriveKnowledgeFiles(
 async function loadKnowledgeFilesFromPaths(params: {
   cwd: string
   filePaths: string[]
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   logger: Logger
 }): Promise<Record<string, string>> {
   const { cwd, filePaths, fs, logger } = params
@@ -887,7 +887,7 @@ export async function initialSessionState(
   }
   if (!spawn) {
     const { spawn: nodeSpawn } = require('child_process')
-    spawn = nodeSpawn as CodebuffSpawn
+    spawn = nodeSpawn as MethaTechSpawn
   }
   if (!logger) {
     logger = {
@@ -1086,7 +1086,7 @@ export async function generateInitialRunState({
   agentDirs?: string[]
   customToolDefinitions?: CustomToolDefinition[]
   maxAgentSteps?: number
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
 }): Promise<RunState> {
   return {
     traceSessionId: crypto.randomUUID(),

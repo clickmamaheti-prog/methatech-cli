@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, afterEach } from 'bun:test'
-import { withTimeoutOr } from '@codebuff/common/util/promise'
+import { withTimeoutOr } from '@methatech/common/util/promise'
 
 import {
   parseOSCResponse,

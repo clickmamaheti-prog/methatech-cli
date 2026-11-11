@@ -1,12 +1,12 @@
-import { getErrorObject } from '@codebuff/common/util/error'
+import { getErrorObject } from '@methatech/common/util/error'
 import { cloneDeep } from 'lodash'
 
-import type { CodebuffToolOutput } from '@codebuff/common/tools/list'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { MethaTechToolOutput } from '@methatech/common/tools/list'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 export function simplifyReadFileResults(
-  messageContent: CodebuffToolOutput<'read_files'>,
-): CodebuffToolOutput<'read_files'> {
+  messageContent: MethaTechToolOutput<'read_files'>,
+): MethaTechToolOutput<'read_files'> {
   return [
     {
       type: 'json',
@@ -21,9 +21,9 @@ export function simplifyReadFileResults(
 }
 
 export function simplifyTerminalCommandResults(params: {
-  messageContent: CodebuffToolOutput<'run_terminal_command'>
+  messageContent: MethaTechToolOutput<'run_terminal_command'>
   logger: Logger
-}): CodebuffToolOutput<'run_terminal_command'> {
+}): MethaTechToolOutput<'run_terminal_command'> {
   const { messageContent, logger } = params
   try {
     const clone = cloneDeep(messageContent)

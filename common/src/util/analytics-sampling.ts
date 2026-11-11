@@ -75,7 +75,7 @@ const ALWAYS_TRACK_EVENTS = new Set<AnalyticsEvent>([
   AnalyticsEvent.CLI_HELPER_PROCESS_FLOOD,
   AnalyticsEvent.CLI_HELPER_OUTLIVED_PARENT,
   AnalyticsEvent.DESKTOP_HELPER_PROCESS_FLOOD,
-  AnalyticsEvent.UPDATE_CODEBUFF_FAILED,
+  AnalyticsEvent.UPDATE_METHATECH_FAILED,
   // Crash counts per version must be whole to be comparable.
   AnalyticsEvent.CLI_FATAL_CRASH,
 ])
@@ -127,13 +127,13 @@ export function isFullTelemetryEnabled(params: {
   distinctId?: string
   properties?: AnalyticsProperties
 }): boolean {
-  if (isTruthyEnv(process.env.CODEBUFF_FULL_TELEMETRY)) {
+  if (isTruthyEnv(process.env.METHATECH_FULL_TELEMETRY)) {
     return true
   }
 
   const ids = splitEnvList(
-    process.env.CODEBUFF_FULL_TELEMETRY_IDS ??
-      process.env.CODEBUFF_FULL_TELEMETRY_USER_IDS,
+    process.env.METHATECH_FULL_TELEMETRY_IDS ??
+      process.env.METHATECH_FULL_TELEMETRY_USER_IDS,
   )
   if (ids.size === 0) {
     return false

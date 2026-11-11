@@ -89,7 +89,7 @@ import type { CostMode } from './model-config'
 export const FREE_COST_MODE = 'free' as const
 
 /**
- * The root agent family Freebuff Desktop's hosted (codebuff) harness runs every
+ * The root agent family Freebuff Desktop's hosted (methatech) harness runs every
  * thread turn under (see freebuff-desktop thread-agent.ts). Unlike the CLI — which
  * has one root id per model (`base2-free-<model>`) — the desktop root ids support
  * every picker model and vary only by execution mode. They are first-party
@@ -800,7 +800,7 @@ export function isFreebuffHelperOnSessionModel(
   model: string,
 ): boolean {
   const { publisherId, agentId } = parseAgentId(fullAgentId)
-  if (!agentId || (publisherId && publisherId !== 'codebuff')) return false
+  if (!agentId || (publisherId && publisherId !== 'methatech')) return false
   return (
     (FREEBUFF_LUNA_HELPER_AGENT_IDS.has(agentId) &&
       model === FREEBUFF_GPT_6_LUNA_MODEL_ID) ||
@@ -1132,7 +1132,7 @@ export const FREE_MODE_AGENT_MODELS: Record<string, Set<string>> = {
     FREEBUFF_MUSE_SPARK_13_CONTRIBUTOR_MODEL_ID,
   ]),
   // Wire compatibility only — NOT a freebuff agent. `code-reviewer-lite` now
-  // belongs to Codebuff's paid lite mode and is spawned by no freebuff root and
+  // belongs to MethaTech's paid lite mode and is spawned by no freebuff root and
   // shipped in no freebuff bundle. Released clients from before the
   // provider-specific reviewer IDs existed still spawn the id with one of the
   // free models below pinned in their own definitions, and this entry is what
@@ -1199,7 +1199,7 @@ export function isFreeMode(costMode: CostMode | string | undefined): boolean {
 export function isFreebuffRootAgent(fullAgentId: string): boolean {
   const { publisherId, agentId } = parseAgentId(fullAgentId)
   if (!agentId) return false
-  if (publisherId && publisherId !== 'codebuff') return false
+  if (publisherId && publisherId !== 'methatech') return false
   return FREEBUFF_ROOT_AGENT_ID_SET.has(agentId)
 }
 
@@ -1257,7 +1257,7 @@ export function hasFreebuffRootSystemPromptOpening(text: string): boolean {
 export function isFreebuffGeminiThinkerAgent(fullAgentId: string): boolean {
   const { publisherId, agentId } = parseAgentId(fullAgentId)
   if (!agentId) return false
-  if (publisherId && publisherId !== 'codebuff') return false
+  if (publisherId && publisherId !== 'methatech') return false
   return agentId === FREEBUFF_GEMINI_THINKER_AGENT_ID
 }
 
@@ -1265,12 +1265,12 @@ export function isFreebuffGeminiThinkerAgent(fullAgentId: string): boolean {
  * True if this agent is permitted to call the premium Gemini Pro model — i.e.
  * one of the two gemini-thinker subagents (CLI `thinker-with-files-gemini` or
  * chat `thinker-gemini`). Publisher-spoof-safe like the other gates: a
- * non-codebuff publisher never matches.
+ * non-methatech publisher never matches.
  */
 export function isFreebuffGeminiProAgent(fullAgentId: string): boolean {
   const { publisherId, agentId } = parseAgentId(fullAgentId)
   if (!agentId) return false
-  if (publisherId && publisherId !== 'codebuff') return false
+  if (publisherId && publisherId !== 'methatech') return false
   return FREEBUFF_GEMINI_PRO_AGENT_IDS.has(agentId)
 }
 
@@ -1281,7 +1281,7 @@ export function isFreebuffGeminiProAgent(fullAgentId: string): boolean {
  * Returns true only if:
  * 1. The agent has a valid agent ID
  * 2. The agent is in the allowed free-mode agents list
- * 3. The agent is either internal or published by 'codebuff' (prevents spoofing)
+ * 3. The agent is either internal or published by 'methatech' (prevents spoofing)
  * 4. The model is in that agent's allowed model set
  */
 export function isFreeModeAllowedAgentModel(
@@ -1293,8 +1293,8 @@ export function isFreeModeAllowedAgentModel(
   // Must have a valid agent ID
   if (!agentId) return false
 
-  // Must be either internal (no publisher) or from codebuff
-  if (publisherId && publisherId !== 'codebuff') return false
+  // Must be either internal (no publisher) or from methatech
+  if (publisherId && publisherId !== 'methatech') return false
 
   // Get the allowed models for this agent
   const allowedModels = FREE_MODE_AGENT_MODELS[agentId]
@@ -1369,7 +1369,7 @@ export function isLimitedTierSubstitutedModel(
 
   const { publisherId, agentId } = parseAgentId(fullAgentId)
   if (!agentId) return false
-  if (publisherId && publisherId !== 'codebuff') return false
+  if (publisherId && publisherId !== 'methatech') return false
 
   // Known free-mode agent, and not a programmatic one (empty set) — the same
   // two conditions isFreeModeAllowedAgentModel checks before the model itself.
@@ -1384,7 +1384,7 @@ export function isLimitedTierSubstitutedModel(
  * Handles all agent ID formats:
  * - 'file-picker'
  * - 'file-picker@1.0.0'
- * - 'codebuff/file-picker@0.0.2'
+ * - 'methatech/file-picker@0.0.2'
  */
 export function isFreeAgent(fullAgentId: string): boolean {
   const { publisherId, agentId } = parseAgentId(fullAgentId)
@@ -1395,9 +1395,9 @@ export function isFreeAgent(fullAgentId: string): boolean {
   // Must be in the free tier agents list
   if (!Object.hasOwn(FREE_TIER_AGENT_MODELS, agentId)) return false
 
-  // Must be either internal (no publisher) or from codebuff
+  // Must be either internal (no publisher) or from methatech
   // This prevents publisher spoofing attacks
-  if (publisherId && publisherId !== 'codebuff') return false
+  if (publisherId && publisherId !== 'methatech') return false
 
   return true
 }

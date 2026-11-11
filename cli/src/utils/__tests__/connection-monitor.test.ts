@@ -6,7 +6,7 @@ import { createConnectionMonitor, getNextInterval } from '../connection-monitor'
  * Tests for the shared connection monitor.
  *
  * The monitor is dependency-injected (`checkConnection` is swapped in, never the
- * `codebuff-client` module — see docs/testing.md), and its timers are driven through a mocked
+ * `methatech-client` module — see docs/testing.md), and its timers are driven through a mocked
  * `globalThis.setTimeout`/`clearTimeout` so tests advance time deterministically instead of
  * waiting on real delays.
  */

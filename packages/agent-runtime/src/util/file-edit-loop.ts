@@ -1,4 +1,4 @@
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 export const FILE_EDIT_LOOP_RECOVERY_TAG = 'FILE_EDIT_LOOP_RECOVERY'
 export const FILE_EDIT_LOOP_RECOVERY_THRESHOLD = 3

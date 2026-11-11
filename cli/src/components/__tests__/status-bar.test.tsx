@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, describe, expect, test } from 'bun:test'
-import { FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID } from '@codebuff/common/constants/freebuff-model-ids'
+import { FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID } from '@methatech/common/constants/freebuff-model-ids'
 import { createTestRenderer } from '@opentui/core/testing'
 import { createRoot, flushSync } from '@opentui/react'
 import React from 'react'
@@ -12,7 +12,7 @@ import { useByokSelectionStore } from '../../utils/byok'
 import { getStatusIndicatorState } from '../../utils/status-indicator-state'
 
 import type { FreebuffSessionResponse } from '../../types/freebuff-session'
-import type { RunState } from '@codebuff/sdk'
+import type { RunState } from '@methatech/sdk'
 
 beforeAll(() => {
   initializeThemeStore()

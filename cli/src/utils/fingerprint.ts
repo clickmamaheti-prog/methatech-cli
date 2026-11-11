@@ -8,7 +8,7 @@
 import { createHash, randomBytes } from 'node:crypto'
 import { availableParallelism, cpus, networkInterfaces } from 'node:os'
 
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 
 import { trackEvent } from './analytics'
 import { detectShell } from './detect-shell'
@@ -53,7 +53,7 @@ async function loadSystemInformation(): Promise<SystemInformation> {
  * Linux that native read throws `Failed to get CPU information` when
  * /proc/stat and /proc/cpuinfo list different CPU counts. proot-distro (Termux)
  * binds a hardcoded 8-core /proc/stat over the real one, so on a 9-core phone
- * the mismatch is permanent (CodebuffAI/freebuff#1374).
+ * the mismatch is permanent (MethaTechAI/freebuff#1374).
  *
  * systeminformation's `cpu()` reads `os.cpus()[0].model` inside a
  * `process.nextTick` callback, where no caller try/catch can reach it: the
@@ -201,7 +201,7 @@ async function calculateEnhancedFingerprint(): Promise<string> {
  */
 function calculateLegacyFingerprint(): string {
   const randomSuffix = randomBytes(6).toString('base64url').substring(0, 8)
-  return `codebuff-cli-${randomSuffix}`
+  return `methatech-cli-${randomSuffix}`
 }
 
 /**
@@ -300,7 +300,7 @@ export function getFingerprintType(
   if (fingerprintId.startsWith('enhanced-')) {
     return 'enhanced_cli'
   }
-  if (fingerprintId.startsWith('codebuff-cli-') || fingerprintId.startsWith('legacy-')) {
+  if (fingerprintId.startsWith('methatech-cli-') || fingerprintId.startsWith('legacy-')) {
     return 'legacy'
   }
   return 'unknown'

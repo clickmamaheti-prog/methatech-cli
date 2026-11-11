@@ -8,10 +8,10 @@ import {
   isTestFilePath,
 } from '../run-state'
 
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import type { CodebuffSpawn } from '@codebuff/common/types/spawn'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import type { MethaTechSpawn } from '@methatech/common/types/spawn'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 
 /** Fake ChildProcess: streams the given stdout in fixed-size chunks after
  *  spawn returns, then closes with code 0 — unless killed first, in which
@@ -41,11 +41,11 @@ function makeLogger(events: Array<{ data: unknown; msg?: string }>): Logger {
   return { debug: record, info: record, warn: record, error: record }
 }
 
-function makeSpawn(outputs: Record<string, string>): CodebuffSpawn {
+function makeSpawn(outputs: Record<string, string>): MethaTechSpawn {
   return ((command: string, args?: readonly string[]) => {
     const key = [command, ...(args ?? [])].join(' ')
     return fakeProc(outputs[key] ?? '')
-  }) as CodebuffSpawn
+  }) as MethaTechSpawn
 }
 
 describe('getGitChanges', () => {
@@ -67,7 +67,7 @@ describe('getGitChanges', () => {
       }
       if (command === 'gh') throw new Error('spawn gh ENOENT')
       return fakeProc(outputs[[command, ...(args ?? [])].join(' ')] ?? '')
-    }) as CodebuffSpawn
+    }) as MethaTechSpawn
 
     const result = await getGitChanges({
       cwd: '/repo',

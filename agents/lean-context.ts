@@ -1,4 +1,4 @@
-import { compactionThreshold } from '@codebuff/common/constants/compaction-policy'
+import { compactionThreshold } from '@methatech/common/constants/compaction-policy'
 
 /**
  * The prompt section of a `lean` compaction policy (LEAN_COMPACTION_POLICY):

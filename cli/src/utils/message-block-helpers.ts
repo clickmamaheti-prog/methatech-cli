@@ -1,7 +1,7 @@
-import { sanitizeTerminalOutput } from '@codebuff/common/util/terminal-safe-text'
+import { sanitizeTerminalOutput } from '@methatech/common/util/terminal-safe-text'
 import { isEqual } from 'lodash'
 
-import { formatToolOutput } from './codebuff-client'
+import { formatToolOutput } from './methatech-client'
 import {
   shouldCollapseByDefault,
   shouldCollapseForParent,
@@ -18,7 +18,7 @@ import type {
  * Extracts the base agent name from a potentially scoped/versioned agent type string.
  *
  * @example
- * getAgentBaseName('codebuff/file-picker@0.0.2') // 'file-picker'
+ * getAgentBaseName('methatech/file-picker@0.0.2') // 'file-picker'
  * getAgentBaseName('file-picker@1.0.0') // 'file-picker'
  * getAgentBaseName('file-picker') // 'file-picker'
  * getAgentBaseName('file_picker') // 'file-picker'

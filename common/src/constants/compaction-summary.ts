@@ -11,7 +11,7 @@
 export const COMPACTION_SUMMARY_PROMPT_OPENING =
   'Stop working on the task. Write a structured summary of this whole conversation.'
 
-/** `codebuff_metadata` key that marks a summary request. */
+/** `methatech_metadata` key that marks a summary request. */
 export const COMPACTION_SUMMARY_METADATA_KEY = 'compaction_summary'
 
 export function buildCompactionSummaryPrompt(targetTokens: number): string {

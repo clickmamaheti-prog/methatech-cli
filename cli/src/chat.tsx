@@ -4,15 +4,15 @@ import { FreebuffChatHeader } from './components/freebuff-chat-header'
 import { FreebuffChatControls } from './components/freebuff-chat-controls'
 import { useFreebuffChatStore } from './state/freebuff-chat-store'
 import { freebuffAdmissionNotice } from './hooks/use-freebuff-chat-admission'
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
-import type { FeedbackCategory } from '@codebuff/common/constants/feedback'
-import { setFreeModeCapacityDeferralListener } from '@codebuff/sdk'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
+import type { FeedbackCategory } from '@methatech/common/constants/feedback'
+import { setFreeModeCapacityDeferralListener } from '@methatech/sdk'
 import { safeOpen } from './utils/open-url'
 import { getAuthToken } from './utils/auth'
 import { isSponsoredProposalBlock } from './types/chat'
 import { runSponsoredProposalControl } from './utils/sponsored-proposal-control'
 import { patchSponsoredProposalBlock } from './utils/sponsored-proposal-state'
-import { toSponsoredProposalAdReport } from '@codebuff/common/ads/ad-report'
+import { toSponsoredProposalAdReport } from '@methatech/common/ads/ad-report'
 import {
   replaySponsoredTerminalReports,
   sponsoredRunFor,
@@ -46,7 +46,7 @@ import { CLI_PARTNER_PLACEMENT_IDS } from './ads/partner-ads'
 import {
   DOCK_PANEL_MAX_WIDTH,
   getDockPanelLayout,
-} from '@codebuff/common/ads/inline-ad-layout'
+} from '@methatech/common/ads/inline-ad-layout'
 import { ChatInputBar } from './components/chat-input-bar'
 import { AdReportPrompt, useAdReportPrompt } from './components/ad-report-prompt'
 import { adReports } from './ads/ad-reports'
@@ -153,7 +153,7 @@ import type { MatchedSlashCommand } from './hooks/use-suggestion-engine'
 import type { FreebuffSessionResponse } from './types/freebuff-session'
 import type { User } from './utils/auth'
 import type { AgentMode } from './utils/constants'
-import type { FileTreeNode } from '@codebuff/common/util/file'
+import type { FileTreeNode } from '@methatech/common/util/file'
 import type { BoxRenderable, ScrollBoxRenderable } from '@opentui/core'
 import type { UseMutationResult } from '@tanstack/react-query'
 import type { SponsoredProposalContentBlock } from './types/chat'
@@ -1175,10 +1175,10 @@ export const Chat = ({
         })
     }
 
-    globalThis.addEventListener('codebuff:send-followup', handleFollowupClick)
+    globalThis.addEventListener('methatech:send-followup', handleFollowupClick)
     return () => {
       globalThis.removeEventListener(
-        'codebuff:send-followup',
+        'methatech:send-followup',
         handleFollowupClick,
       )
     }
@@ -2274,7 +2274,7 @@ export const Chat = ({
             // Freebuff branch used 'flex-start' (top-anchored: short
             // content sits at the top, empty space below the messages),
             // which Reza rejected. The 'flex-end' branch is the other side
-            // of this same upstream ternary (Codebuff/non-freebuff side);
+            // of this same upstream ternary (MethaTech/non-freebuff side);
             // with shouldFill the content box fills the viewport, so the
             // slack lands ABOVE the conversation and the latest message
             // sits right above the composer. Verified in tmux probe:

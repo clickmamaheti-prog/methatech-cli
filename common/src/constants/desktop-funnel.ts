@@ -17,7 +17,7 @@ export const desktopFunnelStateSchema = z.enum([
 
 const entityId = z.string().min(1).max(128).regex(/^[a-zA-Z0-9_-]+$/)
 const modelId = z.string().min(1).max(120).regex(/^[a-zA-Z0-9_./:@-]+$/)
-const harness = z.enum(['codebuff', 'claude-code', 'codex'])
+const harness = z.enum(['methatech', 'claude-code', 'codex'])
 
 // Deliberately closed: no text, local paths, URLs, auth codes or arbitrary property bags.
 // Entity IDs are local transport only; Desktop hashes them before external capture.

@@ -4,7 +4,7 @@ import { streamText } from 'ai'
 import { getAgentRuntimeImpl } from '../agent-runtime'
 import { getModelForRequest } from '../model-provider'
 
-import type { CodebuffRequestHeadersProvider } from '../model-provider'
+import type { MethaTechRequestHeadersProvider } from '../model-provider'
 
 const originalFetch = globalThis.fetch
 
@@ -60,7 +60,7 @@ describe('requestHeaders hook', () => {
   test('the hook sees the exact body sent and its headers are added', async () => {
     const calls = captureFetch()
     const seen: Array<{ method: string; url: string; body: unknown }> = []
-    const requestHeaders: CodebuffRequestHeadersProvider = async (request) => {
+    const requestHeaders: MethaTechRequestHeadersProvider = async (request) => {
       seen.push(request)
       return { 'x-extra': `len:${String(request.body).length}` }
     }

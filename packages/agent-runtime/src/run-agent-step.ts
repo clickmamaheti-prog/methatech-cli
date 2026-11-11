@@ -1,17 +1,17 @@
-import { contextPrunerBudgetForModel } from '@codebuff/common/constants/model-config'
-import { compactionThreshold } from '@codebuff/common/constants/compaction-policy'
-import { BYOK_RUN_ID_PREFIX } from '@codebuff/common/constants/byok'
+import { contextPrunerBudgetForModel } from '@methatech/common/constants/model-config'
+import { compactionThreshold } from '@methatech/common/constants/compaction-policy'
+import { BYOK_RUN_ID_PREFIX } from '@methatech/common/constants/byok'
 import {
   clearCompactionRequestMetadata,
   SUMMARY_COMPACTION_VERSION,
-} from '@codebuff/common/constants/compaction-telemetry'
+} from '@methatech/common/constants/compaction-telemetry'
 import {
   supportsAssistantPrefill,
   supportsCacheControl,
-} from '@codebuff/common/old-constants'
-import { PROJECT_PROFILE_TOOL_NAME } from '@codebuff/common/constants/project-profile'
-import { TOOLS_WHICH_WONT_FORCE_NEXT_STEP } from '@codebuff/common/tools/constants'
-import { parseAgentId } from '@codebuff/common/util/agent-id-parsing'
+} from '@methatech/common/old-constants'
+import { PROJECT_PROFILE_TOOL_NAME } from '@methatech/common/constants/project-profile'
+import { TOOLS_WHICH_WONT_FORCE_NEXT_STEP } from '@methatech/common/tools/constants'
+import { parseAgentId } from '@methatech/common/util/agent-id-parsing'
 import {
   CONTEXT_COMPACTION_COMPLETED_EVENT,
   COMPACTION_ATTEMPT_EVENT,
@@ -19,8 +19,8 @@ import {
   FILE_EDIT_LOOP_EVENT,
   GRAVITY_REPORT_NUDGE_EVENT,
   TODO_PROGRESS_REMINDER_EVENT,
-} from '@codebuff/common/util/axiom-only-log'
-import { buildArray } from '@codebuff/common/util/array'
+} from '@methatech/common/util/axiom-only-log'
+import { buildArray } from '@methatech/common/util/array'
 import {
   AbortError,
   FETCH_IDLE_TIMEOUT_USER_MESSAGE,
@@ -30,14 +30,14 @@ import {
   isAbortError,
   isFetchIdleTimeoutError,
   isTransientNetworkError,
-} from '@codebuff/common/util/error'
-import { serializeCacheDebugCorrelation } from '@codebuff/common/util/cache-debug'
+} from '@methatech/common/util/error'
+import { serializeCacheDebugCorrelation } from '@methatech/common/util/cache-debug'
 import {
   assistantMessage,
   dropUnansweredToolCalls,
   systemMessage,
   userMessage,
-} from '@codebuff/common/util/messages'
+} from '@methatech/common/util/messages'
 import { type ToolSet } from 'ai'
 import { cloneDeep, mapValues } from 'lodash'
 import z from 'zod/v4'
@@ -162,43 +162,43 @@ import {
   NO_PROGRESS_STOP_THRESHOLD,
 } from './util/turn-progress'
 
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { TrackEventFn } from '@codebuff/common/types/contracts/analytics'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { TrackEventFn } from '@methatech/common/types/contracts/analytics'
 import type {
   AddAgentStepFn,
   FinishAgentRunFn,
   StartAgentRunFn,
-} from '@codebuff/common/types/contracts/database'
+} from '@methatech/common/types/contracts/database'
 import type {
   AgentUsageData,
   CacheDebugUsageData,
   ContextCompactionData,
   ModelUsageData,
   PromptAiSdkFn,
-} from '@codebuff/common/types/contracts/llm'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { TraceWriter } from '@codebuff/common/types/contracts/trace'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
+} from '@methatech/common/types/contracts/llm'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { TraceWriter } from '@methatech/common/types/contracts/trace'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
 import type {
   Message,
   ToolMessage,
-} from '@codebuff/common/types/messages/codebuff-message'
+} from '@methatech/common/types/messages/methatech-message'
 import type {
   TextPart,
   ImagePart,
-} from '@codebuff/common/types/messages/content-part'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+} from '@methatech/common/types/messages/content-part'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 import type {
   AgentTemplateType,
   AgentState,
   AgentOutput,
   ConversationSummary,
-} from '@codebuff/common/types/session-state'
+} from '@methatech/common/types/session-state'
 import type {
   CustomToolDefinitions,
   ProjectFileContext,
-} from '@codebuff/common/util/file'
-import type { DrainSteeringMessages } from '@codebuff/common/types/contracts/steering'
+} from '@methatech/common/util/file'
+import type { DrainSteeringMessages } from '@methatech/common/types/contracts/steering'
 import type { StepToolCall } from './util/turn-progress'
 
 // Moved to util/to-json-schema.ts so spawn-agent-inline can use it without an
@@ -935,7 +935,7 @@ export const runAgentStep = async (
   }
 
   // Ending on followup cards while the agent's own to-do list is part done
-  // stops a task the user asked to have finished (CodebuffAI/freebuff#1434).
+  // stops a task the user asked to have finished (MethaTechAI/freebuff#1434).
   // Bounded per user prompt; see util/followup-todo-nudge.ts. An explicit
   // task_completed/end_turn is left alone.
   if (
@@ -1217,7 +1217,7 @@ export async function loopAgentSteps(
   // every main-agent step. Recording its runs in the ledger cost three awaited
   // web-API round trips (start/step/finish) per main-agent step, so it mints a
   // local run id and skips run tracking entirely. Matches bundled and
-  // publisher-qualified ids ('context-pruner', 'codebuff/context-pruner@1.0.0')
+  // publisher-qualified ids ('context-pruner', 'methatech/context-pruner@1.0.0')
   // by agent name, never by substring: an untracked id is refused by the web
   // API, so any model-calling agent whose id merely CONTAINED the name (e.g.
   // 'context-pruner-test-agent') failed its first LLM call with
@@ -1513,7 +1513,7 @@ export async function loopAgentSteps(
     ? SUMMARY_COMPACTION_VERSION
     : 'not-enabled'
   const inheritedMetadata = clearCompactionRequestMetadata(
-    params.extraCodebuffMetadata,
+    params.extraMethaTechMetadata,
   )
   const runMetadata = {
     ...inheritedMetadata,
@@ -1537,12 +1537,12 @@ export async function loopAgentSteps(
       : runId,
   }
   // Programmatic spawns also need the root cohort, even before an LLM step.
-  params = { ...params, extraCodebuffMetadata: runMetadata }
+  params = { ...params, extraMethaTechMetadata: runMetadata }
   const telemetry = {
     compaction_version: compactionVersion,
     compaction_root_version: runMetadata.compaction_root_version,
     compaction_root_run_id: runMetadata.compaction_root_run_id,
-    trace_session_id: params.extraCodebuffMetadata?.trace_session_id ?? runId,
+    trace_session_id: params.extraMethaTechMetadata?.trace_session_id ?? runId,
     // Lets Axiom count resumed turns and confirm none compacts as idle.
     ...(params.promptIsContinuation ? { continuation_prompt: 'true' } : {}),
   }
@@ -1557,7 +1557,7 @@ export async function loopAgentSteps(
   // Keyed by conversation, so a summary that finishes after this run ended
   // reaches the next turn of the same thread.
   const summaries = conversationSummaries(
-    `${params.extraCodebuffMetadata?.trace_session_id ?? runId}:${initialAgentState.agentId}`,
+    `${params.extraMethaTechMetadata?.trace_session_id ?? runId}:${initialAgentState.agentId}`,
   )
   let idleChecked = false
   /** The context size the provider reported for this run's latest step:
@@ -1621,10 +1621,10 @@ export async function loopAgentSteps(
           includeCacheControl: supportsCacheControl(agentTemplate.model),
           maxOutputTokens: request.maxOutputTokens,
           signal: request.signal,
-          extraCodebuffMetadata: {
+          extraMethaTechMetadata: {
             ...runMetadata,
             llm_step_number: String(llmStepNumber + 1),
-            ...request.extraCodebuffMetadata,
+            ...request.extraMethaTechMetadata,
             ...(options.trigger ? { compaction_trigger: options.trigger } : {}),
           },
           onFinishReason: request.onFinishReason,
@@ -2159,7 +2159,7 @@ export async function loopAgentSteps(
         },
         agentState: currentAgentState,
         agentTemplate,
-        extraCodebuffMetadata: {
+        extraMethaTechMetadata: {
           ...runMetadata,
           compaction_request_id: crypto.randomUUID(),
           compaction_request_group: appliedCompaction
@@ -2403,7 +2403,7 @@ export async function loopAgentSteps(
                 toolChoice: 'required',
                 includeCacheControl: supportsCacheControl(agentTemplate.model),
                 signal: reportSignal,
-                extraCodebuffMetadata: {
+                extraMethaTechMetadata: {
                   ...runMetadata,
                   compaction_request_id: crypto.randomUUID(),
                   compaction_request_group: 'other',

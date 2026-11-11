@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, test } from 'bun:test'
 import {
   sponsorFor,
   sponsorsFor,
-} from '@codebuff/common/ads/display-ads/sponsors'
+} from '@methatech/common/ads/display-ads/sponsors'
 
 import { useDisplayAdsStore } from '../../ads/display-ads-store'
 import { setCliDisplayAdTrackerForTests } from '../../ads/display-ads-telemetry'
@@ -12,7 +12,7 @@ import {
   setServedDisplayAdBillingForTests,
   type CliServedSponsor,
 } from '../../ads/served-display-ads'
-import { servedDisplayAdToSponsor } from '@codebuff/common/ads/display-ads/served'
+import { servedDisplayAdToSponsor } from '@methatech/common/ads/display-ads/served'
 import {
   DEALS_HIDDEN,
   DEALS_OFF,
@@ -49,8 +49,8 @@ const SERVED: CliServedSponsor = {
   ...servedDisplayAdToSponsor({
     placementId: 'CLI-Deals',
     provider: 'first_party',
-    impUrl: 'https://www.codebuff.com/imp/deal-1',
-    clickUrl: 'https://www.codebuff.com/click/deal-1',
+    impUrl: 'https://console.methatech.eu.org/imp/deal-1',
+    clickUrl: 'https://console.methatech.eu.org/click/deal-1',
     url: 'https://acme.dev/start',
     title: 'Ship faster with Acme',
     adText: 'Acme builds it.',
@@ -205,9 +205,9 @@ describe('served /deals (flag off)', () => {
       'acme.dev',
     )
     expect(billed).toEqual([
-      ['click', 'https://www.codebuff.com/imp/deal-1', 'CLI-Deals'],
+      ['click', 'https://console.methatech.eu.org/imp/deal-1', 'CLI-Deals'],
     ])
-    expect(opened).toEqual(['https://www.codebuff.com/click/deal-1'])
+    expect(opened).toEqual(['https://console.methatech.eu.org/click/deal-1'])
     expect(await handleDealsCommand('use 2', served(SERVED))).toContain(
       'Usage:',
     )

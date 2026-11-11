@@ -2,7 +2,7 @@ import { RGBA } from '@opentui/core'
 import {
   greptileBrandColors,
   type PartnerBrandCreative,
-} from '@codebuff/common/ads/partner-brand'
+} from '@methatech/common/ads/partner-brand'
 import { supportsTruecolor } from '../utils/theme-system'
 
 /** Keep Greptile green on Apple Terminal too, using indexed terminal colours. */

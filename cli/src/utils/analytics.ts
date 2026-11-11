@@ -2,24 +2,24 @@ import {
   createPostHogClient,
   type AnalyticsClientWithIdentify,
   type PostHogClientOptions,
-} from '@codebuff/common/analytics-core'
+} from '@methatech/common/analytics-core'
 import {
   env as defaultEnv,
   IS_PROD as defaultIsProd,
   DEBUG_ANALYTICS,
-} from '@codebuff/common/env'
-import { shouldTrackAnalyticsEvent } from '@codebuff/common/util/analytics-sampling'
-import { shouldMirrorAnalyticsEvent } from '@codebuff/common/util/log-mirror'
+} from '@methatech/common/env'
+import { shouldTrackAnalyticsEvent } from '@methatech/common/util/analytics-sampling'
+import { shouldMirrorAnalyticsEvent } from '@methatech/common/util/log-mirror'
 
 import { getOrCreatePersistentAnonymousId } from './anonymous-id'
 import { enqueueClientLog as defaultEnqueueClientLog } from './log-shipper'
 
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 
-import type { LogRecordInput } from '@codebuff/common/schemas/logs'
+import type { LogRecordInput } from '@methatech/common/schemas/logs'
 
 // Re-export types from core for backwards compatibility
-export type { AnalyticsClientWithIdentify as AnalyticsClient } from '@codebuff/common/analytics-core'
+export type { AnalyticsClientWithIdentify as AnalyticsClient } from '@methatech/common/analytics-core'
 
 export enum AnalyticsErrorStage {
   Init = 'init',

@@ -19,9 +19,9 @@ import type { ChatMessage } from '../../types/chat'
 import {
   acknowledgeFirstPartyView,
   resetFirstPartyViewAckRegistryForTests,
-} from '@codebuff/common/ads/first-party-view-ack'
+} from '@methatech/common/ads/first-party-view-ack'
 
-import type { FirstPartyViewAckRequest } from '@codebuff/common/ads/first-party-view-ack'
+import type { FirstPartyViewAckRequest } from '@methatech/common/ads/first-party-view-ack'
 
 const msg = (over: Partial<ChatMessage>): ChatMessage => ({
   id: 'user-1',
@@ -103,7 +103,7 @@ describe('claimAdImpression', () => {
 describe('dispatchFirstPartyViewAcknowledgement', () => {
   const request: Omit<FirstPartyViewAckRequest, 'onAttempt'> = {
     token: 'opaque-imp-url',
-    url: 'https://app.codebuff.com/api/v1/ads/impression',
+    url: 'https://app.console.methatech.eu.org/api/v1/ads/impression',
     init: {
       method: 'POST',
       headers: {
@@ -135,7 +135,7 @@ describe('dispatchFirstPartyViewAcknowledgement', () => {
           client_family: 'cli',
         })
         return Promise.resolve()
-      }) as typeof import('@codebuff/common/ads/first-party-view-ack').acknowledgeFirstPartyView,
+      }) as typeof import('@methatech/common/ads/first-party-view-ack').acknowledgeFirstPartyView,
     )
     expect(dispatched).toBe(true)
     expect(calls).toHaveLength(1)
@@ -157,7 +157,7 @@ describe('dispatchFirstPartyViewAcknowledgement', () => {
     const acknowledge = (() => {
       calls++
       return Promise.resolve()
-    }) as typeof import('@codebuff/common/ads/first-party-view-ack').acknowledgeFirstPartyView
+    }) as typeof import('@methatech/common/ads/first-party-view-ack').acknowledgeFirstPartyView
     expect(
       dispatchFirstPartyViewAcknowledgement(
         'gravity',
@@ -204,7 +204,7 @@ describe('shouldHideGravityAds', () => {
     }
   })
 
-  test('Freebuff keeps ads on compact terminals; Codebuff drops them', () => {
+  test('Freebuff keeps ads on compact terminals; MethaTech drops them', () => {
     expect(
       shouldHideGravityAds({
         enabled: true,

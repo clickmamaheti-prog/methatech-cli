@@ -19,20 +19,20 @@
  *
  * Nothing here is persisted: the catalog carries per-account handles.
  */
-import { FREEBUFF_CLIENT_HEADER } from '@codebuff/common/constants/freebuff-desktop-sessions'
+import { METHATECH_CLIENT_HEADER } from '@methatech/common/constants/freebuff-desktop-sessions'
 import {
-  FREEBUFF_CATALOG_PROTOCOL_HEADER,
+  METHATECH_CATALOG_PROTOCOL_HEADER,
   FREEBUFF_CATALOG_PROTOCOL_VERSION,
   FREEBUFF_CATALOG_STALE_ERROR,
   FREEBUFF_MODEL_CATALOG_PATH,
   listableFreebuffCatalogRows,
   parseFreebuffModelCatalog,
-} from '@codebuff/common/types/freebuff-model-catalog'
+} from '@methatech/common/types/freebuff-model-catalog'
 import {
   getFreebuffServerAccessTier,
   getSubscriptionInfo,
-} from '@codebuff/common/types/freebuff-session'
-import { sanitizeTerminalStrings } from '@codebuff/common/util/terminal-safe-text'
+} from '@methatech/common/types/freebuff-session'
+import { sanitizeTerminalStrings } from '@methatech/common/util/terminal-safe-text'
 
 import {
   getFreebuffCatalog,
@@ -53,9 +53,9 @@ import {
   loadFreebuffModelPreference,
 } from './settings'
 
-import type { FreebuffModelCatalog } from '@codebuff/common/types/freebuff-model-catalog'
+import type { FreebuffModelCatalog } from '@methatech/common/types/freebuff-model-catalog'
 
-/** Sent as `x-freebuff-client` so the server lists the CLI's rows. */
+/** Sent as `x-methatech-client` so the server lists the CLI's rows. */
 export const FREEBUFF_CATALOG_CLIENT_CLI = 'cli'
 
 const CATALOG_FETCH_TIMEOUT_MS = 10_000
@@ -110,8 +110,8 @@ export async function fetchFreebuffModelCatalog(
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
-        [FREEBUFF_CATALOG_PROTOCOL_HEADER]: FREEBUFF_CATALOG_PROTOCOL_VERSION,
-        [FREEBUFF_CLIENT_HEADER]: FREEBUFF_CATALOG_CLIENT_CLI,
+        [METHATECH_CATALOG_PROTOCOL_HEADER]: FREEBUFF_CATALOG_PROTOCOL_VERSION,
+        [METHATECH_CLIENT_HEADER]: FREEBUFF_CATALOG_CLIENT_CLI,
         ...signature,
       },
       signal: opts.signal ? AbortSignal.any([opts.signal, timeout]) : timeout,

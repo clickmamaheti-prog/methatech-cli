@@ -106,9 +106,9 @@ export function getDirenvExport(envrcDir: string): Record<string, string | null>
  * project environment. But it runs at startup, into the same `process.env`
  * the CLI and SDK read their own configuration from — so a cloned repo could
  * point the launcher's binary download and the credential-bearing API plane
- * at another host (`NEXT_PUBLIC_CODEBUFF_APP_URL`, the F-2 / Chain F vector
+ * at another host (`NEXT_PUBLIC_METHATECH_APP_URL`, the F-2 / Chain F vector
  * in the September assessment), trust its own registry publisher
- * (`CODEBUFF_TRUSTED_AGENT_PUBLISHERS`), pick which binary the launcher
+ * (`METHATECH_TRUSTED_AGENT_PUBLISHERS`), pick which binary the launcher
  * installs (`OVERRIDE_*`), preload code into Node (`NODE_OPTIONS`), or make a
  * MITM proxy trusted (`NODE_EXTRA_CA_CERTS`, `NODE_TLS_REJECT_UNAUTHORIZED`).
  * `direnv allow` is consent to the repo's env for the repo's tooling, not to
@@ -122,7 +122,7 @@ export function getDirenvExport(envrcDir: string): Record<string, string | null>
  * @internal
  */
 export const STEERING_ENV_VAR_PATTERNS: readonly RegExp[] = [
-  /^CODEBUFF_/,
+  /^METHATECH_/,
   /^FREEBUFF_/,
   /^NEXT_PUBLIC_/,
   /^OVERRIDE_(TARGET|PLATFORM|ARCH)$/,

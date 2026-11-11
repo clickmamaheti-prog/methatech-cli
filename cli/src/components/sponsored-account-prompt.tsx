@@ -1,7 +1,7 @@
 import {
   UNFILLED_CLICK_ID_BLOCKED_METRIC,
   isUnfilledClickIdUrl,
-} from '@codebuff/common/ads/sponsored-run-links'
+} from '@methatech/common/ads/sponsored-run-links'
 import {
   decodePasteBytes,
   stripAnsiSequences,

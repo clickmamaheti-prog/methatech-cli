@@ -1,4 +1,4 @@
-export const publisher = 'codebuff'
+export const publisher = 'methatech'
 
 /** Fable 5.1's Bedrock route is BYOK-only. Root and helpers use the public
  *  Anthropic route with provider training disabled. */
@@ -56,7 +56,7 @@ export const gravityIndexGuidance = (deeperResearch = '') =>
 export const OPUS_MODEL = 'anthropic/claude-opus-5'
 
 /**
- * The model behind Codebuff's paid LITE mode, shared by the orchestrator and
+ * The model behind MethaTech's paid LITE mode, shared by the orchestrator and
  * the reviewer it spawns. Lite trades some capability for speed and a far lower
  * per-token cost, so it runs a cheap frontier model instead of the Opus tier.
  *

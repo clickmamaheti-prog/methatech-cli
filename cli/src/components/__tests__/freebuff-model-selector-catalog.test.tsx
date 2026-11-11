@@ -2,7 +2,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { freebucksFixture } from '@codebuff/common/testing/freebuff'
+import { freebucksFixture } from '@methatech/common/testing/freebuff'
 import { createTestRenderer } from '@opentui/core/testing'
 import { createRoot, flushSync } from '@opentui/react'
 import {

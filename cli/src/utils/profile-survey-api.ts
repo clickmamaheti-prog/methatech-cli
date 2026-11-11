@@ -10,7 +10,7 @@
  * GET and as `{ ok: false }` on POST, logged at debug, never surfaced.
  */
 
-import { sanitizeTerminalStrings } from '@codebuff/common/util/terminal-safe-text'
+import { sanitizeTerminalStrings } from '@methatech/common/util/terminal-safe-text'
 
 import { FREEBUFF_WEB_URL } from '../login/constants'
 
@@ -22,7 +22,7 @@ import type {
   ProfileSurveyRequest,
   ProfileSurveyResponse,
   ProfileSurveyStateResponse,
-} from '@codebuff/common/constants/freebuff-profile-survey'
+} from '@methatech/common/constants/freebuff-profile-survey'
 
 export const PROFILE_SURVEY_PATH = '/api/profile-survey'
 const REQUEST_TIMEOUT_MS = 10_000

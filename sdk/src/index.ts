@@ -1,42 +1,42 @@
-import { setTreeSitterWasmPath as setCodeMapTreeSitterWasmPath } from '@codebuff/code-map/init-node'
-import { setWasmDir as setCodeMapWasmDir } from '@codebuff/code-map/languages'
-import { getFileTokenScores as getCodeMapFileTokenScores } from '@codebuff/code-map/parse'
+import { setTreeSitterWasmPath as setCodeMapTreeSitterWasmPath } from '@methatech/code-map/init-node'
+import { setWasmDir as setCodeMapWasmDir } from '@methatech/code-map/languages'
+import { getFileTokenScores as getCodeMapFileTokenScores } from '@methatech/code-map/parse'
 
-export type * from '@codebuff/common/types/json'
-export type * from '@codebuff/common/types/messages/codebuff-message'
-export type * from '@codebuff/common/types/messages/data-content'
-export type * from '@codebuff/common/types/print-mode'
+export type * from '@methatech/common/types/json'
+export type * from '@methatech/common/types/messages/methatech-message'
+export type * from '@methatech/common/types/messages/data-content'
+export type * from '@methatech/common/types/print-mode'
 export type {
   TextPart,
   ImagePart,
-} from '@codebuff/common/types/messages/content-part'
+} from '@methatech/common/types/messages/content-part'
 export {
   run,
   STATE_SNAPSHOT_INTERRUPTION_MESSAGE,
   toUserInterruptedRunState,
 } from './run'
-export { USER_INTERRUPTED_MESSAGE } from '@codebuff/agent-runtime/util/messages'
+export { USER_INTERRUPTED_MESSAGE } from '@methatech/agent-runtime/util/messages'
 export { getFiles } from './tools/read-files'
 export type { FileFilter, FileFilterResult } from './tools/read-files'
 export type {
-  CodebuffClientOptions,
+  MethaTechClientOptions,
   OverrideToolHandlers,
   RunOptions,
   MessageContent,
   TextContent,
   ImageContent,
 } from './run'
-export type { TraceWriter } from '@codebuff/common/types/contracts/trace'
-export { buildUserMessageContent } from '@codebuff/agent-runtime/util/messages'
+export type { TraceWriter } from '@methatech/common/types/contracts/trace'
+export { buildUserMessageContent } from '@methatech/agent-runtime/util/messages'
 // Agent type exports
-export type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
-export type { ToolName } from '@codebuff/common/tools/constants'
+export type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
+export type { ToolName } from '@methatech/common/tools/constants'
 
 export type {
   ClientToolCall,
   ClientToolName,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
 export * from './client'
 export * from './custom-tool'
 export * from './native/ripgrep'
@@ -47,7 +47,7 @@ export {
   withCompactionSummary,
 } from './compact-run-state'
 export type { CompactedRunState } from './compact-run-state'
-export type { ConversationSummary } from '@codebuff/common/types/session-state'
+export type { ConversationSummary } from '@methatech/common/types/session-state'
 export { ToolHelpers } from './tools'
 export * from './constants'
 export { isAllowedRuntimeAppUrl } from './env'
@@ -80,9 +80,9 @@ export {
   loadSkillsSync,
   parseSkillFileContent,
 } from './skills/load-skills'
-export { formatAvailableSkillsXml } from '@codebuff/common/util/skills'
+export { formatAvailableSkillsXml } from '@methatech/common/util/skills'
 export type { LoadSkillsOptions } from './skills/load-skills'
-export type { SkillDefinition, SkillsMap } from '@codebuff/common/types/skill'
+export type { SkillDefinition, SkillsMap } from '@methatech/common/types/skill'
 export type {
   LoadedAgents,
   LoadedAgentDefinition,
@@ -97,7 +97,7 @@ export type { ValidationResult, ValidateAgentsOptions } from './validate-agents'
 // Free-mode capacity deferral notifications (server-side tier shedding)
 export { setFreeModeCapacityDeferralListener } from './impl/model-provider'
 export type {
-  CodebuffRequestHeadersProvider,
+  MethaTechRequestHeadersProvider,
   FreeModeCapacityDeferral,
 } from './impl/model-provider'
 
@@ -125,7 +125,7 @@ export {
   RECONNECTION_RETRY_DELAY_MS,
 } from './retry-config'
 
-export type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+export type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 
 // Tree-sitter / code-map exports
 export function getFileTokenScores(
@@ -141,7 +141,7 @@ export function setWasmDir(dir: string): void {
 export function setTreeSitterWasmPath(wasmPath: string): void {
   setCodeMapTreeSitterWasmPath(wasmPath)
 }
-export type { FileTokenData, TokenCallerMap } from '@codebuff/code-map'
+export type { FileTokenData, TokenCallerMap } from '@methatech/code-map'
 
 export {
   getActiveTerminalCommandProcesses,

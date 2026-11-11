@@ -1,5 +1,5 @@
-import { FREEBUFF_BASE3_FAST_WORKER_AGENT_ID } from '@codebuff/common/constants/free-agents'
-import { FREEBUFF_DEEPSEEK_V4_FLASH_FAST_MODEL_ID } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_BASE3_FAST_WORKER_AGENT_ID } from '@methatech/common/constants/free-agents'
+import { FREEBUFF_DEEPSEEK_V4_FLASH_FAST_MODEL_ID } from '@methatech/common/constants/freebuff-models'
 
 import { createBase3FastWorker } from './base3-fast'
 

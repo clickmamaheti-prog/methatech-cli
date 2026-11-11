@@ -8,7 +8,7 @@
 
 import { describe, test, expect, beforeAll } from 'bun:test'
 
-import { CodebuffClient } from '../../src/client'
+import { MethaTechClient } from '../../src/client'
 import {
   EventCollector,
   getApiKey,
@@ -18,11 +18,11 @@ import {
 } from '../utils'
 
 describe('Integration: Event Types', () => {
-  let client: CodebuffClient
+  let client: MethaTechClient
 
   beforeAll(() => {
     if (skipIfNoApiKey()) return
-    client = new CodebuffClient({ apiKey: getApiKey() })
+    client = new MethaTechClient({ apiKey: getApiKey() })
   })
 
   test(

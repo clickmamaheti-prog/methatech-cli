@@ -6,15 +6,15 @@ const tls = require('tls')
 
 /**
  * Hosts a release request may be redirected to, beyond the host it started
- * on. The download route on codebuff.com answers with a 302 to a GitHub
+ * on. The download route on console.methatech.eu.org answers with a 302 to a GitHub
  * release asset, which GitHub in turn serves from *.githubusercontent.com.
  * Anything outside this list is refused: a redirect is the one place where a
  * compromised or misconfigured origin could otherwise hand the download to an
  * arbitrary host.
  */
 const REDIRECT_ALLOWED_HOSTS = new Set([
-  'codebuff.com',
-  'www.codebuff.com',
+  'console.methatech.eu.org',
+  'methatech.eu.org',
   'freebuff.com',
   'www.freebuff.com',
   'github.com',

@@ -1,22 +1,22 @@
-import { isFreebuffLimitedOfferModelId } from '@codebuff/common/constants/freebuff-models'
+import { isFreebuffLimitedOfferModelId } from '@methatech/common/constants/freebuff-models'
 import {
   FREEBUFF_CLI_BASE3_AGENT_ID_BY_MODEL,
   hasFreebuffRootSystemPromptOpening,
-} from '@codebuff/common/constants/free-agents'
+} from '@methatech/common/constants/free-agents'
 import {
   compactionPolicyForModel,
   LEAN_COMPACTION_POLICY,
-} from '@codebuff/common/constants/compaction-policy'
+} from '@methatech/common/constants/compaction-policy'
 import {
   TURN_ENDING_NOTE,
   TURN_ENDING_RULE,
-} from '@codebuff/common/constants/turn-ending-rule'
+} from '@methatech/common/constants/turn-ending-rule'
 import {
   FREEBUFF_MUSE_SPARK_13_CONTRIBUTOR_MODEL_ID,
   FREEBUFF_SOLAR_MINI_4_MODEL_ID,
   FREEBUFF_SOLAR_PRO_4_MODEL_ID,
   SUPPORTED_FREEBUFF_MODELS,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import { describe, test, expect } from 'bun:test'
 
 import base3, {
@@ -177,7 +177,7 @@ describe('base3 CLI roots', () => {
     for (const agent of CLI_ROOTS) {
       expect(hasFreebuffRootSystemPromptOpening(agent.systemPrompt!)).toBe(true)
       expect(
-        agent.systemPrompt!.match(/\{CODEBUFF_GIT_CHANGES_PROMPT\}/g),
+        agent.systemPrompt!.match(/\{METHATECH_GIT_CHANGES_PROMPT\}/g),
       ).toHaveLength(1)
     }
   })
@@ -362,10 +362,10 @@ describe('base3 CLI roots', () => {
     }
   })
 
-  test('brands MethaTech roots as MethaTech, and Codebuff roots as Codebuff', () => {
+  test('brands MethaTech roots as MethaTech, and MethaTech roots as MethaTech', () => {
     expect(base3FreeDeepseek.systemPrompt).toContain('MethaTech')
     expect(base3FreeDeepseek.systemPrompt).not.toContain('/usage')
-    // Codebuff's paid modes explain credits; Freebuff has none to explain.
+    // MethaTech's paid modes explain credits; Freebuff has none to explain.
     expect(base3.systemPrompt).toContain('/usage')
   })
 })

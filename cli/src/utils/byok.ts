@@ -4,7 +4,7 @@ import {
   createBunByokConnectionStore,
   withByokReasoningEffort,
   withEffectiveByokLimits,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 import { create } from 'zustand'
 
 import { loadSettings, saveSettings } from './settings'
@@ -13,7 +13,7 @@ import type {
   ByokConnection,
   ByokConnectionStore,
   ResolvedByokConnection,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
 type SelectedByokConnection =
   Pick<ByokConnection, 'id' | 'revision'> &
@@ -147,11 +147,18 @@ export function isByokEnvironmentVariableName(value: string): boolean {
 }
 
 /**
- * FORK (MethaTech): the one stored BYOK connection the fork's panel models
- * run through. A single connection named `methatech`, fixed to the panel's
- * OpenAI-compatible API (METHATECH_BYOK_BASE_URL) with the panel key read
- * from the METHATECH_API_KEY environment variable at send time — never
- * stored, never echoed.
+ * FORK (MethaTech): the stored BYOK connection for panel models — now the
+ * FALLBACK/ALTERNATIVE, not the main path. The main path is the panel
+ * session (Freebuff flow): a logged-in user runs panel models with the
+ * login token, no BYOK connection involved (cli/src/hooks/use-send-message.ts
+ * only calls this when there is no login credential). A single connection
+ * named `methatech`, fixed to the panel's OpenAI-compatible API
+ * (METHATECH_BYOK_BASE_URL) with the panel key read from the
+ * METHATECH_API_KEY environment variable at send time — never stored,
+ * never echoed. Existing users who already have this connection keep it
+ * working as the alternative: when logged in, the session path takes
+ * precedence; when logged out, this connection runs (same account's key
+ * if the env key belongs to that account).
  *
  * Get-or-create for a panel model id: an existing `methatech` connection
  * keeps its own credential reference (a user who pointed it at their own

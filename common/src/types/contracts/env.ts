@@ -80,12 +80,12 @@ export type BaseEnv = {
 // =============================================================================
 
 /**
- * Extended CI env with Codebuff-specific CI vars.
+ * Extended CI env with MethaTech-specific CI vars.
  * Used by agent-runtime and server code.
  */
 export type CiEnv = BaseCiEnv & {
-  CODEBUFF_GITHUB_TOKEN?: string
-  CODEBUFF_API_KEY?: string
+  METHATECH_GITHUB_TOKEN?: string
+  METHATECH_API_KEY?: string
   EVAL_RESULTS_EMAIL?: string
 }
 
@@ -121,22 +121,22 @@ export type ProcessEnv = BaseEnv & {
   // Editor preferences
   VISUAL?: string
   EDITOR?: string
-  CODEBUFF_CLI_EDITOR?: string
-  CODEBUFF_EDITOR?: string
+  METHATECH_CLI_EDITOR?: string
+  METHATECH_EDITOR?: string
 
   // Theme preferences
   OPEN_TUI_THEME?: string
   OPENTUI_THEME?: string
 
-  // Codebuff CLI-specific (set during binary build)
-  CODEBUFF_IS_BINARY?: string
-  CODEBUFF_CLI_VERSION?: string
-  CODEBUFF_CLI_TARGET?: string
-  CODEBUFF_RG_PATH?: string
-  CODEBUFF_WASM_DIR?: string
+  // MethaTech CLI-specific (set during binary build)
+  METHATECH_IS_BINARY?: string
+  METHATECH_CLI_VERSION?: string
+  METHATECH_CLI_TARGET?: string
+  METHATECH_RG_PATH?: string
+  METHATECH_WASM_DIR?: string
   // Comma-separated registry publishers whose agents may run executable
   // handleSteps on this machine (see sdk/src/agent-publisher-trust.ts)
-  CODEBUFF_TRUSTED_AGENT_PUBLISHERS?: string
+  METHATECH_TRUSTED_AGENT_PUBLISHERS?: string
 
   // Build/CI flags
   VERBOSE?: string

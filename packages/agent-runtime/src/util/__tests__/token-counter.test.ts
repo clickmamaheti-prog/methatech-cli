@@ -6,7 +6,7 @@ import {
   countTokensMessages,
 } from '../token-counter'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 test('pathological repeated text is safe even when restoring a multi-MB conversation', async () => {
   // A subprocess gives the test a real wall-clock limit: a synchronous BPE

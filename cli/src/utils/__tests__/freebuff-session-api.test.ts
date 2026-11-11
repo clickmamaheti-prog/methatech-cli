@@ -1,14 +1,14 @@
-import { freebucksFixture } from '@codebuff/common/testing/freebuff'
+import { freebucksFixture } from '@methatech/common/testing/freebuff'
 import { afterEach, expect, spyOn, test } from 'bun:test'
 import {
   FREEBUFF_GLM_V53_FLASH_MODEL_ID,
   FREEBUFF_FABLE_5_1_MODEL_ID,
   resolveFreebuffModelForAccessTier,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import {
   FREEBUCKS_TIMEZONE_HEADER,
   freebucksTimeZoneHeaders,
-} from '@codebuff/common/util/freebucks-timezone'
+} from '@methatech/common/util/freebucks-timezone'
 
 import {
   callFreebuffSession,
@@ -50,7 +50,7 @@ test('a full-access pick reaches the session POST header unchanged', async () =>
   expect(new Headers(init?.headers).get(FREEBUCKS_TIMEZONE_HEADER)).toBe(
     freebucksTimeZoneHeaders()[FREEBUCKS_TIMEZONE_HEADER] ?? null,
   )
-  expect(new Headers(init?.headers).get('x-freebuff-model')).toBe(
+  expect(new Headers(init?.headers).get('x-methatech-model')).toBe(
     FREEBUFF_GLM_V53_FLASH_MODEL_ID,
   )
 })
@@ -66,7 +66,7 @@ test('compact GET sends the compact-session header', async () => {
   })
 
   const [, init] = fetchSpy.mock.calls[0]!
-  expect(new Headers(init?.headers).get('x-freebuff-compact-session')).toBe('1')
+  expect(new Headers(init?.headers).get('x-methatech-compact-session')).toBe('1')
 })
 
 test('multi-session polling beats only its own claim and retains compact polling', async () => {
@@ -76,15 +76,15 @@ test('multi-session polling beats only its own claim and retains compact polling
     .mockResolvedValueOnce(Response.json({ status: 'none' }))
   await callFreebuffSession('GET', 'test-token', { instanceId, compact: true })
   const headers = new Headers(fetchSpy.mock.calls[0]![1]?.headers)
-  expect(headers.get('x-freebuff-instance-id')).toBe(instanceId)
-  expect(headers.get('x-freebuff-multi-session')).toBe('1')
-  expect(headers.get('x-freebuff-heartbeat')).toBe('1')
-  expect(headers.get('x-freebuff-compact-session')).toBe('1')
-  expect(headers.get('x-freebuff-include-unused-rate-limits')).toBeNull()
+  expect(headers.get('x-methatech-instance-id')).toBe(instanceId)
+  expect(headers.get('x-methatech-multi-session')).toBe('1')
+  expect(headers.get('x-methatech-heartbeat')).toBe('1')
+  expect(headers.get('x-methatech-compact-session')).toBe('1')
+  expect(headers.get('x-methatech-include-unused-rate-limits')).toBeNull()
   await callFreebuffSession('GET', 'test-token', { instanceId })
   expect(
     new Headers(fetchSpy.mock.calls[1]![1]?.headers).get(
-      'x-freebuff-include-unused-rate-limits',
+      'x-methatech-include-unused-rate-limits',
     ),
   ).toBe('1')
 })
@@ -98,9 +98,9 @@ test('limited-offer admission retains the globally capped single-session protoco
     multiSession: false,
   })
   const headers = new Headers(fetchSpy.mock.calls[0]![1]?.headers)
-  expect(headers.get('x-freebuff-multi-session')).toBeNull()
-  expect(headers.get('x-freebuff-purchase-continuity')).toBeNull()
-  expect(headers.get('x-freebuff-desktop-attempt-id')).toBeNull()
+  expect(headers.get('x-methatech-multi-session')).toBeNull()
+  expect(headers.get('x-methatech-purchase-continuity')).toBeNull()
+  expect(headers.get('x-methatech-desktop-attempt-id')).toBeNull()
   expect(freebuffSessionMetadata('legacy-trial-id')).toEqual({
     freebuff_instance_id: 'legacy-trial-id',
   })
@@ -290,7 +290,7 @@ test('DELETE sends the held instance and preserves the server refund receipt', a
   })
   expect(result).toEqual({ status: 'ended', freebucksRefund: 4 })
   const [, init] = fetchSpy.mock.calls[0]!
-  expect(new Headers(init?.headers).get('x-freebuff-instance-id')).toBe(
+  expect(new Headers(init?.headers).get('x-methatech-instance-id')).toBe(
     'held-cli',
   )
 })
@@ -308,7 +308,7 @@ test.each([404, 405])(
     expect(String(fetchSpy.mock.calls[0]![0])).toEndWith('/session/admission')
     expect(
       new Headers(fetchSpy.mock.calls[0]![1]?.headers).get(
-        'x-freebuff-wallet-spend-limit',
+        'x-methatech-wallet-spend-limit',
       ),
     ).toBe('session')
   },
@@ -330,7 +330,7 @@ test('a request that got no answer is a network error, a refused one is not', ()
   expect(isFreebuffSessionNetworkError(withCause)).toBe(true)
   expect(
     isFreebuffSessionNetworkError(
-      new Error('getaddrinfo ENOTFOUND codebuff.com'),
+      new Error('getaddrinfo ENOTFOUND console.methatech.eu.org'),
     ),
   ).toBe(true)
 
@@ -346,8 +346,8 @@ test('a request that got no answer is a network error, a refused one is not', ()
 })
 
 test('the unreachable copy names the host and never blames the machine', () => {
-  const msg = freebuffSessionUnreachableMessage('www.codebuff.com')
-  expect(msg).toContain('www.codebuff.com')
+  const msg = freebuffSessionUnreachableMessage('console.methatech.eu.org')
+  expect(msg).toContain('console.methatech.eu.org')
   expect(msg).toContain('methatech.eu.org')
   expect(msg).toContain('another ISP')
   expect(msg).not.toMatch(/reinstall|firewall|antivirus/i)

@@ -44,7 +44,7 @@ describe('findWindowsBash', () => {
     const bundled = installGitAt('Freebuff App/resources/git')
     expect(findWindowsBash({ PATH: '', FREEBUFF_GIT_DIR: bundled })).toBe(path.join(bundled, 'bin', 'bash.exe'))
     const override = touch(path.join(root, 'custom'), 'bash.exe')
-    expect(findWindowsBash({ FREEBUFF_GIT_DIR: bundled, CODEBUFF_GIT_BASH_PATH: override })).toBe(override)
+    expect(findWindowsBash({ FREEBUFF_GIT_DIR: bundled, METHATECH_GIT_BASH_PATH: override })).toBe(override)
   })
 
   it('falls back to installed Git when the app bundle is missing', () => {
@@ -52,19 +52,19 @@ describe('findWindowsBash', () => {
     expect(findWindowsBash({ FREEBUFF_GIT_DIR: path.join(root, 'missing'), ProgramFiles: root })).toBe(path.join(installed, 'bin', 'bash.exe'))
   })
 
-  it('prefers an explicit CODEBUFF_GIT_BASH_PATH over everything else', () => {
+  it('prefers an explicit METHATECH_GIT_BASH_PATH over everything else', () => {
     const override = touch(path.join(root, 'custom'), 'bash.exe')
     const programFiles = installGitAt('ProgramFiles')
     expect(
-      findWindowsBash({ CODEBUFF_GIT_BASH_PATH: override, ProgramFiles: programFiles }),
+      findWindowsBash({ METHATECH_GIT_BASH_PATH: override, ProgramFiles: programFiles }),
     ).toBe(override)
   })
 
-  it('ignores a CODEBUFF_GIT_BASH_PATH left pointing at a bash that is gone', () => {
+  it('ignores a METHATECH_GIT_BASH_PATH left pointing at a bash that is gone', () => {
     const gitRoot = installGitAt('Git')
     expect(
       findWindowsBash({
-        CODEBUFF_GIT_BASH_PATH: path.join(root, 'deleted', 'bash.exe'),
+        METHATECH_GIT_BASH_PATH: path.join(root, 'deleted', 'bash.exe'),
         ProgramFiles: root,
       }),
     ).toBe(path.join(gitRoot, 'bin', 'bash.exe'))
@@ -160,7 +160,7 @@ describe('findWindowsBash', () => {
   })
 
   // The registry is what finds an install in a directory nobody would guess — the case the
-  // CODEBUFF_GIT_BASH_PATH escape hatch used to be the only answer for. Almost nobody sets that
+  // METHATECH_GIT_BASH_PATH escape hatch used to be the only answer for. Almost nobody sets that
   // variable, and almost everybody has Git somewhere; this closes the gap between those two facts.
   it('falls back to the install directory the registry records', () => {
     const gitRoot = installGitAt(path.join('Dev Tools', 'Git'))

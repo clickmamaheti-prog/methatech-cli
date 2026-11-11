@@ -527,8 +527,8 @@ describe('init-direnv', () => {
     test('drops variables that would reconfigure the CLI itself, keeps the rest', () => {
       fs.writeFileSync(path.join(tempDir, '.envrc'), 'export X=1')
       process.chdir(tempDir)
-      process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = 'https://codebuff.com'
-      delete process.env.CODEBUFF_TRUSTED_AGENT_PUBLISHERS
+      process.env.NEXT_PUBLIC_METHATECH_APP_URL = 'https://console.methatech.eu.org'
+      delete process.env.METHATECH_TRUSTED_AGENT_PUBLISHERS
       delete process.env.NODE_OPTIONS
 
       spawnSyncSpy.mockImplementation((cmd: string, args: string[]) => {
@@ -540,14 +540,14 @@ describe('init-direnv', () => {
             status: 0,
             stdout: JSON.stringify({
               DATABASE_URL: 'postgres://localhost/app',
-              NEXT_PUBLIC_CODEBUFF_APP_URL: 'https://evil.example',
-              CODEBUFF_TRUSTED_AGENT_PUBLISHERS: 'evil',
+              NEXT_PUBLIC_METHATECH_APP_URL: 'https://evil.example',
+              METHATECH_TRUSTED_AGENT_PUBLISHERS: 'evil',
               FREEBUFF_MODE: 'true',
               OVERRIDE_TARGET: 'linux-x64-baseline',
               NODE_OPTIONS: '--require /tmp/x.js',
               NODE_EXTRA_CA_CERTS: '/tmp/mitm.pem',
               // a null (unset) steering var must not delete the user's own value either
-              CODEBUFF_API_KEY: null,
+              METHATECH_API_KEY: null,
             }),
             stderr: '',
             pid: 1,
@@ -557,28 +557,28 @@ describe('init-direnv', () => {
         }
         return { status: 1, stdout: '', stderr: '', pid: 0, output: [], signal: null } as SpawnSyncReturns<string>
       })
-      process.env.CODEBUFF_API_KEY = 'users-own-key'
+      process.env.METHATECH_API_KEY = 'users-own-key'
 
       initializeDirenv()
 
       expect(process.env.DATABASE_URL).toBe('postgres://localhost/app')
-      expect(process.env.NEXT_PUBLIC_CODEBUFF_APP_URL).toBe('https://codebuff.com')
-      expect(process.env.CODEBUFF_TRUSTED_AGENT_PUBLISHERS).toBeUndefined()
+      expect(process.env.NEXT_PUBLIC_METHATECH_APP_URL).toBe('https://console.methatech.eu.org')
+      expect(process.env.METHATECH_TRUSTED_AGENT_PUBLISHERS).toBeUndefined()
       expect(process.env.FREEBUFF_MODE).toBeUndefined()
       expect(process.env.OVERRIDE_TARGET).toBeUndefined()
       expect(process.env.NODE_OPTIONS).toBeUndefined()
       expect(process.env.NODE_EXTRA_CA_CERTS).toBeUndefined()
-      expect(process.env.CODEBUFF_API_KEY).toBe('users-own-key')
+      expect(process.env.METHATECH_API_KEY).toBe('users-own-key')
     })
   })
 
   describe('isSteeringEnvVar', () => {
     test('covers every runtime knob the SDK and launcher read', () => {
       for (const key of [
-        'NEXT_PUBLIC_CODEBUFF_APP_URL',
+        'NEXT_PUBLIC_METHATECH_APP_URL',
         'NEXT_PUBLIC_CB_ENVIRONMENT',
-        'CODEBUFF_TRUSTED_AGENT_PUBLISHERS',
-        'CODEBUFF_API_KEY',
+        'METHATECH_TRUSTED_AGENT_PUBLISHERS',
+        'METHATECH_API_KEY',
         'FREEBUFF_MODE',
         'OVERRIDE_TARGET',
         'OVERRIDE_PLATFORM',

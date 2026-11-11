@@ -1,11 +1,11 @@
 /**
  * Register a Bun loader for tree-sitter `.scm` query files.
  *
- * `@codebuff/code-map` statically imports `.scm` query files
+ * `@methatech/code-map` statically imports `.scm` query files
  * (packages/code-map/src/languages.ts), typed as `string` content
  * (packages/code-map/src/types.ts: `declare module '*.scm'`). Bun has no
  * built-in loader for `.scm`, so without this preload any test that imports
- * the `@codebuff/sdk` barrel dies at import time.
+ * the `@methatech/sdk` barrel dies at import time.
  *
  * NOTE: this file is loaded as a Bun *runtime* plugin (via the `preload`
  * in cli/bunfig.toml), whose onLoad result only accepts the loaders

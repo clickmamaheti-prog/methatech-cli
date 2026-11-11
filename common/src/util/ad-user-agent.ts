@@ -31,7 +31,7 @@ export function getAdUserAgent(platform: string = process.platform): string {
  * Deliberately a shape test rather than an allowlist: the question is only
  * "will the provider's device classifier recognise this", and every string it
  * recognises starts with the `Mozilla/` token. A native runtime UA
- * (`Bun/1.3.14`) and a product UA (`Freebuff-CLI/0.0.140`) both fail it, which
+ * (`Bun/1.3.14`) and a product UA (`MethaTech-CLI/0.0.140`) both fail it, which
  * is the point — they are the two ways we have actually leaked a non-browser
  * UA to Gravity.
  */
@@ -57,7 +57,7 @@ export function isBrowserLikeAdUserAgent(
 /**
  * The user agent Gravity sees, on the auction and on its impression pixel.
  * Gravity is the exception to the browser-like rule below: at their request
- * (2026-09-04) they receive the real client UA (`Codebuff-CLI/<v>`). The
+ * (2026-09-04) they receive the real client UA (`MethaTech-CLI/<v>`). The
  * header wins whenever it has content (including `Bun/<v>` from old builds);
  * a missing or blank one falls back to the browser-like UA.
  */

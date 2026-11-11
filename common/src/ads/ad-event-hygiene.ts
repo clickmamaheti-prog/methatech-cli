@@ -17,14 +17,14 @@
  * unsigned client input; a header works on the browser's keepalive fetch and
  * on every native client alike.
  */
-export const FREEBUFF_EVENT_ID_HEADER = 'X-Freebuff-Event-Id'
+export const METHATECH_EVENT_ID_HEADER = 'X-MethaTech-Event-Id'
 
 /**
  * Milliseconds from auction-response RECEIPT to card mount, on the client's
  * monotonic clock. Same header reasoning as the event id; POST clients may
  * also send it as `renderDelayMs` in the body, and the routes accept either.
  */
-export const FREEBUFF_RENDER_DELAY_HEADER = 'X-Freebuff-Render-Delay-Ms'
+export const METHATECH_RENDER_DELAY_HEADER = 'X-MethaTech-Render-Delay-Ms'
 
 /**
  * Integer denominator on every `ads.*` event. Nothing samples today, so it is
@@ -161,8 +161,8 @@ export function clientFamilyFromUserAgent(
   if (typeof raw !== 'string') return 'unknown'
   const [firstToken = ''] = raw.trim().split(/\s+/, 1)
   const product = firstToken.split('/', 1)[0]?.toLowerCase() ?? ''
-  if (product === 'freebuff-cli' || product === 'codebuff-cli') return 'cli'
-  if (product === 'freebuff-desktop' || product === 'codebuff-desktop') {
+  if (product === 'freebuff-cli' || product === 'methatech-cli') return 'cli'
+  if (product === 'freebuff-desktop' || product === 'methatech-desktop') {
     return 'desktop'
   }
   if (product === 'mozilla') return 'web'

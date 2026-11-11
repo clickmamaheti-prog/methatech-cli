@@ -3,16 +3,16 @@
  * while anything that can change the workspace still waits for them, and
  * results reach the history in call order.
  */
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
 import { describe, expect, it } from 'bun:test'
 
 import { mockFileContext } from './test-utils'
 import { MAX_CONCURRENT_READS, processStream } from '../tools/stream-parser'
 
 import type { AgentTemplate } from '../templates/types'
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
-import type { PromptResult } from '@codebuff/common/util/error'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
+import type { PromptResult } from '@methatech/common/util/error'
 
 const template: AgentTemplate = {
   id: 'test-agent',

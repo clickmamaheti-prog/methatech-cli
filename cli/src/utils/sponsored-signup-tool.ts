@@ -1,11 +1,11 @@
-import { LAB_SIGNUP_TOOL_DESCRIPTION } from '@codebuff/common/ads/agentic-ad-lab-run'
-import { getCustomToolDefinition } from '@codebuff/sdk'
+import { LAB_SIGNUP_TOOL_DESCRIPTION } from '@methatech/common/ads/agentic-ad-lab-run'
+import { getCustomToolDefinition } from '@methatech/sdk'
 import { z } from 'zod'
 
 import { SPONSORED_SIGNUP_TOOL_NAME } from './sponsored-account-step'
 
 import type { SponsoredAccountResult } from './sponsored-account-step'
-import type { CustomToolDefinition } from '@codebuff/sdk'
+import type { CustomToolDefinition } from '@methatech/sdk'
 
 /**
  * `request_sponsored_signup` for a CLI sponsored run, the tool Desktop and the

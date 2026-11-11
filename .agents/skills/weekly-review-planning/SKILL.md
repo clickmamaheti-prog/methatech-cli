@@ -6,7 +6,7 @@ author: Ben Barclay (benbarclay), Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
 metadata:
-  hermes:
+  methatech:
     tags: [Weekly-Review, Planning, Tasks, Calendar, Productivity]
     related_skills: [obsidian, google-workspace, email-inbox-triage]
 ---

@@ -13,7 +13,7 @@ import {
   mediaToolResult,
 } from '../messages'
 
-import type { Message } from '../../types/messages/codebuff-message'
+import type { Message } from '../../types/messages/methatech-message'
 import type { ToolResultPart } from 'ai'
 
 // Test helper types for provider options with cache control

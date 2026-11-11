@@ -1,4 +1,4 @@
-import { createTestBaseEnv } from '@codebuff/common/testing-env-process'
+import { createTestBaseEnv } from '@methatech/common/testing-env-process'
 
 import type { CliEnv } from '../types/env'
 
@@ -32,16 +32,16 @@ export const createTestCliEnv = (overrides: Partial<CliEnv> = {}): CliEnv => ({
   JB_IDE_CONFIG_DIR: undefined,
   VISUAL: undefined,
   EDITOR: undefined,
-  CODEBUFF_CLI_EDITOR: undefined,
-  CODEBUFF_EDITOR: undefined,
+  METHATECH_CLI_EDITOR: undefined,
+  METHATECH_EDITOR: undefined,
   OPEN_TUI_THEME: undefined,
   OPENTUI_THEME: undefined,
-  CODEBUFF_IS_BINARY: undefined,
-  CODEBUFF_CLI_VERSION: undefined,
-  CODEBUFF_CLI_TARGET: undefined,
-  CODEBUFF_RG_PATH: undefined,
-  CODEBUFF_TRUSTED_AGENT_PUBLISHERS: undefined,
-  CODEBUFF_SCROLL_MULTIPLIER: undefined,
+  METHATECH_IS_BINARY: undefined,
+  METHATECH_CLI_VERSION: undefined,
+  METHATECH_CLI_TARGET: undefined,
+  METHATECH_RG_PATH: undefined,
+  METHATECH_TRUSTED_AGENT_PUBLISHERS: undefined,
+  METHATECH_SCROLL_MULTIPLIER: undefined,
   FREEBUFF_MODE: undefined,
   ...overrides,
 })

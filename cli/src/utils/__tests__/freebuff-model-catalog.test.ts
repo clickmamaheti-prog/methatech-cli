@@ -7,7 +7,7 @@ import {
   FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
   FREEBUFF_MIMO_V25_MODEL_ID,
   FREEBUFF_MIMO_V26_PRO_MODEL_ID,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import { afterEach, beforeEach, describe, expect, spyOn, test } from 'bun:test'
 
 import {
@@ -45,7 +45,7 @@ import {
 } from '../settings'
 import { catalogFixture, catalogRow, rotateHandles } from './freebuff-catalog-fixtures'
 
-import type { FreebuffModelCatalog } from '@codebuff/common/types/freebuff-model-catalog'
+import type { FreebuffModelCatalog } from '@methatech/common/types/freebuff-model-catalog'
 
 let configDir: string
 let configSpy: ReturnType<typeof spyOn>
@@ -103,8 +103,8 @@ describe('fetchFreebuffModelCatalog', () => {
     expect(calls[0]!.url).toBe('https://api.test/api/v1/freebuff/models')
     const headers = new Headers(calls[0]!.init.headers)
     expect(headers.get('authorization')).toBe('Bearer tok')
-    expect(headers.get('x-freebuff-catalog-protocol')).toBe('1')
-    expect(headers.get('x-freebuff-client')).toBe('cli')
+    expect(headers.get('x-methatech-catalog-protocol')).toBe('1')
+    expect(headers.get('x-methatech-client')).toBe('cli')
   })
 
   test('an older server (404) is a definitive "no catalog"', async () => {

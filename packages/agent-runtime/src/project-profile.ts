@@ -1,21 +1,21 @@
-import { FREEBUFF_PROJECT_UNDERSTANDING_AGENT_ID } from '@codebuff/common/constants/free-agents'
+import { FREEBUFF_PROJECT_UNDERSTANDING_AGENT_ID } from '@methatech/common/constants/free-agents'
 import {
   buildProjectProfileRequest,
   PROJECT_PROFILE_TOOL_NAME,
-} from '@codebuff/common/constants/project-profile'
-import { toolParams } from '@codebuff/common/tools/list'
-import { parseAgentId } from '@codebuff/common/util/agent-id-parsing'
-import { getErrorObject } from '@codebuff/common/util/error'
-import { userMessage } from '@codebuff/common/util/messages'
+} from '@methatech/common/constants/project-profile'
+import { toolParams } from '@methatech/common/tools/list'
+import { parseAgentId } from '@methatech/common/util/agent-id-parsing'
+import { getErrorObject } from '@methatech/common/util/error'
+import { userMessage } from '@methatech/common/util/messages'
 
-import type { ProjectProfileReport } from '@codebuff/common/constants/project-profile'
+import type { ProjectProfileReport } from '@methatech/common/constants/project-profile'
 import type {
   GetProjectProfileFn,
   ReportProjectProfileFn,
-} from '@codebuff/common/types/contracts/database'
-import type { PromptAiSdkStreamFn } from '@codebuff/common/types/contracts/llm'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+} from '@methatech/common/types/contracts/database'
+import type { PromptAiSdkStreamFn } from '@methatech/common/types/contracts/llm'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 export const PROJECT_PROFILE_REPORT_TIMEOUT_MS = 90_000
 

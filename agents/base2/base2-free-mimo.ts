@@ -1,7 +1,7 @@
 import {
   FREEBUFF_MIMO_V25_MODEL_ID,
   getFreebuffModel,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 
 import { createBase2 } from './base2'
 

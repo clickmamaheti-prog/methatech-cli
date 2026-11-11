@@ -10,7 +10,7 @@ import type {
   SystemMessage,
   ToolMessage,
   UserMessage,
-} from '../types/messages/codebuff-message'
+} from '../types/messages/methatech-message'
 import type {
   ToolCallPart,
   ToolResultOutput,
@@ -45,7 +45,7 @@ export function withCacheControl<T extends object>(
     wrapper.providerOptions = {}
   }
 
-  /* 'codebuff' provider name is not compatible with providerMetadata for
+  /* 'methatech' provider name is not compatible with providerMetadata for
    * messages, so we need to use 'openaiCompatible' instead.
    * https://github.com/vercel/ai/blob/8e4fdac31b4f8c6a8d07a606a8833e74adf99470/packages/openai-compatible/src/chat/convert-to-openai-compatible-chat-messages.ts#L9
    */
@@ -107,7 +107,7 @@ type ModelMessageWithAuxiliaryData = (
 ) &
   AuxiliaryMessageData
 
-function assistantToCodebuffMessage(
+function assistantToMethaTechMessage(
   message: Omit<AssistantMessage, 'content'> & {
     content: Exclude<AssistantMessage['content'], string>[number]
   },
@@ -214,7 +214,7 @@ function convertToolMessage(message: Message): ModelMessageWithAuxiliaryData[] {
       ]
     }
     return message.content.map((c) => {
-      return assistantToCodebuffMessage({
+      return assistantToMethaTechMessage({
         ...message,
         content: c,
       })

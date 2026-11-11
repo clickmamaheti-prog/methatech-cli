@@ -1,4 +1,4 @@
-import type { ToolName } from '@codebuff/sdk'
+import type { ToolName } from '@methatech/sdk'
 
 import { getCliEnv } from './env'
 
@@ -14,7 +14,7 @@ export const END_SESSION_MESSAGE =
 
 // Agent IDs that should not be rendered in the CLI UI. Matched as substrings
 // so both bundled ids ('context-pruner') and publisher-qualified ids
-// ('codebuff/context-pruner@1.0.0') are covered.
+// ('methatech/context-pruner@1.0.0') are covered.
 export const HIDDEN_AGENT_IDS = ['context-pruner'] as const
 
 // Tool names that should be collapsed by default when rendered
@@ -140,7 +140,7 @@ export const isMultiPromptEditor = (agentType: string): boolean => {
 /**
  * Which harness the CLI's DEFAULT and LITE modes run.
  *
- * base3 runs Codebuff DEFAULT and LITE plus every Freebuff picker model. MAX
+ * base3 runs MethaTech DEFAULT and LITE plus every Freebuff picker model. MAX
  * and PLAN remain on their purpose-built base2 roots below.
  *
  * Unlike Web and Cloud, the CLI has no server-side base3 kill switch: changing
@@ -165,7 +165,7 @@ const HARNESS_MODE_IDS = {
  *
  * Freebuff resolves LITE through the selected freebuff model at send time;
  * this fallback stays on base2-free for non-runtime callers. Regular
- * Codebuff maps LITE to a paid lite root which charges credits normally.
+ * MethaTech maps LITE to a paid lite root which charges credits normally.
  *
  * MAX and PLAN never moved to base3 and are unaffected by CLI_HARNESS. MAX is
  * the mode users pick when they want the multi-prompt editor and the reviewer
@@ -188,7 +188,7 @@ export const AGENT_MODES = Object.keys(AGENT_MODE_TO_ID) as AgentMode[]
  * Maps CLI agent mode to cost mode for billing.
  *
  * Freebuff's LITE maps to 'free' cost mode (session gate, rate limits, 0 credits
- * for allowlisted agent+model combos). Regular Codebuff's LITE maps to 'lite' —
+ * for allowlisted agent+model combos). Regular MethaTech's LITE maps to 'lite' —
  * a normal paid mode (charges credits, no session gate, no country restrictions).
  */
 export const AGENT_MODE_TO_COST_MODE = {

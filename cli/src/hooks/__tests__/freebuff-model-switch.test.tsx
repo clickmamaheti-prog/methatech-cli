@@ -71,7 +71,7 @@ describe.skipIf(!IS_FREEBUFF)('freebuff model switch', () => {
       (async (_url: string, init: RequestInit = {}) => {
         const method = (init.method ?? 'GET').toUpperCase()
         const instanceId = new Headers(init.headers).get(
-          'x-freebuff-instance-id',
+          'x-methatech-instance-id',
         )
         calls.push({ method, instanceId })
 

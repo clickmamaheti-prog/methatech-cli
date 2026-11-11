@@ -1,4 +1,4 @@
-import { compactionPolicyForModel } from '@codebuff/common/constants/compaction-policy'
+import { compactionPolicyForModel } from '@methatech/common/constants/compaction-policy'
 import {
   FREE_MODE_AGENT_MODELS,
   FREEBUFF_BASE3_FAST_AGENT_ID,
@@ -8,11 +8,11 @@ import {
   FREEBUFF_WEB_BASE3_AGENT_ID_BY_MODEL,
   hasFreebuffRootSystemPromptOpening,
   isFreeModeAllowedAgentModel,
-} from '@codebuff/common/constants/free-agents'
+} from '@methatech/common/constants/free-agents'
 import {
   FREEBUFF_DEEPSEEK_V4_FLASH_FAST_MODEL_ID,
   isFreebuffFastModeModel,
-} from '@codebuff/common/constants/freebuff-model-ids'
+} from '@methatech/common/constants/freebuff-model-ids'
 import { describe, expect, test } from 'bun:test'
 
 import base3FreeDeepseekFlash from '../base3-free-deepseek-flash'
@@ -107,7 +107,7 @@ describe('the base3-fast root', () => {
     expect(prompt.indexOf(BASE3_FAST_GUIDANCE)).toBeLessThan(
       prompt.indexOf('# Working with the user'),
     )
-    expect(prompt.match(/\{CODEBUFF_GIT_CHANGES_PROMPT\}/g)).toHaveLength(1)
+    expect(prompt.match(/\{METHATECH_GIT_CHANGES_PROMPT\}/g)).toHaveLength(1)
   })
 
   test('keeps the guidance short, suggestive, and firm about two things', () => {

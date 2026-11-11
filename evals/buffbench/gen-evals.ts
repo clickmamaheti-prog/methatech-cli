@@ -3,8 +3,8 @@ import fs from 'fs'
 import path from 'path'
 
 
-import { API_KEY_ENV_VAR } from '@codebuff/common/old-constants'
-import { CodebuffClient, getUserCredentials } from '@codebuff/sdk'
+import { API_KEY_ENV_VAR } from '@methatech/common/old-constants'
+import { CodebuffClient, getUserCredentials } from '@methatech/sdk'
 import { mapLimit } from 'async'
 import { createTwoFilesPatch } from 'diff'
 

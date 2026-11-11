@@ -1,11 +1,11 @@
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
 import {
   assistantMessage,
   systemMessage,
   userMessage,
-} from '@codebuff/common/util/messages'
+} from '@methatech/common/util/messages'
 import {
   describe,
   expect,
@@ -20,9 +20,9 @@ import { mockFileContext } from './test-utils'
 import * as runAgentStep from '../run-agent-step'
 import { handleSpawnAgents } from '../tools/handlers/tool/spawn-agents'
 
-import type { CodebuffToolCall } from '@codebuff/common/tools/list'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
+import type { MethaTechToolCall } from '@methatech/common/tools/list'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
 
 describe('Spawn Agents Message History', () => {
   let mockSendSubagentChunk: any
@@ -113,7 +113,7 @@ describe('Spawn Agents Message History', () => {
   const createSpawnToolCall = (
     agentType: string,
     prompt = 'test prompt',
-  ): CodebuffToolCall<'spawn_agents'> => ({
+  ): MethaTechToolCall<'spawn_agents'> => ({
     toolName: 'spawn_agents' as const,
     toolCallId: 'test-tool-call-id',
     input: {
@@ -390,7 +390,7 @@ describe('Spawn Agents Message History', () => {
         type: 'reasoning',
         text: 'Weighing the sources.',
         providerOptions: {
-          codebuff: { reasoning_details: [{ type: 'reasoning.encrypted' }] },
+          methatech: { reasoning_details: [{ type: 'reasoning.encrypted' }] },
         },
       }),
       assistantMessage([

@@ -6,7 +6,7 @@ import {
 import {
   AdReportReasonSchema,
   type AdReport,
-} from '@codebuff/common/ads/ad-report'
+} from '@methatech/common/ads/ad-report'
 import { reportAd } from './ad-report'
 import { getAuthToken } from './auth'
 

@@ -11,7 +11,7 @@ import React from 'react'
 import { SponsoredAccountPrompt } from '../sponsored-account-prompt'
 import { initializeThemeStore } from '../../hooks/use-theme'
 
-import { resolveSponsoredCredentialLinks } from '@codebuff/common/ads/sponsored-run-links'
+import { resolveSponsoredCredentialLinks } from '@methatech/common/ads/sponsored-run-links'
 
 import type {
   SponsoredAccountAnswer,

@@ -2,9 +2,9 @@ import {
   getFreebucksInfo,
   getFreebuffServerAccessTier,
   getSubscriptionInfo,
-} from '@codebuff/common/types/freebuff-session'
-import { getFreebuffModelPresets } from '@codebuff/common/util/freebuff-model-presets'
-import { getFreebuffModelMeter } from '@codebuff/common/util/freebuff-session-pools'
+} from '@methatech/common/types/freebuff-session'
+import { getFreebuffModelPresets } from '@methatech/common/util/freebuff-model-presets'
+import { getFreebuffModelMeter } from '@methatech/common/util/freebuff-session-pools'
 import { create } from 'zustand'
 
 import { getFreebuffModelDirectory } from './freebuff-catalog-store'
@@ -20,7 +20,7 @@ import {
 } from '../utils/settings'
 
 import type { FreebuffSessionResponse } from '../types/freebuff-session'
-import type { ReasoningEffort } from '@codebuff/common/constants/reasoning-effort'
+import type { ReasoningEffort } from '@methatech/common/constants/reasoning-effort'
 
 /**
  * Holds the user's currently-selected freebuff model. Initialized from the

@@ -24,7 +24,7 @@ describe('AI SDK warnings in the TUI', () => {
       generateText({
         model: {
           specificationVersion: 'v2',
-          provider: 'codebuff',
+          provider: 'methatech',
           modelId: 'test-model',
           supportedUrls: {},
           doGenerate: stop,
@@ -60,14 +60,14 @@ describe('AI SDK warnings in the TUI', () => {
       feature: 'specificationVersion',
     }
 
-    log({ warnings: [compat, topK], provider: 'codebuff', model: 'a' })
-    log({ warnings: [topK], provider: 'codebuff', model: 'a' })
-    log({ warnings: [compat], provider: 'codebuff', model: 'a' })
-    log({ warnings: [topK], provider: 'codebuff', model: 'b' })
+    log({ warnings: [compat, topK], provider: 'methatech', model: 'a' })
+    log({ warnings: [topK], provider: 'methatech', model: 'a' })
+    log({ warnings: [compat], provider: 'methatech', model: 'a' })
+    log({ warnings: [topK], provider: 'methatech', model: 'b' })
 
     expect(records).toEqual([
-      { warnings: [topK], provider: 'codebuff', model: 'a' },
-      { warnings: [topK], provider: 'codebuff', model: 'b' },
+      { warnings: [topK], provider: 'methatech', model: 'a' },
+      { warnings: [topK], provider: 'methatech', model: 'b' },
     ])
   })
 })

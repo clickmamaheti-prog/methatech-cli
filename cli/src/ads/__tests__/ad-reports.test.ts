@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import type { AdReport } from '@codebuff/common/ads/ad-report'
+import type { AdReport } from '@methatech/common/ads/ad-report'
 import { createAdReportRegistry } from '../ad-reports'
 
 const AD = {

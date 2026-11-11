@@ -1,24 +1,24 @@
-import { endsAgentStepParam } from '@codebuff/common/tools/constants'
-import { toolParams } from '@codebuff/common/tools/list'
-import { codeSearchDisplayVariants } from '@codebuff/common/tools/params/tool/code-search'
-import { readFilesDisplayVariants } from '@codebuff/common/tools/params/tool/read-files'
-import { runTerminalCommandNoAttributionDescription } from '@codebuff/common/tools/params/tool/run-terminal-command'
-import { AVAILABLE_SKILLS_PLACEHOLDER } from '@codebuff/common/tools/params/tool/skill'
-import { getToolCallString } from '@codebuff/common/tools/utils'
-import { buildArray } from '@codebuff/common/util/array'
-import { formatAvailableSkillsXml } from '@codebuff/common/util/skills'
-import { pluralize } from '@codebuff/common/util/string'
+import { endsAgentStepParam } from '@methatech/common/tools/constants'
+import { toolParams } from '@methatech/common/tools/list'
+import { codeSearchDisplayVariants } from '@methatech/common/tools/params/tool/code-search'
+import { readFilesDisplayVariants } from '@methatech/common/tools/params/tool/read-files'
+import { runTerminalCommandNoAttributionDescription } from '@methatech/common/tools/params/tool/run-terminal-command'
+import { AVAILABLE_SKILLS_PLACEHOLDER } from '@methatech/common/tools/params/tool/skill'
+import { getToolCallString } from '@methatech/common/tools/utils'
+import { buildArray } from '@methatech/common/util/array'
+import { formatAvailableSkillsXml } from '@methatech/common/util/skills'
+import { pluralize } from '@methatech/common/util/string'
 import { cloneDeepKeepingZod } from '../util/zod-safe-clone'
 import { serveInputSchema } from './serve-input-schema'
 import z from 'zod/v4'
 import { convertJsonSchemaToZod } from 'zod-from-json-schema'
 
-import type { ToolName } from '@codebuff/common/tools/constants'
-import type { SkillsMap } from '@codebuff/common/types/skill'
+import type { ToolName } from '@methatech/common/tools/constants'
+import type { SkillsMap } from '@methatech/common/types/skill'
 import type {
   CustomToolDefinitions,
   customToolDefinitionsSchema,
-} from '@codebuff/common/util/file'
+} from '@methatech/common/util/file'
 import type { ToolSet } from 'ai'
 
 /**

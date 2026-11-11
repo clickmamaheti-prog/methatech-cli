@@ -2,7 +2,7 @@
  * The free-mode country groups.
  *
  * These live in `common` rather than beside the access-tier logic in
- * `@codebuff/internal` because the landing FAQ is a CLIENT component: the
+ * `@methatech/internal` because the landing FAQ is a CLIENT component: the
  * server package pulls in geoip and a database client, and nothing in a
  * browser bundle may import it. `packages/internal/src/free-mode-country/
  * allowed-countries.ts` re-exports these, so the meter and the public copy

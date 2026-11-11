@@ -10,25 +10,25 @@ import {
   extractSubagentContextParams,
 } from './spawn-agent-utils'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
-import type { AgentState } from '@codebuff/common/types/session-state'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
+import type { AgentState } from '@methatech/common/types/session-state'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 import type { ToolSet } from 'ai'
 
 type ToolName = 'spawn_agent_inline'
 export const handleSpawnAgentInline = (async (
   params: {
     previousToolCallFinished: Promise<void>
-    toolCall: CodebuffToolCall<ToolName>
+    toolCall: MethaTechToolCall<ToolName>
 
     agentState: AgentState
     agentTemplate: AgentTemplate
@@ -57,7 +57,7 @@ export const handleSpawnAgentInline = (async (
     | 'clearUserPromptMessagesAfterResponse'
     | 'fingerprintId'
   >,
-): Promise<{ output: CodebuffToolOutput<ToolName> }> => {
+): Promise<{ output: MethaTechToolOutput<ToolName> }> => {
   const {
     previousToolCallFinished,
     toolCall,
@@ -180,4 +180,4 @@ export const handleSpawnAgentInline = (async (
   parentAgentState.contextTokenBaseline = undefined
 
   return { output: [{ type: 'json', value: { message: 'Agent spawned.' } }] }
-}) satisfies CodebuffToolHandlerFunction<ToolName>
+}) satisfies MethaTechToolHandlerFunction<ToolName>

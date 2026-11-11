@@ -1,13 +1,13 @@
 import path from 'path'
 
-import { ensureDirectoryExists, fileExists } from '@codebuff/common/util/file'
+import { ensureDirectoryExists, fileExists } from '@methatech/common/util/file'
 import { applyPatch } from 'diff'
 import z from 'zod/v4'
 
 import { resolveFilePath } from './path-utils'
 
-import type { CodebuffToolOutput } from '@codebuff/common/tools/list'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+import type { MethaTechToolOutput } from '@methatech/common/tools/list'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 import type { ResolvedProjectPath } from './path-utils'
 
 const FileChangeSchema = z.object({
@@ -26,8 +26,8 @@ type ApplyChangeResult =
 export async function changeFile(params: {
   parameters: unknown
   cwd: string
-  fs: CodebuffFileSystem
-}): Promise<CodebuffToolOutput<'str_replace'>> {
+  fs: MethaTechFileSystem
+}): Promise<MethaTechToolOutput<'str_replace'>> {
   const { parameters, cwd, fs } = params
 
   const fileChange = FileChangeSchema.parse(parameters)
@@ -41,7 +41,7 @@ export async function changeFile(params: {
 function formatApplyChangeResult(
   result: ApplyChangeResult,
   fileChange: FileChange,
-): CodebuffToolOutput<'str_replace'>[0]['value'] {
+): MethaTechToolOutput<'str_replace'>[0]['value'] {
   if (result.status === 'created' || result.status === 'modified') {
     return {
       file: result.file,
@@ -72,7 +72,7 @@ function formatApplyChangeResult(
 async function applyChange(params: {
   change: FileChange
   resolvedPath: ResolvedProjectPath
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
 }): Promise<ApplyChangeResult> {
   const { change, resolvedPath, fs } = params
   const { content, type } = change

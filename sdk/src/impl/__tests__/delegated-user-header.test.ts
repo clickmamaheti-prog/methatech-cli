@@ -1,9 +1,9 @@
-import { isAbortError, isTransientNetworkError } from '@codebuff/common/util/error'
-import { FREEBUFF_ACTING_USER_HEADER } from '@codebuff/common/constants/freebuff-models'
+import { isAbortError, isTransientNetworkError } from '@methatech/common/util/error'
+import { METHATECH_ACTING_USER_HEADER } from '@methatech/common/constants/freebuff-models'
 import {
-  FREEBUFF_SSE_GZIP_RECOVERY_HEADER,
+  METHATECH_SSE_GZIP_RECOVERY_HEADER,
   FREEBUFF_SSE_GZIP_RECOVERY_VALUE,
-} from '@codebuff/common/constants/sse-compression'
+} from '@methatech/common/constants/sse-compression'
 import { afterEach, describe, expect, mock, test } from 'bun:test'
 
 import { addAgentStep, finishAgentRun, startAgentRun } from '../database'
@@ -17,7 +17,7 @@ import {
 } from '../model-provider'
 import { streamText } from 'ai'
 
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 const originalFetch = globalThis.fetch
 const logger = {
@@ -107,7 +107,7 @@ describe('SDK delegated user headers', () => {
     expect(authorization).toBe('Bearer byok-canary')
     expect(requestBody).toContain('selected/model')
     expect(requestBody).not.toContain('must-not-be-sent')
-    expect(requestBody).not.toContain('codebuff_metadata')
+    expect(requestBody).not.toContain('methatech_metadata')
   })
 
   test('replaces an upstream BYOK error body with its safe status guidance', async () => {
@@ -279,14 +279,14 @@ describe('SDK delegated user headers', () => {
 
     expect((model as any).config.headers()).toMatchObject({
       Authorization: 'Bearer service-key',
-      [FREEBUFF_ACTING_USER_HEADER]: 'end-user',
+      [METHATECH_ACTING_USER_HEADER]: 'end-user',
     })
   })
 
   test('tells the backend it recovers a cut gzip stream, and never tells a BYOK provider', async () => {
     const backend = getModelForRequest({ apiKey: 'user-key', model: 'test/model' })
     expect((backend as any).config.headers()).toMatchObject({
-      [FREEBUFF_SSE_GZIP_RECOVERY_HEADER]: FREEBUFF_SSE_GZIP_RECOVERY_VALUE,
+      [METHATECH_SSE_GZIP_RECOVERY_HEADER]: FREEBUFF_SSE_GZIP_RECOVERY_VALUE,
     })
 
     let byokHeaders = new Headers()
@@ -304,7 +304,7 @@ describe('SDK delegated user headers', () => {
       messages: [{ role: 'user', content: 'hello' }],
     })
     await result.text
-    expect(byokHeaders.has(FREEBUFF_SSE_GZIP_RECOVERY_HEADER)).toBe(false)
+    expect(byokHeaders.has(METHATECH_SSE_GZIP_RECOVERY_HEADER)).toBe(false)
   })
 
   test('sends userId on agent run requests', async () => {
@@ -351,7 +351,7 @@ describe('SDK delegated user headers', () => {
     expect(requests).toHaveLength(2)
     for (const request of requests) {
       expect(request.headers).toMatchObject({
-        [FREEBUFF_ACTING_USER_HEADER]: 'end-user',
+        [METHATECH_ACTING_USER_HEADER]: 'end-user',
       })
     }
   })
@@ -370,7 +370,7 @@ describe('SDK delegated user headers', () => {
       logger,
     })
 
-    expect(headers).not.toHaveProperty(FREEBUFF_ACTING_USER_HEADER)
+    expect(headers).not.toHaveProperty(METHATECH_ACTING_USER_HEADER)
   })
 })
 

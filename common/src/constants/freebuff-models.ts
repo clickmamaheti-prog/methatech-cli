@@ -348,7 +348,7 @@ export const FREEBUFF_GLM_V53_FLASH_MAX_PRICE = {
  *
  *  Both are scoped to FREEBUFF traffic on purpose: `LITE_MODEL`
  *  (agents/constants.ts) is this same model id, so keying either off the model
- *  alone would change Codebuff's paid lite mode as a side effect. */
+ *  alone would change MethaTech's paid lite mode as a side effect. */
 export const FREEBUFF_GPT_5_6_LUNA_MODEL_ID = 'openai/gpt-5.6-luna'
 /**
  * The Novita `-es` route. GOD-ONLY, and NOT a cheaper GPT-5.6 Luna.
@@ -3851,15 +3851,15 @@ export const FREEBUFF_STANDARD_MODEL_IDS = Object.freeze(
 /** Wire headers for the free-mode session endpoints
  *  (/api/v1/freebuff/session). Shared so the server handlers and every client
  *  (CLI, desktop) agree on the exact strings instead of redefining literals. */
-export const FREEBUFF_INSTANCE_HEADER = 'x-freebuff-instance-id'
+export const METHATECH_INSTANCE_HEADER = 'x-methatech-instance-id'
 /** Reuse this exact live single-session instance; never buy or take over. */
-export const FREEBUFF_REUSE_INSTANCE_HEADER = 'x-freebuff-reuse-instance-id'
-export const FREEBUFF_MODEL_HEADER = 'x-freebuff-model'
+export const METHATECH_REUSE_INSTANCE_HEADER = 'x-methatech-reuse-instance-id'
+export const METHATECH_MODEL_HEADER = 'x-methatech-model'
 /** Marks a POST to the dedicated `/admission` route, which refuses one
  *  without it (older servers also read a wallet ceiling from its value; send
  *  `session`). Wallet consent itself is client-side. */
-export const FREEBUFF_WALLET_SPEND_LIMIT_HEADER =
-  'x-freebuff-wallet-spend-limit'
+export const METHATECH_WALLET_SPEND_LIMIT_HEADER =
+  'x-methatech-wallet-spend-limit'
 /** Dedicated routes fail closed on servers predating these guarantees. */
 export const FREEBUFF_SESSION_ADMISSION_PATH =
   '/api/v1/freebuff/session/admission'
@@ -3867,12 +3867,12 @@ export const FREEBUFF_SESSION_REUSE_PATH = '/api/v1/freebuff/session/reuse'
 export const FREEBUFF_SESSION_UNSUPPORTED_MESSAGE =
   'This server cannot safely start or resume your session yet. Reload or update MethaTech and try again shortly. No purchase was made.'
 /** Server-to-server header; honoured only from the Freebuff Web service account. */
-export const FREEBUFF_ACTING_USER_HEADER = 'x-freebuff-acting-user-id'
+export const METHATECH_ACTING_USER_HEADER = 'x-methatech-acting-user-id'
 /** Server-to-server header; honoured only from the Freebuff Web service account. */
-export const FREEBUFF_PRIVILEGED_USER_HEADER = 'x-freebuff-privileged-user'
+export const METHATECH_PRIVILEGED_USER_HEADER = 'x-methatech-privileged-user'
 /**
  * The house-ad click id (`bfcid`) lifted out of its first-party freebuff.com
- * cookie and carried to the Stripe checkout route on codebuff.com, which
+ * cookie and carried to the Stripe checkout route on console.methatech.eu.org, which
  * stamps it onto the subscription so the webhook can report the conversion.
  *
  * Server-to-server only, and deliberately NOT a trusted header — unlike the
@@ -3881,7 +3881,7 @@ export const FREEBUFF_PRIVILEGED_USER_HEADER = 'x-freebuff-privileged-user'
  * yields `400 invalid_click_id` and a stolen one can only credit the campaign
  * that already earned the click.
  */
-export const FREEBUFF_AD_CLICK_ID_HEADER = 'x-freebuff-bfcid'
+export const METHATECH_AD_CLICK_ID_HEADER = 'x-methatech-bfcid'
 /** The first-party cookie the hosted conversion tag banks a click id in. Same
  *  name the tag itself writes; read server-side at checkout. */
 export const FREEBUFF_AD_CLICK_ID_COOKIE = 'bfcid'
@@ -3889,21 +3889,21 @@ export const FREEBUFF_AD_CLICK_ID_COOKIE = 'bfcid'
  * pool, which costs a query of its own. Set by the surfaces that render a GLM
  * row. The name is historical — every other pool is now sent unconditionally —
  * but the string stays as-is so installed clients keep working. */
-export const FREEBUFF_INCLUDE_UNUSED_RATE_LIMITS_HEADER =
-  'x-freebuff-include-unused-rate-limits'
+export const METHATECH_INCLUDE_UNUSED_RATE_LIMITS_HEADER =
+  'x-methatech-include-unused-rate-limits'
 /** Set by the CLI on its recurring active-session poll. The response keeps the
  *  authoritative session state but omits quota snapshots the CLI already has
  *  and does not need for its countdown. */
-export const FREEBUFF_COMPACT_SESSION_HEADER = 'x-freebuff-compact-session'
+export const METHATECH_COMPACT_SESSION_HEADER = 'x-methatech-compact-session'
 /** Set to '1' by Freebuff Desktop to opt into multi-session mode (concurrent
  *  per-tab sessions); absent for CLI/web, which keep one session per user. */
-export const FREEBUFF_MULTI_SESSION_HEADER = 'x-freebuff-multi-session'
+export const METHATECH_MULTI_SESSION_HEADER = 'x-methatech-multi-session'
 /** Set to '1' on a per-instance GET /session to mark it as a liveness beat: the
  *  client is telling the server this tab is still there. Only a beat writes the
  *  row's `last_seen_at`, and only a row with a `last_seen_at` can give up its
  *  concurrency slot for going quiet — so a client that never beats keeps the
  *  `expires_at`-only rule and is never dropped mid-window. */
-export const FREEBUFF_HEARTBEAT_HEADER = 'x-freebuff-heartbeat'
+export const METHATECH_HEARTBEAT_HEADER = 'x-methatech-heartbeat'
 /** How often a beating client re-beats. The server's liveness TTL is a multiple
  *  of this (several missed beats), so a brief network blip never costs a live
  *  tab its slot. */
@@ -3918,8 +3918,8 @@ export const FREEBUFF_SESSION_HEARTBEAT_INTERVAL_MS = 45_000
  *  It names a holder rather than saying "take whatever is there": the server
  *  only honors it when it still matches the holder the rejection identified, so
  *  a click on a stale card can never end a tab the user was never shown. */
-export const FREEBUFF_TAKEOVER_INSTANCE_HEADER =
-  'x-freebuff-takeover-instance-id'
+export const METHATECH_TAKEOVER_INSTANCE_HEADER =
+  'x-methatech-takeover-instance-id'
 /** Drain window after a session's `expires_at`: the gate still serves an
  *  in-flight agent run, but no new prompt should start. Shared because the
  *  client has to know it too — a tab keeps beating until its row is past this,
@@ -4269,7 +4269,7 @@ export type FreebuffWebAccessTier = FreebuffAccessTier | 'blocked'
  *  silently kills the run the user is watching. Desktop already runs concurrent
  *  per-tab sessions via `requestSession({ multiSession, instanceId })`; wiring
  *  Web to the same path (session request header + `freebuff_multi_session` in
- *  the runner's `codebuff_metadata`) is what unblocks 2.
+ *  the runner's `methatech_metadata`) is what unblocks 2.
  *
  *  Everything else is already cap-agnostic: rows are per (user, project) and
  *  only `agent_running` ones count, so opening or reading a second project is

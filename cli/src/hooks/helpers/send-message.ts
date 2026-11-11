@@ -1,5 +1,5 @@
-import { FREEBUFF_PROVIDER_USAGE_MESSAGE } from '@codebuff/common/constants/freebuff-errors'
-import { getErrorObject } from '@codebuff/common/util/error'
+import { FREEBUFF_PROVIDER_USAGE_MESSAGE } from '@methatech/common/constants/freebuff-errors'
+import { getErrorObject } from '@methatech/common/util/error'
 
 import {
   markFreebuffSessionCountryBlocked,
@@ -52,7 +52,7 @@ import type { FreebuffGateErrorKind } from '../../utils/error-handling'
 import type { SendMessageTimerController } from '../../utils/send-message-timer'
 import type { StreamController } from '../stream-state'
 import type { StreamStatus } from '../use-message-queue'
-import type { MessageContent, RunState } from '@codebuff/sdk'
+import type { MessageContent, RunState } from '@methatech/sdk'
 import type { MutableRefObject, SetStateAction } from 'react'
 
 /** Resets queue state on early return (before streaming starts). */

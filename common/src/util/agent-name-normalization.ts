@@ -1,1 +1,1 @@
-export const DEFAULT_ORG_PREFIX = 'codebuff/'
+export const DEFAULT_ORG_PREFIX = 'methatech/'

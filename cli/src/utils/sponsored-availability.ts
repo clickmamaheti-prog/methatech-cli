@@ -15,11 +15,11 @@ import {
   SPONSORED_LOCAL_UNAVAILABLE_COPY,
   sponsoredLocalAvailability,
   sponsoredLocalUnavailableReason,
-} from '@codebuff/common/ads/sponsored-local-execution'
+} from '@methatech/common/ads/sponsored-local-execution'
 
 import { sponsoredContainment } from '../../../sdk/src/tools/sponsored-sandbox'
 
-import type { SponsoredLocalAvailability } from '@codebuff/common/ads/sponsored-local-execution'
+import type { SponsoredLocalAvailability } from '@methatech/common/ads/sponsored-local-execution'
 
 let cached: SponsoredLocalAvailability | null = null
 

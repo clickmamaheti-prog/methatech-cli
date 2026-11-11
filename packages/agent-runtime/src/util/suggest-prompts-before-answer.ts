@@ -3,7 +3,7 @@ import {
   MAX_FOLLOWUP_SUGGESTION_CALLS_PER_RESPONSE,
 } from '../tools/stream-parser'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 /**
  * A step that calls a follow-up suggestion tool (Desktop's suggest_prompts,

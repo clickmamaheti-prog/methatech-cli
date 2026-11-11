@@ -8,9 +8,9 @@ import {
 } from '../context-token-count'
 import { countTokensMessages } from '../token-counter'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { AgentState } from '@codebuff/common/types/session-state'
-import type { ModelUsageData } from '@codebuff/common/types/contracts/llm'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { AgentState } from '@methatech/common/types/session-state'
+import type { ModelUsageData } from '@methatech/common/types/contracts/llm'
 
 const text = (role: 'user' | 'assistant', body: string) =>
   ({ role, content: [{ type: 'text', text: body }] }) as unknown as Message

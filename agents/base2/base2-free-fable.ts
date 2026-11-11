@@ -1,4 +1,4 @@
-import { FREEBUFF_FABLE_5_1_MODEL_ID } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_FABLE_5_1_MODEL_ID } from '@methatech/common/constants/freebuff-models'
 
 import { createBase2 } from './base2'
 

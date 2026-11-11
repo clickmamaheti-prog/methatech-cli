@@ -299,7 +299,7 @@ export const LoginModal = ({
       >
         {/* Header - Logo rendered by useLogo hook */}
         <box
-          key="codebuff-logo"
+          key="methatech-logo"
           style={{
             flexDirection: 'column',
             alignItems: contentMaxWidth < 40 ? 'center' : 'flex-start',
@@ -469,7 +469,7 @@ export const LoginModal = ({
                   <span fg={theme.secondary}>
                     Tip: Can't copy? Exit and run{' '}
                   </span>
-                  <span fg={theme.primary}>{IS_FREEBUFF ? 'methatech' : 'codebuff'} login</span>
+                  <span fg={theme.primary}>{IS_FREEBUFF ? 'methatech' : 'methatech'} login</span>
                   <span fg={theme.secondary}>
                     {' '}instead.
                   </span>

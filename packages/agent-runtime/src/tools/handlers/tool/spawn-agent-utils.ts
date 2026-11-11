@@ -1,11 +1,11 @@
-import { MAX_SUBAGENT_STEPS_DEFAULT } from '@codebuff/common/constants/agents'
-import { toolNames } from '@codebuff/common/tools/constants'
+import { MAX_SUBAGENT_STEPS_DEFAULT } from '@methatech/common/constants/agents'
+import { toolNames } from '@methatech/common/tools/constants'
 import {
   normalizeAgentIdForLookup,
   parseAgentId,
-} from '@codebuff/common/util/agent-id-parsing'
-import { dropUnansweredToolCalls } from '@codebuff/common/util/messages'
-import { generateCompactId } from '@codebuff/common/util/string'
+} from '@methatech/common/util/agent-id-parsing'
+import { dropUnansweredToolCalls } from '@methatech/common/util/messages'
+import { generateCompactId } from '@methatech/common/util/string'
 
 import {
   UNTRACKED_RUN_ID_PREFIX,
@@ -14,25 +14,25 @@ import {
 import { getAgentTemplate } from '../../../templates/agent-registry'
 import { formatValueForError } from '../../../util/format-value'
 
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { AgentUsageData } from '@codebuff/common/types/contracts/llm'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { AgentUsageData } from '@methatech/common/types/contracts/llm'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 import type {
   ParamsExcluding,
   OptionalFields,
-} from '@codebuff/common/types/function-params'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+} from '@methatech/common/types/function-params'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 import type {
   AgentState,
   AgentTemplateType,
   Subgoal,
-} from '@codebuff/common/types/session-state'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+} from '@methatech/common/types/session-state'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 import type { ToolSet } from 'ai'
 
 /**
@@ -44,7 +44,7 @@ export type SubagentContextParams = AgentRuntimeDeps &
   AgentRuntimeScopedDeps & {
     clientSessionId: string
     costMode?: string
-    extraCodebuffMetadata?: Record<string, string>
+    extraMethaTechMetadata?: Record<string, string>
     fileContext: ProjectFileContext
     localAgentTemplates: Record<string, AgentTemplate>
     repoId: string | undefined
@@ -103,7 +103,7 @@ export function extractSubagentContextParams(
     // Core context params
     clientSessionId: params.clientSessionId,
     costMode: params.costMode,
-    extraCodebuffMetadata: params.extraCodebuffMetadata,
+    extraMethaTechMetadata: params.extraMethaTechMetadata,
     fileContext: params.fileContext,
     localAgentTemplates: params.localAgentTemplates,
     repoId: params.repoId,

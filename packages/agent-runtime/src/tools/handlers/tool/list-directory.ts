@@ -1,22 +1,22 @@
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
   ClientToolCall,
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
 
 type ToolName = 'list_directory'
 export const handleListDirectory = (async (params: {
   previousToolCallFinished: Promise<void>
-  toolCall: CodebuffToolCall<ToolName>
+  toolCall: MethaTechToolCall<ToolName>
   requestClientToolCall: (
     toolCall: ClientToolCall<ToolName>,
-  ) => Promise<CodebuffToolOutput<ToolName>>
+  ) => Promise<MethaTechToolOutput<ToolName>>
 }): Promise<{
-  output: CodebuffToolOutput<ToolName>
+  output: MethaTechToolOutput<ToolName>
 }> => {
   const { previousToolCallFinished, toolCall, requestClientToolCall } = params
 
   await previousToolCallFinished
   return { output: await requestClientToolCall(toolCall) }
-}) satisfies CodebuffToolHandlerFunction<ToolName>
+}) satisfies MethaTechToolHandlerFunction<ToolName>

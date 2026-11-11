@@ -1,10 +1,10 @@
-import { TOOLS_WHICH_WONT_FORCE_NEXT_STEP } from '@codebuff/common/tools/constants'
+import { TOOLS_WHICH_WONT_FORCE_NEXT_STEP } from '@methatech/common/tools/constants'
 import { createHash } from 'crypto'
 
 import { isRejectedEdit } from './file-edit-loop'
 import { FILE_MUTATING_TOOL_NAMES } from './truncated-write-guard'
 
-import type { ToolMessage } from '@codebuff/common/types/messages/codebuff-message'
+import type { ToolMessage } from '@methatech/common/types/messages/methatech-message'
 
 /**
  * Consecutive model steps with no progress that end a root turn. Far above the

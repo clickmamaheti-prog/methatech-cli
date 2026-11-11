@@ -30,13 +30,13 @@ jobs:
     # (cli/scripts/build-binary.ts collects every NEXT_PUBLIC_* from the
     # environment and inlines it with --define / --env). They cannot be
     # overridden at runtime, so CI builds use our own domains here:
-    #   - CODEBUFF_APP_URL = the panel console (API + auth base)
+    #   - METHATECH_APP_URL = the panel console (API + auth base)
     #   - FREEBUFF_APP_URL = the public marketing site (login seam fallback)
     # NEXT_PUBLIC_SUPPORT_EMAIL = admin@methatech.eu.org (Cloudflare
     # Email Routing -> Gmail Reza, decided 2026-11-10).
     env:
       NEXT_PUBLIC_CB_ENVIRONMENT: prod
-      NEXT_PUBLIC_CODEBUFF_APP_URL: https://console.methatech.eu.org
+      NEXT_PUBLIC_METHATECH_APP_URL: https://console.methatech.eu.org
       NEXT_PUBLIC_FREEBUFF_APP_URL: https://methatech.eu.org
       NEXT_PUBLIC_SUPPORT_EMAIL: admin@methatech.eu.org
       NEXT_PUBLIC_POSTHOG_API_KEY: ci-not-a-key

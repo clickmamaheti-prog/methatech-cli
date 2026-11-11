@@ -1,5 +1,5 @@
-import type { CodebuffClient} from '@codebuff/sdk';
-import { type AgentDefinition } from '@codebuff/sdk'
+import type { CodebuffClient} from '@methatech/sdk';
+import { type AgentDefinition } from '@methatech/sdk'
 
 import { PLACEHOLDER } from '../../agents/types/secret-agent-definition'
 import filePickerDef from '../../agents/file-explorer/file-picker'

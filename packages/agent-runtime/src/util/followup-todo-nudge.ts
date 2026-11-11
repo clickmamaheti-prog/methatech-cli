@@ -1,8 +1,8 @@
-import { writeTodosParams } from '@codebuff/common/tools/params/tool/write-todos'
+import { writeTodosParams } from '@methatech/common/tools/params/tool/write-todos'
 
 import { todoListKey } from './todo-loop'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 /**
  * A turn that ends on suggest_followups while the agent's own to-do list is
@@ -11,7 +11,7 @@ import type { Message } from '@codebuff/common/types/messages/codebuff-message'
  * suggest_followups does not force another step, so a step whose only tool
  * call is suggest_followups ends the turn. Models use that to stop mid-plan
  * with a "Continue with the next step" card, and the user, often on a timed
- * free session, has to come back and type "continue" (CodebuffAI/freebuff#1434).
+ * free session, has to come back and type "continue" (MethaTechAI/freebuff#1434).
  * The agent's to-do list is the one model-agnostic signal of whether the work
  * it took on is finished, so the runtime checks it rather than a prompt line
  * every model reads differently.

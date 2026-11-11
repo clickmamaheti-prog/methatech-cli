@@ -16,16 +16,16 @@ import {
 import {
   BYOK_REASONING_EFFORTS,
   isByokReasoningEffort,
-} from '@codebuff/common/constants/reasoning-effort'
+} from '@methatech/common/constants/reasoning-effort'
 import { loadSettings, saveSettings } from '../utils/settings'
 
-import { METHATECH_BYOK_BASE_URL, normalizeByokBaseUrl } from '@codebuff/sdk'
+import { METHATECH_BYOK_BASE_URL, normalizeByokBaseUrl } from '@methatech/sdk'
 
 import type {
   ByokConnection,
   ByokProvider,
   ByokValidationResult,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 import type { RouterParams } from './command-registry'
 
 export const BYOK_USAGE = [

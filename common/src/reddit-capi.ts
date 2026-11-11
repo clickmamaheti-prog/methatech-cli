@@ -1,9 +1,9 @@
 import { createHash } from 'node:crypto'
 
-import { IS_PROD } from '@codebuff/common/env'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { RedditAcquisitionEvent } from '@codebuff/common/util/reddit-acquisition'
-import type { RedditCapiEventName } from '@codebuff/common/util/reddit-capi-events'
+import { IS_PROD } from '@methatech/common/env'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { RedditAcquisitionEvent } from '@methatech/common/util/reddit-acquisition'
+import type { RedditCapiEventName } from '@methatech/common/util/reddit-capi-events'
 
 export type { RedditCapiEventName }
 

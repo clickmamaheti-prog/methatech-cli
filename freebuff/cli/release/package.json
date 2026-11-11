@@ -33,11 +33,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CodebuffAI/freebuff-private.git"
+    "url": "git+https://github.com/MethaTechAI/freebuff-private.git"
   },
   "homepage": "https://freebuff.com",
   "bugs": {
-    "url": "https://github.com/CodebuffAI/freebuff/issues"
+    "url": "https://github.com/MethaTechAI/freebuff/issues"
   },
   "publishConfig": {
     "access": "public",

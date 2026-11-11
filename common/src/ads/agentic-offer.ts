@@ -28,7 +28,7 @@
  * therefore stops agentic on BOTH paths; there is no position that sends an
  * updated Desktop back to the old one.
  *
- * THE CLI (`Freebuff-CLI/` UA) is served here too, under the same
+ * THE CLI (`MethaTech-CLI/` UA) is served here too, under the same
  * `FREEBUFF_AGENTIC_ADS` audience as Desktop; it has no switch of its own. A
  * CLI request must also carry `inPlaceExecutionVersion: 1` and report macOS
  * or Linux; a CLI request without the in-place flag, or from Windows, is
@@ -75,7 +75,7 @@ export const MESSAGE_CLASSIFICATION_PATH = '/api/v1/ads/message-classification'
  * `ad_provider_attempt.provider` of its decision row. The row's
  * `response_body` carries `proposal_id` and `campaign_id`, which is how a
  * sponsored run is joined back to the conversation the offer was decided on
- * (`@codebuff/bigquery/agentic-offer-context`). Shared by the producer and the
+ * (`@methatech/bigquery/agentic-offer-context`). Shared by the producer and the
  * reader so the two cannot drift.
  */
 export const AGENTIC_OFFER_TRAINING_LOG_PROVIDER = 'agentic_offer'

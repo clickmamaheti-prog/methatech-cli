@@ -41,7 +41,7 @@
 import {
   SPONSORED_STATE_IS_TERMINAL,
   sponsoredProposalAwaitsVerdict,
-} from '@codebuff/common/ads/sponsored-proposal-view'
+} from '@methatech/common/ads/sponsored-proposal-view'
 import { useEffect, useRef } from 'react'
 
 import { getAdsEnabled } from '../commands/ads'

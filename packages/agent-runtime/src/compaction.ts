@@ -1,6 +1,6 @@
 import { countTokensMessages } from './util/token-counter'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const SUMMARY_LIMIT = 6_000
 const MAX_OUTPUT_TOKENS = 16_384

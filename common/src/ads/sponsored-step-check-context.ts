@@ -19,7 +19,7 @@ import type {
   SponsoredSkillCheckContext,
   SponsoredSkillCommandResult,
 } from './sponsored-skill-checks'
-import type { CodebuffFileSystem } from '../types/filesystem'
+import type { MethaTechFileSystem } from '../types/filesystem'
 
 /** The largest file a check reads; bigger is treated as absent. */
 const STEP_CHECK_MAX_FILE_BYTES = 512 * 1024
@@ -38,7 +38,7 @@ const ENV_TEMPLATE_NAMES = ENV_TEMPLATE_FILE_PATTERNS.filter(
 )
 
 async function projectFiles(
-  fs: CodebuffFileSystem,
+  fs: MethaTechFileSystem,
   root: string,
 ): Promise<string[]> {
   // `.freebuff/` is the app's own folder in the project (the run's home,
@@ -73,7 +73,7 @@ async function projectFiles(
 }
 
 async function stamp(
-  fs: CodebuffFileSystem,
+  fs: MethaTechFileSystem,
   root: string,
   relative: string,
 ): Promise<string | null> {
@@ -92,7 +92,7 @@ async function stamp(
  * never earn a `file_contains` check credit).
  */
 export async function captureSponsoredStepBaseline(
-  fs: CodebuffFileSystem,
+  fs: MethaTechFileSystem,
   root: string,
 ): Promise<SponsoredStepBaseline> {
   const baseline = new Map<string, string>()
@@ -105,7 +105,7 @@ export async function captureSponsoredStepBaseline(
 
 /** The lockfile names the package manager; npm when there is none. */
 async function packageManagerOf(
-  fs: CodebuffFileSystem,
+  fs: MethaTechFileSystem,
   root: string,
 ): Promise<string> {
   return sponsoredPackageManagerFromLockfiles(
@@ -144,7 +144,7 @@ export function sponsoredStepCommandLine(
 
 /** The skill evaluator's view of this run's worktree and sandbox. */
 export function sponsoredStepCheckContext(deps: {
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   workspaceRoot: string
   baseline: SponsoredStepBaseline
   /** A command line through the run's sandbox, under the agent's refusals. */

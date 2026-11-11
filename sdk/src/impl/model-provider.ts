@@ -1,27 +1,28 @@
 /**
- * Builds the language model every request runs on: the Codebuff backend,
+ * Builds the language model every request runs on: the MethaTech backend,
  * which forwards to OpenRouter.
  */
 
 import path from 'path'
 
-import { BYOK_OPENROUTER_HEADER } from '@codebuff/common/constants/byok'
-import { isFreeMode } from '@codebuff/common/constants/free-agents'
+import { BYOK_OPENROUTER_HEADER } from '@methatech/common/constants/byok'
+import { isFreeMode } from '@methatech/common/constants/free-agents'
 import {
   FREEBUFF_TURN_SPEND_LIMIT_ERROR_CODE,
   FREEBUFF_TURN_SPEND_LIMIT_MESSAGE,
-} from '@codebuff/common/constants/freebuff-errors'
-import { FREEBUFF_ACTING_USER_HEADER } from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-errors'
+import { METHATECH_ACTING_USER_HEADER } from '@methatech/common/constants/freebuff-models'
+import { isMethatechModelId } from '@methatech/common/constants/methatech-models'
 import {
-  FREEBUFF_SSE_GZIP_RECOVERY_HEADER,
+  METHATECH_SSE_GZIP_RECOVERY_HEADER,
   FREEBUFF_SSE_GZIP_RECOVERY_VALUE,
-} from '@codebuff/common/constants/sse-compression'
-import { FREEBUFF_GATE_CODES } from '@codebuff/common/types/freebuff-session'
-import { isAbortError, isFetchIdleTimeoutError, isTransientNetworkError } from '@codebuff/common/util/error'
+} from '@methatech/common/constants/sse-compression'
+import { FREEBUFF_GATE_CODES } from '@methatech/common/types/freebuff-session'
+import { isAbortError, isFetchIdleTimeoutError, isTransientNetworkError } from '@methatech/common/util/error'
 import {
   OpenAICompatibleChatLanguageModel,
   VERSION,
-} from '@codebuff/llm-providers/openai-compatible'
+} from '@methatech/llm-providers/openai-compatible'
 import { APICallError } from 'ai'
 
 import {
@@ -53,7 +54,7 @@ import type { LanguageModel } from 'ai'
  * Parameters for requesting a model.
  */
 export interface ModelRequestParams {
-  /** Codebuff API key for backend authentication */
+  /** MethaTech API key for backend authentication */
   apiKey: string
   /** Model ID (OpenRouter format, e.g., "anthropic/claude-sonnet-4") */
   model: string
@@ -63,12 +64,12 @@ export interface ModelRequestParams {
   userId?: string
   /** Direct, run-scoped credential. Never stored on the model or in metadata. */
   byok?: ResolvedByokConnection
-  /** Host-supplied headers per backend request; see CodebuffRequestHeadersProvider. */
-  requestHeaders?: CodebuffRequestHeadersProvider
+  /** Host-supplied headers per backend request; see MethaTechRequestHeadersProvider. */
+  requestHeaders?: MethaTechRequestHeadersProvider
 }
 
 /**
- * Extra headers for one request to the Codebuff backend's completions
+ * Extra headers for one request to the MethaTech backend's completions
  * endpoint, computed as the request is about to go out. `body` is the exact
  * string the AI SDK serialized (what goes on the wire), so a host can sign it;
  * the provider is asked again for every retry. Never consulted for a BYOK run,
@@ -77,7 +78,7 @@ export interface ModelRequestParams {
  * Returning nothing (or throwing) adds no headers. Freebuff's catalog clients
  * use it for their catalog headers (docs/freebuff-model-catalog.md).
  */
-export type CodebuffRequestHeadersProvider = (request: {
+export type MethaTechRequestHeadersProvider = (request: {
   method: string
   url: string
   body: string | Uint8Array | undefined
@@ -86,7 +87,7 @@ export type CodebuffRequestHeadersProvider = (request: {
   | undefined
   | Promise<Record<string, string> | undefined>
 
-// Usage accounting type for OpenRouter/Codebuff backend responses
+// Usage accounting type for OpenRouter/MethaTech backend responses
 type OpenRouterUsageAccounting = {
   cost: number | null
   costDetails: {
@@ -470,8 +471,8 @@ function plainHeaders(headers: HeadersInit | undefined): Record<string, string> 
 }
 
 /** `send`, with the host's extra headers merged in per request. */
-export function withCodebuffRequestHeaders(
-  provider: CodebuffRequestHeadersProvider,
+export function withMethaTechRequestHeaders(
+  provider: MethaTechRequestHeadersProvider,
   send: (...args: Parameters<typeof globalThis.fetch>) => ReturnType<typeof globalThis.fetch>,
 ): (...args: Parameters<typeof globalThis.fetch>) => ReturnType<typeof globalThis.fetch> {
   return async (input, init) => {
@@ -499,7 +500,7 @@ export function withCodebuffRequestHeaders(
 }
 
 /**
- * Get the model for a request: one that routes through the Codebuff backend,
+ * Get the model for a request: one that routes through the MethaTech backend,
  * which forwards to OpenRouter.
  */
 export function getModelForRequest({
@@ -624,23 +625,49 @@ export function getModelForRequest({
     ? undefined
     : getByokOpenrouterApiKeyFromEnv()
 
+  // MethaTech session path (Freebuff flow, panel as backend): when the
+  // model is a MethaTech panel model, the request goes to the panel's
+  // OpenAI-compatible relay at /v1/chat/completions on the SAME host as
+  // the login (getWebsiteUrl(), frozen at build time) with the login
+  // token (apiKey) as Bearer — no BYOK connection, no exported key.
+  // The panel authorizes the model against the logged-in account
+  // (catalog + quota of that account, including the free models from
+  // registration). The relay is on the panel binary itself, so the
+  // console host serves /v1 too (verified live: both console and api
+  // hosts answer 401 without a token). BYOK stays the alternative
+  // for outside providers.
+  if (isMethatechModelId(model)) {
+    return new OpenAICompatibleChatLanguageModel(model, {
+      provider: 'methatech',
+      url: ({ path: endpoint }) =>
+        new URL(path.join('/v1', endpoint), getWebsiteUrl()).toString(),
+      headers: () => ({
+        Authorization: `Bearer ${apiKey}`,
+        'user-agent': `ai-sdk/openai-compatible/${VERSION}/methatech`,
+      }),
+      fetch: fetchWithRetryableNetworkErrors as typeof globalThis.fetch,
+      includeUsage: true,
+      supportsStructuredOutputs: true,
+    })
+  }
+
   return new OpenAICompatibleChatLanguageModel(model, {
-    provider: 'codebuff',
+    provider: 'methatech',
     url: ({ path: endpoint }) =>
       new URL(path.join('/api/v1', endpoint), getWebsiteUrl()).toString(),
     headers: () => ({
       Authorization: `Bearer ${apiKey}`,
-      'user-agent': `ai-sdk/openai-compatible/${VERSION}/codebuff`,
+      'user-agent': `ai-sdk/openai-compatible/${VERSION}/methatech`,
       // This build continues a turn whose gzip stream is cut mid-body, so the
       // backend may gzip it (common/src/constants/sse-compression.ts).
-      [FREEBUFF_SSE_GZIP_RECOVERY_HEADER]: FREEBUFF_SSE_GZIP_RECOVERY_VALUE,
-      ...(userId ? { [FREEBUFF_ACTING_USER_HEADER]: userId } : {}),
+      [METHATECH_SSE_GZIP_RECOVERY_HEADER]: FREEBUFF_SSE_GZIP_RECOVERY_VALUE,
+      ...(userId ? { [METHATECH_ACTING_USER_HEADER]: userId } : {}),
       ...(openrouterApiKey && { [BYOK_OPENROUTER_HEADER]: openrouterApiKey }),
     }),
     metadataExtractor: {
       extractMetadata: async ({ parsedBody }: { parsedBody: any }) => {
         if (openrouterApiKey !== undefined) {
-          return { codebuff: { usage: openrouterUsage } }
+          return { methatech: { usage: openrouterUsage } }
         }
 
         if (typeof parsedBody?.usage?.cost === 'number') {
@@ -653,7 +680,7 @@ export function getModelForRequest({
           openrouterUsage.costDetails.upstreamInferenceCost =
             parsedBody.usage.cost_details.upstream_inference_cost
         }
-        return { codebuff: { usage: openrouterUsage } }
+        return { methatech: { usage: openrouterUsage } }
       },
       createStreamExtractor: () => ({
         processChunk: (parsedChunk: any) => {
@@ -673,14 +700,14 @@ export function getModelForRequest({
           }
         },
         buildMetadata: () => {
-          return { codebuff: { usage: openrouterUsage } }
+          return { methatech: { usage: openrouterUsage } }
         },
       }),
     },
     // Cast: Bun's fetch type also declares a `preconnect` helper, but the AI
     // SDK only ever invokes fetch as a plain function.
     fetch: (requestHeaders
-      ? withCodebuffRequestHeaders(
+      ? withMethaTechRequestHeaders(
           requestHeaders,
           fetchWithRetryableNetworkErrors,
         )

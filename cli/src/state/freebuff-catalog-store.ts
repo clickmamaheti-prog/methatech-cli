@@ -1,4 +1,4 @@
-import { listableFreebuffCatalogRows } from '@codebuff/common/types/freebuff-model-catalog'
+import { listableFreebuffCatalogRows } from '@methatech/common/types/freebuff-model-catalog'
 import { create } from 'zustand'
 
 import {
@@ -7,7 +7,7 @@ import {
 import { methatechModelDirectory } from '../utils/methatech-model-directory'
 
 import type { FreebuffModelDirectory } from '../utils/freebuff-model-directory'
-import type { FreebuffModelCatalog } from '@codebuff/common/types/freebuff-model-catalog'
+import type { FreebuffModelCatalog } from '@methatech/common/types/freebuff-model-catalog'
 
 /**
  * The server model catalog this process holds, if any

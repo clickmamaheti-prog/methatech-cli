@@ -6,7 +6,7 @@ import React, {
   useRef,
   useSyncExternalStore,
 } from 'react'
-import type { AdReport } from '@codebuff/common/ads/ad-report'
+import type { AdReport } from '@methatech/common/ads/ad-report'
 import type { MouseEvent, RGBA } from '@opentui/core'
 
 import { Clickable } from './clickable'

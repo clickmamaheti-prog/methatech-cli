@@ -20,7 +20,7 @@ import { useChatStore } from '../../state/chat-store'
 import { createEngagementRegistry } from '../../ads/ad-engagement'
 import { setAdEngagementRegistryForTests } from '../../ads/use-ad-engagement'
 import type { AdResponse } from '../use-gravity-ad'
-import type { AdEngagement } from '@codebuff/common/types/ad-client-context'
+import type { AdEngagement } from '@methatech/common/types/ad-client-context'
 
 beforeAll(initializeThemeStore)
 afterEach(() => {

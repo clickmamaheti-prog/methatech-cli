@@ -20,7 +20,7 @@ import {
   type ERROR_CLASSES,
   type TOOL_CATEGORIES,
   type TypingSummary,
-} from '@codebuff/common/types/ad-client-context'
+} from '@methatech/common/types/ad-client-context'
 
 import { getTerminalProtocolController } from '../utils/terminal-protocol-controller'
 

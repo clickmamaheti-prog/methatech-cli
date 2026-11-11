@@ -3,10 +3,10 @@ import { createHash } from 'node:crypto'
 import { describe, expect, mock, test } from 'bun:test'
 
 import {
-  FREEBUFF_DEVICE_KEY_HEADER,
+  METHATECH_DEVICE_KEY_HEADER,
   FREEBUFF_DEVICE_KEYS_PATH,
-  FREEBUFF_DEVICE_SIGNATURE_HEADER,
-  FREEBUFF_DEVICE_TIMESTAMP_HEADER,
+  METHATECH_DEVICE_SIGNATURE_HEADER,
+  METHATECH_DEVICE_TIMESTAMP_HEADER,
   freebuffDeviceSignaturePayload,
 } from '../../types/freebuff-model-catalog'
 import {
@@ -61,14 +61,14 @@ async function verifies(
   const payload = freebuffDeviceSignaturePayload({
     method: request.method,
     path: new URL(request.url).pathname,
-    timestampMs: Number(headers[FREEBUFF_DEVICE_TIMESTAMP_HEADER]),
+    timestampMs: Number(headers[METHATECH_DEVICE_TIMESTAMP_HEADER]),
     bodySha256: createHash('sha256').update(request.body ?? '').digest('hex'),
     fetchId: request.fetchId,
   })
   return crypto.subtle.verify(
     { name: 'Ed25519' },
     publicKey,
-    base64UrlDecode(headers[FREEBUFF_DEVICE_SIGNATURE_HEADER]!) as BufferSource,
+    base64UrlDecode(headers[METHATECH_DEVICE_SIGNATURE_HEADER]!) as BufferSource,
     new TextEncoder().encode(payload) as BufferSource,
   )
 }
@@ -90,8 +90,8 @@ describe('FreebuffDeviceSigner', () => {
       fetchId: 'fetch-9',
     }
     const headers = await signer.headers(ACCOUNT, request)
-    expect(headers[FREEBUFF_DEVICE_KEY_HEADER]).toBe('key-1')
-    expect(headers[FREEBUFF_DEVICE_TIMESTAMP_HEADER]).toBe('1700000000000')
+    expect(headers[METHATECH_DEVICE_KEY_HEADER]).toBe('key-1')
+    expect(headers[METHATECH_DEVICE_TIMESTAMP_HEADER]).toBe('1700000000000')
     expect(await verifies(state.record!, headers, request)).toBe(true)
     // a different body, path or fetch id does not verify
     expect(await verifies(state.record!, headers, { ...request, body: '{}' })).toBe(false)
@@ -123,7 +123,7 @@ describe('FreebuffDeviceSigner', () => {
     const second = registrar(() => Response.json({ keyId: 'key-2' }))
     const signer = new FreebuffDeviceSigner({ store, client: 'cli', fetch: second.fetchImpl })
     const headers = await signer.headers(ACCOUNT, { method: 'GET', url: 'https://api.test/x' })
-    expect(headers[FREEBUFF_DEVICE_KEY_HEADER]).toBe('key-1')
+    expect(headers[METHATECH_DEVICE_KEY_HEADER]).toBe('key-1')
     expect(second.calls).toHaveLength(0)
     expect(state.record!.publicKey).toBe(publicKey)
 
@@ -145,7 +145,7 @@ describe('FreebuffDeviceSigner', () => {
     const all = await Promise.all(
       [1, 2, 3].map(() => signer.headers(ACCOUNT, { method: 'GET', url: 'https://api.test/x' })),
     )
-    expect(all.every((h) => h[FREEBUFF_DEVICE_KEY_HEADER] === 'key-1')).toBe(true)
+    expect(all.every((h) => h[METHATECH_DEVICE_KEY_HEADER] === 'key-1')).toBe(true)
     expect(calls).toHaveLength(1)
   })
 
@@ -155,10 +155,10 @@ describe('FreebuffDeviceSigner', () => {
     const { calls, fetchImpl } = registrar(() => Response.json({ keyId: `key-${next++}` }))
     const signer = new FreebuffDeviceSigner({ store, client: 'cli', fetch: fetchImpl })
     const request = { method: 'GET', url: 'https://api.test/x' }
-    expect((await signer.headers(ACCOUNT, request))[FREEBUFF_DEVICE_KEY_HEADER]).toBe('key-1')
+    expect((await signer.headers(ACCOUNT, request))[METHATECH_DEVICE_KEY_HEADER]).toBe('key-1')
     signer.forgetRegistration(ACCOUNT)
     await signer.settled()
-    expect((await signer.headers(ACCOUNT, request))[FREEBUFF_DEVICE_KEY_HEADER]).toBe('key-2')
+    expect((await signer.headers(ACCOUNT, request))[METHATECH_DEVICE_KEY_HEADER]).toBe('key-2')
     expect(calls).toHaveLength(2)
   })
 
@@ -187,7 +187,7 @@ describe('FreebuffDeviceSigner', () => {
 
     await signer.headers(ACCOUNT, request)
     const headers = await signer.headers(ACCOUNT, request, { register: false })
-    expect(headers[FREEBUFF_DEVICE_KEY_HEADER]).toBe('key-1')
+    expect(headers[METHATECH_DEVICE_KEY_HEADER]).toBe('key-1')
     expect(await verifies(state.record!, headers, request)).toBe(true)
   })
 
@@ -246,7 +246,7 @@ describe('FreebuffDeviceSigner', () => {
     expect(await signer.headers(ACCOUNT, request)).toEqual({})
     release()
     await new Promise((resolve) => setTimeout(resolve, 10))
-    expect((await signer.headers(ACCOUNT, request))[FREEBUFF_DEVICE_KEY_HEADER]).toBe('late')
+    expect((await signer.headers(ACCOUNT, request))[METHATECH_DEVICE_KEY_HEADER]).toBe('late')
   })
 
   test('an account without a known id is scoped by its token', async () => {

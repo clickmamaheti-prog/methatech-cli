@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react'
 import {
   formatHoursWithUnit,
   freebucksShortfallLine,
-} from '@codebuff/common/util/freebuff-hours'
-import { formatFreebuffHardBlockedPrivacySignals } from '@codebuff/common/util/freebuff-privacy'
+} from '@methatech/common/util/freebuff-hours'
+import { formatFreebuffHardBlockedPrivacySignals } from '@methatech/common/util/freebuff-privacy'
 
 import {
   resolveFreebuffModelPickForSession,

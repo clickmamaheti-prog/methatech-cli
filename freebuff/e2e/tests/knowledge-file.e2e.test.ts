@@ -4,7 +4,7 @@
  * Starts Freebuff in tmux, creates an AGENTS.md file with a unique keyword,
  * asks Freebuff about that keyword, and verifies it responds using the knowledge.
  *
- * Requires CODEBUFF_API_KEY — skipped if not set.
+ * Requires METHATECH_API_KEY — skipped if not set.
  */
 
 import { afterEach, describe, expect, test } from 'bun:test'
@@ -14,7 +14,7 @@ import { FreebuffSession, requireMethatechBinary } from '../utils'
 const TEST_TIMEOUT = 180_000
 
 function getApiKey(): string | null {
-  return process.env.CODEBUFF_API_KEY ?? null
+  return process.env.METHATECH_API_KEY ?? null
 }
 
 describe('Freebuff: Knowledge Files', () => {
@@ -32,7 +32,7 @@ describe('Freebuff: Knowledge Files', () => {
     async () => {
       if (!getApiKey()) {
         console.log(
-          'Skipping knowledge-file test: CODEBUFF_API_KEY not set. ' +
+          'Skipping knowledge-file test: METHATECH_API_KEY not set. ' +
             'Set it to run knowledge-file e2e tests.',
         )
         return

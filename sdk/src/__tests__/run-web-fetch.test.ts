@@ -1,10 +1,10 @@
-import * as runtime from '@codebuff/agent-runtime/main-prompt'
+import * as runtime from '@methatech/agent-runtime/main-prompt'
 import { afterEach, expect, mock, spyOn, test } from 'bun:test'
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 import { getWebsiteUrl } from '../constants'
 
-import type { ToolResultOutput } from '@codebuff/common/types/messages/content-part'
+import type { ToolResultOutput } from '@methatech/common/types/messages/content-part'
 
 const originalFetch = globalThis.fetch
 afterEach(() => {
@@ -12,7 +12,7 @@ afterEach(() => {
   mock.restore()
 })
 
-async function readPage(client: CodebuffClient, url: string) {
+async function readPage(client: MethaTechClient, url: string) {
   let output: ToolResultOutput[] = []
   let sessionId = ''
   spyOn(runtime, 'callMainPrompt').mockImplementation(async (params) => {
@@ -47,7 +47,7 @@ test('hosted read_url uses the authenticated extract route and the current searc
   )
   globalThis.fetch = post as unknown as typeof fetch
   const { output, sessionId } = await readPage(
-    new CodebuffClient({ apiKey: 'test-user-credential' }),
+    new MethaTechClient({ apiKey: 'test-user-credential' }),
     url,
   )
 
@@ -78,7 +78,7 @@ test('a host override stays authoritative and can deny hosted extraction', async
   })
   globalThis.fetch = fetch as unknown as typeof globalThis.fetch
   const { output } = await readPage(
-    new CodebuffClient({
+    new MethaTechClient({
       apiKey: 'test-user-credential',
       overrideTools: {
         read_url: async () => [
@@ -99,7 +99,7 @@ test('a direct BYOK run keeps its local URL policy and makes no hosted request',
     throw new Error('unexpected hosted call')
   })
   globalThis.fetch = fetch as unknown as typeof globalThis.fetch
-  const client = new CodebuffClient({
+  const client = new MethaTechClient({
     byok: {
       id: 'local',
       revision: 1,

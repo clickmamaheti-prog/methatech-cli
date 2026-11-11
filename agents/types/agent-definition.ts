@@ -1,3 +1,3 @@
-// Re-exports the canonical public agent types, which `codebuff init` copies
+// Re-exports the canonical public agent types, which `methatech init` copies
 // into users' .agents/types. Edit them there, not here.
-export type * from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
+export type * from '@methatech/common/templates/initial-agents-dir/types/agent-definition'

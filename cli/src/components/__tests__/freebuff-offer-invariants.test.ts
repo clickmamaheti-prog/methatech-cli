@@ -18,12 +18,12 @@ import {
   METHATECH_FALLBACK_MODEL_ID,
   METHATECH_MODELS,
   isMethatechModelId,
-} from '@codebuff/common/constants/methatech-models'
+} from '@methatech/common/constants/methatech-models'
 
 import { getFreebuffModelDirectory } from '../../state/freebuff-catalog-store'
 import { resolveFreebuffModelPickForSession } from '../../hooks/use-freebuff-session'
 
-import type { FreebuffAccessTier } from '@codebuff/common/constants/freebuff-models'
+import type { FreebuffAccessTier } from '@methatech/common/constants/freebuff-models'
 import type { FreebuffSessionResponse } from '../../types/freebuff-session'
 
 import { freebuffCliOfferedModelIds } from '../freebuff-model-selector'

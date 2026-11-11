@@ -678,12 +678,12 @@ describe('validateAgents', () => {
 
       const result = await validateAgents(agents, {
         remote: true,
-        websiteUrl: 'https://test.codebuff.com',
+        websiteUrl: 'https://test.console.methatech.eu.org',
       })
 
       expect(mockFetch).toHaveBeenCalledTimes(1)
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test.codebuff.com/api/agents/validate',
+        'https://test.console.methatech.eu.org/api/agents/validate',
         expect.objectContaining({
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -705,11 +705,11 @@ describe('validateAgents', () => {
           errorCount: 0,
         }),
       }
-      const originalEnvKey = process.env.CODEBUFF_API_KEY
+      const originalEnvKey = process.env.METHATECH_API_KEY
 
       afterEach(() => {
-        if (originalEnvKey === undefined) delete process.env.CODEBUFF_API_KEY
-        else process.env.CODEBUFF_API_KEY = originalEnvKey
+        if (originalEnvKey === undefined) delete process.env.METHATECH_API_KEY
+        else process.env.METHATECH_API_KEY = originalEnvKey
       })
 
       const sentHeaders = () =>
@@ -718,11 +718,11 @@ describe('validateAgents', () => {
         }
 
       it('sends the apiKey option as a bearer', async () => {
-        delete process.env.CODEBUFF_API_KEY
+        delete process.env.METHATECH_API_KEY
         mockFetch.mockResolvedValue(okResponse)
         await validateAgents(agents, {
           remote: true,
-          websiteUrl: 'https://test.codebuff.com',
+          websiteUrl: 'https://test.console.methatech.eu.org',
           apiKey: 'key-from-option',
         })
         expect(sentHeaders().headers).toEqual({
@@ -731,22 +731,22 @@ describe('validateAgents', () => {
         })
       })
 
-      it('falls back to CODEBUFF_API_KEY from the environment', async () => {
-        process.env.CODEBUFF_API_KEY = 'key-from-env'
+      it('falls back to METHATECH_API_KEY from the environment', async () => {
+        process.env.METHATECH_API_KEY = 'key-from-env'
         mockFetch.mockResolvedValue(okResponse)
         await validateAgents(agents, {
           remote: true,
-          websiteUrl: 'https://test.codebuff.com',
+          websiteUrl: 'https://test.console.methatech.eu.org',
         })
         expect(sentHeaders().headers.Authorization).toBe('Bearer key-from-env')
       })
 
       it('sends no Authorization header when no key is available', async () => {
-        delete process.env.CODEBUFF_API_KEY
+        delete process.env.METHATECH_API_KEY
         mockFetch.mockResolvedValue(okResponse)
         await validateAgents(agents, {
           remote: true,
-          websiteUrl: 'https://test.codebuff.com',
+          websiteUrl: 'https://test.console.methatech.eu.org',
         })
         expect(sentHeaders().headers).toEqual({
           'Content-Type': 'application/json',
@@ -809,7 +809,7 @@ describe('validateAgents', () => {
 
       const result = await validateAgents(agents, {
         remote: true,
-        websiteUrl: 'https://test.codebuff.com',
+        websiteUrl: 'https://test.console.methatech.eu.org',
       })
 
       expect(result.success).toBe(false)
@@ -837,7 +837,7 @@ describe('validateAgents', () => {
 
       const result = await validateAgents(agents, {
         remote: true,
-        websiteUrl: 'https://test.codebuff.com',
+        websiteUrl: 'https://test.console.methatech.eu.org',
       })
 
       expect(result.success).toBe(false)
@@ -862,7 +862,7 @@ describe('validateAgents', () => {
 
       const result = await validateAgents(agents, {
         remote: true,
-        websiteUrl: 'https://test.codebuff.com',
+        websiteUrl: 'https://test.console.methatech.eu.org',
       })
 
       expect(result.success).toBe(false)
@@ -891,7 +891,7 @@ describe('validateAgents', () => {
 
       const result = await validateAgents(agents, {
         remote: true,
-        websiteUrl: 'https://test.codebuff.com',
+        websiteUrl: 'https://test.console.methatech.eu.org',
       })
 
       expect(result.success).toBe(false)
@@ -918,7 +918,7 @@ describe('validateAgents', () => {
 
       const result = await validateAgents(agents, {
         remote: true,
-        websiteUrl: 'https://test.codebuff.com',
+        websiteUrl: 'https://test.console.methatech.eu.org',
       })
 
       // Should handle gracefully with empty errors
@@ -944,7 +944,7 @@ describe('validateAgents', () => {
 
       const result = await validateAgents(agents, {
         remote: true,
-        websiteUrl: 'https://test.codebuff.com',
+        websiteUrl: 'https://test.console.methatech.eu.org',
       })
 
       expect(result.success).toBe(true)
@@ -969,7 +969,7 @@ describe('validateAgents', () => {
 
       const result = await validateAgents(agents, {
         remote: true,
-        websiteUrl: 'https://test.codebuff.com',
+        websiteUrl: 'https://test.console.methatech.eu.org',
       })
 
       expect(result.success).toBe(false)

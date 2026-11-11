@@ -75,7 +75,7 @@ if (mode === 'launch') {
         ...process.env,
         NODE_ENV: 'test',
         BUN_ENV: 'test',
-        CODEBUFF_LAUNCHER_PID: String(launcher.pid),
+        METHATECH_LAUNCHER_PID: String(launcher.pid),
       },
       stdio: 'inherit',
     },

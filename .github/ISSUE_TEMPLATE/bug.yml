@@ -16,7 +16,7 @@ body:
       label: What happened
       description: What you did, what you expected, and what you got instead.
       placeholder: |
-        1. Ran `codebuff` in a repo with ...
+        1. Ran `methatech` in a repo with ...
         2. Asked it to ...
         3. Expected ... but it ...
     validations:
@@ -38,7 +38,7 @@ body:
       label: Where does this happen?
       options:
         - CLI (terminal client)
-        - SDK (@codebuff/sdk)
+        - SDK (@methatech/sdk)
         - Desktop app
         - Agents / prompts / agent behavior
         - MCP servers or tools
@@ -63,7 +63,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: Output of `codebuff --version`, or the desktop app version.
+      description: Output of `methatech --version`, or the desktop app version.
       placeholder: e.g. 0.1.4
     validations:
       required: true

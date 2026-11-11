@@ -4,10 +4,10 @@ import {
   runSponsoredInstallTool,
   sponsoredInstallInputSchema,
   type SponsoredInstallToolDeps,
-} from '@codebuff/common/ads/sponsored-install-tool'
-import { getCustomToolDefinition } from '@codebuff/sdk'
+} from '@methatech/common/ads/sponsored-install-tool'
+import { getCustomToolDefinition } from '@methatech/sdk'
 
-import type { CustomToolDefinition } from '@codebuff/sdk'
+import type { CustomToolDefinition } from '@methatech/sdk'
 
 /**
  * Marks a `run_terminal_command` call as `install_package`'s OWN canonical

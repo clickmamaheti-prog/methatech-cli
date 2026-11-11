@@ -1,10 +1,10 @@
-import type { CodebuffToolOutput } from '../../../common/src/tools/list'
+import type { MethaTechToolOutput } from '../../../common/src/tools/list'
 
 export function runFileChangeHooks({
   files,
 }: {
   files: string[]
-}): Promise<CodebuffToolOutput<'run_file_change_hooks'>> {
+}): Promise<MethaTechToolOutput<'run_file_change_hooks'>> {
   // In the SDK, we don't have access to client-side hook configuration
   // or the hook running infrastructure, so this is a no-op
 

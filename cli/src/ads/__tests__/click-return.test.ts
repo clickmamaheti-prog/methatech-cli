@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'bun:test'
 
-import { CLICK_RETURN_WATCH_MS } from '@codebuff/common/ads/click-return'
+import { CLICK_RETURN_WATCH_MS } from '@methatech/common/ads/click-return'
 
 import { createCliClickReturn } from '../click-return'
 
-import type { ClickReturnBody } from '@codebuff/common/ads/click-return'
+import type { ClickReturnBody } from '@methatech/common/ads/click-return'
 
 function harness() {
   let now = 0

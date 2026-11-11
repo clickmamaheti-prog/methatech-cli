@@ -190,7 +190,7 @@ describe('the caller keeps the card live when nothing was saved', () => {
 
 describe('the transport resolves its host through the login constant', () => {
   // Reading `process.env.NEXT_PUBLIC_FREEBUFF_APP_URL` raw skipped both halves
-  // of that constant: the @codebuff/common/env schema, and the IS_DEV
+  // of that constant: the @methatech/common/env schema, and the IS_DEV
   // localhost branch — so a developer's proposal traffic left their laptop for
   // production while every other CLI call stayed on :3002, writing real prefs
   // and real dismissals against their real account from a dev build.

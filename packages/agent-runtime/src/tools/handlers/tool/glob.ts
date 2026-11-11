@@ -1,23 +1,23 @@
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
   ClientToolCall,
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
 
 const WINDOWED_GLOB_RESULTS = 100
 
 type ToolName = 'glob'
 export const handleGlob = (async (params: {
   previousToolCallFinished: Promise<void>
-  toolCall: CodebuffToolCall<ToolName>
+  toolCall: MethaTechToolCall<ToolName>
   agentTemplate: AgentTemplate
   requestClientToolCall: (
     toolCall: ClientToolCall<ToolName>,
-  ) => Promise<CodebuffToolOutput<ToolName>>
+  ) => Promise<MethaTechToolOutput<ToolName>>
 }): Promise<{
-  output: CodebuffToolOutput<ToolName>
+  output: MethaTechToolOutput<ToolName>
 }> => {
   const { previousToolCallFinished, toolCall, agentTemplate, requestClientToolCall } =
     params
@@ -32,4 +32,4 @@ export const handleGlob = (async (params: {
         }
       : toolCall
   return { output: await requestClientToolCall(finalToolCall) }
-}) satisfies CodebuffToolHandlerFunction<ToolName>
+}) satisfies MethaTechToolHandlerFunction<ToolName>

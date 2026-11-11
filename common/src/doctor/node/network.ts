@@ -96,11 +96,11 @@ export async function probeEndpoint(endpoint: Endpoint, options: { fetch?: Fetch
 }
 
 const NETWORK_STEPS: Record<NetworkErrorKind, { why: string; steps: string[] }> = {
-  dns: { why: 'its name could not be looked up (DNS)', steps: ['Check that you are online.', 'If you use a DNS filter, ad blocker or Pi-hole, allow freebuff.com and codebuff.com.', 'Check the hosts file finding in this report.'] },
-  refused: { why: 'the connection was refused', steps: ['A firewall, VPN or proxy is blocking it. Allow freebuff.com and codebuff.com.'] },
+  dns: { why: 'its name could not be looked up (DNS)', steps: ['Check that you are online.', 'If you use a DNS filter, ad blocker or Pi-hole, allow freebuff.com and console.methatech.eu.org.', 'Check the hosts file finding in this report.'] },
+  refused: { why: 'the connection was refused', steps: ['A firewall, VPN or proxy is blocking it. Allow freebuff.com and console.methatech.eu.org.'] },
   timeout: { why: 'it did not answer in time', steps: ['Check your connection.', 'If you use a VPN or proxy, try without it.'] },
-  reset: { why: 'the connection was cut off', steps: ['A firewall, VPN or antivirus web shield may be interrupting it. Allow freebuff.com and codebuff.com.'] },
-  tls: { why: 'its security certificate was rejected', steps: ['Turn off HTTPS or SSL scanning in your antivirus, or exclude freebuff.com and codebuff.com.', 'On a work network, ask IT to exempt freebuff.com and codebuff.com from TLS inspection.', 'Check that your clock is correct.'] },
+  reset: { why: 'the connection was cut off', steps: ['A firewall, VPN or antivirus web shield may be interrupting it. Allow freebuff.com and console.methatech.eu.org.'] },
+  tls: { why: 'its security certificate was rejected', steps: ['Turn off HTTPS or SSL scanning in your antivirus, or exclude freebuff.com and console.methatech.eu.org.', 'On a work network, ask IT to exempt freebuff.com and console.methatech.eu.org from TLS inspection.', 'Check that your clock is correct.'] },
   offline: { why: 'there is no route to it', steps: ['Check that you are online.'] },
   other: { why: 'the request failed', steps: ['Check your connection, VPN and firewall.'] },
 }
@@ -179,7 +179,7 @@ export function tlsFinding(host: string, inspection: TlsInspection): DoctorFindi
 
 // ---------------------------------------------------------------- DNS and hosts
 
-const FREEBUFF_DOMAINS = ['freebuff.com', 'codebuff.com']
+const FREEBUFF_DOMAINS = ['freebuff.com', 'console.methatech.eu.org']
 
 const LOCAL_ADDRESS = /^(?:0\.0\.0\.0|127\.|10\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.|169\.254\.|::1?$|::ffff:127\.|f[cd][0-9a-f]{2}:|fe80:)/i
 

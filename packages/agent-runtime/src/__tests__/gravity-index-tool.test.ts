@@ -1,7 +1,7 @@
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
 import {
   afterEach,
   beforeEach,
@@ -13,17 +13,17 @@ import {
 } from 'bun:test'
 
 import { createToolCallChunk, mockFileContext } from './test-utils'
-import * as webApi from '../llm-api/codebuff-web-api'
+import * as webApi from '../llm-api/methatech-web-api'
 import { runAgentStep } from '../run-agent-step'
 import { assembleLocalAgentTemplates } from '../templates/agent-registry'
 
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 let agentRuntimeImpl: AgentRuntimeDeps & AgentRuntimeScopedDeps
 let runAgentStepBaseParams: ParamsExcluding<
@@ -138,7 +138,7 @@ describe('gravity_index tool', () => {
           query: 'transactional email for Next.js',
           external_session_id: 'test-session',
           metadata: expect.objectContaining({
-            surface: 'codebuff_cli',
+            surface: 'methatech_cli',
             tool_call_id: expect.any(String),
             agent_step_id: expect.any(String),
             fingerprint_id: 'test-fingerprint',
@@ -264,7 +264,7 @@ describe('gravity_index tool', () => {
   )
 
   // Both freebuff Web root families, because the harness swap changed the id
-  // prefix: a base3 root that fell through to `codebuff_cli` would attribute
+  // prefix: a base3 root that fell through to `methatech_cli` would attribute
   // Web clicks to the CLI and would stop forwarding the per-end-user id that
   // keeps the shared service account from collapsing every user into one.
   test.each(['base2-free-deepseek', 'base3-free-deepseek'])(

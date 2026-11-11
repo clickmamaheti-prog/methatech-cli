@@ -1,7 +1,7 @@
 import {
   BYOK_OPENROUTER_ENV_VAR,
   BYOK_OPENROUTER_HEADER,
-} from '@codebuff/common/constants/byok'
+} from '@methatech/common/constants/byok'
 import { afterEach, beforeEach, describe, expect, spyOn, test } from 'bun:test'
 import { streamText } from 'ai'
 import { z } from 'zod'
@@ -150,7 +150,7 @@ describe('Freebuff provider credentials', () => {
           expect(request.headers.get('authorization')).toBe(
             'Bearer freebuff-login-token',
           )
-          expect(JSON.parse(request.body).codebuff_metadata.cost_mode).toBe(
+          expect(JSON.parse(request.body).methatech_metadata.cost_mode).toBe(
             costMode,
           )
           expect(request.headers.get(BYOK_OPENROUTER_HEADER)).toBe(

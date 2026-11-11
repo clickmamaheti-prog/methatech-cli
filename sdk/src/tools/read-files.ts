@@ -1,35 +1,35 @@
 import path from 'path'
 
-import { countTokens } from '@codebuff/agent-runtime/util/token-counter'
+import { countTokens } from '@methatech/agent-runtime/util/token-counter'
 import {
   getImageMimeType,
   isProviderSupportedImageMediaType,
   MAX_IMAGE_BASE64_SIZE,
-} from '@codebuff/common/constants/images'
-import { FILE_READ_STATUS } from '@codebuff/common/old-constants'
-import { isFileIgnored } from '@codebuff/common/project-file-tree'
+} from '@methatech/common/constants/images'
+import { FILE_READ_STATUS } from '@methatech/common/old-constants'
+import { isFileIgnored } from '@methatech/common/project-file-tree'
 import {
   isEnvTemplateFilePath,
   isSensitiveEnvFilePath,
-} from '@codebuff/common/util/env-file-path'
+} from '@methatech/common/util/env-file-path'
 import {
   createFileReadLimiter,
   windowFileRead,
-} from '@codebuff/common/util/file-read-limits'
+} from '@methatech/common/util/file-read-limits'
 import {
   PROJECT_UNDERSTANDING_NON_TEXT_MESSAGE,
   isProjectUnderstandingNonTextPath,
   looksLikeBinaryContent,
-} from '@codebuff/common/project-understanding/non-text-files'
-import { projectUnderstandingReadRefusal } from '@codebuff/common/project-understanding/skipped-files'
+} from '@methatech/common/project-understanding/non-text-files'
+import { projectUnderstandingReadRefusal } from '@methatech/common/project-understanding/skipped-files'
 
 import { resolveFilePath } from './path-utils'
 
 import type {
   FileReadWindow,
   RequestImageFileFn,
-} from '@codebuff/common/types/contracts/client'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+} from '@methatech/common/types/contracts/client'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 
 export type FileFilterResult = {
   status: 'blocked' | 'allow-example' | 'allow'
@@ -40,7 +40,7 @@ export type FileFilter = (filePath: string) => FileFilterResult
 export async function getFiles(params: {
   filePaths: string[]
   cwd: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   fileWindows?: Record<string, FileReadWindow[]>
   /**
    * Apply the user-facing read_files output budget. Internal edit tools need
@@ -208,7 +208,7 @@ const MAX_IMAGE_READ_BYTES = Math.floor((MAX_IMAGE_BASE64_SIZE * 3) / 4)
 export async function getImageFile(params: {
   filePath: string
   cwd: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   fileFilter?: FileFilter
 }): ReturnType<RequestImageFileFn> {
   const { filePath, cwd, fs, fileFilter } = params

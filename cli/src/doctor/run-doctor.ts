@@ -2,17 +2,17 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { finding, type DoctorReport } from '@codebuff/common/doctor/types'
-import { createRedactor } from '@codebuff/common/doctor/redact'
-import { runDoctorChecks, type DoctorCheck } from '@codebuff/common/doctor/run'
-import { doctorAskPrompt, doctorReportMarkdown, doctorReportText } from '@codebuff/common/doctor/report'
+import { finding, type DoctorReport } from '@methatech/common/doctor/types'
+import { createRedactor } from '@methatech/common/doctor/redact'
+import { runDoctorChecks, type DoctorCheck } from '@methatech/common/doctor/run'
+import { doctorAskPrompt, doctorReportMarkdown, doctorReportText } from '@methatech/common/doctor/report'
 import {
   clockFinding, dnsFindings, endpointFindings, environmentFindings, hostsFileEntries, hostsFilePath, hostsFinding,
   inspectTls, probeEndpoint, proxyFindings, readClockSkew, tlsFinding,
-} from '@codebuff/common/doctor/node/network'
-import { architectureFinding, diskFinding, longPathFinding, memoryFinding, syncProviderFor, tempDirFinding, watcherLimitFinding } from '@codebuff/common/doctor/node/system'
-import { gitFolderFinding, gitFolderState, gitInstallFindings, runCommand, type RunCommand } from '@codebuff/common/doctor/node/git'
-import { processTable } from '@codebuff/common/doctor/node/processes'
+} from '@methatech/common/doctor/node/network'
+import { architectureFinding, diskFinding, longPathFinding, memoryFinding, syncProviderFor, tempDirFinding, watcherLimitFinding } from '@methatech/common/doctor/node/system'
+import { gitFolderFinding, gitFolderState, gitInstallFindings, runCommand, type RunCommand } from '@methatech/common/doctor/node/git'
+import { processTable } from '@methatech/common/doctor/node/processes'
 
 import { getSystemProcessEnv } from '../utils/env'
 

@@ -1,5 +1,5 @@
-import { readFilePathsOf } from '@codebuff/common/tools/params/tool/read-files'
-import { isEnvTemplateFilePath } from '@codebuff/common/util/env-file-path'
+import { readFilePathsOf } from '@methatech/common/tools/params/tool/read-files'
+import { isEnvTemplateFilePath } from '@methatech/common/util/env-file-path'
 import { TextAttributes } from '@opentui/core'
 
 import { SimpleToolCallItem } from './tool-call-item'

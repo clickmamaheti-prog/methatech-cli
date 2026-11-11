@@ -3,11 +3,11 @@ import * as fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 
-import { FILE_READ_STATUS } from '@codebuff/common/old-constants'
+import { FILE_READ_STATUS } from '@methatech/common/old-constants'
 import {
   getAllFilePaths,
   getProjectFileTree,
-} from '@codebuff/common/project-file-tree'
+} from '@methatech/common/project-file-tree'
 
 import { getFiles, getImageFile } from '../tools/read-files'
 
@@ -21,7 +21,7 @@ beforeEach(async () => {
   cwd = await fs.mkdtemp(path.join(os.tmpdir(), 'explicit-file-reads-'))
   const files = {
     '.gitignore': 'sandbox/\nartifacts/\n.env.example\n',
-    '.codebuffignore': 'private/\n',
+    '.methatechignore': 'private/\n',
     '.metatechignore': 'legacy-private/\n',
     'sandbox/note.txt': 'requested artifact',
     'artifacts/render.png': png,
@@ -79,7 +79,7 @@ test('explicit text and image reads succeed while discovery still excludes ignor
 })
 
 test('explicit reads retain agent ignore files, including nested rules', async () => {
-  await fs.writeFile(path.join(cwd, 'sandbox/.codebuffignore'), 'note.txt\n')
+  await fs.writeFile(path.join(cwd, 'sandbox/.methatechignore'), 'note.txt\n')
   expect(
     await getFiles({
       cwd,

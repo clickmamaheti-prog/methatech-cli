@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 // Only a fallback / estimate for content the provider has not seen yet. The
 // agent loop anchors context size to each response's usage. Never BPE-tokenize

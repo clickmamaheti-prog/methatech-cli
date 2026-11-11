@@ -72,7 +72,7 @@ describe('growth house campaign catalog', () => {
       expect(campaign.targeting).toBe('not_mobile')
       for (const creative of campaign.creatives) {
         // One landing for both stores; the page sends a phone on to its own.
-        expect(creative.url).toBe('https://freebuff.com/mobile')
+        expect(creative.url).toBe('https://methatech.eu.org/mobile')
         expect(creative.cta).toBe('Get the mobile app')
         // Copy that names a platform names both: the reader's phone is unknown.
         const copy = `${creative.title} ${creative.adText}`

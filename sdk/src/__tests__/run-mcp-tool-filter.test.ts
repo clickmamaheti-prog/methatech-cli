@@ -1,14 +1,14 @@
-import * as mainPromptModule from '@codebuff/agent-runtime/main-prompt'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+import * as mainPromptModule from '@methatech/agent-runtime/main-prompt'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test'
 
-import { CodebuffClient } from '../client'
-import * as mcpClientModule from '@codebuff/common/mcp/client'
+import { MethaTechClient } from '../client'
+import * as mcpClientModule from '@methatech/common/mcp/client'
 import * as databaseModule from '../impl/database'
 
-import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
-import type { MCPConfig } from '@codebuff/common/types/mcp'
+import type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
+import type { MCPConfig } from '@methatech/common/types/mcp'
 
 const browserMcpConfig: MCPConfig = {
   type: 'stdio',
@@ -106,7 +106,7 @@ describe('MCP tool filtering', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
       agentDefinitions: [TEST_AGENT],
     })

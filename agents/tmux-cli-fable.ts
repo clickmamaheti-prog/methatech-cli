@@ -1,4 +1,4 @@
-import { FREEBUFF_FABLE_5_1_MODEL_ID } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_FABLE_5_1_MODEL_ID } from '@methatech/common/constants/freebuff-models'
 
 import { FABLE_PROVIDER_OPTIONS } from './constants'
 import tmuxCli from './tmux-cli'

@@ -1,4 +1,4 @@
-import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
+import type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
 
 /**
  * A small web_search + read_docs agent for the tool tests. It was the retired
@@ -6,7 +6,7 @@ import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-
  */
 const researcherAgent: AgentDefinition = {
   id: 'researcher',
-  publisher: 'codebuff',
+  publisher: 'methatech',
   displayName: 'Reid Searcher the Researcher',
   spawnerPrompt: `Expert at browsing the web or reading technical documentation to find relevant information.`,
   model: 'x-ai/grok-4-fast',

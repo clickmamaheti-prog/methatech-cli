@@ -10,8 +10,8 @@ import { describe, expect, it } from 'bun:test'
 import { compactHistoryNow } from '../compact-history'
 import { countTokensMessages } from '../util/token-counter'
 
-import type { JSONValue } from '@codebuff/common/types/json'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { JSONValue } from '@methatech/common/types/json'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const user = (text: string): Message => ({
   role: 'user',

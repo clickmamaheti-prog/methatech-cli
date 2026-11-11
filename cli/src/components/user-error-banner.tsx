@@ -1,4 +1,4 @@
-import { sanitizeTerminalText } from '@codebuff/common/util/terminal-safe-text'
+import { sanitizeTerminalText } from '@methatech/common/util/terminal-safe-text'
 import React from 'react'
 
 import { useTheme } from '../hooks/use-theme'

@@ -2,11 +2,11 @@ import path from 'path'
 
 import { resolveFilePath } from './path-utils'
 
-import type { ApplyPatchOperation } from '@codebuff/common/tools/params/tool/apply-patch'
-import type { CodebuffToolOutput } from '@codebuff/common/tools/list'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+import type { ApplyPatchOperation } from '@methatech/common/tools/params/tool/apply-patch'
+import type { MethaTechToolOutput } from '@methatech/common/tools/list'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 
-type ApplyPatchResult = CodebuffToolOutput<'apply_patch'>
+type ApplyPatchResult = MethaTechToolOutput<'apply_patch'>
 type ApplyPatchJson = ApplyPatchResult[number] & { type: 'json' }
 type PatchAction = 'add' | 'delete' | 'update'
 type DiffMode = 'default' | 'create'
@@ -598,7 +598,7 @@ function parseOperation(parameters: unknown): ApplyPatchOperation | null {
 export async function applyPatchTool(params: {
   parameters: unknown
   cwd: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
 }): Promise<ApplyPatchResult> {
   const { parameters, cwd, fs } = params
   const operation = parseOperation(parameters)

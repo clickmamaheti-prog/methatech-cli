@@ -3,7 +3,7 @@
  *
  * ## Why this file exists at all
  *
- * Web and Desktop import `@codebuff/common/constants/freebuff-freebucks` for
+ * Web and Desktop import `@methatech/common/constants/freebuff-freebucks` for
  * the label, the formatter and the price map. **The CLI cannot.** That module
  * is deleted from the public export (`scripts/public-export-manifest.txt`
  * carries `!common/src/constants/freebuff-freebucks.ts`) because it documents
@@ -19,7 +19,7 @@
  *
  * The wire still carries Freebucks; users see hours (2026-10-14: one hour is 5
  * Freebucks). Every figure the CLI draws converts through
- * `@codebuff/common/util/freebuff-hours`, which IS exported, and a model's
+ * `@methatech/common/util/freebuff-hours`, which IS exported, and a model's
  * price reads as its multiplier ("2x").
  */
 
@@ -27,18 +27,18 @@ import {
   formatHours,
   formatHoursWithUnit,
   freebuffModelMultiplierLabel,
-} from '@codebuff/common/util/freebuff-hours'
-import { compareByFreebucksPrice } from '@codebuff/common/util/freebuff-price-order'
-import { getFreebucksInfo } from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/util/freebuff-hours'
+import { compareByFreebucksPrice } from '@methatech/common/util/freebuff-price-order'
+import { getFreebucksInfo } from '@methatech/common/types/freebuff-session'
 import {
   FREEBUCKS_REFILL_PENDING_LABEL,
   freebucksRefillPending,
-} from '@codebuff/common/util/freebucks-reset'
+} from '@methatech/common/util/freebucks-reset'
 
 import type {
   FreebuffFreebucksInfo,
   FreebuffSessionServerResponse,
-} from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/types/freebuff-session'
 
 /** The caller's meter: null when unavailable, undefined when absent. Presence
  *  of the block IS the gate on every surface — there is deliberately no
@@ -66,8 +66,8 @@ export function freebucksPriceFor(
   return freebucks?.prices[modelId]
 }
 
-export { freebucksRowIntent } from '@codebuff/common/util/freebuff-model-selection'
-export type { FreebucksRowIntent } from '@codebuff/common/util/freebuff-model-selection'
+export { freebucksRowIntent } from '@methatech/common/util/freebuff-model-selection'
+export type { FreebucksRowIntent } from '@methatech/common/util/freebuff-model-selection'
 
 /**
  * The picker's rows, CHEAPEST FIRST — the same order Web and Desktop use.

@@ -40,24 +40,24 @@ import {
   isSupportedFreebuffModelId,
   resolveFreebuffModelForAccessTier,
   resolveSupportedFreebuffModel,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import {
   findFreebuffCatalogRowForLegacyId,
   listableFreebuffCatalogRows,
-} from '@codebuff/common/types/freebuff-model-catalog'
-import { freebuffPlanRequired } from '@codebuff/common/util/freebuff-model-selection'
+} from '@methatech/common/types/freebuff-model-catalog'
+import { freebuffPlanRequired } from '@methatech/common/util/freebuff-model-selection'
 
 import type {
   FreebuffAccessTier,
   FreebuffModelOption,
-} from '@codebuff/common/constants/freebuff-models'
-import type { ReasoningEffort } from '@codebuff/common/constants/reasoning-effort'
+} from '@methatech/common/constants/freebuff-models'
+import type { ReasoningEffort } from '@methatech/common/constants/reasoning-effort'
 import type {
   FreebuffCatalogBadge,
   FreebuffCatalogRow,
   FreebuffModelCatalog,
-} from '@codebuff/common/types/freebuff-model-catalog'
-import type { FreebuffFreebucksInfo } from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/types/freebuff-model-catalog'
+import type { FreebuffFreebucksInfo } from '@methatech/common/types/freebuff-session'
 
 export interface FreebuffModelDirectory {
   /** The catalog this directory answers from; null in fallback mode. */

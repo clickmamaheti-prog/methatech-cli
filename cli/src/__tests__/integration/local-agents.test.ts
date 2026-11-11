@@ -2,7 +2,7 @@ import { mkdtempSync, rmSync, writeFileSync, mkdirSync, realpathSync } from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { validateAgents } from '@codebuff/sdk'
+import { validateAgents } from '@methatech/sdk'
 import { describe, test, expect, beforeEach, afterEach, mock } from 'bun:test'
 
 // Mock the logger to prevent analytics initialization errors in tests
@@ -41,7 +41,7 @@ describe('Local Agent Integration', () => {
   let originalProjectRoot: string | undefined
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'codebuff-agents-'))
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'methatech-agents-'))
     originalCwd = process.cwd()
     setProjectRoot(process.cwd())
     originalProjectRoot = getProjectRoot()
@@ -425,7 +425,7 @@ describe('Local Agent Integration', () => {
         id: 'base-test-custom',
         displayName: 'Custom Base Agent',
         model: '${MODEL_NAME}',
-        spawnableAgents: ['codebuff/file-picker@0.0.1'],
+        spawnableAgents: ['methatech/file-picker@0.0.1'],
         ${spawning},
       }`,
       )
@@ -435,7 +435,7 @@ describe('Local Agent Integration', () => {
         loadAgentDefinitions().find(
           (definition) => definition.id === 'base-test-custom',
         )!.spawnableAgents
-      const expected = ['codebuff/file-picker@0.0.1', 'base-test-custom']
+      const expected = ['methatech/file-picker@0.0.1', 'base-test-custom']
       expect(registered()).toEqual(expected)
       expect(registered()).toEqual(expected)
     },
@@ -646,7 +646,7 @@ describe('Local Agent Integration', () => {
           version: '1.2.3',
           publisher: 'test-publisher',
           toolNames: ['read_files', 'write_file', 'run_terminal_command'],
-          spawnableAgents: ['codebuff/file-picker@0.0.1'],
+          spawnableAgents: ['methatech/file-picker@0.0.1'],
           systemPrompt: 'You are a helpful assistant.',
           instructionsPrompt: 'Follow these instructions carefully.',
           stepPrompt: 'Think step by step.',
@@ -683,7 +683,7 @@ describe('Local Agent Integration', () => {
     expect(fullAgent!.version).toBe('1.2.3')
     expect(fullAgent!.publisher).toBe('test-publisher')
     expect(fullAgent!.toolNames).toContain('read_files')
-    expect(fullAgent!.spawnableAgents).toContain('codebuff/file-picker@0.0.1')
+    expect(fullAgent!.spawnableAgents).toContain('methatech/file-picker@0.0.1')
     expect(fullAgent!.systemPrompt).toBe('You are a helpful assistant.')
     expect(fullAgent!.instructionsPrompt).toBe(
       'Follow these instructions carefully.',

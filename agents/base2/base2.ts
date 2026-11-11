@@ -1,15 +1,15 @@
-import { buildArray } from '@codebuff/common/util/array'
+import { buildArray } from '@methatech/common/util/array'
 import {
   FREEBUFF_GEMINI_THINKER_AGENT_ID,
   FREEBUFF_GEMINI_THINKER_INSTRUCTIONS_PROMPT,
   FREEBUFF_GEMINI_THINKER_SYSTEM_INSTRUCTION,
-} from '@codebuff/common/constants/freebuff-gemini-thinker'
-import { FREEBUFF_REVIEWER_AGENT_ID_BY_MODEL } from '@codebuff/common/constants/free-agents'
+} from '@methatech/common/constants/freebuff-gemini-thinker'
+import { FREEBUFF_REVIEWER_AGENT_ID_BY_MODEL } from '@methatech/common/constants/free-agents'
 import {
   canFreebuffModelSpawnGeminiThinker,
   FREEBUFF_FABLE_5_1_MODEL_ID,
   FREEBUFF_MIMO_V25_MODEL_ID,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 
 import {
   FABLE_PROVIDER_OPTIONS,
@@ -55,13 +55,13 @@ const MODEL_BY_MODE = {
 } satisfies Record<Base2Mode, SecretAgentDefinition['model']>
 
 /**
- * The reviewer each lean model reviews with, per product. Codebuff adds lite's
+ * The reviewer each lean model reviews with, per product. MethaTech adds lite's
  * own reviewer on top of the shared ones; Freebuff deliberately gets only the
  * free-tier map, so no free session can resolve to code-reviewer-lite even if a
  * freebuff agent were pointed at lite's model. Anything unmapped falls back to
  * DeepSeek Flash — cheap, and allowed in a free session.
  */
-const CODEBUFF_REVIEWER_BY_MODEL: Record<string, string> = {
+const METHATECH_REVIEWER_BY_MODEL: Record<string, string> = {
   ...FREEBUFF_REVIEWER_AGENT_ID_BY_MODEL,
   [LITE_MODEL]: 'code-reviewer-lite',
 }
@@ -115,7 +115,7 @@ export function createBase2(
   const leanCodeReviewerAgentId =
     (isFreebuff
       ? FREEBUFF_REVIEWER_AGENT_ID_BY_MODEL
-      : CODEBUFF_REVIEWER_BY_MODEL)[model] ?? FALLBACK_REVIEWER_AGENT_ID
+      : METHATECH_REVIEWER_BY_MODEL)[model] ?? FALLBACK_REVIEWER_AGENT_ID
   const defaultProviderOptions = getBase2ProviderOptions(model)
 
   // The worked example is the strongest instruction in this prompt, and in plan

@@ -33,7 +33,7 @@ export type MessageRow = {
  * gaps"). Text columns arrive as Postgres renders them so nothing is
  * re-encoded on the way: `request` is the jsonb's own text, `response` the
  * jsonb string's text (`response #>> '{}'`), timestamps ISO-8601 UTC with
- * microseconds. `@codebuff/bigquery/message-archive-backfill` maps it onto
+ * microseconds. `@methatech/bigquery/message-archive-backfill` maps it onto
  * `MessageRow`'s columns.
  */
 export type MessageArchiveSourceRow = {

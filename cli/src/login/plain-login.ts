@@ -1,4 +1,4 @@
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 import { randomUUID } from 'node:crypto'
 import { cyan, green, red, yellow, bold } from 'picocolors'
 
@@ -110,7 +110,7 @@ export async function runPlainLogin(): Promise<void> {
       ),
     )
     console.log()
-    const cliName = IS_FREEBUFF ? 'methatech' : 'codebuff'
+    const cliName = IS_FREEBUFF ? 'methatech' : 'methatech'
     console.log('You can now run ' + cyan(cliName) + ' to start.')
     process.exit(0)
   } else if (result.status === 'timeout') {

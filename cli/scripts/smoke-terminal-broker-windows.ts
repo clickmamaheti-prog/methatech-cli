@@ -15,7 +15,7 @@ const WINPTY_ZERO_SIZE_ASSERTION =
 
 function findWinpty(): string {
   const candidates = [
-    process.env.CODEBUFF_WINPTY_PATH,
+    process.env.METHATECH_WINPTY_PATH,
     path.join(
       process.env.ProgramFiles ?? 'C:\\Program Files',
       'Git',
@@ -40,7 +40,7 @@ function findWinpty(): string {
   if (firstMatch && existsSync(firstMatch)) return firstMatch
 
   throw new Error(
-    'winpty.exe was not found. Install Git for Windows or set CODEBUFF_WINPTY_PATH.',
+    'winpty.exe was not found. Install Git for Windows or set METHATECH_WINPTY_PATH.',
   )
 }
 
@@ -101,7 +101,7 @@ async function main(): Promise<void> {
   }
 
   const outputRoot = path.resolve(
-    process.env.CODEBUFF_TERMINAL_SMOKE_OUTPUT_DIR ??
+    process.env.METHATECH_TERMINAL_SMOKE_OUTPUT_DIR ??
       path.join(process.cwd(), 'debug', 'windows-terminal-broker-smoke'),
   )
   const runDir = path.join(
@@ -121,7 +121,7 @@ async function main(): Promise<void> {
   console.log(`terminal-broker-smoke: artifacts=${runDir}`)
 
   const smokeEnv = { ...process.env }
-  delete smokeEnv.CODEBUFF_NO_TERMINAL_WATCHDOG
+  delete smokeEnv.METHATECH_NO_TERMINAL_WATCHDOG
   const child = spawn(
     winpty,
     [
@@ -136,7 +136,7 @@ async function main(): Promise<void> {
       cwd: process.cwd(),
       env: {
         ...smokeEnv,
-        CODEBUFF_GITHUB_ACTIONS: 'true',
+        METHATECH_GITHUB_ACTIONS: 'true',
         NO_COLOR: '1',
       },
       stdio: ['pipe', 'pipe', 'pipe'],

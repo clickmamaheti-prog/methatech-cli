@@ -66,10 +66,10 @@ describe('CLI Argument Parsing', () => {
   test('parses --agent with full agent ID', () => {
     const result = parseTestArgs([
       '--agent',
-      'codebuff/base-lite@1.0.0',
+      'methatech/base-lite@1.0.0',
       'hello',
     ])
-    expect(result.agent).toBe('codebuff/base-lite@1.0.0')
+    expect(result.agent).toBe('methatech/base-lite@1.0.0')
     expect(result.initialPrompt).toBe('hello')
   })
 
@@ -197,10 +197,10 @@ describe('Freebuff CLI Argument Parsing', () => {
   })
 })
 
-describe('Codebuff --trust-agents', () => {
+describe('MethaTech --trust-agents', () => {
   test('parses --trust-agents alongside a prompt', () => {
     const result = parseArgs({
-      argv: ['node', 'codebuff', '--trust-agents', 'fix', 'it'],
+      argv: ['node', 'methatech', '--trust-agents', 'fix', 'it'],
       isFreebuff: false,
       version: '1.0.0',
     })

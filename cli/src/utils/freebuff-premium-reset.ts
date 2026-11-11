@@ -1,7 +1,7 @@
-import { FREEBUFF_PREMIUM_SESSION_RESET_TIMEZONE } from '@codebuff/common/constants/freebuff-models'
-import { getZonedDayBounds } from '@codebuff/common/util/zoned-time'
+import { FREEBUFF_PREMIUM_SESSION_RESET_TIMEZONE } from '@methatech/common/constants/freebuff-models'
+import { getZonedDayBounds } from '@methatech/common/util/zoned-time'
 
-import type { FreebuffSessionRateLimit } from '@codebuff/common/types/freebuff-session'
+import type { FreebuffSessionRateLimit } from '@methatech/common/types/freebuff-session'
 
 /**
  * Takes the RESOLVED quota row rather than the whole `rateLimitsByModel` map.

@@ -25,7 +25,7 @@ describe('findMatchingSpawnAgent', () => {
 
   test('matches by base name, ignoring scope and version on the stored entry', () => {
     const map = new Map<string, SpawnAgentInfo>([
-      ['temp-1', { index: 0, agentType: 'codebuff/file-picker@0.0.2' }],
+      ['temp-1', { index: 0, agentType: 'methatech/file-picker@0.0.2' }],
     ])
     const result = findMatchingSpawnAgent(map, 'file-picker')
     expect(result?.tempId).toBe('temp-1')
@@ -35,7 +35,7 @@ describe('findMatchingSpawnAgent', () => {
     const map = new Map<string, SpawnAgentInfo>([
       ['temp-1', { index: 0, agentType: 'file-picker' }],
     ])
-    const result = findMatchingSpawnAgent(map, 'codebuff/file-picker@1.0.0')
+    const result = findMatchingSpawnAgent(map, 'methatech/file-picker@1.0.0')
     expect(result?.tempId).toBe('temp-1')
   })
 
@@ -118,13 +118,13 @@ describe('resolveSpawnAgentToReal', () => {
       blocks,
       match,
       realAgentId: 'real-1',
-      realAgentType: 'codebuff/file-picker@1.0.0',
+      realAgentType: 'methatech/file-picker@1.0.0',
       params: { query: 'hello' },
       prompt: 'find the config file',
     })
     const resolved = result[0] as AgentContentBlock
     expect(resolved.agentId).toBe('real-1')
-    expect(resolved.agentType).toBe('codebuff/file-picker@1.0.0')
+    expect(resolved.agentType).toBe('methatech/file-picker@1.0.0')
     expect(resolved.params).toEqual({ query: 'hello' })
     expect(resolved.initialPrompt).toBe('find the config file')
   })

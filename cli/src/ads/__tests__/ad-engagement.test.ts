@@ -3,7 +3,7 @@ import { describe, expect, test } from 'bun:test'
 import {
   AD_MS_CAP,
   parseAdEngagement,
-} from '@codebuff/common/types/ad-client-context'
+} from '@methatech/common/types/ad-client-context'
 
 import {
   ENGAGEMENT_CHECKPOINT_MS,
@@ -23,7 +23,7 @@ import {
 } from '../use-ad-engagement'
 
 import type { EngagementTrackerOptions, FocusState } from '../ad-engagement'
-import type { AdEngagement } from '@codebuff/common/types/ad-client-context'
+import type { AdEngagement } from '@methatech/common/types/ad-client-context'
 
 function clock() {
   let now = 1_000

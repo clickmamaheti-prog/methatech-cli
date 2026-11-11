@@ -8,11 +8,11 @@ import path from 'path'
 
 import { resolveFilePathWithinProject } from './path-utils'
 
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 
 type RealpathFn = (p: string) => Promise<string>
 
-function realpathOf(fs: CodebuffFileSystem): RealpathFn | null {
+function realpathOf(fs: MethaTechFileSystem): RealpathFn | null {
   const candidate = (fs as { realpath?: unknown }).realpath
   return typeof candidate === 'function'
     ? (p) => (candidate as RealpathFn).call(fs, p)
@@ -81,7 +81,7 @@ export type ProjectFence = {
  */
 export function createProjectFence(params: {
   projectRoot: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
 }): ProjectFence {
   const root = path.resolve(params.projectRoot)
   const realpath = realpathOf(params.fs)

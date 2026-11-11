@@ -252,7 +252,7 @@ export function agenticProposalFunnelEventId(
  *
  * Lives HERE, in the dependency-free vocabulary, because the producer (the
  * Next settle route) and the consumer of the guarantee (Convex, which may
- * never import `@codebuff/internal`) must agree on it without either one
+ * never import `@methatech/internal`) must agree on it without either one
  * importing the other.
  */
 export function agenticAcceptEventId(proposalId: string): string {

@@ -1,6 +1,6 @@
-import * as validationModule from '@codebuff/common/templates/agent-validation'
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+import * as validationModule from '@methatech/common/templates/agent-validation'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 import {
   describe,
   expect,
@@ -20,10 +20,10 @@ import type { AgentTemplate } from '../types'
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { DynamicAgentTemplate } from '@codebuff/common/types/dynamic-agent-template'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { DynamicAgentTemplate } from '@methatech/common/types/dynamic-agent-template'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 let agentRuntimeImpl: AgentRuntimeDeps & AgentRuntimeScopedDeps
 

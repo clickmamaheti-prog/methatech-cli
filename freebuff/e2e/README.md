@@ -40,7 +40,7 @@ Use the MethaTech SDK to run a testing agent that interacts with MethaTech via c
 
 ```typescript
 import { describe, test, expect, afterEach } from 'bun:test'
-import { CodebuffClient } from '@codebuff/sdk'
+import { MethaTechClient } from '@methatech/sdk'
 import { freebuffTesterAgent } from '../agent/freebuff-tester'
 import { createFreebuffTmuxTools, requireFreebuffBinary } from '../utils'
 
@@ -53,14 +53,14 @@ describe('Agent Test', () => {
   })
 
   test('verifies startup', async () => {
-    const apiKey = process.env.CODEBUFF_API_KEY
+    const apiKey = process.env.METHATECH_API_KEY
     if (!apiKey) return // Skip if no API key
 
     const binary = requireFreebuffBinary()
     const tmuxTools = createFreebuffTmuxTools(binary)
     cleanup = tmuxTools.cleanup
 
-    const client = new CodebuffClient({ apiKey })
+    const client = new MethaTechClient({ apiKey })
     const result = await client.run({
       agent: freebuffTesterAgent.id,
       prompt: 'Start MethaTech and verify the branding is correct.',
@@ -80,17 +80,17 @@ describe('Agent Test', () => {
 it navigates the landing picker to DeepSeek V4.1 Flash, starts a session, sends a
 prompt, waits for the answer, then runs `/end-session` and checks the backend shows
 no open session. It skips unless `FREEBUFF_SMOKE_API_KEY` (or
-`CODEBUFF_API_KEY`) is set, and needs a binary built with the production public
+`METHATECH_API_KEY`) is set, and needs a binary built with the production public
 env. It is not in `freebuff-e2e.yml` — `.github/workflows/prod-smoke.yml`
 runs it on a schedule and before each release.
 
 ```bash
-NEXT_PUBLIC_CB_ENVIRONMENT=prod NEXT_PUBLIC_CODEBUFF_APP_URL=https://console.methatech.eu.org \
+NEXT_PUBLIC_CB_ENVIRONMENT=prod NEXT_PUBLIC_METHATECH_APP_URL=https://console.methatech.eu.org \
 NEXT_PUBLIC_FREEBUFF_APP_URL=https://methatech.eu.org NEXT_PUBLIC_SUPPORT_EMAIL=admin@methatech.eu.org \
 NEXT_PUBLIC_POSTHOG_API_KEY=test NEXT_PUBLIC_POSTHOG_HOST_URL=http://127.0.0.1:9 \
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=test NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL=http://127.0.0.1:9 \
 NEXT_PUBLIC_WEB_PORT=3000 bun freebuff/cli/build.ts 0.0.0-smoke
-CODEBUFF_API_KEY=<your token> bun test freebuff/e2e/tests/live-turn.e2e.test.ts --timeout=300000
+METHATECH_API_KEY=<your token> bun test freebuff/e2e/tests/live-turn.e2e.test.ts --timeout=300000
 ```
 
 The CLI runs with its own `FREEBUFF_CONFIG_DIR`, so your real profile is untouched.
@@ -100,7 +100,7 @@ The CLI runs with its own `FREEBUFF_CONFIG_DIR`, so your real profile is untouch
 - **tmux** must be installed: `brew install tmux` (macOS) or `sudo apt-get install tmux` (Ubuntu)
 - **MethaTech binary** must be built: `bun freebuff/cli/build.ts 0.0.0-dev`
 - **SDK built** (for agent tests): `cd sdk && bun run build`
-- **CODEBUFF_API_KEY** (for agent tests only): Set this environment variable
+- **METHATECH_API_KEY** (for agent tests only): Set this environment variable
 
 ## Running Tests
 

@@ -2,7 +2,7 @@ import { describe, expect, test } from 'bun:test'
 
 import { createCliRunFunnel } from '../cli-run-funnel'
 
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 function fixture() {
   const events: unknown[][] = []

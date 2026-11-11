@@ -16,7 +16,7 @@
  *              docs/freebuff-github-postgres.md, "The cutover".
  *
  * It lives in `common` because both sides read it: Convex (which may import
- * only `@codebuff/common`) and the server/job code. A flip is a reviewed
+ * only `@methatech/common`) and the server/job code. A flip is a reviewed
  * one-line diff here, never an env var.
  */
 export type GitHubBackendMode = 'convex' | 'shadow' | 'postgres'

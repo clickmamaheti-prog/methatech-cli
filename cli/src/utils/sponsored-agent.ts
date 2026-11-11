@@ -3,7 +3,7 @@
  *
  * ## The engine pin is satisfied by construction here, and that is worth saying
  *
- * COD-336 decision item 6 pins a sponsored run to the `codebuff` harness,
+ * COD-336 decision item 6 pins a sponsored run to the `methatech` harness,
  * because it is the only harness whose tool loop we own and therefore the only
  * one the capability gate can be ported to. On Desktop that is a real choice —
  * a tab can be set to `claude-code` or `codex`, both of which drive a vendor
@@ -13,7 +13,7 @@
  * The CLI has no such choice to make. `git grep 'harness' -- cli/src` finds the
  * `CLI_HARNESS` family switch (base2 vs base3 ROOTS, `docs/freebuff-base3-
  * harness.md`) and nothing that runs a vendor CLI: every turn goes through
- * `CodebuffClient.run` in `utils/codebuff-client.ts`, whose tool loop is the
+ * `MethaTechClient.run` in `utils/methatech-client.ts`, whose tool loop is the
  * SDK's. So the pin holds trivially — CONFIRMED rather than assumed, which is
  * what the ticket asked for — and there is no engine to override.
  *
@@ -45,30 +45,30 @@ import { createBase3CliRoot } from '../../../agents/base3'
 import {
   SPONSORED_LOCAL_V1_GRANT,
   sponsoredLocalToolNames,
-} from '@codebuff/common/ads/sponsored-local-execution'
+} from '@methatech/common/ads/sponsored-local-execution'
 
 import {
   sponsoredProcedurePrompt,
   type SponsoredProcedureRuntimeInputs,
-} from '@codebuff/common/ads/sponsored-procedure-inputs'
+} from '@methatech/common/ads/sponsored-procedure-inputs'
 
-import { SPONSORED_FRICTION_TOOL_NAME } from '@codebuff/common/ads/sponsored-run-friction'
-import { SPONSORED_INSTALL_TOOL_NAME } from '@codebuff/common/ads/sponsored-install-tool'
+import { SPONSORED_FRICTION_TOOL_NAME } from '@methatech/common/ads/sponsored-run-friction'
+import { SPONSORED_INSTALL_TOOL_NAME } from '@methatech/common/ads/sponsored-install-tool'
 import {
   fillSponsoredRunSpecPrompt,
   type SponsoredRunSpec,
-} from '@codebuff/common/ads/sponsored-run-spec'
-import { renderSponsoredRunTaskContext } from '@codebuff/common/ads/sponsored-run-prompt'
+} from '@methatech/common/ads/sponsored-run-spec'
+import { renderSponsoredRunTaskContext } from '@methatech/common/ads/sponsored-run-prompt'
 import {
   LAB_DEFERRED_SIGNUP_CREDENTIALS,
   LAB_DEFERRED_SIGNUP_LINK,
   LAB_NO_KEYS_IN_CHAT_BULLET,
-} from '@codebuff/common/ads/agentic-ad-lab-run'
+} from '@methatech/common/ads/agentic-ad-lab-run'
 
 import { SPONSORED_SIGNUP_TOOL_NAME } from './sponsored-account-step'
 
-import type { SponsoredCapability } from '@codebuff/common/ads/sponsored-local-execution'
-import type { AgentDefinition } from '@codebuff/sdk'
+import type { SponsoredCapability } from '@methatech/common/ads/sponsored-local-execution'
+import type { AgentDefinition } from '@methatech/sdk'
 
 /**
  * The rules an IN-PLACE sponsored run is given (#3989), and the first two are

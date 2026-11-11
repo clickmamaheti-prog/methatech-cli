@@ -1,13 +1,13 @@
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
 
 export const handleReportProjectProfile = (async (params: {
   previousToolCallFinished: Promise<any>
-  toolCall: CodebuffToolCall<'report_project_profile'>
-}): Promise<{ output: CodebuffToolOutput<'report_project_profile'> }> => {
+  toolCall: MethaTechToolCall<'report_project_profile'>
+}): Promise<{ output: MethaTechToolOutput<'report_project_profile'> }> => {
   await params.previousToolCallFinished
   return {
     output: [
@@ -20,4 +20,4 @@ export const handleReportProjectProfile = (async (params: {
       },
     ],
   }
-}) satisfies CodebuffToolHandlerFunction<'report_project_profile'>
+}) satisfies MethaTechToolHandlerFunction<'report_project_profile'>

@@ -1,15 +1,15 @@
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
 
 export const handleRenderUI = (async ({
   previousToolCallFinished,
 }: {
   previousToolCallFinished: Promise<unknown>
-  toolCall: CodebuffToolCall<'render_ui'>
-}): Promise<{ output: CodebuffToolOutput<'render_ui'> }> => {
+  toolCall: MethaTechToolCall<'render_ui'>
+}): Promise<{ output: MethaTechToolOutput<'render_ui'> }> => {
   await previousToolCallFinished
   return { output: [{ type: 'json', value: { message: 'UI rendered.' } }] }
-}) satisfies CodebuffToolHandlerFunction<'render_ui'>
+}) satisfies MethaTechToolHandlerFunction<'render_ui'>

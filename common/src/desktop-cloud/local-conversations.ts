@@ -54,7 +54,7 @@ export type LocalConversationQuestion = {
   }>
 }
 export type LocalConversationModels = {
-  harness: 'codebuff' | 'claude-code' | 'codex'
+  harness: 'methatech' | 'claude-code' | 'codex'
   model: string
   effort: ReasoningEffort | null
   /** Native catalog and CLI discovery; never credentials or filesystem paths. */

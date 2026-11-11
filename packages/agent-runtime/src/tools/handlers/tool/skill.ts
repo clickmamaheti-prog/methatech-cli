@@ -1,21 +1,21 @@
-import { SKILLS_DIR_NAME, SKILL_FILE_NAME } from '@codebuff/common/constants/skills'
-import { parseSkillFileContent } from '@codebuff/common/util/parse-skill'
-import type { SkillDefinition } from '@codebuff/common/types/skill'
+import { SKILLS_DIR_NAME, SKILL_FILE_NAME } from '@methatech/common/constants/skills'
+import { parseSkillFileContent } from '@methatech/common/util/parse-skill'
+import type { SkillDefinition } from '@methatech/common/types/skill'
 import {
   formatSkillContent,
   isSkillModelInvocable,
-} from '@codebuff/common/util/skills'
-import { jsonToolResult } from '@codebuff/common/util/messages'
+} from '@methatech/common/util/skills'
+import { jsonToolResult } from '@methatech/common/util/messages'
 import fs from 'fs'
 import path from 'path'
 import os from 'os'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 /**
  * Dynamically load a single skill from disk.
@@ -88,9 +88,9 @@ type ToolName = 'skill'
 
 export const handleSkill = (async (params: {
   previousToolCallFinished: Promise<void>
-  toolCall: CodebuffToolCall<ToolName>
+  toolCall: MethaTechToolCall<ToolName>
   fileContext: ProjectFileContext
-}): Promise<{ output: CodebuffToolOutput<ToolName> }> => {
+}): Promise<{ output: MethaTechToolOutput<ToolName> }> => {
   const { previousToolCallFinished, toolCall, fileContext } = params
   const { name } = toolCall.input
 
@@ -147,4 +147,4 @@ export const handleSkill = (async (params: {
   return {
     output: jsonToolResult(result),
   }
-}) satisfies CodebuffToolHandlerFunction<ToolName>
+}) satisfies MethaTechToolHandlerFunction<ToolName>

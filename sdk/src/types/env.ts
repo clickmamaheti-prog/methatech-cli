@@ -6,18 +6,18 @@
  * - WASM module directory
  */
 
-import type { BaseEnv } from '@codebuff/common/types/contracts/env'
+import type { BaseEnv } from '@methatech/common/types/contracts/env'
 
 /**
  * SDK-specific env vars for binary paths and WASM.
  */
 export type SdkEnv = BaseEnv & {
   // SDK-specific paths
-  CODEBUFF_RG_PATH?: string
-  CODEBUFF_WASM_DIR?: string
+  METHATECH_RG_PATH?: string
+  METHATECH_WASM_DIR?: string
 
   // Registry publishers whose executable (handleSteps) agents may run
-  CODEBUFF_TRUSTED_AGENT_PUBLISHERS?: string
+  METHATECH_TRUSTED_AGENT_PUBLISHERS?: string
 
   // Build flags
   VERBOSE?: string

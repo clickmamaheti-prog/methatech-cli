@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { evaluateSponsoredWritePath } from '@codebuff/common/ads/sponsored-capabilities'
+import { evaluateSponsoredWritePath } from '@methatech/common/ads/sponsored-capabilities'
 
 import { containSponsoredPath } from './sponsored-sandbox'
 import {
@@ -13,7 +13,7 @@ import {
 } from './sponsored-windows-paths'
 
 import type { TerminalCommandBroker } from './run-terminal-command'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 import type { FileHandle } from 'node:fs/promises'
 
 type SponsoredFsVerb = 'read files' | 'write'
@@ -287,7 +287,7 @@ export function createSponsoredRootedFileSystem(options: {
     phase: 'checked' | 'pinned',
     path: string,
   ) => void | Promise<void>
-}): CodebuffFileSystem {
+}): MethaTechFileSystem {
   const { workspaceRoot, raceWindow } = options
   const pinning = sponsoredDirectoryPinning(process.platform)
   if (!pinning) {
@@ -906,5 +906,5 @@ export function createSponsoredRootedFileSystem(options: {
         }
       })
     },
-  } as unknown as CodebuffFileSystem
+  } as unknown as MethaTechFileSystem
 }

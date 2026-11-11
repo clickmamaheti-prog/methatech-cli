@@ -3,7 +3,7 @@ import z from 'zod/v4'
 
 import { convertJsonSchemaToZod } from 'zod-from-json-schema'
 
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 /**
  * Ensures the inputSchema is a Zod schema. If it's a JSON Schema object

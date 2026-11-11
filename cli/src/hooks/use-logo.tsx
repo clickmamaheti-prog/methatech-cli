@@ -53,7 +53,7 @@ interface LogoResult {
  * Returns:
  * - Full ASCII logo for width >= 70
  * - Small ASCII logo for width >= 40
- * - Text variant "CODEBUFF" or "Codebuff CLI" for narrow widths
+ * - Text variant "METHATECH" or "MethaTech CLI" for narrow widths
  *
  * The hook handles ALL formatting internally including:
  * - Line parsing and width limiting
@@ -74,16 +74,16 @@ export const useLogo = ({
   const ASCII_LOGO_LINES = 5
   const rawLogoString = useMemo(() => {
     if (maxHeight != null && maxHeight < ASCII_LOGO_LINES) {
-      return IS_FREEBUFF ? 'METHATECH' : 'CODEBUFF'
+      return 'METHATECH'
     }
     if (availableWidth >= 70) return LOGO
     if (availableWidth >= 20) return LOGO_SMALL
-    return IS_FREEBUFF ? 'METHATECH' : 'CODEBUFF'
+    return 'METHATECH'
   }, [availableWidth, maxHeight])
 
   // Format text block for plain text contexts (chat messages, etc.)
   const textBlock = useMemo(() => {
-    if (rawLogoString === 'CODEBUFF' || rawLogoString === 'METHATECH') {
+    if (rawLogoString === 'METHATECH') {
       return '' // Don't show ASCII art for text-only variant in plain text contexts
     }
     // Parse and format for plain text display
@@ -95,8 +95,8 @@ export const useLogo = ({
   // Format component for React contexts (login modal, etc.)
   const component = useMemo(() => {
     // Text-only variant for very narrow widths
-    if (rawLogoString === 'CODEBUFF' || rawLogoString === 'METHATECH') {
-      const brandName = IS_FREEBUFF ? 'MethaTech' : 'Codebuff'
+    if (rawLogoString === 'METHATECH') {
+      const brandName = 'MethaTech'
       // When we collapsed to text purely to fit a short terminal (not because
       // the terminal is narrow), keep it to the bare brand name — "MethaTech
       // CLI" reads as filler in that already-cramped space.

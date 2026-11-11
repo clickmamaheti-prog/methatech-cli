@@ -25,7 +25,7 @@ body:
       label: Area
       options:
         - CLI (terminal client)
-        - SDK (@codebuff/sdk)
+        - SDK (@methatech/sdk)
         - Desktop app
         - Agents / prompts
         - MCP

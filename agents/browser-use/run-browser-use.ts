@@ -11,16 +11,16 @@
  *
  * It used to be named browser-use.test.ts, which made every `bun test` that
  * reached it — including the root suite — die without a summary: it declares no
- * test, needs a real CODEBUFF_API_KEY, and calls process.exit(1) at module scope
+ * test, needs a real METHATECH_API_KEY, and calls process.exit(1) at module scope
  * when the agent is missing. Keep run-* in the name so no test glob picks it up.
  */
 
 import * as fs from 'fs'
 import * as path from 'path'
 
-import { CodebuffClient, loadLocalAgents } from '@codebuff/sdk'
+import { MethaTechClient, loadLocalAgents } from '@methatech/sdk'
 
-import type { AgentDefinition } from '@codebuff/sdk'
+import type { AgentDefinition } from '@methatech/sdk'
 
 const TRACE_DIR = path.join(process.cwd(), 'debug', 'browser-agent-traces')
 
@@ -58,7 +58,7 @@ interface TraceEvent {
 }
 
 async function runTask(
-  client: CodebuffClient,
+  client: MethaTechClient,
   task: TaskDefinition,
   agentDefinitions: AgentDefinition[],
   taskIndex: number,
@@ -173,8 +173,8 @@ async function main() {
   }
   console.log(`Loaded browser-use agent (model: ${browserAgent.model})`)
 
-  const client = new CodebuffClient({
-    apiKey: process.env.CODEBUFF_API_KEY,
+  const client = new MethaTechClient({
+    apiKey: process.env.METHATECH_API_KEY,
     cwd: process.cwd(),
   })
 

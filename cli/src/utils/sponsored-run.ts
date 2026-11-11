@@ -64,12 +64,12 @@
  * record (`sponsored-run-inflight.ts`) and reported `failed` from there.
  */
 
-import { sponsoredRunEvidence } from '@codebuff/common/ads/sponsored-run-evidence'
+import { sponsoredRunEvidence } from '@methatech/common/ads/sponsored-run-evidence'
 import {
   evaluateSponsoredInstallCommand,
   sponsoredDeclaredPackagesForProcedureSha256,
   type SponsoredDeclaredPackage,
-} from '@codebuff/common/ads/sponsored-declared-installs'
+} from '@methatech/common/ads/sponsored-declared-installs'
 import {
   SPONSORED_LOCAL_V1_GRANT,
   evaluateSponsoredLocalToolCall,
@@ -78,50 +78,50 @@ import {
   sponsoredLocalAvailability,
   sponsoredRefusedCommand,
   sponsoredRefusedGitSubcommand,
-} from '@codebuff/common/ads/sponsored-local-execution'
+} from '@methatech/common/ads/sponsored-local-execution'
 import {
   evaluateSponsoredReadPath,
   evaluateSponsoredWritePath,
-} from '@codebuff/common/ads/sponsored-capabilities'
-import type { SponsoredProcedureRuntimeInputs } from '@codebuff/common/ads/sponsored-procedure-inputs'
-import { sponsoredAdvertiserCtaHref } from '@codebuff/common/ads/sponsored-proposal-view'
-import { sanitizeTerminalText } from '@codebuff/common/util/terminal-safe-text'
+} from '@methatech/common/ads/sponsored-capabilities'
+import type { SponsoredProcedureRuntimeInputs } from '@methatech/common/ads/sponsored-procedure-inputs'
+import { sponsoredAdvertiserCtaHref } from '@methatech/common/ads/sponsored-proposal-view'
+import { sanitizeTerminalText } from '@methatech/common/util/terminal-safe-text'
 import {
   sponsoredInPlaceVerdict,
   sponsoredPartialEditsDiagnostic,
-} from '@codebuff/common/ads/sponsored-in-place'
-import type { SponsoredTurnEnding } from '@codebuff/common/ads/sponsored-in-place'
-import { sponsoredSkillDirective } from '@codebuff/common/ads/sponsored-skill'
+} from '@methatech/common/ads/sponsored-in-place'
+import type { SponsoredTurnEnding } from '@methatech/common/ads/sponsored-in-place'
+import { sponsoredSkillDirective } from '@methatech/common/ads/sponsored-skill'
 import {
   UNFILLED_CLICK_ID_BLOCKED_METRIC,
   sponsoredRunLinks,
   sponsoredRunLinksSignupStep,
-} from '@codebuff/common/ads/sponsored-run-links'
-import { saveSponsoredCredentialsToEnvFile } from '@codebuff/common/ads/sponsored-env-file'
+} from '@methatech/common/ads/sponsored-run-links'
+import { saveSponsoredCredentialsToEnvFile } from '@methatech/common/ads/sponsored-env-file'
 import {
   SPONSORED_STEP_FIX_MIN_GRANT_MS,
   captureSponsoredStepBaseline,
   sponsoredStepCheckContext,
   sponsoredStepCommandResult,
-} from '@codebuff/common/ads/sponsored-step-check-context'
+} from '@methatech/common/ads/sponsored-step-check-context'
 import {
   runSponsoredSkillPreflight,
   runSponsoredStepLoop,
   selectSponsoredProcedureSkill,
   sponsoredStepCardStates,
   sponsoredStepDiagnostic,
-} from '@codebuff/common/ads/sponsored-step-driver'
-import type { SponsoredSkill } from '@codebuff/common/ads/sponsored-skill'
+} from '@methatech/common/ads/sponsored-step-driver'
+import type { SponsoredSkill } from '@methatech/common/ads/sponsored-skill'
 import type {
   SponsoredSkillCheckContext,
   SponsoredSkillCommandResult,
-} from '@codebuff/common/ads/sponsored-skill-checks'
+} from '@methatech/common/ads/sponsored-skill-checks'
 import type {
   SponsoredSkillSource,
   SponsoredStepDriveResult,
   SponsoredStepProgress,
-} from '@codebuff/common/ads/sponsored-step-driver'
-import type { SponsoredProposalStep } from '@codebuff/common/ads/sponsored-proposal-view'
+} from '@methatech/common/ads/sponsored-step-driver'
+import type { SponsoredProposalStep } from '@methatech/common/ads/sponsored-proposal-view'
 import { readdirSync, readFileSync } from 'fs'
 import { randomUUID } from 'node:crypto'
 import { homedir, release } from 'node:os'
@@ -160,8 +160,8 @@ import {
   buildSponsoredSpecPrompt,
   sponsoredAgentDefinition,
 } from './sponsored-agent'
-import { checkSponsoredRunSpec } from '@codebuff/common/ads/sponsored-run-spec-client'
-import type { SponsoredRunSpec } from '@codebuff/common/ads/sponsored-run-spec'
+import { checkSponsoredRunSpec } from '@methatech/common/ads/sponsored-run-spec-client'
+import type { SponsoredRunSpec } from '@methatech/common/ads/sponsored-run-spec'
 import { sponsoredFrictionTool } from './sponsored-friction-tool'
 import {
   SPONSORED_ACCOUNT_STEP_MARGIN_MS,
@@ -174,8 +174,8 @@ import {
   sponsoredInstallExec,
   sponsoredInstallTool,
 } from './sponsored-install-tool'
-import { sponsoredInstallProbe } from '@codebuff/common/ads/sponsored-install-tool'
-import type { SponsoredPackageResolveResponse } from '@codebuff/common/ads/sponsored-package-resolve'
+import { sponsoredInstallProbe } from '@methatech/common/ads/sponsored-install-tool'
+import type { SponsoredPackageResolveResponse } from '@methatech/common/ads/sponsored-package-resolve'
 import { safeOpen } from './open-url'
 import { bunGitRunner, sponsoredRuntimeDir } from './sponsored-git'
 import type { GitRunner } from './sponsored-git'
@@ -215,26 +215,26 @@ import type {
 } from './sponsored-proposal-api'
 import type { SponsoredReceiptStore } from './sponsored-receipts'
 import type { StreamChunkEvent } from './sdk-event-handlers'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 import type { SponsoredInflightPort } from './sponsored-run-inflight'
 import type {
   SponsoredAccountAnswer,
   SponsoredAccountAsk,
 } from './sponsored-account-step'
-import { sponsoredComputeRunDeadlineMs } from '@codebuff/common/ads/sponsored-compute-contract'
-import type { SponsoredComputeGrant } from '@codebuff/common/ads/sponsored-compute-contract'
-import type { SponsoredLocalTarget } from '@codebuff/common/ads/sponsored-capability'
+import { sponsoredComputeRunDeadlineMs } from '@methatech/common/ads/sponsored-compute-contract'
+import type { SponsoredComputeGrant } from '@methatech/common/ads/sponsored-compute-contract'
+import type { SponsoredLocalTarget } from '@methatech/common/ads/sponsored-capability'
 import type {
   SponsoredLocalAvailability,
   SponsoredLocalContainment,
-} from '@codebuff/common/ads/sponsored-local-execution'
-import type { FileReadWindow } from '@codebuff/common/types/contracts/client'
-import type { SponsoredFrictionInput } from '@codebuff/common/ads/sponsored-run-friction'
+} from '@methatech/common/ads/sponsored-local-execution'
+import type { FileReadWindow } from '@methatech/common/types/contracts/client'
+import type { SponsoredFrictionInput } from '@methatech/common/ads/sponsored-run-friction'
 import type {
   AgentDefinition,
   CustomToolDefinition,
   OverrideToolHandlers,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
 /** How much of a turn's error text `diagnostic_reason` carries. */
 export const SPONSORED_DIAGNOSTIC_CAUSE_LIMIT = 200
@@ -345,7 +345,7 @@ export type SponsoredTurnPlan = {
   overrideTools: SponsoredOverrideTools
   /** Exactly one when reporting: `report_friction`, bound to this run. */
   customToolDefinitions: CustomToolDefinition[]
-  extraCodebuffMetadata: Record<string, string>
+  extraMethaTechMetadata: Record<string, string>
   /** Aborted by an interrupt or by the grant expiring. Chat links its own to it. */
   signal: AbortSignal
   cwd: string
@@ -1365,7 +1365,7 @@ export class SponsoredRun {
       // A signed one-run grant is the only route through sponsored metering.
       // No Freebuff session id rides beside it: the run is not the user's to
       // pay for, so it must not fall back to their free session when absent.
-      extraCodebuffMetadata: {
+      extraMethaTechMetadata: {
         freebuff_sponsored_proposal_id: active.proposalId,
         freebuff_sponsored_run_id: grant.runId,
         freebuff_sponsored_procedure_sha256: grant.procedureSha256,

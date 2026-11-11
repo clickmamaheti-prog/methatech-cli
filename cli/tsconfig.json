@@ -14,8 +14,8 @@
     "preserveSymlinks": false,
     "baseUrl": ".",
     "paths": {
-      "@codebuff/sdk": ["../sdk/src/index.ts"],
-      "@codebuff/common/*": ["../common/src/*"]
+      "@methatech/sdk": ["../sdk/src/index.ts"],
+      "@methatech/common/*": ["../common/src/*"]
     }
   },
   "include": ["src/**/*", "scripts/**/*.ts"],

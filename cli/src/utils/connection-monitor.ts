@@ -1,4 +1,4 @@
-import { getCodebuffClient } from './codebuff-client'
+import { getMethaTechClient } from './methatech-client'
 import { logger } from './logger'
 import { failedPollDelayMs, jitterPollIntervalMs } from './polling-backoff'
 
@@ -50,13 +50,13 @@ export interface ConnectionMonitor {
 }
 
 export interface ConnectionMonitorOptions {
-  /** swapped in tests; the default asks the Codebuff backend through the SDK client */
+  /** swapped in tests; the default asks the MethaTech backend through the SDK client */
   checkConnection?: () => Promise<boolean>
   busyRecheckIntervalMs?: number
 }
 
 const defaultCheckConnection = async (): Promise<boolean> => {
-  const client = await getCodebuffClient()
+  const client = await getMethaTechClient()
   if (!client) return false
   return client.checkConnection()
 }
@@ -64,7 +64,7 @@ const defaultCheckConnection = async (): Promise<boolean> => {
 /**
  * Creates one health-check loop. Dependency-injected (mirrors
  * `freebuff-desktop/src/server/services/reachability.ts`'s `createReachability`) so tests can
- * swap `checkConnection` instead of mocking the `codebuff-client` module.
+ * swap `checkConnection` instead of mocking the `methatech-client` module.
  *
  * Production code does not call this directly — see the singleton helpers below. The loop here
  * owns its own timer and backoff state, independent of any caller's lifecycle: subscribing adds
@@ -96,7 +96,7 @@ export function createConnectionMonitor(
   // the generation has since moved on, that tick/check is stale and must not schedule another
   // one or emit — otherwise it would revive a paused loop with nobody listening. That was the
   // bug: a BYOK session that unsubscribed (its hook takes the early return for
-  // `hasSelectedByokConnection`) left this loop polling the Codebuff backend forever, since
+  // `hasSelectedByokConnection`) left this loop polling the MethaTech backend forever, since
   // unsubscribing only removed the listener and never paused the timer.
   let generation = 0
   // The one network probe currently awaiting a response, shared by every check that wants a

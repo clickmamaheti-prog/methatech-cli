@@ -25,8 +25,8 @@ describe('buffbench read_url guard', () => {
     'https://github.com/syntax-syndicate/codebuff_mirror/blob/main/README.md',
     'https://github.com/syntax-syndicate/codebuff.git',
     // the published packages and the docs, which describe the API after the commit
-    'https://unpkg.com/@codebuff/sdk@1.0.0/dist/index.js',
-    'https://www.npmjs.com/package/@codebuff/sdk',
+    'https://unpkg.com/@methatech/sdk@1.0.0/dist/index.js',
+    'https://www.npmjs.com/package/@methatech/sdk',
     'https://www.codebuff.com/docs/advanced/sdk',
     'https://codebuffai-codebuff.mintlify.app/sdk',
   ])('refuses %s', (url) => {
@@ -62,9 +62,9 @@ describe('buffbench terminal guard', () => {
     // base3's own commands in the leaking 2026-10-08 run
     'git ls-remote https://github.com/CodebuffAI/codebuff.git HEAD',
     'cd /tmp && git clone --filter=blob:none https://github.com/CodebuffAI/codebuff.git up',
-    'timeout 20 npm view @codebuff/sdk versions --json',
+    'timeout 20 npm view @methatech/sdk versions --json',
     'wget -qO- "https://raw.githubusercontent.com/CodebuffAI/codebuff/main/sdk/src/client.ts"',
-    'npm pack @codebuff/sdk@0.1.9',
+    'npm pack @methatech/sdk@0.1.9',
   ])('refuses %s', (command) => {
     expect(isUpstreamCommand(command, tokens)).toBe(true)
   })
@@ -73,7 +73,7 @@ describe('buffbench terminal guard', () => {
     'git log --oneline -20',
     'cat codebuff.json',
     'cd /tmp/codebuff-eval-hQJEJJ/repo/sdk && bun run typecheck',
-    'bun install && bun --filter @codebuff/sdk run test',
+    'bun install && bun --filter @methatech/sdk run test',
     'git clone https://github.com/vercel/ai /tmp/ai',
     'npm view zod versions',
   ])('allows %s', (command) => {

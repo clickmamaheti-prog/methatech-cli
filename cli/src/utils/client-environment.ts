@@ -1,6 +1,6 @@
 /**
  * A compact summary of the terminal environment this CLI is running in, sent
- * as `x-freebuff-env` on session and ad requests and in `codebuff_metadata`.
+ * as `x-methatech-env` on session and ad requests and in `methatech_metadata`.
  *
  * Only presence flags, a size, and fixed bucket names: never a raw environment
  * value, path, or process name. Built once per process; the two parts that
@@ -17,18 +17,18 @@ import { readFile, readlink } from 'fs/promises'
 
 import {
   FREEBUFF_CLIENT_DESCRIPTOR_VERSION,
-  FREEBUFF_CLIENT_ENV_HEADER,
+  METHATECH_CLIENT_ENV_HEADER,
   type CloudIdeBucket,
   type ProcessKindBucket,
   type TerminalProgramBucket,
-} from '@codebuff/common/constants/freebuff-client-descriptor'
-import { getCiEnv } from '@codebuff/common/env-ci'
+} from '@methatech/common/constants/freebuff-client-descriptor'
+import { getCiEnv } from '@methatech/common/env-ci'
 
 import { IS_FREEBUFF } from './constants'
 import { getCliEnv } from './env'
 
 import type { CliEnv } from '../types/env'
-import type { CiEnv } from '@codebuff/common/types/contracts/env'
+import type { CiEnv } from '@methatech/common/types/contracts/env'
 
 const TERMINAL_PROGRAMS: Record<string, TerminalProgramBucket> = {
   apple_terminal: 'apple_terminal',
@@ -428,7 +428,7 @@ export function startClientEnvironmentProbe(
   const env = getCliEnv()
   const ancestryLookup = lookupProcessAncestry({
     ppid: process.ppid,
-    launcherPid: env.CODEBUFF_LAUNCHER_PID,
+    launcherPid: env.METHATECH_LAUNCHER_PID,
     platform: process.platform,
     read,
   }).then((result) => {
@@ -470,6 +470,6 @@ export function getClientEnvironmentDescriptor(): string {
 /** The descriptor as a request header, for Freebuff builds only. */
 export function clientEnvironmentHeaders(): Record<string, string> {
   return IS_FREEBUFF
-    ? { [FREEBUFF_CLIENT_ENV_HEADER]: getClientEnvironmentDescriptor() }
+    ? { [METHATECH_CLIENT_ENV_HEADER]: getClientEnvironmentDescriptor() }
     : {}
 }

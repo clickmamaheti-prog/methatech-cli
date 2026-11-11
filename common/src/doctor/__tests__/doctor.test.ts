@@ -132,14 +132,14 @@ describe('network', () => {
   })
 
   test('hosts entries for our domains are found, comments ignored', () => {
-    const entries = hostsFileEntries('127.0.0.1 localhost\n0.0.0.0 api.freebuff.com # blocked\n# 1.2.3.4 codebuff.com\n10.0.0.1 www.codebuff.com other.test')
-    expect(entries).toEqual([{ address: '0.0.0.0', host: 'api.freebuff.com' }, { address: '10.0.0.1', host: 'www.codebuff.com' }])
+    const entries = hostsFileEntries('127.0.0.1 localhost\n0.0.0.0 api.freebuff.com # blocked\n# 1.2.3.4 console.methatech.eu.org\n10.0.0.1 console.methatech.eu.org other.test')
+    expect(entries).toEqual([{ address: '0.0.0.0', host: 'api.freebuff.com' }, { address: '10.0.0.1', host: 'console.methatech.eu.org' }])
     expect(hostsFinding(entries).severity).toBe('error')
     expect(hostsFinding([]).severity).toBe('ok')
   })
 
   test('DNS answers pointing at a local address are flagged', async () => {
-    const found = await dnsFindings(['freebuff.com', 'codebuff.com'], async host => (host === 'freebuff.com' ? ['0.0.0.0'] : ['104.18.1.1']))
+    const found = await dnsFindings(['freebuff.com', 'console.methatech.eu.org'], async host => (host === 'freebuff.com' ? ['0.0.0.0'] : ['104.18.1.1']))
     expect(found.map(f => f.id)).toEqual(['dns.blocked.freebuff.com'])
   })
 

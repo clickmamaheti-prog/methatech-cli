@@ -19,11 +19,11 @@ import { z } from 'zod/v4'
 /** Export response headers. The body is `application/gzip`. */
 export const CLOUD_EXPORT_HEADERS = {
   /** Newest run of the chat when the export was taken, or empty for none. */
-  runId: 'x-freebuff-export-run',
+  runId: 'x-methatech-export-run',
   /** Lowercase hex SHA-256 of the whole response body. */
-  sha256: 'x-freebuff-export-sha256',
+  sha256: 'x-methatech-export-sha256',
   /** Byte length of the body. */
-  bytes: 'x-freebuff-export-bytes',
+  bytes: 'x-methatech-export-bytes',
 } as const
 
 export const handbackRequestSchema = z

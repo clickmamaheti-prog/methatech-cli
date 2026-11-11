@@ -1,10 +1,10 @@
-import { createComposerIntentScheduler } from '@codebuff/common/ads/composer-intent-scheduler'
+import { createComposerIntentScheduler } from '@methatech/common/ads/composer-intent-scheduler'
 import { useEffect, useRef, useState } from 'react'
 
 import { getComposerIntentAd } from './partner-ads'
 
 import type { AdResponse } from '../hooks/use-gravity-ad'
-import type { ComposerIntentScheduler } from '@codebuff/common/ads/composer-intent-scheduler'
+import type { ComposerIntentScheduler } from '@methatech/common/ads/composer-intent-scheduler'
 
 /**
  * THE COMPOSER ROW, decided by the server: which composer partner ad, if any,

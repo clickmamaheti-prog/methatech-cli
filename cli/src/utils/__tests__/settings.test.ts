@@ -12,7 +12,7 @@ import {
   FREEBUFF_DEEPSEEK_V4_PRO_MODEL_ID,
   FREEBUFF_GLM_V53_FLASH_MODEL_ID,
   PREVIOUS_DEFAULT_FREEBUFF_MODEL_ID,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 
 import * as auth from '../auth'
 import {
@@ -195,7 +195,7 @@ describe('the one-time Freebucks introduction mark', () => {
 
 describe('display-ad opt-in', () => {
   test('keeps a string or string-list displayAds and drops anything else', () => {
-    testConfigDir = fs.mkdtempSync(path.join(os.tmpdir(), 'codebuff-settings-'))
+    testConfigDir = fs.mkdtempSync(path.join(os.tmpdir(), 'methatech-settings-'))
     getConfigDirSpy = spyOn(auth, 'getConfigDir').mockReturnValue(testConfigDir)
 
     fs.writeFileSync(getSettingsPath(), JSON.stringify({ displayAds: ['cliSplash'] }))

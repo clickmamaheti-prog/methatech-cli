@@ -1,4 +1,4 @@
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 import { describe, test, expect, beforeEach, mock } from 'bun:test'
 
 import {
@@ -9,7 +9,7 @@ import {
   type AnalyticsDeps,
 } from '../analytics'
 
-import type { AnalyticsClientWithIdentify } from '@codebuff/common/analytics-core'
+import type { AnalyticsClientWithIdentify } from '@methatech/common/analytics-core'
 
 describe('analytics with PostHog alias', () => {
   // Store references to track calls

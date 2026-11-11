@@ -66,7 +66,7 @@ export async function exportConversation(
     const projectRoot = deps.getProjectRoot()
     const fileName =
       rawArg.trim() ||
-      `${IS_FREEBUFF ? 'methatech' : 'codebuff'}-chat-${deps.getCurrentChatId()}.md`
+      `${IS_FREEBUFF ? 'methatech' : 'methatech'}-chat-${deps.getCurrentChatId()}.md`
     const filePath = path.resolve(projectRoot, fileName)
 
     // path.resolve honors absolute paths and `..`, so without this check

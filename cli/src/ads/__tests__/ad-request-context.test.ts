@@ -1,14 +1,14 @@
 import { describe, expect, test } from 'bun:test'
 
-import { parseAdClientContext } from '@codebuff/common/types/ad-client-context'
-import { normalizeClientUserAgent } from '@codebuff/common/util/client-user-agent'
+import { parseAdClientContext } from '@methatech/common/types/ad-client-context'
+import { normalizeClientUserAgent } from '@methatech/common/util/client-user-agent'
 
 import { buildAdAuctionRequest } from '../ad-request'
 
 describe('the auction request carries the client context (COD-757)', () => {
   test('a parseable `clientContext` and the CLI product User-Agent', async () => {
-    const saved = process.env.CODEBUFF_API_KEY
-    process.env.CODEBUFF_API_KEY = saved || 'test-key'
+    const saved = process.env.METHATECH_API_KEY
+    process.env.METHATECH_API_KEY = saved || 'test-key'
     try {
       const built = await buildAdAuctionRequest({
         provider: 'gravity',
@@ -29,12 +29,12 @@ describe('the auction request carries the client context (COD-757)', () => {
       // `srv.uaProduct` is derived server-side from this header, so it must
       // be the CLI's product token and never the fake browser UA in the body.
       const headers = built!.init.headers as Record<string, string>
-      expect(['freebuff-cli', 'codebuff-cli']).toContain(
+      expect(['freebuff-cli', 'methatech-cli']).toContain(
         normalizeClientUserAgent(headers['User-Agent'])!.product,
       )
     } finally {
-      if (saved === undefined) delete process.env.CODEBUFF_API_KEY
-      else process.env.CODEBUFF_API_KEY = saved
+      if (saved === undefined) delete process.env.METHATECH_API_KEY
+      else process.env.METHATECH_API_KEY = saved
     }
   })
 })

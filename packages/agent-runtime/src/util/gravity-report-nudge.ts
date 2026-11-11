@@ -1,4 +1,4 @@
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 /**
  * Before a turn ends, reminds an agent that integrated a service it found with

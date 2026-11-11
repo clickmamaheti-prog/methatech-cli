@@ -4,7 +4,7 @@
  *
  * Every other file here runs offline against a binary pointed at a dead loopback port. This one
  * needs a binary built with the production public env (.github/workflows/prod-smoke.yml has the
- * values) and FREEBUFF_SMOKE_API_KEY or CODEBUFF_API_KEY; it skips without a key. The CLI gets its
+ * values) and FREEBUFF_SMOKE_API_KEY or METHATECH_API_KEY; it skips without a key. The CLI gets its
  * own FREEBUFF_CONFIG_DIR, so the machine's real profile is never touched.
  *
  * The CLI is chat-first (#4170): it opens straight into chat, `/model` only records which model
@@ -87,14 +87,14 @@ test('Flash footer accepts release dates without accepting Flash Fast', () => {
 })
 
 const apiKey =
-  process.env.FREEBUFF_SMOKE_API_KEY || process.env.CODEBUFF_API_KEY || null
+  process.env.FREEBUFF_SMOKE_API_KEY || process.env.METHATECH_API_KEY || null
 const live = apiKey ? test : test.skip
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 /** Observe the per-instance slots used by both smoke clients. */
 async function backendSessionStatus(): Promise<'active' | 'none'> {
-  return smokeSessionStatus('https://www.codebuff.com', apiKey!)
+  return smokeSessionStatus('https://console.methatech.eu.org', apiKey!)
 }
 
 /**
@@ -262,7 +262,7 @@ describe('Freebuff: live turn against the backend', () => {
       session = await FreebuffSession.start(requireMethatechBinary(), {
         waitSeconds: 5,
         height: 50, // tall enough that the picker shows most rows without scrolling
-        env: { CODEBUFF_API_KEY: apiKey!, FREEBUFF_CONFIG_DIR: configDir },
+        env: { METHATECH_API_KEY: apiKey!, FREEBUFF_CONFIG_DIR: configDir },
       })
 
       // Nothing is admitted until the first send, and the chat header says so.

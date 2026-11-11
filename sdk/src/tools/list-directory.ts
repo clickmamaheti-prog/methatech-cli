@@ -1,13 +1,13 @@
 import * as path from 'path'
 
-import type { CodebuffToolOutput } from '@codebuff/common/tools/list'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+import type { MethaTechToolOutput } from '@methatech/common/tools/list'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 
 export async function listDirectory(params: {
   directoryPath: string
   projectPath: string
-  fs: CodebuffFileSystem
-}): Promise<CodebuffToolOutput<'list_directory'>> {
+  fs: MethaTechFileSystem
+}): Promise<MethaTechToolOutput<'list_directory'>> {
   const { directoryPath, projectPath, fs } = params
 
   try {

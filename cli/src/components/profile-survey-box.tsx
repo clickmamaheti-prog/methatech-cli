@@ -1,8 +1,8 @@
 import { TextAttributes } from '@opentui/core'
-import { profileSurveySnoozeDays } from '@codebuff/common/constants/freebuff-profile-survey'
-import { formatHoursWithUnit } from '@codebuff/common/util/freebuff-hours'
-import { SPONSORED_SURVEY_LIMITS } from '@codebuff/common/constants/freebuff-sponsored-survey'
-import { toSponsoredSurveyAdReport } from '@codebuff/common/ads/ad-report'
+import { profileSurveySnoozeDays } from '@methatech/common/constants/freebuff-profile-survey'
+import { formatHoursWithUnit } from '@methatech/common/util/freebuff-hours'
+import { SPONSORED_SURVEY_LIMITS } from '@methatech/common/constants/freebuff-sponsored-survey'
+import { toSponsoredSurveyAdReport } from '@methatech/common/ads/ad-report'
 import React from 'react'
 
 import { useTheme } from '../hooks/use-theme'

@@ -1,4 +1,4 @@
-import { FREEBUFF_SOLAR_MINI_4_MODEL_ID } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_SOLAR_MINI_4_MODEL_ID } from '@methatech/common/constants/freebuff-models'
 
 import { createBase3CliRoot } from './base3'
 

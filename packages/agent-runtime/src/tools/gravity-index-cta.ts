@@ -1,8 +1,8 @@
-import { failure, success } from '@codebuff/common/util/error'
+import { failure, success } from '@methatech/common/util/error'
 
-import type { RenderUIGravityIndexLink } from '@codebuff/common/tools/params/tool/render-ui'
-import type { ErrorOr } from '@codebuff/common/util/error'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { RenderUIGravityIndexLink } from '@methatech/common/tools/params/tool/render-ui'
+import type { ErrorOr } from '@methatech/common/util/error'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 type JsonRecord = Record<string, unknown>
 

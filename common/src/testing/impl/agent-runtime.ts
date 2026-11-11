@@ -1,5 +1,5 @@
 /**
- * @deprecated Use `@codebuff/common/testing/fixtures/agent-runtime` instead.
+ * @deprecated Use `@methatech/common/testing/fixtures/agent-runtime` instead.
  */
 
 export * from '../fixtures/agent-runtime'

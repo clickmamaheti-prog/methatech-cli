@@ -1,17 +1,17 @@
 import { createHash } from 'crypto'
 
-import { getErrorObject } from '@codebuff/common/util/error'
+import { getErrorObject } from '@methatech/common/util/error'
 
 import { MCP_TOOL_SEPARATOR } from './mcp-constants'
 
 import type { AgentTemplate } from './templates/types'
-import type { RequestMcpToolDataFn } from '@codebuff/common/types/contracts/client'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { OptionalFields } from '@codebuff/common/types/function-params'
+import type { RequestMcpToolDataFn } from '@methatech/common/types/contracts/client'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { OptionalFields } from '@methatech/common/types/function-params'
 import type {
   CustomToolDefinitions,
   ProjectFileContext,
-} from '@codebuff/common/util/file'
+} from '@methatech/common/util/file'
 
 /** What every provider accepts; OpenAI-compatible APIs also cap it at 64. */
 const VALID_TOOL_NAME = /^[a-zA-Z0-9_-]{1,64}$/

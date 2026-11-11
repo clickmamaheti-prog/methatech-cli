@@ -1,10 +1,10 @@
-import * as mainPromptModule from '@codebuff/agent-runtime/main-prompt'
+import * as mainPromptModule from '@methatech/agent-runtime/main-prompt'
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test'
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 import * as databaseModule from '../impl/database'
 
-import type { SessionState } from '@codebuff/common/types/session-state'
+import type { SessionState } from '@methatech/common/types/session-state'
 
 describe('run() on prompt-error', () => {
   afterEach(() => {
@@ -47,7 +47,7 @@ describe('run() on prompt-error', () => {
       },
     )
 
-    const client = new CodebuffClient({ apiKey: 'test-key' })
+    const client = new MethaTechClient({ apiKey: 'test-key' })
     const errors: string[] = []
     const result = await client.run({
       agent: 'base2',

@@ -21,8 +21,8 @@ const { createLauncher } = require(
 const packageJson = require('./package.json')
 
 const launcher = createLauncher({
-  packageName: 'codebuff',
-  displayName: 'Codebuff',
+  packageName: 'methatech',
+  displayName: 'MethaTech',
   wrapperVersion: packageJson.version,
   binaryChecksums: packageJson.binaryChecksums ?? null,
   tempDownloadDirName: '.download-temp',

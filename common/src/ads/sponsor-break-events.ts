@@ -160,7 +160,7 @@ export function readDwellMs(...candidates: unknown[]): number | null {
 }
 
 /** Header form, for the ack-shaped callers that have no body to put it in. */
-export const FREEBUFF_DWELL_HEADER = 'X-Freebuff-Dwell-Ms'
+export const METHATECH_DWELL_HEADER = 'X-MethaTech-Dwell-Ms'
 
 export interface SponsorBreakEventPayload {
   placement_id: string

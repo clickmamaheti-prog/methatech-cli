@@ -9,9 +9,9 @@ import { loadModePreference, saveModePreference } from '../utils/settings'
 import type { ChatMessage, ContentBlock } from '../types/chat'
 import type { AgentMode } from '../utils/constants'
 import type { InputMode } from '../utils/input-modes'
-import type { RunState } from '@codebuff/sdk'
-import type { AdTraceContext } from '@codebuff/common/ads/trace-context'
-import { adTraceContextFromRunState } from '@codebuff/common/ads/trace-context'
+import type { RunState } from '@methatech/sdk'
+import type { AdTraceContext } from '@methatech/common/ads/trace-context'
+import { adTraceContextFromRunState } from '@methatech/common/ads/trace-context'
 
 // Import types from the types/store module to avoid circular dependencies
 import type {

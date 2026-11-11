@@ -25,7 +25,7 @@ import { constants as zlibConstants, createGzip } from 'node:zlib'
 // would prove nothing about the client users are running. No `fetch` option
 // is supplied below, so the AI SDK falls back to the runtime's own global
 // `fetch` — the same fallback model-provider.ts relies on.
-import { OpenAICompatibleChatLanguageModel } from '@codebuff/llm-providers/openai-compatible'
+import { OpenAICompatibleChatLanguageModel } from '@methatech/llm-providers/openai-compatible'
 import { streamText } from 'ai'
 import { describe, expect, it } from 'bun:test'
 
@@ -101,7 +101,7 @@ describe('gzip-compressed SSE decodes incrementally through the AI SDK client st
     try {
       const result = streamText({
         model: new OpenAICompatibleChatLanguageModel('m', {
-          provider: 'codebuff',
+          provider: 'methatech',
           url: () => `http://127.0.0.1:${port}/chat/completions`,
           headers: () => ({}),
         }),

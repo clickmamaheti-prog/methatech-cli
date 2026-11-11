@@ -37,7 +37,7 @@ import { join, resolve as resolvePath } from 'path'
 import {
   ALLOW_CUSTOM_APP_URL_ENV_VAR,
   RUNTIME_APP_URL_ENV_VARS,
-} from '@codebuff/common/util/runtime-app-url'
+} from '@methatech/common/util/runtime-app-url'
 
 // Any one of these strings appearing in stdout/stderr proves the binary
 // reached its post-init UI: React tree mounted, OpenTUI rendered, async
@@ -45,7 +45,7 @@ import {
 // (not shimmer / animated) so they survive ANSI styling as contiguous
 // substrings. Cover the multiple boot states the binary might land on:
 //
-//   - "will run commands on your behalf" — codebuff/freebuff main surface
+//   - "will run commands on your behalf" — methatech/freebuff main surface
 //     header (authed + session ready)
 //   - "Press ENTER to login" / "Open this URL" — login modal (no cached
 //     creds — typical CI smoke)
@@ -221,7 +221,7 @@ async function probeApiUrl(
   const env: NodeJS.ProcessEnv = { ...process.env }
   for (const key of RUNTIME_APP_URL_ENV_VARS) delete env[key]
   delete env[ALLOW_CUSTOM_APP_URL_ENV_VAR]
-  if (override !== undefined) env.NEXT_PUBLIC_CODEBUFF_APP_URL = override
+  if (override !== undefined) env.NEXT_PUBLIC_METHATECH_APP_URL = override
   // The SDK honours a non-first-party host only with this explicit opt-in.
   if (allowCustomHost) env[ALLOW_CUSTOM_APP_URL_ENV_VAR] = '1'
 
@@ -271,7 +271,7 @@ async function runDotenvIsolationSmoke(binary: string): Promise<void> {
     }
 
     // Positive control: a real environment variable, with the documented
-    // CODEBUFF_ALLOW_CUSTOM_APP_URL=1 opt-in for a non-first-party host, must
+    // METHATECH_ALLOW_CUSTOM_APP_URL=1 opt-in for a non-first-party host, must
     // still be honoured, so the equality above is evidence of isolation
     // rather than of a probe that ignores env.
     const overridden = await probeApiUrl(binary, cleanDir, ENV_OVERRIDE_URL, {
@@ -279,7 +279,7 @@ async function runDotenvIsolationSmoke(binary: string): Promise<void> {
     })
     if (overridden !== ENV_OVERRIDE_URL) {
       throw new SmokeFailure(
-        `NEXT_PUBLIC_CODEBUFF_APP_URL in the environment was not honoured: ` +
+        `NEXT_PUBLIC_METHATECH_APP_URL in the environment was not honoured: ` +
           `printed ${overridden}, expected ${ENV_OVERRIDE_URL}.`,
       )
     }
@@ -290,7 +290,7 @@ async function runDotenvIsolationSmoke(binary: string): Promise<void> {
     const refused = await probeApiUrl(binary, cleanDir, ENV_OVERRIDE_URL)
     if (refused !== baseline) {
       throw new SmokeFailure(
-        `A non-first-party NEXT_PUBLIC_CODEBUFF_APP_URL was honoured without ` +
+        `A non-first-party NEXT_PUBLIC_METHATECH_APP_URL was honoured without ` +
           `${ALLOW_CUSTOM_APP_URL_ENV_VAR}=1: printed ${refused}, expected ` +
           `the bundled ${baseline}.`,
       )

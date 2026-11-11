@@ -1,11 +1,11 @@
-import * as analytics from '@codebuff/common/analytics'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { createTestAgentRuntimeParams } from '@codebuff/common/testing/fixtures/agent-runtime'
-import { promptSuccess } from '@codebuff/common/util/error'
+import * as analytics from '@methatech/common/analytics'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { createTestAgentRuntimeParams } from '@methatech/common/testing/fixtures/agent-runtime'
+import { promptSuccess } from '@methatech/common/util/error'
 import {
   AgentTemplateTypes,
   getInitialSessionState,
-} from '@codebuff/common/types/session-state'
+} from '@methatech/common/types/session-state'
 import {
   afterEach,
   beforeEach,
@@ -20,18 +20,18 @@ import { mainPrompt } from '../main-prompt'
 import * as processFileBlockModule from '../process-file-block'
 import { createToolCallChunk } from './test-utils'
 
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
 import type {
   RequestFilesFn,
   RequestOptionalFileFn,
   RequestToolCallFn,
-} from '@codebuff/common/types/contracts/client'
-import type { ParamsOf } from '@codebuff/common/types/function-params'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+} from '@methatech/common/types/contracts/client'
+import type { ParamsOf } from '@methatech/common/types/function-params'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 let mainPromptBaseParams: any
 
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
 
 const mockAgentStream = (chunks: StreamChunk[]) => {
   mainPromptBaseParams.promptAiSdkStream = async function* ({}) {

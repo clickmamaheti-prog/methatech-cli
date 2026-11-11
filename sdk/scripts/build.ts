@@ -1,4 +1,4 @@
-// Build script for @codebuff/sdk using Bun's bundler with dual package support
+// Build script for @methatech/sdk using Bun's bundler with dual package support
 // Creates ESM + CJS bundles with TypeScript declarations
 
 import { mkdir, cp, readFile, writeFile, rm } from 'fs/promises'
@@ -24,7 +24,7 @@ if (!nodePathEntries.has(workspaceNodeModules)) {
 
 /**
  * `--no-types` skips the ~8 s declaration bundle. For builds that only run the
- * SDK, such as web's Render build: its tsconfig maps `@codebuff/sdk` to the
+ * SDK, such as web's Render build: its tsconfig maps `@methatech/sdk` to the
  * sources, and nothing at runtime reads `dist/index.d.ts`.
  */
 const withTypes = !process.argv.includes('--no-types')
@@ -41,7 +41,7 @@ async function build() {
   const external = [
     // Only exclude actual npm dependencies, not workspace packages
     ...Object.keys(pkg.dependencies || {}).filter(
-      (dep) => !dep.startsWith('@codebuff/'),
+      (dep) => !dep.startsWith('@methatech/'),
     ),
     // Add Node.js built-ins
     'fs',
@@ -156,13 +156,13 @@ async function build() {
               exportReferencedTypes: false,
             },
             libraries: {
-              // Treat all @codebuff/* workspace packages as external imports
+              // Treat all @methatech/* workspace packages as external imports
               // so dts-bundle-generator doesn't fail on their internal relative imports
               importedLibraries: [
-                '@codebuff/common',
-                '@codebuff/agent-runtime',
-                '@codebuff/code-map',
-                '@codebuff/llm-providers',
+                '@methatech/common',
+                '@methatech/agent-runtime',
+                '@methatech/code-map',
+                '@methatech/llm-providers',
               ],
             },
           },

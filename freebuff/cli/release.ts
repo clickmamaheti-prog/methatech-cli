@@ -10,7 +10,7 @@
  *   bun freebuff/cli/release.ts [patch|minor|major] [--ref <commit-sha>]
  *
  * Requires:
- *   CODEBUFF_GITHUB_TOKEN environment variable
+ *   METHATECH_GITHUB_TOKEN environment variable
  */
 
 import { execSync } from 'child_process'
@@ -52,10 +52,10 @@ function formatTimestamp() {
 }
 
 function checkGitHubToken() {
-  const token = process.env.CODEBUFF_GITHUB_TOKEN
+  const token = process.env.METHATECH_GITHUB_TOKEN
   if (!token) {
     error(
-      'CODEBUFF_GITHUB_TOKEN environment variable is required but not set.\n' +
+      'METHATECH_GITHUB_TOKEN environment variable is required but not set.\n' +
         'Please set it with your GitHub personal access token or use the infisical setup.',
     )
   }
@@ -80,7 +80,7 @@ async function triggerWorkflow(versionType: string, checkoutRef: string) {
       -H "Accept: application/vnd.github.v3+json" \
       -H "Authorization: token ${process.env.GITHUB_TOKEN}" \
       -H "Content-Type: application/json" \
-      https://api.github.com/repos/CodebuffAI/freebuff-private/actions/workflows/freebuff-release.yml/dispatches \
+      https://api.github.com/repos/MethaTechAI/freebuff-private/actions/workflows/freebuff-release.yml/dispatches \
       -d '${payload}'`
 
     const response = execSync(triggerCmd, { encoding: 'utf8' })
@@ -88,7 +88,7 @@ async function triggerWorkflow(versionType: string, checkoutRef: string) {
     if (response.includes('workflow_dispatch')) {
       log(`⚠️  Workflow dispatch failed: ${response}`)
       log(
-        'Please manually trigger the workflow at: https://github.com/CodebuffAI/freebuff-private/actions/workflows/freebuff-release.yml',
+        'Please manually trigger the workflow at: https://github.com/MethaTechAI/freebuff-private/actions/workflows/freebuff-release.yml',
       )
     } else {
       log('🎉 Freebuff release workflow triggered!')
@@ -97,7 +97,7 @@ async function triggerWorkflow(versionType: string, checkoutRef: string) {
     const message = err instanceof Error ? err.message : String(err)
     log(`⚠️  Failed to trigger workflow automatically: ${message}`)
     log(
-      'You may need to trigger it manually at: https://github.com/CodebuffAI/freebuff-private/actions/workflows/freebuff-release.yml',
+      'You may need to trigger it manually at: https://github.com/MethaTechAI/freebuff-private/actions/workflows/freebuff-release.yml',
     )
   }
 }
@@ -107,7 +107,7 @@ async function main() {
   log(`Date: ${formatTimestamp()}`)
 
   checkGitHubToken()
-  log('✅ Using local CODEBUFF_GITHUB_TOKEN')
+  log('✅ Using local METHATECH_GITHUB_TOKEN')
 
   log(`Version bump type: ${versionType}`)
   if (checkoutRef) {
@@ -118,7 +118,7 @@ async function main() {
 
   log('')
   log(
-    'Monitor progress at: https://github.com/CodebuffAI/freebuff-private/actions/workflows/freebuff-release.yml',
+    'Monitor progress at: https://github.com/MethaTechAI/freebuff-private/actions/workflows/freebuff-release.yml',
   )
 }
 

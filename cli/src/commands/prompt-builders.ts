@@ -1,5 +1,5 @@
-import { formatSkillContent } from '@codebuff/common/util/skills'
-import type { SkillDefinition } from '@codebuff/common/types/skill'
+import { formatSkillContent } from '@methatech/common/util/skills'
+import type { SkillDefinition } from '@methatech/common/types/skill'
 
 /**
  * Centralized prompt builders for /plan and /review commands.

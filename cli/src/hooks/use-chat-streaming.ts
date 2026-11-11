@@ -2,7 +2,7 @@
  * Chat view adapter for connection status, queue presentation, and exit handling.
  */
 
-import { RECONNECTION_MESSAGE_DURATION_MS } from '@codebuff/sdk'
+import { RECONNECTION_MESSAGE_DURATION_MS } from '@methatech/sdk'
 import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState, useTransition } from 'react'
 

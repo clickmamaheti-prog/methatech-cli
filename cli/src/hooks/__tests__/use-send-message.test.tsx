@@ -17,9 +17,9 @@ import { setChatDirOverrideForTesting } from '../../utils/run-state-storage'
 import {
   STATE_SNAPSHOT_INTERRUPTION_MESSAGE,
   USER_INTERRUPTED_MESSAGE,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
-import type { RunState } from '@codebuff/sdk'
+import type { RunState } from '@methatech/sdk'
 import type { SendMessageFn } from '../../types/contracts/send-message'
 import type { ElapsedTimeTracker } from '../use-elapsed-time'
 

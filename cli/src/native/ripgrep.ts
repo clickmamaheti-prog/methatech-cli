@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { getBundledRgPath } from '@codebuff/sdk'
+import { getBundledRgPath } from '@methatech/sdk'
 
 import { extractRipgrep } from './ripgrep-extraction'
 import { getConfigDir } from '../utils/config-dir'
@@ -10,7 +10,7 @@ import { logger } from '../utils/logger'
 const getRipgrepPath = async (): Promise<string> => {
   const env = getCliEnv()
   // In dev mode, use the SDK's bundled ripgrep binary
-  if (!env.CODEBUFF_IS_BINARY) {
+  if (!env.METHATECH_IS_BINARY) {
     return getBundledRgPath()
   }
 

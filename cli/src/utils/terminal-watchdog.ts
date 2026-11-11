@@ -9,7 +9,7 @@
  *
  * POSIX:
  * - We spawn a detached `/bin/sh` whose stdin is a pipe from this process.
- *   `sh` isn't named node/bun/codebuff/freebuff, so process-name kill sweeps
+ *   `sh` isn't named node/bun/methatech/freebuff, so process-name kill sweeps
  *   miss it, and `detached` puts it in its own session so process-group kills
  *   miss it too.
  * - The watchdog blocks on `cat` until the pipe hits EOF — which only happens
@@ -79,7 +79,7 @@ import {
 import os from 'os'
 import path from 'path'
 
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 
 import { TERMINAL_RESET_SEQUENCES } from './terminal-reset-sequences'
 import { getCliEnv } from './env'
@@ -301,10 +301,10 @@ function spawnWindowsWatchdog(options: {
 
 // ------------------------------------------------ leaked-watchdog inspection
 
-const WATCHDOG_FILE_PREFIX = 'codebuff-watchdog-disarm-'
-const PID_FILE_PATTERN = /^codebuff-watchdog-disarm-(\d+)-[a-z0-9]+\.pid$/
-const ARMED_MARKER_PATTERN = /^codebuff-watchdog-disarm-(\d+)-[a-z0-9]+\.armed$/
-const DISARM_FILE_PATTERN = /^codebuff-watchdog-disarm-(\d+)-[a-z0-9]+$/
+const WATCHDOG_FILE_PREFIX = 'methatech-watchdog-disarm-'
+const PID_FILE_PATTERN = /^methatech-watchdog-disarm-(\d+)-[a-z0-9]+\.pid$/
+const ARMED_MARKER_PATTERN = /^methatech-watchdog-disarm-(\d+)-[a-z0-9]+\.armed$/
+const DISARM_FILE_PATTERN = /^methatech-watchdog-disarm-(\d+)-[a-z0-9]+$/
 
 /** The file a watchdog keeps for exactly as long as it runs. */
 export function windowsWatchdogPidPath(disarmPath: string): string {
@@ -495,7 +495,7 @@ const isTruthy = (value: string | undefined): boolean =>
  * terminal modes. No-op when stdout isn't a TTY (unless an explicit ttyPath
  * is injected, e.g. in tests), or if already started.
  *
- * Also a no-op when CODEBUFF_NO_TERMINAL_WATCHDOG is set. This remains an
+ * Also a no-op when METHATECH_NO_TERMINAL_WATCHDOG is set. This remains an
  * explicit escape hatch for Windows endpoint-security policies that reject the
  * out-of-job PowerShell grandchild used by the recovery path.
  *
@@ -520,7 +520,7 @@ export function startTerminalWatchdog(options?: {
 }): void {
   if (watchdog) return
   const env = getCliEnv()
-  if (isTruthy(env.CODEBUFF_NO_TERMINAL_WATCHDOG)) return
+  if (isTruthy(env.METHATECH_NO_TERMINAL_WATCHDOG)) return
   if (!options?.ttyPath && !process.stdout.isTTY) return
 
   const reportFailure = options?.reportFailure ?? reportTerminalWatchdogFailure
@@ -534,7 +534,7 @@ export function startTerminalWatchdog(options?: {
       if (inspect && !admitWindowsWatchdog(inspect)) return
       const disarmPath = path.join(
         os.tmpdir(),
-        `codebuff-watchdog-disarm-${process.pid}-${Math.random().toString(36).slice(2)}`,
+        `methatech-watchdog-disarm-${process.pid}-${Math.random().toString(36).slice(2)}`,
       )
       const armedPath = options?.ttyPath
         ? `${options.ttyPath}.armed`

@@ -1,12 +1,12 @@
-import { AgentTemplateTypes } from '@codebuff/common/types/session-state'
+import { AgentTemplateTypes } from '@methatech/common/types/session-state'
 
-import type { ToolName } from '@codebuff/common/tools/constants'
+import type { ToolName } from '@methatech/common/tools/constants'
 import type {
   AgentTemplate,
   StepGenerator,
   StepHandler,
-} from '@codebuff/common/types/agent-template'
-import type { AgentTemplateType } from '@codebuff/common/types/session-state'
+} from '@methatech/common/types/agent-template'
+import type { AgentTemplateType } from '@methatech/common/types/session-state'
 
 // Re-export for backward compatibility
 export type { AgentTemplate, StepGenerator, StepHandler }
@@ -28,11 +28,11 @@ const placeholderNames = [
 ] as const
 
 type PlaceholderType<T extends typeof placeholderNames> = {
-  [K in T[number]]: `{CODEBUFF_${K}}`
+  [K in T[number]]: `{METHATECH_${K}}`
 }
 
 export const PLACEHOLDER = Object.fromEntries(
-  placeholderNames.map((name) => [name, `{CODEBUFF_${name}}` as const]),
+  placeholderNames.map((name) => [name, `{METHATECH_${name}}` as const]),
 ) as PlaceholderType<typeof placeholderNames>
 export type PlaceholderValue = (typeof PLACEHOLDER)[keyof typeof PLACEHOLDER]
 

@@ -39,9 +39,9 @@ const {
 } = await import('../sponsored-run-inflight')
 const { SponsoredEditRecorder } = await import('../sponsored-receipts')
 const { sponsoredRunFailureCode } =
-  await import('@codebuff/common/ads/sponsored-run-funnel-metadata')
+  await import('@methatech/common/ads/sponsored-run-funnel-metadata')
 const { SPONSORED_PARTIAL_EDITS_COPY } =
-  await import('@codebuff/common/ads/sponsored-in-place')
+  await import('@methatech/common/ads/sponsored-in-place')
 
 import type { SponsoredRunDeps } from '../sponsored-run'
 import type { SponsoredInflightRecord } from '../sponsored-run-inflight'

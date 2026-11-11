@@ -1,13 +1,13 @@
-import * as analytics from '@codebuff/common/analytics'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { createTestAgentRuntimeParams } from '@codebuff/common/testing/fixtures/agent-runtime'
-import { clearMockedModules } from '@codebuff/common/testing/mock-modules'
+import * as analytics from '@methatech/common/analytics'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { createTestAgentRuntimeParams } from '@methatech/common/testing/fixtures/agent-runtime'
+import { clearMockedModules } from '@methatech/common/testing/mock-modules'
 import {
   createMockDbOperations,
   setupDbSpies,
-} from '@codebuff/common/testing/mocks/database'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
+} from '@methatech/common/testing/mocks/database'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
 import {
   afterAll,
   afterEach,
@@ -24,8 +24,8 @@ import { clearAgentGeneratorCache } from '../run-programmatic-step'
 import { createToolCallChunk, mockFileContext } from './test-utils'
 
 import type { AgentTemplate } from '../templates/types'
-import type { ProjectProfileReport } from '@codebuff/common/constants/project-profile'
-import type { DbSpies } from '@codebuff/common/testing/mocks/database'
+import type { ProjectProfileReport } from '@methatech/common/constants/project-profile'
+import type { DbSpies } from '@methatech/common/testing/mocks/database'
 
 describe('project profile report in loopAgentSteps', () => {
   let dbSpies: DbSpies
@@ -155,7 +155,7 @@ describe('project profile report in loopAgentSteps', () => {
       turn.messages,
     )
     expect(report.toolChoice).toBe('required')
-    expect(report.extraCodebuffMetadata.llm_step_number).toBe('2')
+    expect(report.extraMethaTechMetadata.llm_step_number).toBe('2')
     expect(reports).toEqual([{ changed: false }])
     expect(events).toEqual(['report', 'finish'])
     expect(JSON.stringify(result.agentState.messageHistory)).not.toContain(

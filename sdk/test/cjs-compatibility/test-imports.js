@@ -4,18 +4,18 @@ console.log('🧪 Testing CommonJS imports in CommonJS-only project...')
 try {
   // Test 1: Named destructuring import
   console.log('\n1. Testing named destructuring import...')
-  const { CodebuffClient } = require('@codebuff/sdk')
-  console.log('✅ Named destructuring successful:', typeof CodebuffClient)
+  const { MethaTechClient } = require('@methatech/sdk')
+  console.log('✅ Named destructuring successful:', typeof MethaTechClient)
 
-  if (typeof CodebuffClient !== 'function') {
+  if (typeof MethaTechClient !== 'function') {
     throw new Error(
-      `Expected CodebuffClient to be a function, got ${typeof CodebuffClient}`,
+      `Expected MethaTechClient to be a function, got ${typeof MethaTechClient}`,
     )
   }
 
   // Test 2: Default require
   console.log('\n2. Testing default require...')
-  const SDK = require('@codebuff/sdk')
+  const SDK = require('@methatech/sdk')
   console.log('✅ Default require successful:', typeof SDK)
 
   if (typeof SDK !== 'object' || SDK === null) {
@@ -28,7 +28,7 @@ try {
   console.log('✅ Found', exports.length, 'exports')
 
   const expectedExports = [
-    'CodebuffClient',
+    'MethaTechClient',
     'getCustomToolDefinition',
     'promptAiSdkStream',
   ]
@@ -41,8 +41,8 @@ try {
 
   // Test 4: Test that both access patterns work identically
   console.log('\n4. Testing access pattern consistency...')
-  const ClientFromDestructure = require('@codebuff/sdk').CodebuffClient
-  const ClientFromDefault = require('@codebuff/sdk').CodebuffClient
+  const ClientFromDestructure = require('@methatech/sdk').MethaTechClient
+  const ClientFromDefault = require('@methatech/sdk').MethaTechClient
 
   if (ClientFromDestructure !== ClientFromDefault) {
     throw new Error('Inconsistent access patterns')
@@ -60,7 +60,7 @@ try {
   // Test no direct import/export statements work (they shouldn't in CJS)
   try {
     // This should fail in CommonJS environment
-    eval('import { CodebuffClient } from "@codebuff/sdk"')
+    eval('import { MethaTechClient } from "@methatech/sdk"')
     throw new Error('ESM imports should not work in CommonJS environment')
   } catch (syntaxError) {
     if (

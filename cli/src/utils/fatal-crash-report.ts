@@ -75,7 +75,7 @@ export function buildFatalCrashReport(
       .join('\n')
       .slice(0, MAX_STACK_CHARS),
     crashedVersion:
-      context.version ?? getCliEnv().CODEBUFF_CLI_VERSION ?? 'dev',
+      context.version ?? getCliEnv().METHATECH_CLI_VERSION ?? 'dev',
     platform: process.platform,
     arch: process.arch,
     uptimeSeconds: Math.round(context.uptimeSeconds ?? process.uptime()),

@@ -9,12 +9,12 @@ import {
 describe('normalizeClientUserAgent', () => {
   it('parses the official CLI agent', () => {
     // What getCliAdRequestUserAgent() emits.
-    expect(normalizeClientUserAgent('Freebuff-CLI/0.0.138')).toEqual({
-      product: 'freebuff-cli',
+    expect(normalizeClientUserAgent('MethaTech-CLI/0.0.138')).toEqual({
+      product: 'methatech-cli',
       version: '0.0.138',
     })
-    expect(normalizeClientUserAgent('Codebuff-CLI/1.0.685')).toEqual({
-      product: 'codebuff-cli',
+    expect(normalizeClientUserAgent('MethaTech-CLI/1.0.685')).toEqual({
+      product: 'methatech-cli',
       version: '1.0.685',
     })
   })
@@ -30,7 +30,7 @@ describe('normalizeClientUserAgent', () => {
     })
     // The second segment is not a version, so it is dropped.
     expect(
-      normalizeClientUserAgent('ai-sdk/openai-compatible/1.0.25/codebuff'),
+      normalizeClientUserAgent('ai-sdk/openai-compatible/1.0.25/methatech'),
     ).toEqual({ product: 'ai-sdk' })
   })
 
@@ -138,8 +138,8 @@ describe('normalizeClientUserAgent', () => {
     expect(clientUserAgentFields('someclient')).toEqual({
       client_ua_product: 'someclient',
     })
-    expect(clientUserAgentFields('Freebuff-CLI/0.0.138')).toEqual({
-      client_ua_product: 'freebuff-cli',
+    expect(clientUserAgentFields('MethaTech-CLI/0.0.138')).toEqual({
+      client_ua_product: 'methatech-cli',
       client_ua_version: '0.0.138',
     })
   })

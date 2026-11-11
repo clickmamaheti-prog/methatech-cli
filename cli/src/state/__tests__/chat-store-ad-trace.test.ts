@@ -2,7 +2,7 @@ import { afterEach, describe, expect, test } from 'bun:test'
 
 import { useChatStore } from '../chat-store'
 
-import type { RunState } from '@codebuff/sdk'
+import type { RunState } from '@methatech/sdk'
 
 const SESSION = '11111111-2222-4333-8444-555555555555'
 const COMPLETED_RUN = '66666666-7777-4888-9999-aaaaaaaaaaaa'

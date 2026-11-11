@@ -1,4 +1,4 @@
-import { freebucksFixture } from '@codebuff/common/testing/freebuff'
+import { freebucksFixture } from '@methatech/common/testing/freebuff'
 import {
   useFreebuffChatStore,
   selectFreebuffChatModel,
@@ -26,7 +26,7 @@ import React from 'react'
 import {
   FREEBUFF_MIMO_V25_MODEL_ID,
   FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import * as auth from '../../utils/auth'
 import { useFreebuffSessionStore } from '../../state/freebuff-session-store'
 import { useFreebuffModelStore } from '../../state/freebuff-model-store'
@@ -136,8 +136,8 @@ if (process.env.CLI_MULTI_SESSION_TEST !== '1') {
       requests.push({ method, headers, path })
       // Exercise the real hook and transport against an independently keyed
       // session service. A global GET or DELETE would affect the sibling row.
-      expect(headers.get('x-freebuff-multi-session')).toBe('1')
-      const id = headers.get('x-freebuff-instance-id')!
+      expect(headers.get('x-methatech-multi-session')).toBe('1')
+      const id = headers.get('x-methatech-instance-id')!
       expect(id).toStartWith('cli:')
       if (method === 'GET')
         return Response.json(
@@ -147,7 +147,7 @@ if (process.env.CLI_MULTI_SESSION_TEST !== '1') {
             freebucks: meter,
           },
         )
-      expect(headers.get('x-freebuff-desktop-attempt-id')).toBe(id.slice(4))
+      expect(headers.get('x-methatech-desktop-attempt-id')).toBe(id.slice(4))
       if (method === 'DELETE') {
         expect(path).toEndWith('/session/attempt')
         rows.delete(id)
@@ -159,10 +159,10 @@ if (process.env.CLI_MULTI_SESSION_TEST !== '1') {
       }
       if (rejectAdmission)
         return Response.json({ error: 'test refusal' }, { status: 403 })
-      const model = headers.get('x-freebuff-model')!
+      const model = headers.get('x-methatech-model')!
       const holder = [...rows.keys()].find((key) => key !== id)
       if (!rows.has(id) && rows.size >= capacity && holder) {
-        if (headers.get('x-freebuff-takeover-instance-id') !== holder)
+        if (headers.get('x-methatech-takeover-instance-id') !== holder)
           return Response.json(
             {
               status: 'purchase_capacity',
@@ -327,7 +327,7 @@ if (process.env.CLI_MULTI_SESSION_TEST !== '1') {
     expect(
       requests
         .find((r) => r.method === 'POST')
-        ?.headers.get('x-freebuff-wallet-spend-limit'),
+        ?.headers.get('x-methatech-wallet-spend-limit'),
     ).toBe('session')
   })
 
@@ -370,8 +370,8 @@ if (process.env.CLI_MULTI_SESSION_TEST !== '1') {
   })
 
   test('an update relaunch resumes only its own launcher-scoped purchase', async () => {
-    const previousPid = process.env.CODEBUFF_LAUNCHER_PID
-    process.env.CODEBUFF_LAUNCHER_PID = '12345'
+    const previousPid = process.env.METHATECH_LAUNCHER_PID
+    process.env.METHATECH_LAUNCHER_PID = '12345'
     try {
       rows.set('desktop-sibling', active('desktop-sibling'))
       await mount()
@@ -384,9 +384,9 @@ if (process.env.CLI_MULTI_SESSION_TEST !== '1') {
       expect(rows.has(original)).toBe(true)
       expect(requests.filter((r) => r.method === 'DELETE')).toHaveLength(0)
 
-      process.env.CODEBUFF_LAUNCHER_PID = '54321'
+      process.env.METHATECH_LAUNCHER_PID = '54321'
       expect(consumeFreebuffSessionRelaunch('fixture')).toBeUndefined()
-      process.env.CODEBUFF_LAUNCHER_PID = '12345'
+      process.env.METHATECH_LAUNCHER_PID = '12345'
       useFreebuffSessionStore.getState().setSession(null)
       useFreebuffSessionStore.setState({ slotKeptForRelaunch: false })
       await mount('active')
@@ -396,8 +396,8 @@ if (process.env.CLI_MULTI_SESSION_TEST !== '1') {
       expect(consumeFreebuffSessionRelaunch('fixture')).toBeUndefined()
     } finally {
       useFreebuffSessionStore.setState({ slotKeptForRelaunch: false })
-      if (previousPid === undefined) delete process.env.CODEBUFF_LAUNCHER_PID
-      else process.env.CODEBUFF_LAUNCHER_PID = previousPid
+      if (previousPid === undefined) delete process.env.METHATECH_LAUNCHER_PID
+      else process.env.METHATECH_LAUNCHER_PID = previousPid
     }
   })
 
@@ -480,7 +480,7 @@ if (process.env.CLI_MULTI_SESSION_TEST !== '1') {
     expect(
       requests
         .filter((r) => r.method === 'DELETE')[0]
-        ?.headers.get('x-freebuff-instance-id'),
+        ?.headers.get('x-methatech-instance-id'),
     ).toBe(firstId)
   })
 
@@ -500,7 +500,7 @@ if (process.env.CLI_MULTI_SESSION_TEST !== '1') {
     expect(useFreebuffSessionStore.getState().session?.status).toBe('active')
     expect(rows.has('desktop-sibling')).toBe(false)
     expect(
-      requests.at(-1)?.headers.get('x-freebuff-takeover-instance-id'),
+      requests.at(-1)?.headers.get('x-methatech-takeover-instance-id'),
     ).toBe('desktop-sibling')
   })
 

@@ -2,8 +2,8 @@ import {
   AD_REPORT_REASON_MIN_LENGTH,
   AD_REPORT_REASON_MAX_LENGTH,
   AdReportReasonSchema,
-} from '@codebuff/common/ads/ad-report'
-import { sanitizeTerminalText } from '@codebuff/common/util/terminal-safe-text'
+} from '@methatech/common/ads/ad-report'
+import { sanitizeTerminalText } from '@methatech/common/util/terminal-safe-text'
 import { useKeyboard } from '@opentui/react'
 import React, { useState, useSyncExternalStore } from 'react'
 

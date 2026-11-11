@@ -1,8 +1,8 @@
 import {
   FREEBUFF_PROJECTS_MAX_LIVE_SUBAGENTS,
   FREEBUFF_PROJECTS_SUBAGENT_ID,
-} from '@codebuff/common/constants/free-agents'
-import { MAX_LIVE_SUBAGENTS_PER_ROOT } from '@codebuff/common/tools/params/tool/spawn-agents'
+} from '@methatech/common/constants/free-agents'
+import { MAX_LIVE_SUBAGENTS_PER_ROOT } from '@methatech/common/tools/params/tool/spawn-agents'
 
 import { publisher } from './constants'
 

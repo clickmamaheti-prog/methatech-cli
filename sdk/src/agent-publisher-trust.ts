@@ -17,21 +17,21 @@
  * before.
  *
  * Trusted publishers are the union of:
- * - `codebuff`, our own publisher, whose agents also ship bundled with the CLI;
- * - the comma-separated `CODEBUFF_TRUSTED_AGENT_PUBLISHERS` env var;
- * - the `trustedAgentPublishers` option on `CodebuffClient` / `run()`.
+ * - `methatech`, our own publisher, whose agents also ship bundled with the CLI;
+ * - the comma-separated `METHATECH_TRUSTED_AGENT_PUBLISHERS` env var;
+ * - the `trustedAgentPublishers` option on `MethaTechClient` / `run()`.
  *
  * Deliberately NOT here: sandboxing the eval, signing templates, or pinning
  * `latest`. Each is its own change; this gate is the floor under all of them.
  */
 
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
 
 export const TRUSTED_AGENT_PUBLISHERS_ENV_VAR =
-  'CODEBUFF_TRUSTED_AGENT_PUBLISHERS'
+  'METHATECH_TRUSTED_AGENT_PUBLISHERS'
 
 /** Publishers whose executable templates load without any configuration. */
-export const ALWAYS_TRUSTED_AGENT_PUBLISHERS: readonly string[] = ['codebuff']
+export const ALWAYS_TRUSTED_AGENT_PUBLISHERS: readonly string[] = ['methatech']
 
 /** Splits the env var's comma-separated list; blanks are dropped. */
 export function parseTrustedAgentPublishers(
@@ -50,9 +50,9 @@ export function parseTrustedAgentPublishers(
  * a looser comparison here would widen trust to ids the operator never named.
  */
 export function resolveTrustedAgentPublishers(params: {
-  /** `CodebuffClientOptions.trustedAgentPublishers` */
+  /** `MethaTechClientOptions.trustedAgentPublishers` */
   trustedAgentPublishers?: readonly string[]
-  /** the raw `CODEBUFF_TRUSTED_AGENT_PUBLISHERS` value */
+  /** the raw `METHATECH_TRUSTED_AGENT_PUBLISHERS` value */
   envValue?: string | undefined
 }): ReadonlySet<string> {
   const { trustedAgentPublishers, envValue } = params

@@ -28,7 +28,7 @@ import { FreebuffModelSelector } from '../freebuff-model-selector'
 import {
   METHATECH_DEFAULT_MODEL_ID,
   METHATECH_MODELS,
-} from '@codebuff/common/constants/methatech-models'
+} from '@methatech/common/constants/methatech-models'
 
 import { initializeThemeStore } from '../../hooks/use-theme'
 import {
@@ -37,6 +37,7 @@ import {
 } from '../../state/freebuff-model-store'
 import { useFreebuffSessionStore } from '../../state/freebuff-session-store'
 import {
+  loadFreebuffModelKeyPreference,
   loadFreebuffModelPreference,
   saveFreebuffModelPreference,
 } from '../../utils/settings'
@@ -47,7 +48,7 @@ import {
   useByokSelectionStore,
 } from '../../utils/byok'
 
-import type { ByokConnection, ByokConnectionStore } from '@codebuff/sdk'
+import type { ByokConnection, ByokConnectionStore } from '@methatech/sdk'
 
 let cleanupRenderer: (() => void) | undefined
 
@@ -254,7 +255,9 @@ describe('MethaTech picker', () => {
     expect(calls.create).toBe(1)
     expect(connections[0].model).toBe('claude-sonnet-4-6')
     expect(getSelectedFreebuffModel()).toBe('claude-sonnet-4-6')
-    expect(loadFreebuffModelPreference()).toBe('claude-sonnet-4-6')
+    // Panel models have a catalog row, so the pick persists as a catalog
+    // key, not as the fallback model-id preference.
+    expect(loadFreebuffModelKeyPreference()).toBe('claude-sonnet-4-6')
   })
 
   test('picking a second row updates the same connection model', async () => {

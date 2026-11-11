@@ -175,16 +175,16 @@ beforeAll(async () => {
   )
   const { port } = releaseServer.address() as AddressInfo
   const original = {
-    app: process.env.NEXT_PUBLIC_CODEBUFF_APP_URL,
+    app: process.env.NEXT_PUBLIC_METHATECH_APP_URL,
     noProxy: process.env.NO_PROXY,
   }
-  process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = `http://127.0.0.1:${port}`
+  process.env.NEXT_PUBLIC_METHATECH_APP_URL = `http://127.0.0.1:${port}`
   process.env.NO_PROXY = '127.0.0.1'
   restoreReleaseEnv = () => {
     if (original.app === undefined) {
-      delete process.env.NEXT_PUBLIC_CODEBUFF_APP_URL
+      delete process.env.NEXT_PUBLIC_METHATECH_APP_URL
     } else {
-      process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = original.app
+      process.env.NEXT_PUBLIC_METHATECH_APP_URL = original.app
     }
     if (original.noProxy === undefined) delete process.env.NO_PROXY
     else process.env.NO_PROXY = original.noProxy

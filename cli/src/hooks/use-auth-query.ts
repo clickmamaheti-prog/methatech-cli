@@ -1,6 +1,6 @@
 import { createHash } from 'crypto'
 
-import { getCiEnv } from '@codebuff/common/env-ci'
+import { getCiEnv } from '@methatech/common/env-ci'
 import {
   getUserInfoFromApiKey as defaultGetUserInfoFromApiKey,
   isRetryableStatusCode,
@@ -9,7 +9,7 @@ import {
   createServerError,
   MAX_RETRIES_PER_MESSAGE,
   RETRY_BACKOFF_BASE_DELAY_MS,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { adReports } from '../ads/ad-reports'
 
@@ -19,11 +19,11 @@ import {
   logoutUser as logoutUserUtil,
   type User,
 } from '../utils/auth'
-import { resetCodebuffClient } from '../utils/codebuff-client'
+import { resetMethaTechClient } from '../utils/methatech-client'
 import { logger as defaultLogger, loggerContext } from '../utils/logger'
 
-import type { GetUserInfoFromApiKeyFn } from '@codebuff/common/types/contracts/database'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { GetUserInfoFromApiKeyFn } from '@methatech/common/types/contracts/database'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 const getApiKeyHash = (apiKey: string): string => {
   return createHash('sha256').update(apiKey).digest('hex')
@@ -136,7 +136,7 @@ export function useAuthQuery(deps: UseAuthQueryDeps = {}) {
   } = deps
 
   const userCredentials = getUserCredentials()
-  const apiKey = userCredentials?.authToken || getCiEnv().CODEBUFF_API_KEY || ''
+  const apiKey = userCredentials?.authToken || getCiEnv().METHATECH_API_KEY || ''
 
   return useQuery({
     queryKey: authQueryKeys.validation(apiKey),
@@ -238,7 +238,7 @@ export function useLogoutMutation(deps: UseLogoutMutationDeps = {}) {
     onMutate: () => adReports.reset(),
     onSuccess: () => {
       // Reset the SDK client after logout
-      resetCodebuffClient()
+      resetMethaTechClient()
       // Clear all auth-related cache
       queryClient.removeQueries({ queryKey: authQueryKeys.all })
       // Clear logger context

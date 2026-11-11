@@ -36,7 +36,7 @@ export type BenchReceiptCell = {
   passes: number
   results: BenchCellResult[]
   causeKeys: string[]
-  /** One `gs://codebuff-ads-evals-text/bench/…` trace per attempt, when uploaded. */
+  /** One `gs://methatech-ads-evals-text/bench/…` trace per attempt, when uploaded. */
   traces?: string[]
 }
 

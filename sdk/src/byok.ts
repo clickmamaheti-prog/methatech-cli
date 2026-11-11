@@ -3,8 +3,8 @@ import { promises as fs } from 'node:fs'
 import { homedir } from 'node:os'
 import path from 'node:path'
 import { z } from 'zod/v4'
-import { byokReasoningEfforts } from '@codebuff/common/constants/reasoning-effort'
-import type { ReasoningEffort } from '@codebuff/common/constants/reasoning-effort'
+import { byokReasoningEfforts } from '@methatech/common/constants/reasoning-effort'
+import type { ReasoningEffort } from '@methatech/common/constants/reasoning-effort'
 import {
   CHATGPT_BYOK_PROVIDER,
   CHATGPT_CODEX_BASE_URL,

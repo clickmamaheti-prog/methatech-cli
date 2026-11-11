@@ -28,7 +28,7 @@
 
 import { countTokensJson, countTokensMessages } from './util/token-counter'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 export const WORKING_SET_TAG = 'COMPACTION_WORKING_SET'
 

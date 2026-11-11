@@ -1,23 +1,23 @@
 import {
-  CODEBUFF_OWN_CREDITS_ERROR_PATTERN,
+  METHATECH_OWN_CREDITS_ERROR_PATTERN,
   FREEBUFF_PROVIDER_USAGE_ERROR_PATTERN,
   FREEBUFF_TURN_SPEND_LIMIT_ERROR_CODE,
   FREEBUFF_TURN_SPEND_LIMIT_MESSAGE,
-} from '@codebuff/common/constants/freebuff-errors'
-import { env } from '@codebuff/common/env'
-import { extractApiErrorDetails } from '@codebuff/common/util/error'
-import { formatFreebuffHardBlockedPrivacySignals } from '@codebuff/common/util/freebuff-privacy'
-import { getFreebuffGateCode } from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/constants/freebuff-errors'
+import { env } from '@methatech/common/env'
+import { extractApiErrorDetails } from '@methatech/common/util/error'
+import { formatFreebuffHardBlockedPrivacySignals } from '@methatech/common/util/freebuff-privacy'
+import { getFreebuffGateCode } from '@methatech/common/types/freebuff-session'
 
 import type { ChatMessage } from '../types/chat'
 import type {
   FreebuffCountryBlockReason,
   FreebuffGateCode,
   FreebuffIpPrivacySignal,
-} from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/types/freebuff-session'
 
 
-const defaultAppUrl = env.NEXT_PUBLIC_CODEBUFF_APP_URL || 'https://codebuff.com'
+const defaultAppUrl = env.NEXT_PUBLIC_METHATECH_APP_URL || 'https://console.methatech.eu.org'
 
 // Normalize unknown errors to a user-facing string.
 const extractErrorMessage = (error: unknown, fallback: string): string => {
@@ -157,16 +157,16 @@ export const getFreebuffRateLimitErrorMessage = (
 
 /**
  * Provider billing failures are an operator problem in Freebuff, not a reason
- * to send a free user to Codebuff's credit-purchase flow. Upstreams disagree
+ * to send a free user to MethaTech's credit-purchase flow. Upstreams disagree
  * on the status (observed as both 401 and 402), so retain the status check but
  * also recognize the provider wording that can survive into an agent output.
  */
 export const isFreebuffProviderUsageError = (error: unknown): boolean => {
   const details = getCliApiErrorDetails(error)
   const message = details.message ?? extractErrorMessage(error, '')
-  // The user's own Codebuff balance, not our provider: leave it to the
+  // The user's own MethaTech balance, not our provider: leave it to the
   // out-of-credits flow.
-  if (CODEBUFF_OWN_CREDITS_ERROR_PATTERN.test(message)) return false
+  if (METHATECH_OWN_CREDITS_ERROR_PATTERN.test(message)) return false
   return (
     details.statusCode === 402 ||
     FREEBUFF_PROVIDER_USAGE_ERROR_PATTERN.test(message)

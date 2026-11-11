@@ -1,10 +1,10 @@
 import { expect, test } from 'bun:test'
-import { createTestAgentRuntimeParams } from '@codebuff/common/testing/fixtures/agent-runtime'
+import { createTestAgentRuntimeParams } from '@methatech/common/testing/fixtures/agent-runtime'
 
 import { assertUserContentSize, boundToolResult } from '../context-size-guard'
 import { countTokensMessages } from '../token-counter'
 
-import type { ToolMessage } from '@codebuff/common/types/messages/codebuff-message'
+import type { ToolMessage } from '@methatech/common/types/messages/methatech-message'
 
 const getMockAgentTemplate = () => createTestAgentRuntimeParams().agentTemplate
 

@@ -13,8 +13,8 @@ import { policyPlacementIds } from '../../hooks/use-dock-panel'
 
 const FILL = {
   placementId: 'CLI-Statusline',
-  impUrl: 'https://www.codebuff.com/imp/1',
-  clickUrl: 'https://www.codebuff.com/click/1',
+  impUrl: 'https://console.methatech.eu.org/imp/1',
+  clickUrl: 'https://console.methatech.eu.org/click/1',
   url: 'https://acme.dev/start',
   title: 'Ship faster \u001b[31mwith Acme',
   adText: 'Acme builds it.',

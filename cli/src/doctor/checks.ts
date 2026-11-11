@@ -1,10 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 
-import { finding, type DoctorFinding } from '@codebuff/common/doctor/types'
-import type { DoctorRedactor } from '@codebuff/common/doctor/redact'
-import { COMMON_LOG_SIGNATURES, logScanFindings, scanLogText } from '@codebuff/common/doctor/log-signatures'
-import type { RunCommand } from '@codebuff/common/doctor/node/git'
+import { finding, type DoctorFinding } from '@methatech/common/doctor/types'
+import type { DoctorRedactor } from '@methatech/common/doctor/redact'
+import { COMMON_LOG_SIGNATURES, logScanFindings, scanLogText } from '@methatech/common/doctor/log-signatures'
+import type { RunCommand } from '@methatech/common/doctor/node/git'
 
 /**
  * Checks only the CLI needs: how it is installed, what the shell runs when you type its name,

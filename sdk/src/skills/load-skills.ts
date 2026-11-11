@@ -6,21 +6,21 @@ import {
   SKILLS_DIR_NAME,
   SKILL_FILE_NAME,
   isValidSkillName,
-} from '@codebuff/common/constants/skills'
+} from '@methatech/common/constants/skills'
 import {
   type SkillDefinition,
   type SkillsMap,
-} from '@codebuff/common/types/skill'
-import { parseSkillFileContent } from '@codebuff/common/util/parse-skill'
+} from '@methatech/common/types/skill'
+import { parseSkillFileContent } from '@methatech/common/util/parse-skill'
 
 // Re-export from common for backward compatibility
-export { formatAvailableSkillsXml } from '@codebuff/common/util/skills'
+export { formatAvailableSkillsXml } from '@methatech/common/util/skills'
 
 // `parseSkillFileContent` MOVED to common and is re-exported here, so this
 // stays the one implementation rather than becoming two. It left because
 // importing it via this barrel drags tree-sitter along, which cannot resolve
 // its `.wasm` inside a Convex action — see the note on the function itself.
-export { parseSkillFileContent } from '@codebuff/common/util/parse-skill'
+export { parseSkillFileContent } from '@methatech/common/util/parse-skill'
 
 function loadSkillFromFile(
   skillDir: string,
@@ -118,7 +118,7 @@ export function resolveSkillsDirs(options: {
   const { cwd, skillsPath, homeDir } = options
   if (skillsPath) return [skillsPath]
   return [
-    // Global directories (Claude-compatible first, then Codebuff). Present
+    // Global directories (Claude-compatible first, then MethaTech). Present
     // only when a home directory was explicitly supplied.
     ...(homeDir
       ? [
@@ -126,7 +126,7 @@ export function resolveSkillsDirs(options: {
           path.join(homeDir, '.agents', SKILLS_DIR_NAME),
         ]
       : []),
-    // Project directories (Claude-compatible first, then Codebuff)
+    // Project directories (Claude-compatible first, then MethaTech)
     path.join(cwd, '.claude', SKILLS_DIR_NAME),
     path.join(cwd, '.agents', SKILLS_DIR_NAME),
   ]

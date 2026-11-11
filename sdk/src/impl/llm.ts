@@ -1,23 +1,23 @@
-import { models, PROFIT_MARGIN } from '@codebuff/common/old-constants'
-import { buildArray } from '@codebuff/common/util/array'
+import { models, PROFIT_MARGIN } from '@methatech/common/old-constants'
+import { buildArray } from '@methatech/common/util/array'
 import {
   STREAM_RECOVERY_EVENT,
   TOOL_CALL_REPAIR_EVENT,
-} from '@codebuff/common/util/axiom-only-log'
-import { normalizeProviderRequestBodyForCacheDebug } from '@codebuff/common/util/cache-debug'
+} from '@methatech/common/util/axiom-only-log'
+import { normalizeProviderRequestBodyForCacheDebug } from '@methatech/common/util/cache-debug'
 import {
   parseToolJson,
   TOOL_NAME_ALIASES,
-} from '@codebuff/common/tools/repair-tool-json'
+} from '@methatech/common/tools/repair-tool-json'
 import {
   getErrorObject,
   isFetchIdleTimeoutError,
   promptAborted,
   promptSuccess,
-} from '@codebuff/common/util/error'
-import { convertCbToModelMessages } from '@codebuff/common/util/messages'
-import { isExplicitlyDefinedModel } from '@codebuff/common/util/model-utils'
-import { StopSequenceHandler } from '@codebuff/common/util/stop-sequence'
+} from '@methatech/common/util/error'
+import { convertCbToModelMessages } from '@methatech/common/util/messages'
+import { isExplicitlyDefinedModel } from '@methatech/common/util/model-utils'
+import { StopSequenceHandler } from '@methatech/common/util/stop-sequence'
 import {
   streamText,
   generateText,
@@ -30,7 +30,7 @@ import {
 } from 'ai'
 
 import { getModelForRequest } from './model-provider'
-import type { CodebuffRequestHeadersProvider } from './model-provider'
+import type { MethaTechRequestHeadersProvider } from './model-provider'
 import { byokModelLimits } from '../byok'
 import type { ResolvedByokConnection } from '../byok'
 import {
@@ -45,15 +45,15 @@ import {
 import type {
   OpenRouterProviderOptions,
   OpenRouterProviderRoutingOptions,
-} from '@codebuff/common/types/agent-template'
+} from '@methatech/common/types/agent-template'
 import type {
   PromptAiSdkFn,
   PromptAiSdkStreamFn,
   PromptAiSdkStructuredInput,
   PromptAiSdkStructuredOutput,
-} from '@codebuff/common/types/contracts/llm'
-import type { ParamsOf } from '@codebuff/common/types/function-params'
-import type { ProviderMetadata } from '@codebuff/common/types/messages/provider-metadata'
+} from '@methatech/common/types/contracts/llm'
+import type { ParamsOf } from '@methatech/common/types/function-params'
+import type { ProviderMetadata } from '@methatech/common/types/messages/provider-metadata'
 import type { LanguageModel } from 'ai'
 
 /** Resolves after `ms`, or as soon as `signal` aborts. Never rejects. */
@@ -94,7 +94,7 @@ export function getProviderOptions(params: {
   n?: number
   costMode?: string
   cacheDebugCorrelation?: string
-  extraCodebuffMetadata?: Record<string, string>
+  extraMethaTechMetadata?: Record<string, string>
 }): ProviderMetadata {
   const {
     model,
@@ -105,7 +105,7 @@ export function getProviderOptions(params: {
     n,
     costMode,
     cacheDebugCorrelation,
-    extraCodebuffMetadata,
+    extraMethaTechMetadata,
   } = params
 
   let providerConfig: Record<string, any>
@@ -125,14 +125,14 @@ export function getProviderOptions(params: {
 
   return {
     ...providerOptions,
-    // Could either be "codebuff" or "openaiCompatible"
-    codebuff: {
-      ...providerOptions?.codebuff,
+    // Could either be "methatech" or "openaiCompatible"
+    methatech: {
+      ...providerOptions?.methatech,
       // All values here get appended to the request body
-      codebuff_metadata: {
+      methatech_metadata: {
         // Caller-supplied keys go first so they can't override reserved
         // identifiers the SDK sets, like run_id/client_id/cost_mode.
-        ...(extraCodebuffMetadata ?? {}),
+        ...(extraMethaTechMetadata ?? {}),
         run_id: runId,
         client_id: clientSessionId,
         ...(n && { n }),
@@ -146,7 +146,7 @@ export function getProviderOptions(params: {
   }
 }
 
-// Usage accounting type for OpenRouter/Codebuff backend responses
+// Usage accounting type for OpenRouter/MethaTech backend responses
 // Forked from https://github.com/OpenRouterTeam/ai-sdk-provider/
 type OpenRouterUsageAccounting = {
   cost: number | null
@@ -222,7 +222,7 @@ function emitCacheDebugUsage(params: {
 export async function* promptAiSdkStream(
   params: ParamsOf<PromptAiSdkStreamFn> & {
     byok?: ResolvedByokConnection
-    requestHeaders?: CodebuffRequestHeadersProvider
+    requestHeaders?: MethaTechRequestHeadersProvider
   },
   /** Internal: this is the one repeat of a request that timed out silently. */
   idleTimeoutRetried = false,
@@ -461,7 +461,7 @@ export async function* promptAiSdkStream(
   let finishProviderMetadata: ProviderMetadata | undefined
   const reportCost = async (providerMetadata: ProviderMetadata | undefined) => {
     if (costReported) return
-    const openrouterUsage = providerMetadata?.codebuff?.usage as
+    const openrouterUsage = providerMetadata?.methatech?.usage as
       | OpenRouterUsageAccounting
       | undefined
     const costOverrideDollars = openrouterUsage
@@ -673,7 +673,7 @@ export async function* promptAiSdkStream(
       if (chunkValue.text) {
         hasReceivedReasoning = true
       }
-      const reasoningExcluded = (['openrouter', 'codebuff'] as const).some(
+      const reasoningExcluded = (['openrouter', 'methatech'] as const).some(
         (p) =>
           (params.providerOptions?.[p] as OpenRouterProviderOptions | undefined)
             ?.reasoning?.exclude,
@@ -848,7 +848,7 @@ export async function* promptAiSdkStream(
 export async function promptAiSdk(
   params: ParamsOf<PromptAiSdkFn> & {
     byok?: ResolvedByokConnection
-    requestHeaders?: CodebuffRequestHeadersProvider
+    requestHeaders?: MethaTechRequestHeadersProvider
   },
 ): ReturnType<PromptAiSdkFn> {
   const { logger } = params
@@ -908,9 +908,9 @@ export async function promptAiSdk(
 
   const providerMetadata = response.providerMetadata ?? {}
   let costOverrideDollars: number | undefined
-  if (providerMetadata.codebuff) {
-    if (providerMetadata.codebuff.usage) {
-      const openrouterUsage = providerMetadata.codebuff
+  if (providerMetadata.methatech) {
+    if (providerMetadata.methatech.usage) {
+      const openrouterUsage = providerMetadata.methatech
         .usage as OpenRouterUsageAccounting
 
       costOverrideDollars =
@@ -932,7 +932,7 @@ export async function promptAiSdk(
 export async function promptAiSdkStructured<T>(
   params: PromptAiSdkStructuredInput<T> & {
     byok?: ResolvedByokConnection
-    requestHeaders?: CodebuffRequestHeadersProvider
+    requestHeaders?: MethaTechRequestHeadersProvider
   },
 ): PromptAiSdkStructuredOutput<T> {
   const { logger } = params
@@ -991,9 +991,9 @@ export async function promptAiSdkStructured<T>(
 
   const providerMetadata = response.providerMetadata ?? {}
   let costOverrideDollars: number | undefined
-  if (providerMetadata.codebuff) {
-    if (providerMetadata.codebuff.usage) {
-      const openrouterUsage = providerMetadata.codebuff
+  if (providerMetadata.methatech) {
+    if (providerMetadata.methatech.usage) {
+      const openrouterUsage = providerMetadata.methatech
         .usage as OpenRouterUsageAccounting
 
       costOverrideDollars =

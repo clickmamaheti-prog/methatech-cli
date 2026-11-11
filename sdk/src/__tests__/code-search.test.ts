@@ -1,13 +1,13 @@
 import {
   clearMockedModules,
   mockModule,
-} from '@codebuff/common/testing/mock-modules'
+} from '@methatech/common/testing/mock-modules'
 import {
   createMockChildProcess,
   asCodeSearchResult,
   createRgJsonMatch,
   createRgJsonContext,
-} from '@codebuff/common/testing/mocks'
+} from '@methatech/common/testing/mocks'
 import { describe, expect, it, mock, beforeEach, afterEach } from 'bun:test'
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -16,7 +16,7 @@ import { PassThrough } from 'node:stream'
 
 import { codeSearch } from '../tools/code-search'
 
-import type { MockChildProcess } from '@codebuff/common/testing/mocks'
+import type { MockChildProcess } from '@methatech/common/testing/mocks'
 import type { TerminalCommandBroker } from '../tools/run-terminal-command'
 
 describe('codeSearch', () => {

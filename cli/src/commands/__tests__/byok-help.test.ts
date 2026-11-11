@@ -2,7 +2,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { createBunByokConnectionStore } from '@codebuff/sdk'
+import { createBunByokConnectionStore } from '@methatech/sdk'
 import { afterEach, describe, expect, mock, test } from 'bun:test'
 
 import { BYOK_USAGE, handleByokCommand } from '../byok'

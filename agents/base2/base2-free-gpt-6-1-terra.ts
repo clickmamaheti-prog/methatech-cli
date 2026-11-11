@@ -1,7 +1,7 @@
 import {
   FREEBUFF_GPT_61_TERRA_MODEL_ID,
   FREEBUFF_GPT_61_TERRA_REASONING_EFFORT,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 
 import { createBase2 } from './base2'
 

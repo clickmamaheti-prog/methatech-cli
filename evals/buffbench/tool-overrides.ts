@@ -3,7 +3,7 @@ import path from 'path'
 import { readUrl } from '../../sdk/src/tools/read-url'
 import { runTerminalCommand } from '../../sdk/src/tools/run-terminal-command'
 
-import type { CodebuffClient } from '@codebuff/sdk'
+import type { CodebuffClient } from '@methatech/sdk'
 
 type OverrideTools = NonNullable<
   Parameters<CodebuffClient['run']>[0]['overrideTools']
@@ -99,7 +99,7 @@ function parseGitHubRepo(repoUrl: string): { owner?: string; name?: string } {
  * Does `raw` point at the evaluated repository or its published forms? A
  * token (the owner or the repo name, lower-cased) matches the host
  * (codebuff.com, codebuffai-codebuff.mintlify.app) or a WORD inside a path
- * segment (/codebuffai/codebuff, /@codebuff/sdk, /repos/codebuff/codebuff,
+ * segment (/codebuffai/codebuff, /@methatech/sdk, /repos/codebuff/codebuff,
  * /syntax-syndicate/codebuff-v0). Words are delimited by . - _ so that an
  * unrelated host's /docs/codebuffer/ does not trip it while a fork mirror
  * renamed <name>-v0 does: in the 2026-09-29 22:13 run base3 found such a
@@ -131,7 +131,7 @@ export function isUpstreamUrl(raw: string, tokens: string[]): boolean {
  * packages? Either a URL in it that isUpstreamUrl refuses (git clone,
  * ls-remote, curl), or a package manager fetching `@<name>/…` from the
  * registry (npm view, npm pack, bunx), which serves the code as published
- * after the commit. Local work passes, `bun --filter @codebuff/sdk test`
+ * after the commit. Local work passes, `bun --filter @methatech/sdk test`
  * included.
  */
 export function isUpstreamCommand(command: string, tokens: string[]): boolean {

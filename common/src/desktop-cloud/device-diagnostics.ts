@@ -1,6 +1,6 @@
 /** Bounded, content-free metadata shared by the device API and native client. */
-export const DEVICE_REQUEST_ID_HEADER = 'x-freebuff-device-request-id'
-export const DEVICE_ERROR_CODE_HEADER = 'x-freebuff-device-error-code'
+export const DEVICE_REQUEST_ID_HEADER = 'x-methatech-device-request-id'
+export const DEVICE_ERROR_CODE_HEADER = 'x-methatech-device-error-code'
 
 export const deviceFailureReasons = {
   DEVICE_FOLDER_LIMIT: 'Account device folder limit reached',

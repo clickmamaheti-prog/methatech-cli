@@ -20,7 +20,7 @@ import {
  * The funnel vocabulary is a CLOSED SET with two consumers that cannot see
  * each other: the Postgres enum `ad_agentic_funnel_event_type` (mirrored from
  * this array in `packages/internal/src/db/schema.ts`) and Convex, which may
- * never import `@codebuff/internal`. Nothing at runtime notices a member
+ * never import `@methatech/internal`. Nothing at runtime notices a member
  * added here and not migrated, or a member that quietly became billable — the
  * first shows up as a failed insert in production, the second as a charge.
  * So the membership and the billable set are asserted as data.

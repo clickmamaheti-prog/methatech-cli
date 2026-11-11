@@ -1,5 +1,5 @@
-import { FREEBUFF_DEFAULT_CONTEXT_WINDOW } from '@codebuff/common/constants/freebuff-models'
-import { freebuffSessionUntimed } from '@codebuff/common/util/freebuff-model-selection'
+import { FREEBUFF_DEFAULT_CONTEXT_WINDOW } from '@methatech/common/constants/freebuff-models'
+import { freebuffSessionUntimed } from '@methatech/common/util/freebuff-model-selection'
 import { TextAttributes } from '@opentui/core'
 import React, { useEffect, useState } from 'react'
 

@@ -1,4 +1,4 @@
-import { SPONSORED_ROW_FIXTURES } from '@codebuff/common/ads/__fixtures__/sponsored-proposal-rows'
+import { SPONSORED_ROW_FIXTURES } from '@methatech/common/ads/__fixtures__/sponsored-proposal-rows'
 import { afterEach, describe, expect, test } from 'bun:test'
 
 import {

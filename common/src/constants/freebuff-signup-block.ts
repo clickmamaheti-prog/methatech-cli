@@ -4,7 +4,7 @@
  * Lives in `common`, not in `packages/auth`, because the login pages are client
  * components: importing this from the auth barrel would drag `db`, `stripe` and
  * the server env schema into the browser bundle. The decision logic stays in
- * `@codebuff/auth/signup-gate`; only the vocabulary is shared.
+ * `@methatech/auth/signup-gate`; only the vocabulary is shared.
  */
 
 /** Why a signup was refused. Also the `?error=` code on the login redirect. */
@@ -29,7 +29,7 @@ export type SignupBlockReason =
   // shares this vocabulary so the login pages explain it like the others.
   | 'github_email_unverified'
   // A new account on a privacy, alias or disposable mail provider
-  // (`isPrivacyEmailDomain` in @codebuff/auth/link-guard).
+  // (`isPrivacyEmailDomain` in @methatech/auth/link-guard).
   | 'email_provider_not_allowed'
   // Email/password sign-ups only (docs/freebuff-email-password.md): the
   // signup gate could not run, and that path fails closed where OAuth fails
@@ -50,7 +50,7 @@ export type SignupBlockReason =
   // ... and a custom domain anywhere else.
   | 'email_domain_not_mainstream'
   // Another account on this browser or Fingerprint visitor is banned for what
-  // it did (`deviceLinkedToEvidenceBan` in @codebuff/auth/signup-gate-server).
+  // it did (`deviceLinkedToEvidenceBan` in @methatech/auth/signup-gate-server).
   | 'device_linked_to_banned_account'
   // Not a signup decision: a returning sign-in to an account its owner
   // deleted (a soft delete: the account is kept, and support can restore it).

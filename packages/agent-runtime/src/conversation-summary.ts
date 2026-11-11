@@ -23,39 +23,39 @@
  * of the same conversation through an in-process store.
  */
 
-import { DEEPSEEK_FLASH_COMPACTION_POLICY } from '@codebuff/common/constants/compaction-policy'
+import { DEEPSEEK_FLASH_COMPACTION_POLICY } from '@methatech/common/constants/compaction-policy'
 import {
   buildCompactionSummaryPrompt,
   COMPACTION_SUMMARY_METADATA_KEY,
-} from '@codebuff/common/constants/compaction-summary'
+} from '@methatech/common/constants/compaction-summary'
 import {
   FREEBUFF_DEEPSEEK_V4_FLASH_FAST_MODEL_ID,
   FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
-} from '@codebuff/common/constants/freebuff-model-ids'
-import { COMPACTION_SUMMARY_EVENT } from '@codebuff/common/util/axiom-only-log'
+} from '@methatech/common/constants/freebuff-model-ids'
+import { COMPACTION_SUMMARY_EVENT } from '@methatech/common/util/axiom-only-log'
 import {
   AbortError,
   getErrorObject,
   isAbortError,
-} from '@codebuff/common/util/error'
+} from '@methatech/common/util/error'
 import {
   dropUnansweredToolCalls,
   systemMessage,
   userMessage,
-} from '@codebuff/common/util/messages'
+} from '@methatech/common/util/messages'
 
 import { SUMMARY_HEADER } from './compact-history'
 import { expireMessages, withSystemInstructionTags } from './util/messages'
 import { countTokens, countTokensMessages } from './util/token-counter'
 
-import type { OpenRouterReasoningOptions } from '@codebuff/common/types/agent-template'
+import type { OpenRouterReasoningOptions } from '@methatech/common/types/agent-template'
 import type {
   ModelUsageData,
   PromptAiSdkStreamFn,
-} from '@codebuff/common/types/contracts/llm'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { ConversationSummary } from '@codebuff/common/types/session-state'
+} from '@methatech/common/types/contracts/llm'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { ConversationSummary } from '@methatech/common/types/session-state'
 
 /**
  * The idle gap after which the summary replaces the history. Five minutes is
@@ -308,7 +308,7 @@ export type SummaryStream = (params: {
   messages: Message[]
   maxOutputTokens: number
   signal: AbortSignal
-  extraCodebuffMetadata: Record<string, string>
+  extraMethaTechMetadata: Record<string, string>
   onFinishReason: (reason: string) => void
   onUsageReceived: (usage: ModelUsageData) => void
 }) => ReturnType<PromptAiSdkStreamFn>
@@ -383,7 +383,7 @@ export async function generateConversationSummary(params: {
         ? Math.min(SUMMARY_MAX_OUTPUT_TOKENS, params.maxOutputTokens)
         : SUMMARY_MAX_OUTPUT_TOKENS,
     signal: params.signal,
-    extraCodebuffMetadata: {
+    extraMethaTechMetadata: {
       [COMPACTION_SUMMARY_METADATA_KEY]: '1',
       compaction_summary_id: summaryId,
       compaction_request_id: summaryId,

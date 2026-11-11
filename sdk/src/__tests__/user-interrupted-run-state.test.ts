@@ -4,7 +4,7 @@ import {
   STATE_SNAPSHOT_INTERRUPTION_MESSAGE,
   toUserInterruptedRunState,
 } from '../run'
-import { USER_INTERRUPTED_MESSAGE } from '@codebuff/agent-runtime/util/messages'
+import { USER_INTERRUPTED_MESSAGE } from '@methatech/agent-runtime/util/messages'
 
 import type { RunState } from '../run-state'
 

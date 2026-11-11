@@ -59,13 +59,13 @@ export const COMMON_LOG_SIGNATURES: LogSignature[] = [
     id: 'log.tls-intercepted', pattern: /SELF_SIGNED_CERT_IN_CHAIN|UNABLE_TO_GET_ISSUER_CERT(?:_LOCALLY)?|UNABLE_TO_VERIFY_LEAF_SIGNATURE|CERT_UNTRUSTED|certificate (?:verify failed|has expired)|self[- ]signed certificate/i,
     severity: 'warning', area: 'network', title: 'Secure connections were rejected',
     detail: 'MethaTech could not verify a server certificate. This is what HTTPS scanning by antivirus, or a corporate proxy that inspects traffic, looks like from inside the app.',
-    steps: ['Turn off HTTPS or SSL scanning in your antivirus (or exclude freebuff.com and codebuff.com).', 'On a work network, ask IT to exempt freebuff.com and codebuff.com from TLS inspection.', 'Check that your computer clock is correct.'],
+    steps: ['Turn off HTTPS or SSL scanning in your antivirus (or exclude freebuff.com and console.methatech.eu.org).', 'On a work network, ask IT to exempt freebuff.com and console.methatech.eu.org from TLS inspection.', 'Check that your computer clock is correct.'],
   },
   {
     id: 'log.network-unreachable', pattern: /\bENOTFOUND\b|\bECONNREFUSED\b|\bETIMEDOUT\b|\bECONNRESET\b|getaddrinfo|ConnectionRefused|FailedToOpenSocket/,
     severity: 'info', area: 'network', title: 'Network requests failed',
     detail: 'The log shows connections that could not be made (name lookup, refused or timed out). Occasional failures are normal on a flaky network; many in a row mean something blocks MethaTech.',
-    steps: ['Check the network section of this report.', 'If you use a VPN, firewall or proxy, allow freebuff.com and codebuff.com.'],
+    steps: ['Check the network section of this report.', 'If you use a VPN, firewall or proxy, allow freebuff.com and console.methatech.eu.org.'],
   },
   {
     id: 'log.out-of-memory', pattern: /JavaScript heap out of memory|\bout of memory\b|ENOMEM|OOM/,

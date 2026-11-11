@@ -7,13 +7,13 @@
  * telemetry. Expanding fires no impression and no click, and nothing here may
  * ever be settled against.
  */
-import { WEBSITE_URL } from '@codebuff/sdk'
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { WEBSITE_URL } from '@methatech/sdk'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 import {
   claimDockExpansion,
   dockDwellMs,
   DOCK_ACCIDENTAL_CLICK_MS,
-} from '@codebuff/common/ads/ad-event-hygiene'
+} from '@methatech/common/ads/ad-event-hygiene'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { getAuthToken } from '../utils/auth'
@@ -24,8 +24,8 @@ import type {
   DockClickOrigin,
   DockCollapseMethod,
   DockExpandMethod,
-} from '@codebuff/common/ads/ad-event-hygiene'
-import type { CliDockArm } from '@codebuff/common/util/ad-experiment'
+} from '@methatech/common/ads/ad-event-hygiene'
+import type { CliDockArm } from '@methatech/common/util/ad-experiment'
 import type { AdResponse } from './use-gravity-ad'
 
 /** The chord, and the hint the dock prints for it on a wide collapsed dock. */

@@ -4,7 +4,7 @@
  * MethaTech CLI build script.
  *
  * Wraps the existing CLI build-binary.ts with FREEBUFF_MODE=true
- * to produce the MethaTech variant of the Codebuff CLI.
+ * to produce the MethaTech variant of the MethaTech CLI.
  *
  * Usage:
  *   bun freebuff/cli/build.ts <version>

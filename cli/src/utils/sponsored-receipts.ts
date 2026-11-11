@@ -52,11 +52,11 @@ import {
   SPONSORED_DIFF_FILE_TEXT_CAP,
   declaredOutcomes,
   verifyOutcomes,
-} from '@codebuff/common/ads/sponsored-run-outcomes'
+} from '@methatech/common/ads/sponsored-run-outcomes'
 
 import { getConfigDir } from './config-dir'
 
-import type { SponsoredDiffFile } from '@codebuff/common/ads/sponsored-run-outcomes'
+import type { SponsoredDiffFile } from '@methatech/common/ads/sponsored-run-outcomes'
 
 /** Desktop's receipt cap (`freebuff-desktop/src/server/git/receipts.ts`). */
 export const SPONSORED_SNAPSHOT_MAX_BYTES = 5 * 1024 * 1024

@@ -7,7 +7,7 @@
  * Start a new session" instead of the limit (Discord #787). The SDK must
  * refuse the long wait once and keep the limiter's own copy.
  */
-import { extractApiErrorDetails } from '@codebuff/common/util/error'
+import { extractApiErrorDetails } from '@methatech/common/util/error'
 import { APICallError, streamText } from 'ai'
 import { afterEach, describe, expect, test } from 'bun:test'
 

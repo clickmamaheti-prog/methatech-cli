@@ -18,14 +18,14 @@ export const FREEBUFF_PROVIDER_USAGE_ERROR_PATTERN =
   /\b(?:(?:not enough|insufficient|out of)\s+credits?|(?:add|purchase|refill|top up)\s+(?:more\s+)?credits?)\b/i
 
 /**
- * The Codebuff API's own 402 for a paid (non-free) request names the user's
+ * The MethaTech API's own 402 for a paid (non-free) request names the user's
  * balance page: "Out of credits. Please add credits at
- * https://www.codebuff.com/usage." That is the USER'S account running dry, so it
+ * https://console.methatech.eu.org/usage." That is the USER'S account running dry, so it
  * must reach the ordinary out-of-credits flow; it also matches
  * FREEBUFF_PROVIDER_USAGE_ERROR_PATTERN ("add credits"), which told a paying
  * user "this is on us, not your account" (2026-09-26, CLI, lite mode).
  */
-export const CODEBUFF_OWN_CREDITS_ERROR_PATTERN = /codebuff\.com\/usage/i
+export const METHATECH_OWN_CREDITS_ERROR_PATTERN = /console\.methatech\.eu\.org\/usage/i
 
 /** Shared copy keeps every Freebuff surface clear that the user is not billed. */
 export const FREEBUFF_PROVIDER_USAGE_MESSAGE =

@@ -1,19 +1,19 @@
-import * as analytics from '@codebuff/common/analytics'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
+import * as analytics from '@methatech/common/analytics'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
 import {
   createMockDbOperations,
   setupDbSpies,
-} from '@codebuff/common/testing/mocks/database'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
+} from '@methatech/common/testing/mocks/database'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
 import { afterEach, describe, expect, spyOn, test } from 'bun:test'
 
 import { loopAgentSteps } from '../../run-agent-step'
 
 import type { AgentTemplate } from '../../templates/types'
-import type { DbSpies } from '@codebuff/common/testing/mocks/database'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+import type { DbSpies } from '@methatech/common/testing/mocks/database'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 /**
  * Application-tier regression test: toolDefinitions live in agent state

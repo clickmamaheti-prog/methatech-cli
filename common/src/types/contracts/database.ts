@@ -1,9 +1,9 @@
 import type {
   ProjectProfile,
   ProjectProfileReport,
-} from '@codebuff/common/constants/project-profile'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+} from '@methatech/common/constants/project-profile'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 type User = {
   id: string

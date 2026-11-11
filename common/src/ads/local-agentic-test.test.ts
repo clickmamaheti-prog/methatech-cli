@@ -9,7 +9,7 @@ const local = {
   TEST_AGENTIC_ADS_CAMPAIGN: 'd5dbe7ad-c2cc-4423-8871-211234560001',
   NODE_ENV: 'development',
   NEXT_PUBLIC_CB_ENVIRONMENT: 'dev',
-  NEXT_PUBLIC_CODEBUFF_APP_URL: 'http://localhost:3300',
+  NEXT_PUBLIC_METHATECH_APP_URL: 'http://localhost:3300',
   NEXT_PUBLIC_FREEBUFF_APP_URL: 'http://localhost:3302',
   DATABASE_URL:
     'postgres://user:password@127.0.0.1:55432/freebuff_agentic_test',
@@ -36,7 +36,7 @@ describe('local agentic test authority', () => {
     ['NODE_ENV', 'production'],
     ['NEXT_PUBLIC_CB_ENVIRONMENT', 'prod'],
     ['TEST_AGENTIC_ADS_CAMPAIGN', ''],
-    ['NEXT_PUBLIC_CODEBUFF_APP_URL', 'https://www.codebuff.com'],
+    ['NEXT_PUBLIC_METHATECH_APP_URL', 'https://console.methatech.eu.org'],
     ['NEXT_PUBLIC_FREEBUFF_APP_URL', 'https://freebuff.com'],
     ['DATABASE_URL', 'postgres://prod/freebuff_agentic_test'],
     ['DIRECT_DATABASE_URL', 'postgres://prod/freebuff_agentic_test'],

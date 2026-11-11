@@ -7,14 +7,14 @@ import path from 'path'
  * This checks both that tmux is installed AND that it can actually run
  * (e.g., the tmux server socket directory exists and is accessible).
  *
- * Returns false on CI unless CODEBUFF_RUN_TMUX_TESTS=1 explicitly opts into
+ * Returns false on CI unless METHATECH_RUN_TMUX_TESTS=1 explicitly opts into
  * running deterministic tmux tests in a known terminal environment.
  */
 export function isTmuxAvailable(): boolean {
   // Skip on CI - tmux integration tests need a real terminal environment
   if (
     (process.env.CI === 'true' || process.env.CI === '1') &&
-    process.env.CODEBUFF_RUN_TMUX_TESTS !== '1'
+    process.env.METHATECH_RUN_TMUX_TESTS !== '1'
   ) {
     return false
   }
@@ -24,7 +24,7 @@ export function isTmuxAvailable(): boolean {
     execSync('which tmux', { stdio: 'pipe' })
     // Then verify tmux can actually run by creating and killing a test session
     // This will fail if tmux server can't start (e.g., no socket directory on CI)
-    execSync('tmux new-session -d -s __codebuff_tmux_check__ && tmux kill-session -t __codebuff_tmux_check__', {
+    execSync('tmux new-session -d -s __methatech_tmux_check__ && tmux kill-session -t __methatech_tmux_check__', {
       stdio: 'pipe',
       timeout: 5000,
     })
@@ -59,7 +59,7 @@ let cachedEnv: Record<string, string> | null = null
 
 const TEST_CLIENT_ENV_DEFAULTS: Record<string, string> = {
   NEXT_PUBLIC_CB_ENVIRONMENT: 'test',
-  NEXT_PUBLIC_CODEBUFF_APP_URL: 'http://localhost:3000',
+  NEXT_PUBLIC_METHATECH_APP_URL: 'http://localhost:3000',
   NEXT_PUBLIC_SUPPORT_EMAIL: 'support@freebuff.com',
   NEXT_PUBLIC_POSTHOG_API_KEY: 'test-posthog-key',
   NEXT_PUBLIC_POSTHOG_HOST_URL: 'https://us.i.posthog.com',
@@ -77,8 +77,8 @@ const TEST_SERVER_ENV_DEFAULTS: Record<string, string> = {
   GRAVITY_CAPI_KEY: 'test',
   PORT: '4242',
   DATABASE_URL: 'postgres://user:pass@localhost:5432/db',
-  CODEBUFF_GITHUB_ID: 'test-id',
-  CODEBUFF_GITHUB_SECRET: 'test-secret',
+  METHATECH_GITHUB_ID: 'test-id',
+  METHATECH_GITHUB_SECRET: 'test-secret',
   NEXTAUTH_SECRET: 'test-secret',
   STRIPE_SECRET_KEY: 'sk_test_dummy',
   STRIPE_WEBHOOK_SECRET_KEY: 'whsec_dummy',

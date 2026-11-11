@@ -1,29 +1,29 @@
-import type { SponsoredRunEvidence } from '@codebuff/common/ads/sponsored-run-evidence'
-import type { SponsoredProposalStep } from '@codebuff/common/ads/sponsored-proposal-view'
+import type { SponsoredRunEvidence } from '@methatech/common/ads/sponsored-run-evidence'
+import type { SponsoredProposalStep } from '@methatech/common/ads/sponsored-proposal-view'
 import {
   AGENTIC_OFFER_PATH,
   agenticOfferResponseSchema,
-} from '@codebuff/common/ads/agentic-offer'
-import { SPONSORED_IN_PLACE_VERSION } from '@codebuff/common/ads/sponsored-in-place'
-import { SPONSORED_RUN_SPEC_VERSION } from '@codebuff/common/ads/sponsored-run-spec'
-import { sponsoredPackageResolveOutcome } from '@codebuff/common/ads/sponsored-install-tool'
+} from '@methatech/common/ads/agentic-offer'
+import { SPONSORED_IN_PLACE_VERSION } from '@methatech/common/ads/sponsored-in-place'
+import { SPONSORED_RUN_SPEC_VERSION } from '@methatech/common/ads/sponsored-run-spec'
+import { sponsoredPackageResolveOutcome } from '@methatech/common/ads/sponsored-install-tool'
 import {
   SPONSORED_INSTALL_TOOL_VERSION,
   SPONSORED_PACKAGE_RESOLVE_PATH,
-} from '@codebuff/common/ads/sponsored-package-resolve'
-import { sanitizeTerminalStrings } from '@codebuff/common/util/terminal-safe-text'
-import { normalizeRepoFullName } from '@codebuff/common/ads/sponsored-proposal-target'
+} from '@methatech/common/ads/sponsored-package-resolve'
+import { sanitizeTerminalStrings } from '@methatech/common/util/terminal-safe-text'
+import { normalizeRepoFullName } from '@methatech/common/ads/sponsored-proposal-target'
 import type {
   AgenticOfferRequest,
   AgenticOfferResponse,
-} from '@codebuff/common/ads/agentic-offer'
-import type { SponsoredLocalTarget } from '@codebuff/common/ads/sponsored-capability'
-import type { SponsoredComputeGrant } from '@codebuff/common/ads/sponsored-compute-contract'
-import type { SponsoredFrictionInput } from '@codebuff/common/ads/sponsored-run-friction'
+} from '@methatech/common/ads/agentic-offer'
+import type { SponsoredLocalTarget } from '@methatech/common/ads/sponsored-capability'
+import type { SponsoredComputeGrant } from '@methatech/common/ads/sponsored-compute-contract'
+import type { SponsoredFrictionInput } from '@methatech/common/ads/sponsored-run-friction'
 import type {
   SponsoredPackageResolveBody,
   SponsoredPackageResolveResponse,
-} from '@codebuff/common/ads/sponsored-package-resolve'
+} from '@methatech/common/ads/sponsored-package-resolve'
 import { createHash } from 'node:crypto'
 
 import { FREEBUFF_WEB_URL } from '../login/constants'
@@ -31,7 +31,7 @@ import { FREEBUFF_WEB_URL } from '../login/constants'
 import { getCliAdRequestUserAgent } from './ad-client-identity'
 import { logger } from './logger'
 
-import type { SponsoredProposalRow } from '@codebuff/common/ads/sponsored-proposal-view'
+import type { SponsoredProposalRow } from '@methatech/common/ads/sponsored-proposal-view'
 
 /**
  * The CLI's transport for sponsored proposals (COD-376, Decision 2).
@@ -40,7 +40,7 @@ import type { SponsoredProposalRow } from '@codebuff/common/ads/sponsored-propos
  * `git grep convex -- cli/` is empty, and a websocket subscription to reach one
  * card is a dependency the terminal would carry on every launch.
  *
- * FREEBUFF.COM, not codebuff.com, which is where the display-ad calls go. The
+ * FREEBUFF.COM, not console.methatech.eu.org, which is where the display-ad calls go. The
  * Convex functions live on freebuff.com and the two web apps share one Postgres,
  * so the session token the CLI already holds signs in on either.
  *
@@ -198,7 +198,7 @@ export function sponsoredProcedureSha256(procedure: string): string {
  *
  * THE SAME CONSTANT THE LOGIN FLOW USES, deliberately. This read
  * `process.env.NEXT_PUBLIC_FREEBUFF_APP_URL` raw, which skipped both things
- * that constant does: the `@codebuff/common/env` schema, so an unset or
+ * that constant does: the `@methatech/common/env` schema, so an unset or
  * mistyped variable fell back to production with nothing said; and the
  * `IS_DEV` localhost branch, so a developer's proposal traffic left their
  * laptop for production while every other CLI call stayed on :3002 -- writing

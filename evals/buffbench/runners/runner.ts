@@ -1,8 +1,8 @@
 import type {
   AgentUsageData,
   ContextCompactionData,
-} from '@codebuff/common/types/contracts/llm'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+} from '@methatech/common/types/contracts/llm'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 export type AgentStep = PrintModeEvent
 

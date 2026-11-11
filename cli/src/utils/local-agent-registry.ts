@@ -5,9 +5,9 @@ import {
   getDefaultAgentDirs,
   loadLocalAgents as sdkLoadLocalAgents,
   loadMCPConfigSync,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
-import type { MCPConfig } from '@codebuff/common/types/mcp'
+import type { MCPConfig } from '@methatech/common/types/mcp'
 
 import { getFreebuffModelDirectory } from '../state/freebuff-catalog-store'
 import { getSelectedFreebuffModel } from '../state/freebuff-model-store'
@@ -18,7 +18,7 @@ import { freebuffCatalogRootAgent } from './freebuff-catalog-agent'
 import { logger } from './logger'
 import * as bundledAgentsModule from '../agents/bundled-agents.generated'
 
-import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
+import type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
 
 // ============================================================================
 // Constants and types
@@ -30,7 +30,7 @@ export interface LocalAgentInfo {
   id: string
   displayName: string
   filePath: string
-  /** True if this is a bundled Codebuff agent (not user-created) */
+  /** True if this is a bundled MethaTech agent (not user-created) */
   isBundled?: boolean
 }
 
@@ -252,7 +252,7 @@ export const loadLocalAgents = (
     return cached
   }
 
-  // Get bundled agents - these are the default Codebuff agents
+  // Get bundled agents - these are the default MethaTech agents
   // compiled into the CLI binary at build time
   const bundledAgentsInfo = getBundledAgentsAsLocalInfo()
   const bundledAgents = getBundledAgents()
@@ -319,7 +319,7 @@ export const loadLocalAgents = (
  * without needing to modify the base agent definition.
  */
 export const loadAgentDefinitions = (): AgentDefinition[] => {
-  // Start with bundled agents - these are the default Codebuff agents
+  // Start with bundled agents - these are the default MethaTech agents
   const bundledAgents = getBundledAgents()
   const definitions: AgentDefinition[] = Object.values(bundledAgents).map(
     (def) => ({ ...def }),

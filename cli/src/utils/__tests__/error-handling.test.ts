@@ -3,7 +3,7 @@ import {
   FREEBUFF_PROVIDER_USAGE_MESSAGE,
   FREEBUFF_TURN_SPEND_LIMIT_ERROR_CODE,
   FREEBUFF_TURN_SPEND_LIMIT_MESSAGE,
-} from '@codebuff/common/constants/freebuff-errors'
+} from '@methatech/common/constants/freebuff-errors'
 
 import {
   getFreebuffGateErrorKind,
@@ -314,22 +314,22 @@ describe('error-handling', () => {
       }
     })
 
-    // Prod 2026-09-26: a paid (lite) Codebuff request answered 402 with the
+    // Prod 2026-09-26: a paid (lite) MethaTech request answered 402 with the
     // user's OWN balance message; the CLI said "this is on us, not your
     // account" instead of the out-of-credits flow.
-    test("the user's own Codebuff out-of-credits 402 is not a provider problem", () => {
+    test("the user's own MethaTech out-of-credits 402 is not a provider problem", () => {
       for (const error of [
         {
           statusCode: 402,
           responseBody: JSON.stringify({
             message:
-              'Out of credits. Please add credits at https://www.codebuff.com/usage.',
+              'Out of credits. Please add credits at https://console.methatech.eu.org/usage.',
           }),
         },
         {
           statusCode: 402,
           message:
-            'Out of credits. Please add credits at https://www.codebuff.com/usage.',
+            'Out of credits. Please add credits at https://console.methatech.eu.org/usage.',
         },
       ]) {
         expect(isFreebuffProviderUsageError(error)).toBe(false)

@@ -18,7 +18,7 @@
  * The invariant every reader enforces: for each job EXACTLY ONE runner does
  * the work. Both sides read this one table, so a flip is a single reviewed
  * diff that both sides deploy with. It lives in `common` because the Convex
- * actions (which may import only `@codebuff/common` from outside convex/),
+ * actions (which may import only `@methatech/common` from outside convex/),
  * freebuff-web and the jobs worker all read it. Never an env var.
  *
  * DEPLOY ORDER for a flip to `graphile`: the jobs worker must already be

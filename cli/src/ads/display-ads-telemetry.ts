@@ -17,14 +17,14 @@ import {
   buildDisplayAdEvent,
   type DisplayAdAction,
   type DisplayAdEventKind,
-} from '@codebuff/common/ads/display-ads/telemetry'
+} from '@methatech/common/ads/display-ads/telemetry'
 import { useEffect, useRef } from 'react'
 
 import { trackEvent } from '../utils/analytics'
 import { logger } from '../utils/logger'
 
-import type { SponsorId } from '@codebuff/common/ads/display-ads/sponsors'
-import type { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import type { SponsorId } from '@methatech/common/ads/display-ads/sponsors'
+import type { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 
 export type CliDisplayAdSlot = 'cliSplash' | 'cliStatusline' | 'deals'
 

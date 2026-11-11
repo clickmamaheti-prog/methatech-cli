@@ -44,7 +44,7 @@ describe('stripHiddenAgentBlocks', () => {
   test('removes context-pruner blocks (bundled and qualified ids)', () => {
     const blocks: ContentBlock[] = [
       agentBlock('context-pruner'),
-      agentBlock('codebuff/context-pruner@1.0.0'),
+      agentBlock('methatech/context-pruner@1.0.0'),
       agentBlock('file-picker'),
     ]
 
@@ -94,7 +94,7 @@ describe('stripHiddenAgentBlocks', () => {
 
 describe('getAgentBaseName', () => {
   test('extracts base name from scoped versioned name', () => {
-    expect(getAgentBaseName('codebuff/file-picker@0.0.2')).toBe('file-picker')
+    expect(getAgentBaseName('methatech/file-picker@0.0.2')).toBe('file-picker')
   })
 
   test('extracts base name from simple versioned name', () => {
@@ -110,7 +110,7 @@ describe('getAgentBaseName', () => {
   })
 
   test('handles scoped name without version', () => {
-    expect(getAgentBaseName('codebuff/file-picker')).toBe('file-picker')
+    expect(getAgentBaseName('methatech/file-picker')).toBe('file-picker')
   })
 
   test('handles empty string', () => {

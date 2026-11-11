@@ -1,9 +1,9 @@
 import {
   promptSuccess,
   type PromptResult,
-} from '@codebuff/common/util/error'
-import { cleanMarkdownCodeBlock } from '@codebuff/common/util/file'
-import { FILE_WRITE_GUARD_EVENT } from '@codebuff/common/util/axiom-only-log'
+} from '@methatech/common/util/error'
+import { cleanMarkdownCodeBlock } from '@methatech/common/util/file'
+import { FILE_WRITE_GUARD_EVENT } from '@methatech/common/util/axiom-only-log'
 import { createPatch } from 'diff'
 
 import {
@@ -11,7 +11,7 @@ import {
   truncatedRewriteMessage,
 } from './util/truncated-write-guard'
 
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 type WriteFileSuccess = {
   tool: 'write_file'

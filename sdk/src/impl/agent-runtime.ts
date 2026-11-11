@@ -1,14 +1,14 @@
-import { trackEvent as trackCommonEvent } from '@codebuff/common/analytics'
-import { BYOK_LOCAL_USER_ID, BYOK_RUN_ID_PREFIX } from '@codebuff/common/constants/byok'
-import { env as clientEnvDefault } from '@codebuff/common/env'
-import { getCiEnv } from '@codebuff/common/env-ci'
-import { shouldTrackAnalyticsEvent } from '@codebuff/common/util/analytics-sampling'
-import { success } from '@codebuff/common/util/error'
-import { HostedServiceUnavailableError } from '@codebuff/agent-runtime/llm-api/codebuff-web-api'
+import { trackEvent as trackCommonEvent } from '@methatech/common/analytics'
+import { BYOK_LOCAL_USER_ID, BYOK_RUN_ID_PREFIX } from '@methatech/common/constants/byok'
+import { env as clientEnvDefault } from '@methatech/common/env'
+import { getCiEnv } from '@methatech/common/env-ci'
+import { shouldTrackAnalyticsEvent } from '@methatech/common/util/analytics-sampling'
+import { success } from '@methatech/common/util/error'
+import { HostedServiceUnavailableError } from '@methatech/agent-runtime/llm-api/methatech-web-api'
 
 import { getWebsiteUrl } from '../constants'
 import type { ResolvedByokConnection } from '../byok'
-import type { CodebuffRequestHeadersProvider } from './model-provider'
+import type { MethaTechRequestHeadersProvider } from './model-provider'
 
 import {
   addAgentStep,
@@ -22,13 +22,13 @@ import { promptAiSdk, promptAiSdkStream, promptAiSdkStructured } from './llm'
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { DatabaseAgentCache } from '@codebuff/common/types/contracts/database'
-import type { ClientEnv } from '@codebuff/common/types/contracts/env'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { TraceWriter } from '@codebuff/common/types/contracts/trace'
-import type { TrackEventFn } from '@codebuff/common/types/contracts/analytics'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { DatabaseAgentCache } from '@methatech/common/types/contracts/database'
+import type { ClientEnv } from '@methatech/common/types/contracts/env'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { TraceWriter } from '@methatech/common/types/contracts/trace'
+import type { TrackEventFn } from '@methatech/common/types/contracts/analytics'
 
 const DATABASE_AGENT_CACHE_MAX_ENTRIES = 200
 
@@ -60,10 +60,10 @@ export function getAgentRuntimeImpl(
     byok?: ResolvedByokConnection
     /** Registry publishers whose executable agents may load; see ../agent-publisher-trust.ts. */
     trustedAgentPublishers?: readonly string[]
-    /** Never fetch from the agent registry; see `CodebuffClientOptions.disableAgentRegistry`. */
+    /** Never fetch from the agent registry; see `MethaTechClientOptions.disableAgentRegistry`. */
     disableAgentRegistry?: boolean
-    /** Extra headers per backend completions request; see `CodebuffClientOptions.requestHeaders`. */
-    requestHeaders?: CodebuffRequestHeadersProvider
+    /** Extra headers per backend completions request; see `MethaTechClientOptions.requestHeaders`. */
+    requestHeaders?: MethaTechRequestHeadersProvider
   } & Pick<
     AgentRuntimeScopedDeps,
     | 'handleStepsLogChunk'
@@ -97,7 +97,7 @@ export function getAgentRuntimeImpl(
 
   const clientEnv: ClientEnv = {
     ...(clientEnvInput ?? clientEnvDefault),
-    NEXT_PUBLIC_CODEBUFF_APP_URL: getWebsiteUrl(),
+    NEXT_PUBLIC_METHATECH_APP_URL: getWebsiteUrl(),
   }
 
   const trackSdkRuntimeEvent: TrackEventFn = (eventParams) => {
@@ -170,7 +170,7 @@ export function getAgentRuntimeImpl(
     logger: logger ?? noopLogger,
     traceWriter,
     // Server-side research/Gravity helpers use this runtime fetch. BYOK has
-    // no Codebuff service allowance, so fail closed; model requests use the
+    // no MethaTech service allowance, so fail closed; model requests use the
     // direct provider fetch constructed in model-provider.ts instead.
     fetch: byok
       ? (async () => {

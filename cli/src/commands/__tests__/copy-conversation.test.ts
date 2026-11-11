@@ -220,7 +220,7 @@ describe('serializeConversation', () => {
 
   test('empty conversation still produces a header', () => {
     const { text, omittedCount } = serializeConversation([])
-    expect(text).toMatch(/# (MethaTech|Codebuff) conversation/)
+    expect(text).toMatch(/# (MethaTech|MethaTech) conversation/)
     expect(omittedCount).toBe(0)
   })
 })

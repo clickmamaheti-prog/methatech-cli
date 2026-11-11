@@ -1,4 +1,4 @@
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import { describe, expect, it } from 'bun:test'
 
 import { MAX_FOLLOWUP_SUGGESTION_CALLS_PER_RESPONSE } from '../../tools/stream-parser'

@@ -1,9 +1,9 @@
 import { AssertionError } from 'assert'
 
-import { buildArray } from '@codebuff/common/util/array'
-import { getErrorObject } from '@codebuff/common/util/error'
-import { systemMessage, userMessage } from '@codebuff/common/util/messages'
-import { closeXml } from '@codebuff/common/util/xml'
+import { buildArray } from '@methatech/common/util/array'
+import { getErrorObject } from '@methatech/common/util/error'
+import { systemMessage, userMessage } from '@methatech/common/util/messages'
+import { closeXml } from '@methatech/common/util/xml'
 import { cloneDeep, isEqual } from 'lodash'
 
 import { simplifyTerminalCommandResults } from './simplify-tool-results'
@@ -11,15 +11,15 @@ import { countTokensMessages } from './token-counter'
 
 import type { System } from '../llm-api/claude'
 import type {
-  CodebuffToolMessage,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+  MethaTechToolMessage,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 import type {
   TextPart,
   ImagePart,
-} from '@codebuff/common/types/messages/content-part'
+} from '@methatech/common/types/messages/content-part'
 
 export function messagesWithSystem(params: {
   messages: Message[]
@@ -159,10 +159,10 @@ export function castAssistantMessage(message: Message): Message | null {
 const numTerminalCommandsToKeep = 5
 
 function simplifyTerminalHelper(params: {
-  toolResult: CodebuffToolOutput<'run_terminal_command'>
+  toolResult: MethaTechToolOutput<'run_terminal_command'>
   numKept: number
   logger: Logger
-}): { result: CodebuffToolOutput<'run_terminal_command'>; numKept: number } {
+}): { result: MethaTechToolOutput<'run_terminal_command'>; numKept: number } {
   const { toolResult, numKept, logger } = params
   const simplified = simplifyTerminalCommandResults({
     messageContent: toolResult,
@@ -232,7 +232,7 @@ export function trimMessagesToFitTokenLimit(params: {
 
       const terminalResultMessage = cloneDeep(
         m,
-      ) as CodebuffToolMessage<'run_terminal_command'>
+      ) as MethaTechToolMessage<'run_terminal_command'>
 
       const result = simplifyTerminalHelper({
         toolResult: terminalResultMessage.content,
@@ -295,7 +295,7 @@ export function getMessagesSubset(params: {
 
   // Remove cache_control from all messages
   for (const message of messagesSubset) {
-    for (const provider of ['anthropic', 'openrouter', 'codebuff'] as const) {
+    for (const provider of ['anthropic', 'openrouter', 'methatech'] as const) {
       delete message.providerOptions?.[provider]?.cacheControl
     }
   }
@@ -348,7 +348,7 @@ export function getPreviouslyReadFiles(params: {
       try {
         files.push(
           ...(
-            message as CodebuffToolMessage<'read_files'>
+            message as MethaTechToolMessage<'read_files'>
           ).content[0].value.filter(
             (
               file,
@@ -366,7 +366,7 @@ export function getPreviouslyReadFiles(params: {
 
     if (message.toolName === 'find_files') {
       try {
-        const v = (message as CodebuffToolMessage<'find_files'>).content[0]
+        const v = (message as MethaTechToolMessage<'find_files'>).content[0]
           .value
         if ('message' in v) {
           continue

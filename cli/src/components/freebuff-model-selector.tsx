@@ -1,11 +1,11 @@
-import { freebucksOffPeakCopy } from '@codebuff/common/util/freebuff-off-peak-price'
-import { isFreebucksPeakModel } from '@codebuff/common/util/freebuff-peak-price'
-import { watchFreebucksPriceChanges } from '@codebuff/common/util/freebuff-price-changes'
+import { freebucksOffPeakCopy } from '@methatech/common/util/freebuff-off-peak-price'
+import { isFreebucksPeakModel } from '@methatech/common/util/freebuff-peak-price'
+import { watchFreebucksPriceChanges } from '@methatech/common/util/freebuff-price-changes'
 import {
   formatHoursWithUnit,
   freebuffModelMultiplierLabel,
-} from '@codebuff/common/util/freebuff-hours'
-import { freebucksRowPrice } from '@codebuff/common/util/freebuff-price-order'
+} from '@methatech/common/util/freebuff-hours'
+import { freebucksRowPrice } from '@methatech/common/util/freebuff-price-order'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import React, {
@@ -30,7 +30,7 @@ import { safeOpen } from '../utils/open-url'
 import {
   FREEBUFF_PLAN_REQUIRED_LABEL,
   FREEBUFF_PLAN_REQUIRED_LINE,
-} from '@codebuff/common/util/freebuff-model-selection'
+} from '@methatech/common/util/freebuff-model-selection'
 
 /** Where a wall sends the reader — the same destination as the landing
  *  screen's upgrade line, so the two cannot point at different pages. */
@@ -41,19 +41,19 @@ import { FreebuffReferralBanner } from './freebuff-referral-banner'
 import {
   FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
   getFreebuffDeploymentAvailabilityLabel,
-} from '@codebuff/common/constants/freebuff-models'
-import { isMethatechModelId } from '@codebuff/common/constants/methatech-models'
+} from '@methatech/common/constants/freebuff-models'
+import { isMethatechModelId } from '@methatech/common/constants/methatech-models'
 import {
   formatFreebuffRowQuota,
   getFreebuffSectionQuotas,
   getFreebuffModelMeter,
-} from '@codebuff/common/util/freebuff-session-pools'
+} from '@methatech/common/util/freebuff-session-pools'
 import {
   FREEBUFF_PICKER_SECTIONS,
   freebuffPickerSections,
   freebuffRowPlacement,
   type FreebuffPickerSectionId,
-} from '@codebuff/common/util/freebuff-picker-sections'
+} from '@methatech/common/util/freebuff-picker-sections'
 import {
   getLimitedModelOffers,
   getRateLimitsByModel,
@@ -61,14 +61,14 @@ import {
   getReferralInfo,
   getFreeWindowsInfo,
   getSubscriptionInfo,
-} from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/types/freebuff-session'
 
 import {
   formatPlanWindows,
   freebuffFreeWindowsSummary,
   freebuffPlanSummary,
-} from '@codebuff/common/util/freebuff-plan-summary'
-import { compiledFreebuffModelIdOfRow } from '@codebuff/common/util/freebuff-catalog-compiled-model'
+} from '@methatech/common/util/freebuff-plan-summary'
+import { compiledFreebuffModelIdOfRow } from '@methatech/common/util/freebuff-catalog-compiled-model'
 
 import { startFreebuffSession } from '../hooks/use-freebuff-session'
 import { useNow } from '../hooks/use-now'
@@ -96,9 +96,9 @@ import { isPlainEnterKey } from '../utils/terminal-enter-detection'
 import type {
   FreebuffAccessTier,
   FreebuffModelOption,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import type { FreebuffReferralFocusTarget } from './freebuff-referral-banner'
-import type { FreebuffCatalogBadge } from '@codebuff/common/types/freebuff-model-catalog'
+import type { FreebuffCatalogBadge } from '@methatech/common/types/freebuff-model-catalog'
 import type {
   BoxRenderable,
   KeyEvent,

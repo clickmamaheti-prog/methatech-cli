@@ -36,8 +36,8 @@ test('fallback mode sends neither the protocol header nor a handle', async () =>
   )
   await callFreebuffSession('POST', 'tok', { model: 'mimo/mimo-v2.5' })
   const headers = headersOf(fetchSpy.mock.calls[0]!)
-  expect(headers.get('x-freebuff-catalog-protocol')).toBeNull()
-  expect(headers.get('x-freebuff-model')).toBe('mimo/mimo-v2.5')
+  expect(headers.get('x-methatech-catalog-protocol')).toBeNull()
+  expect(headers.get('x-methatech-model')).toBe('mimo/mimo-v2.5')
 })
 
 test('catalog mode sends the protocol header on every call and the handle for a key', async () => {
@@ -48,9 +48,9 @@ test('catalog mode sends the protocol header on every call and the handle for a 
   await callFreebuffSession('GET', 'tok', { instanceId: 'i1' })
   await callFreebuffSession('DELETE', 'tok', { instanceId: 'i1' })
   const [post, get, del] = fetchSpy.mock.calls.map(headersOf)
-  expect(post!.get('x-freebuff-model')).toBe('fbm1.m-flash-h1')
+  expect(post!.get('x-methatech-model')).toBe('fbm1.m-flash-h1')
   for (const headers of [post!, get!, del!]) {
-    expect(headers.get('x-freebuff-catalog-protocol')).toBe('1')
+    expect(headers.get('x-methatech-catalog-protocol')).toBe('1')
   }
 })
 
@@ -74,7 +74,7 @@ test('a stale handle refetches the catalog once and retries with the new handle'
   })
   expect(response.status).toBe('none')
   expect(refreshes).toBe(1)
-  expect(fetchSpy.mock.calls.map((c: unknown[]) => headersOf(c).get('x-freebuff-model')))
+  expect(fetchSpy.mock.calls.map((c: unknown[]) => headersOf(c).get('x-methatech-model')))
     .toEqual(['fbm1.m-flash-h1', 'fbm1.m-flash-h2'])
 })
 

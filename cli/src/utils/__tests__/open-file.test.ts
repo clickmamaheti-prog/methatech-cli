@@ -28,7 +28,7 @@ describe.skipIf(process.platform === 'win32')('openFileAtPath placeholders', () 
   const run = async (editor: string, filePath: string) => {
     const out = path.join(dir, 'out')
     const env = {
-      CODEBUFF_EDITOR: editor.replace('OUT', out),
+      METHATECH_EDITOR: editor.replace('OUT', out),
     } as unknown as CliEnv
     const ok = await openFileAtPath(filePath, env)
     return { ok, out }

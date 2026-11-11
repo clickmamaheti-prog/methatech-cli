@@ -57,7 +57,7 @@ import { getSkillByName } from '../utils/skill-registry'
 
 import type { MultilineInputHandle } from '../components/multiline-input'
 import type { InputValue, PendingAttachment } from '../types/store'
-import { CLOUD_COMPACT_PROMPT } from '@codebuff/common/desktop-cloud/compact'
+import { CLOUD_COMPACT_PROMPT } from '@methatech/common/desktop-cloud/compact'
 
 import type { ChatMessage } from '../types/chat'
 import type { SendMessageFn } from '../types/contracts/send-message'
@@ -224,7 +224,7 @@ const FREEBUFF_ONLY_COMMANDS = new Set([
   'deals',
   // Freebuff-only because the ladder it reads is the FREEBUFF catalog's, and
   // the metadata it sets is honored only for free-mode traffic
-  // (isFreebuffOriginatedRequest). On Codebuff the command would take a value
+  // (isFreebuffOriginatedRequest). On MethaTech the command would take a value
   // and silently drop it.
   'reasoning',
 ])
@@ -584,7 +584,7 @@ const ALL_COMMANDS: CommandDefinition[] = [
   defineCommand({
     name: 'dashboard',
     // Freebuff-only (see FREEBUFF_ONLY_COMMANDS): the hub is a Freebuff web
-    // surface, and Codebuff has its own credits-shaped `/usage` banner.
+    // surface, and MethaTech has its own credits-shaped `/usage` banner.
     //
     // `usage` is one of the aliases because Freebuff removes that command —
     // its banner is credits- and subscription-shaped — leaving the product

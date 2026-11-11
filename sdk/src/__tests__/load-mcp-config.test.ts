@@ -10,7 +10,7 @@ import {
   mcpFileSchema,
 } from '../agents/load-mcp-config'
 
-import type { MCPConfig } from '@codebuff/common/types/mcp'
+import type { MCPConfig } from '@methatech/common/types/mcp'
 
 // Helper to safely access stdio config properties
 function isStdioConfig(

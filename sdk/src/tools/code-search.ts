@@ -13,8 +13,8 @@ import { clipLongLine } from '../../../common/src/util/file-read-limits'
 import { formatCodeSearchOutput } from '../../../common/src/util/format-code-search'
 import { getBundledRgPath } from '../native/ripgrep'
 
-import type { CodebuffToolOutput } from '../../../common/src/tools/list'
-import { Logger } from '@codebuff/common/types/contracts/logger'
+import type { MethaTechToolOutput } from '../../../common/src/tools/list'
+import { Logger } from '@methatech/common/types/contracts/logger'
 import { missingDirectoryError } from './run-terminal-command'
 import type {
   TerminalCommandBroker,
@@ -25,7 +25,7 @@ import type {
 // These are searched in addition to '.' to ensure important config/workflow files are discoverable.
 // Exported so the sponsored broker can admit exactly these search paths and no others.
 export const INCLUDED_HIDDEN_DIRS: readonly string[] = [
-  '.agents', // Codebuff agent definitions
+  '.agents', // MethaTech agent definitions
   '.claude', // Claude settings
   '.github', // GitHub Actions, workflows, issue templates
   '.gitlab', // GitLab CI configuration
@@ -59,7 +59,7 @@ export function codeSearch({
   signal?: AbortSignal
   /** Routes ripgrep through a host-provided process boundary. */
   processBroker?: TerminalCommandBroker
-}): Promise<CodebuffToolOutput<'code_search'>> {
+}): Promise<MethaTechToolOutput<'code_search'>> {
   return new Promise((resolve) => {
     let isResolved = false
 
@@ -592,7 +592,7 @@ export function codeSearch({
         settle({
           errorMessage:
             missingDirectoryError(error, searchCwd, 'Search directory') ??
-            `Failed to execute ripgrep: ${message}. Vendored ripgrep not found; ensure @codebuff/sdk is up-to-date or set CODEBUFF_RG_PATH.`,
+            `Failed to execute ripgrep: ${message}. Vendored ripgrep not found; ensure @methatech/sdk is up-to-date or set METHATECH_RG_PATH.`,
         })
       })
   })

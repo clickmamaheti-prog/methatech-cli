@@ -7,7 +7,7 @@ import path from 'path'
 import {
   scrubSponsoredLocalEnv,
   sponsoredLocalContainment,
-} from '@codebuff/common/ads/sponsored-local-execution'
+} from '@methatech/common/ads/sponsored-local-execution'
 
 import {
   assertSponsoredCommandCwd,
@@ -25,7 +25,7 @@ import {
   sponsoredMacSecretReadRules,
   sponsoredSecretFiles,
 } from '../tools/sponsored-sandbox'
-import { parseCodeSearchFlags } from '@codebuff/common/util/code-search-flags'
+import { parseCodeSearchFlags } from '@methatech/common/util/code-search-flags'
 import { codeSearch } from '../tools/code-search'
 import { probeSponsoredRuntimes } from '../tools/sponsored-runtimes'
 import { sponsoredContainmentTestGate } from '../../test/sponsored-containment-gate'
@@ -86,7 +86,7 @@ const POLLUTED_ENV = {
   HOME: os.homedir(),
   AWS_SECRET_ACCESS_KEY: 'aws-secret-value',
   GITHUB_TOKEN: 'gh-token-value',
-  CODEBUFF_API_KEY: 'codebuff-key-value',
+  METHATECH_API_KEY: 'methatech-key-value',
   NPM_TOKEN: 'npm-token-value',
   DATABASE_URL: 'postgresql://production',
 }
@@ -113,7 +113,7 @@ describe('sponsored local environment (COD-336 acceptance 4)', () => {
     for (const key of [
       'AWS_SECRET_ACCESS_KEY',
       'GITHUB_TOKEN',
-      'CODEBUFF_API_KEY',
+      'METHATECH_API_KEY',
       'NPM_TOKEN',
       'DATABASE_URL',
     ]) {

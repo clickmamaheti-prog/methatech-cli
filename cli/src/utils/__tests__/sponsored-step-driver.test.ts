@@ -25,19 +25,19 @@ import { ensureCliTestEnv } from '../../__tests__/test-utils'
 ensureCliTestEnv()
 
 const { renderSponsoredSkillProcedure, parseSponsoredSkill } =
-  await import('@codebuff/common/ads/sponsored-skill')
+  await import('@methatech/common/ads/sponsored-skill')
 const { SPONSORED_SKILLS } =
-  await import('@codebuff/common/ads/sponsored-skills/registry')
+  await import('@methatech/common/ads/sponsored-skills/registry')
 const { SPONSORED_STEP_FIX_MIN_GRANT_MS } =
-  await import('@codebuff/common/ads/sponsored-step-check-context')
+  await import('@methatech/common/ads/sponsored-step-check-context')
 const { SponsoredRun, sponsoredTaskEvidence } = await import('../sponsored-run')
 const { sponsoredProcedureSha256 } = await import('../sponsored-proposal-api')
 const { sponsoredCheckingStepLine } =
   await import('../../components/blocks/sponsored-proposal-block')
 
-import type { SponsoredSkill } from '@codebuff/common/ads/sponsored-skill'
-import type { SponsoredSkillCheckContext } from '@codebuff/common/ads/sponsored-skill-checks'
-import type { SponsoredFrictionInput } from '@codebuff/common/ads/sponsored-run-friction'
+import type { SponsoredSkill } from '@methatech/common/ads/sponsored-skill'
+import type { SponsoredSkillCheckContext } from '@methatech/common/ads/sponsored-skill-checks'
+import type { SponsoredFrictionInput } from '@methatech/common/ads/sponsored-run-friction'
 import type {
   SponsoredOverrideTools,
   SponsoredRunDeps,

@@ -2,7 +2,7 @@ import { enableMapSet } from 'immer'
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
-import type { FeedbackCategory } from '@codebuff/common/constants/feedback'
+import type { FeedbackCategory } from '@methatech/common/constants/feedback'
 
 // Drafts a Set and a Map through immer; see message-block-store for why each
 // store enables the plugin itself.

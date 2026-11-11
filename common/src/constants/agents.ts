@@ -60,7 +60,7 @@ export const AGENT_IDS = Object.keys(
 ) as (keyof typeof AGENT_PERSONAS)[]
 
 // Agent ID prefix constant
-export const AGENT_ID_PREFIX = 'CodebuffAI/'
+export const AGENT_ID_PREFIX = 'MethaTechAI/'
 
 // Agent names for client-side reference
 export const AGENT_NAMES = Object.fromEntries(
@@ -114,5 +114,5 @@ export const MAX_AGENT_STEP_ROWS = 1_000
  * carrying it: clients released before the gate `eval` that source with no
  * check, and they cannot send a header they never knew about.
  */
-export const AGENT_TRUST_GATE_HEADER = 'x-codebuff-agent-trust-gate'
+export const AGENT_TRUST_GATE_HEADER = 'x-methatech-agent-trust-gate'
 export const AGENT_TRUST_GATE_HEADER_VALUE = '1'

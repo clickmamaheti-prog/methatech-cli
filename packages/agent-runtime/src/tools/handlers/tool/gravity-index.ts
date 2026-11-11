@@ -1,19 +1,19 @@
-import { FREEBUFF_DESKTOP_THREAD_AGENT_ID } from '@codebuff/common/constants/free-agents'
-import { jsonToolResult } from '@codebuff/common/util/messages'
+import { FREEBUFF_DESKTOP_THREAD_AGENT_ID } from '@methatech/common/constants/free-agents'
+import { jsonToolResult } from '@methatech/common/util/messages'
 
-import { callGravityIndexAPI } from '../../../llm-api/codebuff-web-api'
+import { callGravityIndexAPI } from '../../../llm-api/methatech-web-api'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { ClientEnv, CiEnv } from '@codebuff/common/types/contracts/env'
-import type { JSONObject, JSONValue } from '@codebuff/common/types/json'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { AgentState } from '@codebuff/common/types/session-state'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { ClientEnv, CiEnv } from '@methatech/common/types/contracts/env'
+import type { JSONObject, JSONValue } from '@methatech/common/types/json'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { AgentState } from '@methatech/common/types/session-state'
 
 const omitUndefined = (value: Record<string, JSONValue | undefined>) => {
   const result: JSONObject = {}
@@ -174,7 +174,7 @@ const gravitySurface = (agentTemplate: { id: string }): string => {
   ) {
     return 'freebuff_web'
   }
-  return 'codebuff_cli'
+  return 'methatech_cli'
 }
 
 /** Surfaces that run under a shared service-account API key; these send a
@@ -184,7 +184,7 @@ const isServiceAccountSurface = (surface: string): boolean =>
 
 export const handleGravityIndex = (async (params: {
   previousToolCallFinished: Promise<void>
-  toolCall: CodebuffToolCall<'gravity_index'>
+  toolCall: MethaTechToolCall<'gravity_index'>
   agentTemplate: AgentTemplate
   /** Absent in direct unit tests; the runtime always passes it. */
   agentState?: AgentState
@@ -202,7 +202,7 @@ export const handleGravityIndex = (async (params: {
   clientEnv: ClientEnv
   ciEnv: CiEnv
 }): Promise<{
-  output: CodebuffToolOutput<'gravity_index'>
+  output: MethaTechToolOutput<'gravity_index'>
   creditsUsed: number
 }> => {
   const {
@@ -382,4 +382,4 @@ export const handleGravityIndex = (async (params: {
     )
     return { output: jsonToolResult({ errorMessage }), creditsUsed }
   }
-}) satisfies CodebuffToolHandlerFunction<'gravity_index'>
+}) satisfies MethaTechToolHandlerFunction<'gravity_index'>

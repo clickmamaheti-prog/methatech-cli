@@ -68,7 +68,7 @@ import {
   parseAdEngagement,
   type AdEngagement,
   type CLICK_REGIONS,
-} from '@codebuff/common/types/ad-client-context'
+} from '@methatech/common/types/ad-client-context'
 
 export type EngagementExit = NonNullable<AdEngagement['exit']>
 export type ClickRegion = (typeof CLICK_REGIONS)[number]

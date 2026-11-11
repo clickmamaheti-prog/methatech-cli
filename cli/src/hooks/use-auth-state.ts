@@ -1,4 +1,4 @@
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 
 import { useAuthQuery, useLogoutMutation } from './use-auth-query'
@@ -7,7 +7,7 @@ import { useLoginStore } from '../state/login-store'
 import { captureCliFunnel } from '../utils/cli-product-funnel'
 import { identifyUser, trackEvent } from '../utils/analytics'
 import { getAuthToken, getUserCredentials } from '../utils/auth'
-import { resetCodebuffClient } from '../utils/codebuff-client'
+import { resetMethaTechClient } from '../utils/methatech-client'
 import { IS_FREEBUFF } from '../utils/constants'
 import { loggerContext } from '../utils/logger'
 
@@ -123,7 +123,7 @@ export const useAuthState = ({
       })
 
       // Reset the SDK client to pick up new credentials
-      resetCodebuffClient()
+      resetMethaTechClient()
       resetChatStore()
       resetLoginState()
       setInputFocused(true)

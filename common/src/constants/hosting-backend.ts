@@ -16,7 +16,7 @@
  *              no-ops so exactly one sweeper ever runs.
  *
  * It lives in `common` because both sides read it: the Convex cron (which may
- * import only `@codebuff/common`) and the server/job code. A flip is a
+ * import only `@methatech/common`) and the server/job code. A flip is a
  * reviewed one-line diff here, never an env var.
  */
 export type HostingBackendMode = 'convex' | 'shadow' | 'postgres'

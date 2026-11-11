@@ -14,13 +14,13 @@ import {
   SPONSORED_SURVEY_PATH,
   type SponsoredSurveyClient,
   type SponsoredSurveyOffer,
-} from '@codebuff/common/constants/freebuff-sponsored-survey-client'
-import { formatHoursWithUnit } from '@codebuff/common/util/freebuff-hours'
-import { sanitizeTerminalStrings } from '@codebuff/common/util/terminal-safe-text'
+} from '@methatech/common/constants/freebuff-sponsored-survey-client'
+import { formatHoursWithUnit } from '@methatech/common/util/freebuff-hours'
+import { sanitizeTerminalStrings } from '@methatech/common/util/terminal-safe-text'
 import {
   SPONSORED_SURVEY_QUESTION_KINDS,
   type SponsoredSurveyQuestionKind,
-} from '@codebuff/common/constants/freebuff-sponsored-survey'
+} from '@methatech/common/constants/freebuff-sponsored-survey'
 
 import { FREEBUFF_WEB_URL } from '../login/constants'
 

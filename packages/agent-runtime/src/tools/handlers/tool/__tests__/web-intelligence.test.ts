@@ -250,11 +250,172 @@ describe('web-intelligence-api', () => {
     expect(result).toContain('https://example.com/docs')
     expect(result).toContain('Welcome.')
   })
+
+  it('exa_search via panel proxy uses the login token and never calls Exa directly', async () => {
+    const { fetch, calls } = captureFetch((url) => {
+      if (url.startsWith('http://127.0.0.1:3033')) {
+        return jsonResponse({
+          results: [
+            {
+              title: 'Panel Result',
+              url: 'https://example.com/panel',
+              text: 'from the panel proxy',
+            },
+          ],
+        })
+      }
+      return jsonResponse({ results: [] })
+    })
+    const result = await callExaSearch({
+      query: 'panel proxy test',
+      fetch,
+      signal: new AbortController().signal,
+      logger,
+      apiKey: 'login-token-test',
+      clientEnv: {
+        NEXT_PUBLIC_METHATECH_APP_URL: 'http://127.0.0.1:3033',
+      } as any,
+    })
+    expect(calls).toHaveLength(1)
+    expect(calls[0].url).toBe(
+      'http://127.0.0.1:3033/api/v1/web-intelligence/exa/search',
+    )
+    expect(
+      (calls[0].init!.headers as Record<string, string>).Authorization,
+    ).toBe('Bearer login-token-test')
+    expect(result).toContain('Panel Result')
+    expect(result).toContain('from the panel proxy')
+  })
+
+  it('exa_search falls back to the direct provider when the panel proxy is missing (404)', async () => {
+    const { fetch, calls } = captureFetch((url) => {
+      if (url.startsWith('http://127.0.0.1:3033')) {
+        return jsonResponse({ error: 'not found' }, 404)
+      }
+      return jsonResponse({
+        results: [{ title: 'Direct Result', url: 'https://example.com/direct' }],
+      })
+    })
+    const result = await callExaSearch({
+      query: 'fallback test',
+      fetch,
+      signal: new AbortController().signal,
+      logger,
+      apiKey: 'login-token-test',
+      clientEnv: {
+        NEXT_PUBLIC_METHATECH_APP_URL: 'http://127.0.0.1:3033',
+      } as any,
+    })
+    expect(calls).toHaveLength(2)
+    expect(calls[0].url).toBe(
+      'http://127.0.0.1:3033/api/v1/web-intelligence/exa/search',
+    )
+    expect(calls[1].url).toBe('https://api.exa.ai/search')
+    expect(
+      (calls[1].init!.headers as Record<string, string>)['x-api-key'],
+    ).toBe('test-exa-key')
+    expect(result).toContain('Direct Result')
+  })
+
+  it('exa_search surfaces a panel 401 instead of falling back to the direct key', async () => {
+    const { fetch, calls } = captureFetch((url) => {
+      if (url.startsWith('http://127.0.0.1:3033')) {
+        return jsonResponse({ error: 'unauthorized' }, 401)
+      }
+      return jsonResponse({ results: [] })
+    })
+    await expect(
+      callExaSearch({
+        query: 'auth failure test',
+        fetch,
+        signal: new AbortController().signal,
+        logger,
+        apiKey: 'bad-login-token',
+        clientEnv: {
+          NEXT_PUBLIC_METHATECH_APP_URL: 'http://127.0.0.1:3033',
+        } as any,
+      }),
+    ).rejects.toThrow('via panel returned HTTP 401')
+    expect(calls).toHaveLength(1)
+  })
+
+  it('firecrawl_scrape via panel proxy formats the proxied scrape', async () => {
+    const { fetch, calls } = captureFetch(() =>
+      jsonResponse({
+        success: true,
+        data: {
+          title: 'Panel Scrape',
+          url: 'https://example.com/p',
+          markdown: 'Panel markdown.',
+        },
+      }),
+    )
+    const result = await callFirecrawlScrape({
+      url: 'https://example.com/p',
+      fetch,
+      signal: new AbortController().signal,
+      logger,
+      apiKey: 'login-token-test',
+      clientEnv: {
+        NEXT_PUBLIC_METHATECH_APP_URL: 'http://127.0.0.1:3033',
+      } as any,
+    })
+    expect(calls).toHaveLength(1)
+    expect(calls[0].url).toBe(
+      'http://127.0.0.1:3033/api/v1/web-intelligence/firecrawl/scrape',
+    )
+    expect(result).toContain('Panel Scrape')
+    expect(result).toContain('Panel markdown.')
+  })
+
+  it('firecrawl_check_crawl_status via panel proxy uses GET on the panel', async () => {
+    const { fetch, calls } = captureFetch(() =>
+      jsonResponse({
+        status: 'completed',
+        completed: 1,
+        total: 1,
+        data: [
+          { title: 'Home', url: 'https://example.com/', markdown: 'Hi.' },
+        ],
+      }),
+    )
+    const result = await callFirecrawlCrawlStatus({
+      crawlId: 'job-1',
+      fetch,
+      signal: new AbortController().signal,
+      logger,
+      apiKey: 'login-token-test',
+      clientEnv: {
+        NEXT_PUBLIC_METHATECH_APP_URL: 'http://127.0.0.1:3033',
+      } as any,
+    })
+    expect(calls).toHaveLength(1)
+    expect(calls[0].url).toBe(
+      'http://127.0.0.1:3033/api/v1/web-intelligence/firecrawl/crawl/job-1',
+    )
+    expect(calls[0].init!.method).toBe('GET')
+    expect(result).toContain('completed')
+  })
+
+  it('panel proxy is skipped without a login token (no fetch to the panel)', async () => {
+    const { fetch, calls } = captureFetch(() => jsonResponse({ results: [] }))
+    await callExaSearch({
+      query: 'no login test',
+      fetch,
+      signal: new AbortController().signal,
+      logger,
+      clientEnv: {
+        NEXT_PUBLIC_METHATECH_APP_URL: 'http://127.0.0.1:3033',
+      } as any,
+    })
+    expect(calls).toHaveLength(1)
+    expect(calls[0].url).toBe('https://api.exa.ai/search')
+  })
 })
 
 describe('web-intelligence handlers', () => {
   // The handlers pass globalThis.fetch to the transport (the runtime-injected
-  // fetch is the stubbed Codebuff hosted-services fetch in BYOK runs), so the
+  // fetch is the stubbed MethaTech hosted-services fetch in BYOK runs), so the
   // handler tests stub the global fetch instead of injecting one.
   const realFetch = globalThis.fetch
   let stubbedFetch: typeof globalThis.fetch

@@ -8,16 +8,16 @@ import {
   getFreebuffModelEfforts,
   isFreebuffModelId,
   migrateSupersededFreebuffModelPreference,
-} from '@codebuff/common/constants/freebuff-models'
-import { isMethatechModelId } from '@codebuff/common/constants/methatech-models'
+} from '@methatech/common/constants/freebuff-models'
+import { isMethatechModelId } from '@methatech/common/constants/methatech-models'
 import {
   isByokReasoningEffort,
   isReasoningEffort,
-} from '@codebuff/common/constants/reasoning-effort'
+} from '@methatech/common/constants/reasoning-effort'
 import {
   migrateSavedDefaultModel,
   type SavedModelStore,
-} from '@codebuff/common/util/freebuff-default-model-migration'
+} from '@methatech/common/util/freebuff-default-model-migration'
 
 import { getConfigDir } from './auth'
 import { AGENT_MODES } from './constants'
@@ -27,7 +27,7 @@ import type { AgentMode } from './constants'
 import type {
   ByokReasoningEffort,
   ReasoningEffort,
-} from '@codebuff/common/constants/reasoning-effort'
+} from '@methatech/common/constants/reasoning-effort'
 
 /** The admin config's key rule (lowercase, digits, `-`), loosened only in
  *  length. A value that fails it cannot be a key the server minted. */

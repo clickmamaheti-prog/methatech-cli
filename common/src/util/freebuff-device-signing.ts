@@ -20,10 +20,10 @@
  * and nothing here is one.
  */
 import {
-  FREEBUFF_DEVICE_KEY_HEADER,
+  METHATECH_DEVICE_KEY_HEADER,
   FREEBUFF_DEVICE_KEYS_PATH,
-  FREEBUFF_DEVICE_SIGNATURE_HEADER,
-  FREEBUFF_DEVICE_TIMESTAMP_HEADER,
+  METHATECH_DEVICE_SIGNATURE_HEADER,
+  METHATECH_DEVICE_TIMESTAMP_HEADER,
   freebuffDeviceSignaturePayload,
 } from '../types/freebuff-model-catalog'
 
@@ -54,7 +54,7 @@ export interface FreebuffDeviceAccount {
   /** The account's user id when the client knows it; otherwise the account is
    *  identified by a digest of its token (a new login registers again). */
   accountId?: string | null
-  /** The API origin requests go to, e.g. `https://www.codebuff.com`. */
+  /** The API origin requests go to, e.g. `https://console.methatech.eu.org`. */
   apiHost: string
 }
 
@@ -64,7 +64,7 @@ export interface FreebuffDeviceRequest {
   url: string
   /** The exact body sent; absent for a body-less request. */
   body?: string | Uint8Array | null
-  /** The catalog fetch id sent with this request (FREEBUFF_CATALOG_FETCH_HEADER), if any. */
+  /** The catalog fetch id sent with this request (METHATECH_CATALOG_FETCH_HEADER), if any. */
   fetchId?: string | null
 }
 
@@ -217,9 +217,9 @@ export async function signFreebuffDeviceRequest(params: {
     ),
   )
   return {
-    [FREEBUFF_DEVICE_KEY_HEADER]: params.keyId,
-    [FREEBUFF_DEVICE_TIMESTAMP_HEADER]: String(params.timestampMs),
-    [FREEBUFF_DEVICE_SIGNATURE_HEADER]: base64UrlEncode(signature),
+    [METHATECH_DEVICE_KEY_HEADER]: params.keyId,
+    [METHATECH_DEVICE_TIMESTAMP_HEADER]: String(params.timestampMs),
+    [METHATECH_DEVICE_SIGNATURE_HEADER]: base64UrlEncode(signature),
   }
 }
 

@@ -20,7 +20,7 @@
  * chain, never block a key, and a failure is only logged at debug.
  */
 
-import { profileSurveySnoozeDays } from '@codebuff/common/constants/freebuff-profile-survey'
+import { profileSurveySnoozeDays } from '@methatech/common/constants/freebuff-profile-survey'
 import { create } from 'zustand'
 
 import { FREEBUFF_WEB_URL } from '../login/constants'
@@ -42,7 +42,7 @@ import {
 } from '../utils/profile-survey-machine'
 
 import type { ProfileSurveyClient } from '../utils/profile-survey-api'
-import type { SponsoredSurveyClient } from '@codebuff/common/constants/freebuff-sponsored-survey-client'
+import type { SponsoredSurveyClient } from '@methatech/common/constants/freebuff-sponsored-survey-client'
 import type {
   ProfileSurveyEffect,
   ProfileSurveyInput,

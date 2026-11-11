@@ -1,7 +1,7 @@
 /**
  * How long a device-code sign-in stays valid.
  *
- * Shared because two apps issue these codes — codebuff.com serves the CLI and freebuff.com serves
+ * Shared because two apps issue these codes — console.methatech.eu.org serves the CLI and freebuff.com serves
  * Freebuff Desktop — and a drift between them would show up only as one surface timing out sooner
  * than the other, with nothing to point at.
  *

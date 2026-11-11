@@ -27,9 +27,9 @@ import {
   servedDisplayAdToSponsor,
   type DisplaySponsor,
   type ServedPlacedSponsor,
-} from '@codebuff/common/ads/display-ads/served'
-import { isDisplayAdPlacementId } from '@codebuff/common/ads/display-ads/serving'
-import { sanitizeTerminalStrings } from '@codebuff/common/util/terminal-safe-text'
+} from '@methatech/common/ads/display-ads/served'
+import { isDisplayAdPlacementId } from '@methatech/common/ads/display-ads/serving'
+import { sanitizeTerminalStrings } from '@methatech/common/util/terminal-safe-text'
 import { useEffect, useState } from 'react'
 
 import { buildAdAuctionRequest } from './ad-request'

@@ -7,7 +7,7 @@ import {
 } from '../compaction-followup'
 import { COMPACTED_READ_MARKER } from '../compaction-working-set'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const read = (id: string, paths: unknown[]): Message[] => [
   {

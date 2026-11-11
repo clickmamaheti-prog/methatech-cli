@@ -1,20 +1,20 @@
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 import {
   FREEBUFF_EARN_PATH,
   FREEBUFF_EARN_PROMPT_SHORT,
-} from '@codebuff/common/constants/freebuff-earn'
+} from '@methatech/common/constants/freebuff-earn'
 import {
   REFERRAL_INVITE_VIA,
   WELCOME_INVITE_VIA_PARAM,
-} from '@codebuff/common/constants/product-funnel'
+} from '@methatech/common/constants/product-funnel'
 import { TextAttributes } from '@opentui/core'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { Button } from './button'
 import { useCopyToClipboard } from './copy-button'
-import { FREEBUFF_REWARD_MAX_DAILY_SESSIONS } from '@codebuff/common/constants/freebuff-models'
-import { REFERRAL_CLI_DAILY_SESSION_BONUS_CAP } from '@codebuff/common/constants/freebuff-referral-tiers'
-import { pluralize } from '@codebuff/common/util/string'
+import { FREEBUFF_REWARD_MAX_DAILY_SESSIONS } from '@methatech/common/constants/freebuff-models'
+import { REFERRAL_CLI_DAILY_SESSION_BONUS_CAP } from '@methatech/common/constants/freebuff-referral-tiers'
+import { pluralize } from '@methatech/common/util/string'
 
 import { useNow } from '../hooks/use-now'
 import { trackEvent } from '../utils/analytics'
@@ -24,11 +24,11 @@ import { formatFreebuffPremiumResetCountdown } from '../utils/freebuff-premium-r
 import { safeOpen } from '../utils/open-url'
 import { BORDER_CHARS } from '../utils/ui-constants'
 
-import type { FreebuffAccessTier } from '@codebuff/common/constants/freebuff-models'
+import type { FreebuffAccessTier } from '@methatech/common/constants/freebuff-models'
 import type {
   FreebuffGlmPromo,
   FreebuffReferralInfo,
-} from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/types/freebuff-session'
 
 /** Build a friend's share link from the referral code. Points at the
  *  /get-started page (CLI install walkthrough + hero + FAQs) rather than the

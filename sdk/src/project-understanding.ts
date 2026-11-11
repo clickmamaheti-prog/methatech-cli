@@ -8,37 +8,37 @@
  * whose files live elsewhere (a Cloud sandbox) would pass its own tools. Everything here fails soft — a
  * run is background work and never surfaces an error to anyone.
  */
-import { FREEBUFF_ACTING_USER_HEADER } from '@codebuff/common/constants/freebuff-models'
+import { METHATECH_ACTING_USER_HEADER } from '@methatech/common/constants/freebuff-models'
 import {
   PROJECT_UNDERSTANDING_MAX_AGENT_STEPS,
   buildProjectUnderstandingAgent,
   buildProjectUnderstandingPrompt,
-} from '@codebuff/common/project-understanding/agent'
+} from '@methatech/common/project-understanding/agent'
 import {
   PROJECT_STATS_READ_LIMITS,
   computeProjectStats,
   countLines,
   shouldCountLines,
-} from '@codebuff/common/project-understanding/stats'
+} from '@methatech/common/project-understanding/stats'
 import {
   normalizeProjectUnderstanding,
   projectUnderstandingTemplateSchema,
-} from '@codebuff/common/project-understanding/template'
-import { getErrorObject } from '@codebuff/common/util/error'
+} from '@methatech/common/project-understanding/template'
+import { getErrorObject } from '@methatech/common/util/error'
 import z from 'zod/v4'
 
 import { getWebsiteUrl } from './constants'
 
-import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 import type {
   ProjectStats,
   ProjectStatsFile,
-} from '@codebuff/common/project-understanding/stats'
+} from '@methatech/common/project-understanding/stats'
 import type {
   ProjectUnderstanding,
   ProjectUnderstandingTemplate,
-} from '@codebuff/common/project-understanding/template'
+} from '@methatech/common/project-understanding/template'
 
 export const PROJECT_UNDERSTANDING_PATH = '/api/v1/project-understanding'
 
@@ -86,7 +86,7 @@ export function createProjectUnderstandingClient(params: {
   const headers = {
     Authorization: `Bearer ${params.apiKey}`,
     'Content-Type': 'application/json',
-    ...(params.userId ? { [FREEBUFF_ACTING_USER_HEADER]: params.userId } : {}),
+    ...(params.userId ? { [METHATECH_ACTING_USER_HEADER]: params.userId } : {}),
   }
   return {
     checkDue: async ({ signal, logger }) => {

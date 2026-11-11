@@ -1,7 +1,7 @@
 
 import { describe, test, expect } from 'bun:test'
 
-import { FREEBUFF_GPT_6_LUNA_MODEL_ID } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_GPT_6_LUNA_MODEL_ID } from '@methatech/common/constants/freebuff-models'
 
 import fileLister from '../file-explorer/file-lister'
 import fileListerMax from '../file-explorer/file-lister-max'
@@ -551,7 +551,7 @@ describe('file-picker agent', () => {
 
   describe('system prompt', () => {
     test('contains file tree placeholder', () => {
-      expect(filePicker.systemPrompt).toContain('{CODEBUFF_FILE_TREE_PROMPT}')
+      expect(filePicker.systemPrompt).toContain('{METHATECH_FILE_TREE_PROMPT}')
     })
 
     test('describes file finding purpose', () => {

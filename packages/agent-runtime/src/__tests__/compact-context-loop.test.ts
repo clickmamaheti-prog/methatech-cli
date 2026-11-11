@@ -4,18 +4,18 @@
  * time and that the history the model sees is the one it should.
  */
 
-import * as analytics from '@codebuff/common/analytics'
-import { BYOK_RUN_ID_PREFIX } from '@codebuff/common/constants/byok'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { createTestAgentRuntimeParams } from '@codebuff/common/testing/fixtures/agent-runtime'
-import { clearMockedModules } from '@codebuff/common/testing/mock-modules'
+import * as analytics from '@methatech/common/analytics'
+import { BYOK_RUN_ID_PREFIX } from '@methatech/common/constants/byok'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { createTestAgentRuntimeParams } from '@methatech/common/testing/fixtures/agent-runtime'
+import { clearMockedModules } from '@methatech/common/testing/mock-modules'
 import {
   createMockDbOperations,
   setupDbSpies,
-} from '@codebuff/common/testing/mocks/database'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+} from '@methatech/common/testing/mocks/database'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import {
   afterAll,
   afterEach,
@@ -39,12 +39,12 @@ import { countTokensMessages } from '../util/token-counter'
 import { createToolCallChunk, mockFileContext } from './test-utils'
 
 import type { AgentTemplate } from '../templates/types'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 import type {
   AgentState,
   ConversationSummary,
-} from '@codebuff/common/types/session-state'
-import type { DbSpies } from '@codebuff/common/testing/mocks/database'
+} from '@methatech/common/types/session-state'
+import type { DbSpies } from '@methatech/common/testing/mocks/database'
 
 const MINUTE = 60 * 1000
 const SUMMARY_TEXT = `## Objective\n- MODEL SUMMARY of the work so far ${'detail '.repeat(60)}`
@@ -179,7 +179,7 @@ describe('compactContext in loopAgentSteps', () => {
       }
     }
     runtimeImpl.promptAiSdkStream = mock(async function* (params: any) {
-      if (params.extraCodebuffMetadata?.compaction_summary === '1') {
+      if (params.extraMethaTechMetadata?.compaction_summary === '1') {
         summaryRequests.push(params.messages)
         order.push('summary')
         if (summaryRefusal) throw summaryRefusal
@@ -233,9 +233,9 @@ describe('compactContext in loopAgentSteps', () => {
       userId: TEST_USER_ID,
       clientSessionId: 'test-session',
       ancestorRunIds: [],
-      extraCodebuffMetadata: {
+      extraMethaTechMetadata: {
         trace_session_id: 'thread-1',
-        ...runtimeImpl.extraCodebuffMetadata,
+        ...runtimeImpl.extraMethaTechMetadata,
       },
       onResponseChunk: () => {},
       signal: new AbortController().signal,
@@ -262,7 +262,7 @@ describe('compactContext in loopAgentSteps', () => {
     })
     expect(attempt.duration_ms).toBeGreaterThanOrEqual(0)
     const request =
-      runtimeImpl.promptAiSdkStream.mock.calls[0][0].extraCodebuffMetadata
+      runtimeImpl.promptAiSdkStream.mock.calls[0][0].extraMethaTechMetadata
     expect(request).toMatchObject({
       compaction_request_group: 'first_after_compaction',
       compaction_id: attempt.compaction_id,
@@ -286,7 +286,7 @@ describe('compactContext in loopAgentSteps', () => {
       reportedInput: 100,
       state: { parentId: 'parent' },
       runtimeOverrides: {
-        extraCodebuffMetadata: {
+        extraMethaTechMetadata: {
           compaction_root_version: 'summary-v1',
           compaction_root_run_id: 'root',
           compaction_id: 'parent-swap',
@@ -296,7 +296,7 @@ describe('compactContext in loopAgentSteps', () => {
       },
     })
     const request =
-      runtimeImpl.promptAiSdkStream.mock.calls[0][0].extraCodebuffMetadata
+      runtimeImpl.promptAiSdkStream.mock.calls[0][0].extraMethaTechMetadata
     expect(request).toMatchObject({
       compaction_version: 'not-enabled',
       compaction_root_version: 'summary-v1',
@@ -879,7 +879,7 @@ describe('compactContext in loopAgentSteps', () => {
       )
       expect(next.agentState.compactionSummary?.contextTokens).toBe(9_010)
       expect(
-        runtimeImpl.promptAiSdkStream.mock.calls[0][0].extraCodebuffMetadata,
+        runtimeImpl.promptAiSdkStream.mock.calls[0][0].extraMethaTechMetadata,
       ).toMatchObject({
         compaction_request_group: 'first_after_compaction',
         compaction_id: compacted.agentState.pendingCompactionTelemetry!.id,
@@ -902,7 +902,7 @@ describe('compactContext in loopAgentSteps', () => {
       const logged: Array<Record<string, unknown>> = []
       await runLoop(optedIn, idleHistory(0), { prompt: '/compact', logged })
       expect(
-        runtimeImpl.promptAiSdkStream.mock.calls[0][0].extraCodebuffMetadata,
+        runtimeImpl.promptAiSdkStream.mock.calls[0][0].extraMethaTechMetadata,
       ).toMatchObject({
         compaction_request_group: 'summary',
         compaction_trigger: 'manual',
@@ -1097,7 +1097,7 @@ describe('compactContext in loopAgentSteps', () => {
 
   it('survives agent-definition validation, which strips unknown keys', async () => {
     const { validateSingleAgent } =
-      await import('@codebuff/common/templates/agent-validation')
+      await import('@methatech/common/templates/agent-validation')
     const definition = {
       id: 'validated-agent',
       displayName: 'Validated',

@@ -89,7 +89,7 @@ function usablePathDirs(env: Record<string, string | undefined>): string[] {
 export function windowsBashCandidates(env: Record<string, string | undefined>): string[] {
   const pathDirs = usablePathDirs(env)
   const candidates = [
-    env.CODEBUFF_GIT_BASH_PATH,
+    env.METHATECH_GIT_BASH_PATH,
     // The packaged Desktop carries Git for Windows; no system install or global PATH change needed.
     env.FREEBUFF_GIT_DIR && path.join(env.FREEBUFF_GIT_DIR, 'bin', 'bash.exe'),
     ...gitRoots(env).map((root) => path.join(root, 'bin', 'bash.exe')),
@@ -377,7 +377,7 @@ Install Git for Windows, which includes it: https://git-scm.com/download/win
 Or, from a terminal: winget install --id Git.Git --exact --source winget
 
 If you already have Git installed somewhere unusual and we did not find it, point
-us at it directly by setting CODEBUFF_GIT_BASH_PATH to its bash.exe. Example:
-   set CODEBUFF_GIT_BASH_PATH=C:\\path\\to\\Git\\bin\\bash.exe`,
+us at it directly by setting METHATECH_GIT_BASH_PATH to its bash.exe. Example:
+   set METHATECH_GIT_BASH_PATH=C:\\path\\to\\Git\\bin\\bash.exe`,
   )
 }

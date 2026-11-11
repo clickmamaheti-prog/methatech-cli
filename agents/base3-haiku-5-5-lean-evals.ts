@@ -1,4 +1,4 @@
-import { LEAN_COMPACTION_POLICY } from '@codebuff/common/constants/compaction-policy'
+import { LEAN_COMPACTION_POLICY } from '@methatech/common/constants/compaction-policy'
 
 import { createBase3CliRoot } from './base3'
 

@@ -1,11 +1,11 @@
-import { env } from '@codebuff/common/env'
+import { env } from '@methatech/common/env'
 
 import { useActivityQuery } from './use-activity-query'
 import { getAuthToken } from '../utils/auth'
 import { logger as defaultLogger } from '../utils/logger'
 
-import type { ClientEnv } from '@codebuff/common/types/contracts/env'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { ClientEnv } from '@methatech/common/types/contracts/env'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 // Query keys for type-safe cache management
 export const usageQueryKeys = {
@@ -42,9 +42,9 @@ export async function fetchUsageData({
   logger = defaultLogger,
   clientEnv = env,
 }: FetchUsageParams): Promise<UsageResponse> {
-  const appUrl = clientEnv.NEXT_PUBLIC_CODEBUFF_APP_URL
+  const appUrl = clientEnv.NEXT_PUBLIC_METHATECH_APP_URL
   if (!appUrl) {
-    throw new Error('NEXT_PUBLIC_CODEBUFF_APP_URL is not set')
+    throw new Error('NEXT_PUBLIC_METHATECH_APP_URL is not set')
   }
 
   const response = await fetch(`${appUrl}/api/v1/usage`, {

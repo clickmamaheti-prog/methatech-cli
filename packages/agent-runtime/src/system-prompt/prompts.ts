@@ -1,14 +1,14 @@
 import {
   flattenTree,
   getLastReadFilePaths,
-} from '@codebuff/common/project-file-tree'
-import { createMarkdownFileBlock } from '@codebuff/common/util/file'
-import { closeXml } from '@codebuff/common/util/xml'
+} from '@methatech/common/project-file-tree'
+import { createMarkdownFileBlock } from '@methatech/common/util/file'
+import { closeXml } from '@methatech/common/util/xml'
 
 import { truncateFileTreeBasedOnTokenBudget } from './truncate-file-tree'
 
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 const compactPrompt = `
 User has typed "compact". Summarize the current conversation and prepare it to replace the existing message history.

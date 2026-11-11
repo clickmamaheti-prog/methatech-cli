@@ -1,17 +1,17 @@
 // Test TypeScript type resolution in CommonJS environment
 import {
-  CodebuffClient as ClientClass,
+  MethaTechClient as ClientClass,
   getCustomToolDefinition,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
 import type {
-  CodebuffClient,
+  MethaTechClient,
   CustomToolDefinition,
   RunState,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
 // Test 1: Type imports work correctly
-const testClient: CodebuffClient = {} as any
+const testClient: MethaTechClient = {} as any
 const testTool: CustomToolDefinition = {} as any
 const testState: RunState = {} as any
 
@@ -46,8 +46,8 @@ const toolTypeTest: MockTool = {} as any
 console.log('✅ Custom tool definition types work correctly')
 
 // Test 5: CommonJS import syntax also works in TypeScript
-const SDKRequire = require('@codebuff/sdk')
-const ClientFromRequire: typeof ClientClass = SDKRequire.CodebuffClient
+const SDKRequire = require('@methatech/sdk')
+const ClientFromRequire: typeof ClientClass = SDKRequire.MethaTechClient
 
 console.log('✅ CommonJS require syntax works in TypeScript')
 

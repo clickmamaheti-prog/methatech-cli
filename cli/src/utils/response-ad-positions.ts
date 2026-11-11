@@ -1,1 +1,1 @@
-export * from '@codebuff/common/util/response-ad-positions'
+export * from '@methatech/common/util/response-ad-positions'

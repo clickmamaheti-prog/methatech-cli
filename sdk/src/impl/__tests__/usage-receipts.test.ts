@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test } from 'bun:test'
 
-import type { ModelUsageData } from '@codebuff/common/types/contracts/llm'
+import type { ModelUsageData } from '@methatech/common/types/contracts/llm'
 
 import { promptAiSdkStream } from '../llm'
 

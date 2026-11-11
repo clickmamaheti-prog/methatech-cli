@@ -2,13 +2,13 @@ import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'fs'
 import os from 'os'
 import path from 'path'
 
-import * as mainPromptModule from '@codebuff/agent-runtime/main-prompt'
-import { FILE_READ_STATUS } from '@codebuff/common/old-constants'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+import * as mainPromptModule from '@methatech/agent-runtime/main-prompt'
+import { FILE_READ_STATUS } from '@methatech/common/old-constants'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 import { afterEach, beforeEach, describe, expect, it, mock, spyOn } from 'bun:test'
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 import * as databaseModule from '../impl/database'
 
 import type { RunOptions } from '../run'
@@ -16,7 +16,7 @@ import type {
   RequestFilesFn,
   RequestImageFileFn,
   RequestToolCallFn,
-} from '@codebuff/common/types/contracts/client'
+} from '@methatech/common/types/contracts/client'
 
 type Hooks = {
   requestFiles: RequestFilesFn
@@ -92,7 +92,7 @@ async function withHooks(
       }
     },
   )
-  const client = new CodebuffClient({ apiKey: 'test-key', cwd: project })
+  const client = new MethaTechClient({ apiKey: 'test-key', cwd: project })
   await client.run({
     agent: 'base2',
     prompt: 'go',

@@ -5,7 +5,7 @@
  * backoff, which added ~14s before the user saw the card telling them to start
  * a new session. The SDK must refuse it once and keep the server's copy.
  */
-import { extractApiErrorDetails } from '@codebuff/common/util/error'
+import { extractApiErrorDetails } from '@methatech/common/util/error'
 import { APICallError, streamText } from 'ai'
 import { afterEach, describe, expect, test } from 'bun:test'
 

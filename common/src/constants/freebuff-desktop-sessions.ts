@@ -130,15 +130,15 @@ export function occupiesFreebuffDesktopSlot(
 export const FREEBUFF_DESKTOP_IDLE_RELEASE_MS = 15 * 60 * 1000
 
 /** Pins an end/refund request to one window of a stable Desktop tab. */
-export const FREEBUFF_DESKTOP_ADMITTED_AT_HEADER =
-  'x-freebuff-desktop-admitted-at'
+export const METHATECH_DESKTOP_ADMITTED_AT_HEADER =
+  'x-methatech-desktop-admitted-at'
 
 /**
  * Names the app making a session call. Freebuff Desktop sends `desktop`:
  * current CLI builds share Desktop's multi-session header and table, so
  * nothing else on the wire tells the two apart.
  */
-export const FREEBUFF_CLIENT_HEADER = 'x-freebuff-client'
+export const METHATECH_CLIENT_HEADER = 'x-methatech-client'
 export const FREEBUFF_CLIENT_DESKTOP = 'desktop'
 
 /**
@@ -149,11 +149,11 @@ export const FREEBUFF_CLIENT_DESKTOP = 'desktop'
  * (`prompt.feedback_flag`) carry it so a report can be tied to the build that
  * saw it. Never gates anything; a client may omit it.
  */
-export const FREEBUFF_CLIENT_VERSION_HEADER = 'x-freebuff-client-version'
+export const METHATECH_CLIENT_VERSION_HEADER = 'x-methatech-client-version'
 
 /** A random id Freebuff Desktop mints once per install and keeps across
  *  sign-ins. Not a credential. */
-export const FREEBUFF_INSTALL_ID_HEADER = 'x-freebuff-install-id'
+export const METHATECH_INSTALL_ID_HEADER = 'x-methatech-install-id'
 
 /**
  * Whether Freebuff Desktop's window was in front of the user when a
@@ -161,7 +161,7 @@ export const FREEBUFF_INSTALL_ID_HEADER = 'x-freebuff-install-id'
  * (on screen, another app focused) or `away` (hidden, minimized, locked or
  * idle). Omitted when the app cannot tell.
  */
-export const FREEBUFF_ATTENTION_HEADER = 'x-freebuff-attention'
+export const METHATECH_ATTENTION_HEADER = 'x-methatech-attention'
 export const FREEBUFF_ATTENTION_STATES = ['watching', 'visible', 'away'] as const
 export type FreebuffAttention = (typeof FREEBUFF_ATTENTION_STATES)[number]
 
@@ -174,16 +174,16 @@ export function parseFreebuffAttention(
 }
 
 /** Client-persisted identity for a possibly unacknowledged Desktop POST. */
-export const FREEBUFF_DESKTOP_ATTEMPT_HEADER = 'x-freebuff-desktop-attempt-id'
+export const METHATECH_DESKTOP_ATTEMPT_HEADER = 'x-methatech-desktop-attempt-id'
 
 /** Renew this tab's live paid hour in place: charge its price again and
  *  restart its hour. The value is a client UUID that makes retries
  *  charge once. */
-export const FREEBUFF_SESSION_RENEWAL_HEADER = 'x-freebuff-session-renewal-id'
+export const METHATECH_SESSION_RENEWAL_HEADER = 'x-methatech-session-renewal-id'
 
 /** Versioned opt-in: instance ids become single-use execution claims. */
-export const FREEBUFF_PURCHASE_CONTINUITY_HEADER =
-  'x-freebuff-purchase-continuity'
+export const METHATECH_PURCHASE_CONTINUITY_HEADER =
+  'x-methatech-purchase-continuity'
 
 /** Every claim a 0.0.197+ CLI mints on the purchase protocol starts with this.
  *  The server reads it to tell the CLI's claims from Desktop tabs: only a CLI

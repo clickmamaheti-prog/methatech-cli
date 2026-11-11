@@ -17,7 +17,7 @@
 import {
   SPONSORED_RUNTIMES,
   type SponsoredRuntime,
-} from '@codebuff/common/ads/sponsored-capability'
+} from '@methatech/common/ads/sponsored-capability'
 
 import type { TerminalCommandBroker } from './run-terminal-command'
 

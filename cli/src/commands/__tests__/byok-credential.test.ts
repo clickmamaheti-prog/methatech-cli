@@ -2,7 +2,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { ByokCredentialError, createBunByokConnectionStore } from '@codebuff/sdk'
+import { ByokCredentialError, createBunByokConnectionStore } from '@methatech/sdk'
 import { afterEach, describe, expect, mock, test } from 'bun:test'
 
 import { handleByokCommand } from '../byok'

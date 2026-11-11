@@ -24,9 +24,9 @@ describe('freebuff command aliases', () => {
           import { getFreebuffModelDirectory } from ${JSON.stringify(new URL('../../state/freebuff-catalog-store.ts', import.meta.url).href)}
           import assert from 'node:assert/strict'
 
-          // These write adsEnabled to the settings file Codebuff shares
+          // These write adsEnabled to the settings file MethaTech shares
           // (~/.config/metatech). Freebuff always shows ads, so it must not
-          // offer a switch it ignores and Codebuff would honour.
+          // offer a switch it ignores and MethaTech would honour.
           for (const name of ['ads:enable', 'ads:disable']) {
             const isFree = process.env.FREEBUFF_MODE === 'true'
             assert.equal(findCommand(name) === undefined, isFree)
@@ -115,12 +115,12 @@ describe('freebuff command aliases', () => {
         FREEBUFF_MODE: freebuffMode,
         NODE_ENV: 'test',
         NEXT_PUBLIC_CB_ENVIRONMENT: 'test',
-        NEXT_PUBLIC_CODEBUFF_APP_URL: 'https://app.codebuff.test',
-        NEXT_PUBLIC_SUPPORT_EMAIL: 'support@codebuff.test',
+        NEXT_PUBLIC_METHATECH_APP_URL: 'https://app.methatech.test',
+        NEXT_PUBLIC_SUPPORT_EMAIL: 'support@methatech.test',
         NEXT_PUBLIC_POSTHOG_API_KEY: 'phc_test_key',
-        NEXT_PUBLIC_POSTHOG_HOST_URL: 'https://posthog.codebuff.test',
+        NEXT_PUBLIC_POSTHOG_HOST_URL: 'https://posthog.methatech.test',
         NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: 'pk_test_123',
-        NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL: 'https://stripe.codebuff.test',
+        NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL: 'https://stripe.methatech.test',
         NEXT_PUBLIC_WEB_PORT: '3000',
       },
       stderr: 'pipe',

@@ -2,7 +2,7 @@ import {
   AdReportReasonSchema,
   toAdReport,
   type AdReport,
-} from '@codebuff/common/ads/ad-report'
+} from '@methatech/common/ads/ad-report'
 
 import { FREEBUFF_WEB_URL } from '../login/constants'
 import { getCliAdRequestUserAgent } from './ad-client-identity'

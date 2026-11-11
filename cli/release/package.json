@@ -1,10 +1,10 @@
 {
-  "name": "codebuff",
+  "name": "methatech",
   "version": "1.0.688",
   "description": "AI coding agent",
   "license": "MIT",
   "bin": {
-    "codebuff": "index.js",
+    "methatech": "index.js",
     "cb": "index.js"
   },
   "scripts": {
@@ -34,9 +34,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CodebuffAI/codebuff.git"
+    "url": "https://github.com/MethaTechAI/methatech.git"
   },
-  "homepage": "https://codebuff.com",
+  "homepage": "https://console.methatech.eu.org",
   "publishConfig": {
     "access": "public"
   }

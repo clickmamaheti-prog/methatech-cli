@@ -1,10 +1,10 @@
-import { API_KEY_ENV_VAR } from '@codebuff/common/old-constants'
-import { CodebuffClient } from '@codebuff/sdk'
+import { API_KEY_ENV_VAR } from '@methatech/common/old-constants'
+import { MethaTechClient } from '@methatech/sdk'
 import { describe, expect, it } from 'bun:test'
 
 import fileListerDefinition from '../file-explorer/file-lister'
 
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 /**
  * Integration tests for agents that use the read_subtree tool.
@@ -90,12 +90,12 @@ export interface User {
           '# Test Project\n\nA simple test project for integration testing.',
       }
 
-      const client = new CodebuffClient({
+      const client = new MethaTechClient({
         apiKey,
         cwd: '/tmp/test-project',
         projectFiles,
         // The repo's file-lister. Without it 'file-lister' resolves to the
-        // published codebuff/file-lister, whose model (x-ai/grok-4-fast) is
+        // published methatech/file-lister, whose model (x-ai/grok-4-fast) is
         // retired upstream.
         agentDefinitions: [fileListerDefinition],
       })
@@ -157,12 +157,12 @@ export interface User {
         'package.json': JSON.stringify({ name: 'mono-repo', version: '2.0.0' }),
       }
 
-      const client = new CodebuffClient({
+      const client = new MethaTechClient({
         apiKey,
         cwd: '/tmp/test-project',
         projectFiles,
         // The repo's file-lister. Without it 'file-lister' resolves to the
-        // published codebuff/file-lister, whose model (x-ai/grok-4-fast) is
+        // published methatech/file-lister, whose model (x-ai/grok-4-fast) is
         // retired upstream.
         agentDefinitions: [fileListerDefinition],
       })
@@ -213,12 +213,12 @@ export interface User {
         'package.json': JSON.stringify({ name: 'full-stack-app' }),
       }
 
-      const client = new CodebuffClient({
+      const client = new MethaTechClient({
         apiKey,
         cwd: '/tmp/test-project',
         projectFiles,
         // The repo's file-lister. Without it 'file-lister' resolves to the
-        // published codebuff/file-lister, whose model (x-ai/grok-4-fast) is
+        // published methatech/file-lister, whose model (x-ai/grok-4-fast) is
         // retired upstream.
         agentDefinitions: [fileListerDefinition],
       })

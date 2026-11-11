@@ -1,17 +1,17 @@
 import path from 'path'
 
-import { MAX_AGENT_STEPS_DEFAULT } from '@codebuff/common/constants/agents'
-import { FREEBUFF_BASE3_AGENT_IDS } from '@codebuff/common/constants/free-agents'
-import { isSensitiveEnvFilePath } from '@codebuff/common/util/env-file-path'
+import { MAX_AGENT_STEPS_DEFAULT } from '@methatech/common/constants/agents'
+import { FREEBUFF_BASE3_AGENT_IDS } from '@methatech/common/constants/free-agents'
+import { isSensitiveEnvFilePath } from '@methatech/common/util/env-file-path'
 
 import {
   createEventHandler,
   createStreamChunkHandler,
 } from './sdk-event-handlers'
 
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 import type { EventHandlerState, StreamChunkEvent } from './sdk-event-handlers'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 import type {
   AgentDefinition,
   ConversationSummary,
@@ -19,7 +19,7 @@ import type {
   MessageContent,
   ResolvedByokConnection,
   RunState,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
 export type CreateRunConfigParams = {
   logger: Logger
@@ -33,7 +33,7 @@ export type CreateRunConfigParams = {
   costMode?: 'free' | 'lite' | 'normal' | 'max' | 'experimental' | 'ask'
   /** Runtime-only direct inference credential. Never persist this object. */
   byok?: ResolvedByokConnection
-  extraCodebuffMetadata?: Record<string, string>
+  extraMethaTechMetadata?: Record<string, string>
   /** Periodic in-flight RunState checkpoints (see RunOptions.onStateSnapshot). */
   onStateSnapshot?: (runState: RunState) => void
   /** A background summary finished (see RunOptions.onCompactionSummary). */
@@ -114,7 +114,7 @@ export const createRunConfig = (params: CreateRunConfigParams) => {
     eventHandlerState,
     costMode,
     byok,
-    extraCodebuffMetadata,
+    extraMethaTechMetadata,
     onStateSnapshot,
     onCompactionSummary,
     onCompactionStart,
@@ -133,7 +133,7 @@ export const createRunConfig = (params: CreateRunConfigParams) => {
     agentDefinitions,
     // A base3 root uses the symbol index only for read_files' referencedBy,
     // which it does without (bench in #7364), so its new chats skip the parse.
-    // base2, Codebuff and custom roots keep it; a chat that later switches to
+    // base2, MethaTech and custom roots keep it; a chat that later switches to
     // one keeps the state it started with.
     skipSymbolIndex: FREEBUFF_BASE3_AGENT_IDS.has(
       typeof agent === 'string' ? agent : agent.id,
@@ -162,7 +162,7 @@ export const createRunConfig = (params: CreateRunConfigParams) => {
     signal: params.signal,
     costMode,
     byok,
-    extraCodebuffMetadata,
+    extraMethaTechMetadata,
     onStateSnapshot,
     onCompactionSummary,
     onCompactionStart,

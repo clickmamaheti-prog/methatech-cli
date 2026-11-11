@@ -1,4 +1,4 @@
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import { describe, expect, it } from 'bun:test'
 
 import {
@@ -9,8 +9,8 @@ import {
   trailingRejectedEditsToSameFiles,
 } from '../file-edit-loop'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { ToolCallPart } from '@codebuff/common/types/messages/content-part'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { ToolCallPart } from '@methatech/common/types/messages/content-part'
 
 const REJECTED = { file: 'a.ts', errorMessage: 'same as the old content' }
 const ACCEPTED = { file: 'a.ts', message: 'File written' }

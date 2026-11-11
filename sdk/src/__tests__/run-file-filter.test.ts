@@ -1,16 +1,16 @@
-import * as mainPromptModule from '@codebuff/agent-runtime/main-prompt'
-import { FILE_READ_STATUS } from '@codebuff/common/old-constants'
-import * as projectFileTree from '@codebuff/common/project-file-tree'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
-import { MAX_READ_FILES_CHARS } from '@codebuff/common/util/file-read-limits'
+import * as mainPromptModule from '@methatech/agent-runtime/main-prompt'
+import { FILE_READ_STATUS } from '@methatech/common/old-constants'
+import * as projectFileTree from '@methatech/common/project-file-tree'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
+import { MAX_READ_FILES_CHARS } from '@methatech/common/util/file-read-limits'
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test'
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 import * as databaseModule from '../impl/database'
 
 import type { FileFilter } from '../tools/read-files'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 import type { PathLike } from 'node:fs'
 
 interface NodeError extends Error {
@@ -25,7 +25,7 @@ const createNodeError = (message: string, code: string): NodeError => {
 
 function createMockFs(config: {
   files?: Record<string, { content: string; size?: number }>
-}): CodebuffFileSystem {
+}): MethaTechFileSystem {
   const { files = {} } = config
 
   return {
@@ -58,10 +58,10 @@ function createMockFs(config: {
     readdir: async () => [],
     mkdir: async () => undefined,
     writeFile: async () => undefined,
-  } as unknown as CodebuffFileSystem
+  } as unknown as MethaTechFileSystem
 }
 
-describe('CodebuffClientOptions fileFilter', () => {
+describe('MethaTechClientOptions fileFilter', () => {
   afterEach(() => {
     mock.restore()
   })
@@ -147,7 +147,7 @@ describe('CodebuffClientOptions fileFilter', () => {
     const overrideCalls: string[][] = []
     const overrideInputs: Array<Record<string, unknown>> = []
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
       cwd: '/project',
       fsSource: mockFs,
@@ -269,7 +269,7 @@ describe('CodebuffClientOptions fileFilter', () => {
       return { status: 'allow' }
     }
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
       cwd: '/project',
       fsSource: mockFs,
@@ -324,7 +324,7 @@ describe('CodebuffClientOptions fileFilter', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
       // Cloud runs the SDK on Linux; the override reads on the user's Windows computer.
       cwd: '/project',
@@ -411,7 +411,7 @@ describe('CodebuffClientOptions fileFilter', () => {
       return { status: 'allow' }
     }
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
       cwd: '/project',
       fsSource: mockFs,
@@ -485,7 +485,7 @@ describe('CodebuffClientOptions fileFilter', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
       cwd: '/project',
       fsSource: mockFs,
@@ -556,7 +556,7 @@ describe('CodebuffClientOptions fileFilter', () => {
     )
 
     // No fileFilter provided
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
       cwd: '/project',
       fsSource: mockFs,
@@ -633,7 +633,7 @@ describe('CodebuffClientOptions fileFilter', () => {
       return { status: 'blocked' }
     }
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
       cwd: '/project',
       fsSource: mockFs,

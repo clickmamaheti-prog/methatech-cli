@@ -1,4 +1,4 @@
-import { parseToolJson } from '@codebuff/common/tools/repair-tool-json'
+import { parseToolJson } from '@methatech/common/tools/repair-tool-json'
 
 /**
  * Repairs a custom tool's input against its JSON schema where a value's meaning is plain and only

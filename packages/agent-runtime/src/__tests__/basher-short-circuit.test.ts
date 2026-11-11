@@ -7,17 +7,17 @@
  * thing the change actually exists for: that no LLM call happens at all when
  * the command output is small, and that the parent still receives the output.
  */
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { createTestAgentRuntimeParams } from '@codebuff/common/testing/fixtures/agent-runtime'
-import { clearMockedModules } from '@codebuff/common/testing/mock-modules'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { createTestAgentRuntimeParams } from '@methatech/common/testing/fixtures/agent-runtime'
+import { clearMockedModules } from '@methatech/common/testing/mock-modules'
 import {
   createMockDbOperations,
   setupDbSpies,
-} from '@codebuff/common/testing/mocks/database'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
-import { userMessage } from '@codebuff/common/util/messages'
-import * as analytics from '@codebuff/common/analytics'
+} from '@methatech/common/testing/mocks/database'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
+import { userMessage } from '@methatech/common/util/messages'
+import * as analytics from '@methatech/common/analytics'
 import {
   afterAll,
   afterEach,
@@ -35,7 +35,7 @@ import { clearAgentGeneratorCache } from '../run-programmatic-step'
 import { createToolCallChunk, mockFileContext } from './test-utils'
 
 import type { AgentTemplate } from '../templates/types'
-import type { DbSpies } from '@codebuff/common/testing/mocks/database'
+import type { DbSpies } from '@methatech/common/testing/mocks/database'
 
 describe('basher summarization short-circuit (end-to-end)', () => {
   let llmCallCount: number

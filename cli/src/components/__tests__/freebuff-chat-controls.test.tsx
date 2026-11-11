@@ -23,8 +23,8 @@ import { initializeThemeStore } from '../../hooks/use-theme'
 import {
   DEFAULT_FREEBUFF_MODEL_ID,
   FREEBUFF_MIMO_V25_MODEL_ID,
-} from '@codebuff/common/constants/freebuff-models'
-import { FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID } from '@codebuff/common/constants/freebuff-model-ids'
+} from '@methatech/common/constants/freebuff-models'
+import { FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID } from '@methatech/common/constants/freebuff-model-ids'
 import type { PendingAttachment } from '../../types/store'
 
 if (process.env.FREEBUFF_CHAT_CONTROLS_TEST !== '1') {

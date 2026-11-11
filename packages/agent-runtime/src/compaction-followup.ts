@@ -11,14 +11,14 @@
  * the compaction happened inside the window.
  */
 
-import { COMPACTION_FOLLOWUP_EVENT } from '@codebuff/common/util/axiom-only-log'
+import { COMPACTION_FOLLOWUP_EVENT } from '@methatech/common/util/axiom-only-log'
 
 import { COMPACTED_READ_MARKER } from './compaction-working-set'
 import { countTokensJson } from './util/token-counter'
 
 import type { CompactionTrigger } from './compact-history'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 export type CompactionWindow = {
   compactionId?: string

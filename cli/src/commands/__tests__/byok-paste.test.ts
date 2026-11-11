@@ -7,7 +7,7 @@ import {
 } from '../../utils/byok'
 
 import type { RouterParams } from '../command-registry'
-import type { ByokConnection, ByokConnectionStore } from '@codebuff/sdk'
+import type { ByokConnection, ByokConnectionStore } from '@methatech/sdk'
 
 // The user writeup (2026-09-30) lists "usage/help text instead of execution"
 // when a /byok command was split onto two lines by a paste. Two shapes:

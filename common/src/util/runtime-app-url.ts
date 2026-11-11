@@ -1,6 +1,6 @@
 /**
- * The rule for a RUNTIME override of the Codebuff app URL (`CODEBUFF_APP_URL`
- * / `NEXT_PUBLIC_CODEBUFF_APP_URL` read from `process.env` after the build).
+ * The rule for a RUNTIME override of the MethaTech app URL (`METHATECH_APP_URL`
+ * / `NEXT_PUBLIC_METHATECH_APP_URL` read from `process.env` after the build).
  *
  * Every SDK call that carries the user's bearer token — model completions,
  * `/me`, agent runs, the registry — is addressed to this URL, so a
@@ -19,27 +19,27 @@
  * app URL. Shared so the SDK resolver and the release smoke test agree.
  */
 export const RUNTIME_APP_URL_ENV_VARS = [
-  'NEXT_PUBLIC_CODEBUFF_APP_URL',
-  'CODEBUFF_APP_URL',
+  'NEXT_PUBLIC_METHATECH_APP_URL',
+  'METHATECH_APP_URL',
 ] as const
 
 const LOOPBACK_HOSTNAMES = new Set(['localhost', '127.0.0.1', '::1'])
 
 /**
- * Registrable domains that serve the Codebuff API. A runtime override to one
+ * Registrable domains that serve the MethaTech API. A runtime override to one
  * of these, or to a subdomain of one, needs no opt-in.
  */
-export const FIRST_PARTY_APP_DOMAINS = ['codebuff.com', 'freebuff.com'] as const
+export const FIRST_PARTY_APP_DOMAINS = ['console.methatech.eu.org', 'freebuff.com'] as const
 
 /**
  * Explicit opt-in for a runtime app URL on a host that is neither first-party
  * nor loopback (a self-hosted backend, a staging box on another domain). It is
  * deliberately a separate variable from the URL itself: whatever can inject
  * the URL into the environment of a process — a repository's `.envrc` through
- * the CLI's direnv import, which drops every `CODEBUFF_*` name — should not be
+ * the CLI's direnv import, which drops every `METHATECH_*` name — should not be
  * able to vouch for it in the same breath.
  */
-export const ALLOW_CUSTOM_APP_URL_ENV_VAR = 'CODEBUFF_ALLOW_CUSTOM_APP_URL'
+export const ALLOW_CUSTOM_APP_URL_ENV_VAR = 'METHATECH_ALLOW_CUSTOM_APP_URL'
 
 /** `true` for the values of {@link ALLOW_CUSTOM_APP_URL_ENV_VAR} that opt in. */
 export function isCustomAppUrlOptIn(value: string | undefined): boolean {

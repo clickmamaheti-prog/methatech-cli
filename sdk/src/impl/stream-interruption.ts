@@ -34,8 +34,8 @@
  * mid-thinking with no error anywhere (2026-07-17 incident).
  */
 
-import type { StreamRecoverySource } from '@codebuff/common/types/contracts/llm'
-import { isTransientNetworkError } from '@codebuff/common/util/error'
+import type { StreamRecoverySource } from '@methatech/common/types/contracts/llm'
+import { isTransientNetworkError } from '@methatech/common/util/error'
 import { APICallError } from 'ai'
 
 export interface StreamFinishInfo {

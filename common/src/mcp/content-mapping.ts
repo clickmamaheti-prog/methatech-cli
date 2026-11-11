@@ -11,7 +11,7 @@ function getResourceData(
 }
 
 /**
- * Convert MCP tool-result content blocks into codebuff tool-result outputs.
+ * Convert MCP tool-result content blocks into methatech tool-result outputs.
  *
  * A resource with text contents is text, not media. Wrapping prose as
  * media makes the AI SDK base64-decode it when rebuilding the prompt on

@@ -65,7 +65,7 @@ describe.skipIf(!IS_FREEBUFF)('end-session transition', () => {
     expect(getCurrentChatId()).not.toBe(originalChatId)
     expect(useFreebuffSessionStore.getState().lastRefund).toBe(4)
     for (const [, init] of fetchSpy.mock.calls) {
-      expect(new Headers(init.headers).get('x-freebuff-instance-id')).toBe(
+      expect(new Headers(init.headers).get('x-methatech-instance-id')).toBe(
         'held-cli',
       )
     }

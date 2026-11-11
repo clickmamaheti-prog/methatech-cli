@@ -3,7 +3,7 @@ import { describe, expect, it } from 'bun:test'
 import { createTurnProgress } from '../turn-progress'
 
 import type { StepToolCall } from '../turn-progress'
-import type { ToolMessage } from '@codebuff/common/types/messages/codebuff-message'
+import type { ToolMessage } from '@methatech/common/types/messages/methatech-message'
 
 let id = 0
 const step = (

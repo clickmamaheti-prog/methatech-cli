@@ -1,18 +1,18 @@
-import { API_KEY_ENV_VAR } from '@codebuff/common/old-constants'
+import { API_KEY_ENV_VAR } from '@methatech/common/old-constants'
 import {
-  CodebuffClient,
+  MethaTechClient,
   initialSessionState,
   withMessageHistory,
   type AgentDefinition,
   type Message,
   type ToolMessage,
   type JSONValue,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 import { describe, expect, it } from 'bun:test'
 
 import contextPruner from '../context-pruner'
 
-import type { ToolCallPart } from '@codebuff/common/types/messages/content-part'
+import type { ToolCallPart } from '@methatech/common/types/messages/content-part'
 
 /**
  * Type guard to check if a content part is a tool-call part with toolCallId.
@@ -144,10 +144,10 @@ Do not do anything else. Just spawn context-pruner and then report the result.`,
         createMessage('user', 'Now spawn the context-pruner'),
       ]
 
-      const client = new CodebuffClient({
+      const client = new MethaTechClient({
         apiKey,
         // Pass the repo's context-pruner. Without it 'context-pruner' resolves
-        // to the published codebuff/context-pruner, which is not this code.
+        // to the published methatech/context-pruner, which is not this code.
         agentDefinitions: [testAgent, contextPruner],
       })
 
@@ -277,10 +277,10 @@ Do not do anything else. Just spawn context-pruner and then report the result.`,
         createMessage('user', 'Now prune the context'),
       ]
 
-      const client = new CodebuffClient({
+      const client = new MethaTechClient({
         apiKey,
         // Pass the repo's context-pruner. Without it 'context-pruner' resolves
-        // to the published codebuff/context-pruner, which is not this code.
+        // to the published methatech/context-pruner, which is not this code.
         agentDefinitions: [testAgent, contextPruner],
       })
 

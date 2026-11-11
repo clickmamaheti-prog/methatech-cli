@@ -10,7 +10,7 @@ type Handoff = { instanceId: string; model: string }
 const tokenKey = (token: string) =>
   createHash('sha256').update(token).digest('hex')
 function handoffPath(): string | undefined {
-  const pid = getCliEnv().CODEBUFF_LAUNCHER_PID
+  const pid = getCliEnv().METHATECH_LAUNCHER_PID
   return pid && /^[1-9]\d*$/.test(pid)
     ? path.join(getConfigDir(), `freebuff-relaunch-${pid}.json`)
     : undefined

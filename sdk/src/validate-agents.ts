@@ -1,12 +1,12 @@
 import {
   validateAgents as validateAgentsCommon,
   type DynamicAgentValidationError,
-} from '@codebuff/common/templates/agent-validation'
+} from '@methatech/common/templates/agent-validation'
 
 import { getWebsiteUrl } from './constants'
-import { getCodebuffApiKeyFromEnv } from './env'
+import { getMethaTechApiKeyFromEnv } from './env'
 
-import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
+import type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
 
 export interface ValidationResult {
   success: boolean
@@ -25,17 +25,17 @@ export interface ValidateAgentsOptions {
   remote?: boolean
 
   /**
-   * The base URL of the Codebuff website API.
-   * Optional - defaults to NEXT_PUBLIC_CODEBUFF_APP_URL or environment-based URL.
-   * Example: 'https://codebuff.com'
+   * The base URL of the MethaTech website API.
+   * Optional - defaults to NEXT_PUBLIC_METHATECH_APP_URL or environment-based URL.
+   * Example: 'https://console.methatech.eu.org'
    */
   websiteUrl?: string
 
   /**
-   * Codebuff API key to send with remote validation.
+   * MethaTech API key to send with remote validation.
    * Optional — the endpoint is anonymous, but past its per-IP budget (shared
    * NAT, CI runners) an authenticated caller is admitted on its own per-user
-   * budget. Defaults to the CODEBUFF_API_KEY environment variable.
+   * budget. Defaults to the METHATECH_API_KEY environment variable.
    */
   apiKey?: string
 }
@@ -58,7 +58,7 @@ export interface ValidateAgentsOptions {
  * // Remote validation
  * const result = await validateAgents(definitions, {
  *   remote: true,
- *   websiteUrl: 'https://codebuff.com'
+ *   websiteUrl: 'https://console.methatech.eu.org'
  * })
  * ```
  */
@@ -95,7 +95,7 @@ export async function validateAgents(
     // Remote validation: call the web API
     // Use provided websiteUrl or fall back to the default from environment
     const websiteUrl = options.websiteUrl || getWebsiteUrl()
-    const apiKey = options.apiKey ?? getCodebuffApiKeyFromEnv()
+    const apiKey = options.apiKey ?? getMethaTechApiKeyFromEnv()
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     }

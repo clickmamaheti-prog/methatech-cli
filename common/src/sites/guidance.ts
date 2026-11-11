@@ -1,4 +1,4 @@
-import { DEV_SERVER_STARTUP_GUIDANCE } from '@codebuff/common/constants/dev-server-guidance'
+import { DEV_SERVER_STARTUP_GUIDANCE } from '@methatech/common/constants/dev-server-guidance'
 
 /** Standing Sites guidance shared by Desktop and Cloud harnesses, never per-step injection. */
 export function sitesGuidance(

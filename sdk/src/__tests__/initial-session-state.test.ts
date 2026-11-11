@@ -5,7 +5,7 @@ import path from 'path'
 import { describe, expect, test, beforeEach, spyOn } from 'bun:test'
 import { z } from 'zod/v4'
 
-import { getAllFilePaths } from '@codebuff/common/project-file-tree'
+import { getAllFilePaths } from '@methatech/common/project-file-tree'
 
 import {
   applyOverridesToSessionState,
@@ -13,12 +13,12 @@ import {
   initialSessionState,
 } from '../run-state'
 
-import type { MockStatResult } from '@codebuff/common/testing/mock-types'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+import type { MockStatResult } from '@methatech/common/testing/mock-types'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 
 describe('Initial Session State', () => {
-  let mockFs: CodebuffFileSystem
+  let mockFs: MethaTechFileSystem
   let mockLogger: Logger
 
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('Initial Session State', () => {
         if (path.includes('.gitignore')) {
           return 'node_modules/\n.git/'
         }
-        if (path.includes('.codebuffignore')) {
+        if (path.includes('.methatechignore')) {
           return ''
         }
         if (path.includes('.metatechignore')) {
@@ -79,7 +79,7 @@ describe('Initial Session State', () => {
       }),
       exists: async (path: string) => {
         if (path.includes('.gitignore')) return true
-        if (path.includes('.codebuffignore')) return true
+        if (path.includes('.methatechignore')) return true
         if (path.includes('.metatechignore')) return true
         if (path.includes('src')) return true
         if (path.includes('.git')) return true
@@ -89,7 +89,7 @@ describe('Initial Session State', () => {
       },
       mkdir: async () => {},
       writeFile: async () => {},
-    } as unknown as CodebuffFileSystem
+    } as unknown as MethaTechFileSystem
 
     mockLogger = {
       debug: () => {},
@@ -109,7 +109,7 @@ describe('Initial Session State', () => {
         return ['index.ts', 'utils.ts', 'generated.ts']
       }
       return []
-    }) as CodebuffFileSystem['readdir']
+    }) as MethaTechFileSystem['readdir']
     mockFs.stat = (async (filePath: string) =>
       ({
         isDirectory: () =>
@@ -117,13 +117,13 @@ describe('Initial Session State', () => {
         isFile: () =>
           filePath !== '/test-project/src' && filePath !== '/test-project/.git',
         size: filePath.endsWith('generated.ts') ? 1_000_001 : 100,
-      }) as MockStatResult & { size: number }) as CodebuffFileSystem['stat']
+      }) as MockStatResult & { size: number }) as MethaTechFileSystem['stat']
     const readFilePaths: string[] = []
     const originalReadFile = mockFs.readFile
     mockFs.readFile = (async (filePath: string, encoding?: BufferEncoding) => {
       readFilePaths.push(filePath)
       return originalReadFile(filePath, encoding)
-    }) as CodebuffFileSystem['readFile']
+    }) as MethaTechFileSystem['readFile']
     return readFilePaths
   }
 
@@ -615,7 +615,7 @@ describe('Initial Session State', () => {
     // skipped as untrusted) used to fall back to `loadLocalAgents()` with its
     // defaults, importing `{cwd}/.agents`, whose files execute on import.
     const makeRepo = () => {
-      const dir = mkdtempSync(path.join(os.tmpdir(), 'codebuff-agent-trust-'))
+      const dir = mkdtempSync(path.join(os.tmpdir(), 'methatech-agent-trust-'))
       const marker = path.join(dir, 'imported')
       mkdirSync(path.join(dir, '.agents'), { recursive: true })
       writeFileSync(

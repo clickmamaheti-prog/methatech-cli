@@ -1,5 +1,5 @@
-import { freebuffSubscriptionTier } from '@codebuff/common/constants/freebuff-subscriptions'
-import { getSubscriptionInfo } from '@codebuff/common/types/freebuff-session'
+import { freebuffSubscriptionTier } from '@methatech/common/constants/freebuff-subscriptions'
+import { getSubscriptionInfo } from '@methatech/common/types/freebuff-session'
 
 import { TerminalLink } from './terminal-link'
 import { useTheme } from '../hooks/use-theme'

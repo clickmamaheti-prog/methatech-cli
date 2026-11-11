@@ -173,7 +173,7 @@ describe('isTransientNetworkError', () => {
     for (const code of ['ZlibError', 'BrotliDecompressionError']) {
       const error = Object.assign(
         new Error(
-          `${code} fetching "https://www.codebuff.com/api/v1/chat/completions". For more information, pass \`verbose: true\` in the second argument to fetch()`,
+          `${code} fetching "https://console.methatech.eu.org/api/v1/chat/completions". For more information, pass \`verbose: true\` in the second argument to fetch()`,
         ),
         { code },
       )
@@ -185,7 +185,7 @@ describe('isTransientNetworkError', () => {
     // Bun's shape for a host that will not resolve (COD-965).
     for (const code of ['ENOTFOUND', 'EAI_AGAIN', 'ETIMEOUT']) {
       const error = Object.assign(
-        new Error(`getaddrinfo ${code} www.codebuff.com`),
+        new Error(`getaddrinfo ${code} console.methatech.eu.org`),
         { code },
       )
       expect(isTransientNetworkError(error)).toBe(true)

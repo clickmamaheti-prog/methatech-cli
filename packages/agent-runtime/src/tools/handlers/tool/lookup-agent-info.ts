@@ -1,22 +1,22 @@
-import { jsonToolResult } from '@codebuff/common/util/messages'
-import { removeUndefinedProps } from '@codebuff/common/util/object'
+import { jsonToolResult } from '@methatech/common/util/messages'
+import { removeUndefinedProps } from '@methatech/common/util/object'
 import z from 'zod/v4'
 
 import { getAgentTemplate } from '../../../templates/agent-registry'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
 import type {
   AgentTemplate,
   Logger,
-} from '@codebuff/common/types/agent-template'
-import type { FetchAgentFromDatabaseFn } from '@codebuff/common/types/contracts/database'
+} from '@methatech/common/types/agent-template'
+import type { FetchAgentFromDatabaseFn } from '@methatech/common/types/contracts/database'
 
 export const handleLookupAgentInfo = (async (params: {
-  toolCall: CodebuffToolCall<'lookup_agent_info'>
+  toolCall: MethaTechToolCall<'lookup_agent_info'>
   previousToolCallFinished: Promise<void>
 
   apiKey: string
@@ -24,7 +24,7 @@ export const handleLookupAgentInfo = (async (params: {
   localAgentTemplates: Record<string, AgentTemplate>
   logger: Logger
   fetchAgentFromDatabase: FetchAgentFromDatabaseFn
-}): Promise<{ output: CodebuffToolOutput<'lookup_agent_info'> }> => {
+}): Promise<{ output: MethaTechToolOutput<'lookup_agent_info'> }> => {
   const { toolCall, previousToolCallFinished } = params
   const { agentId } = toolCall.input
 
@@ -80,7 +80,7 @@ export const handleLookupAgentInfo = (async (params: {
       },
     }),
   }
-}) satisfies CodebuffToolHandlerFunction<'lookup_agent_info'>
+}) satisfies MethaTechToolHandlerFunction<'lookup_agent_info'>
 
 const toJSONSchema = (schema: z.ZodSchema) => {
   try {

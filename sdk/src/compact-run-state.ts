@@ -1,16 +1,16 @@
-import { compactHistoryNow } from '@codebuff/agent-runtime/compact-history'
-import { summaryMatchesHistory } from '@codebuff/agent-runtime/conversation-summary'
+import { compactHistoryNow } from '@methatech/agent-runtime/compact-history'
+import { summaryMatchesHistory } from '@methatech/agent-runtime/conversation-summary'
 import {
   countTokens,
   countTokensJson,
   countTokensMessages,
-} from '@codebuff/agent-runtime/util/token-counter'
+} from '@methatech/agent-runtime/util/token-counter'
 
 import { cloneSessionState } from './run'
 
 import type { RunState } from './run-state'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ConversationSummary } from '@codebuff/common/types/session-state'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ConversationSummary } from '@methatech/common/types/session-state'
 
 /**
  * A compaction applied to a run's persisted state, not to a live request.

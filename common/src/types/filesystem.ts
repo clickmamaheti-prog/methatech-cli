@@ -1,10 +1,10 @@
 import type fs from 'fs'
 
-/** File system used for Codebuff SDK.
+/** File system used for MethaTech SDK.
  *
  * Compatible with `fs.promises` from the `'fs'` module.
  */
-export type CodebuffFileSystem = Pick<
+export type MethaTechFileSystem = Pick<
   typeof fs.promises,
   'mkdir' | 'readdir' | 'readFile' | 'stat' | 'unlink' | 'writeFile'
 >

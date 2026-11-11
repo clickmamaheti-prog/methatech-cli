@@ -1,13 +1,15 @@
-import { validateAgents } from '@codebuff/sdk'
+import { validateAgents } from '@methatech/sdk'
 import { useCallback, useState } from 'react'
 
-import { getAuthToken } from '../utils/auth'
+import { getAuthToken, getUserCredentials } from '../utils/auth'
 import { loadAgentDefinitions } from '../utils/local-agent-registry'
 import { hasSelectedByokConnection } from '../utils/byok'
+import { getSelectedFreebuffModel } from '../state/freebuff-model-store'
 import { IS_FREEBUFF } from '../utils/constants'
+import { isMethatechModelId } from '@methatech/common/constants/methatech-models'
 import { logger } from '../utils/logger'
 
-import type { AgentDefinition } from '@codebuff/sdk'
+import type { AgentDefinition } from '@methatech/sdk'
 
 export type ValidationError = {
   id: string
@@ -22,7 +24,25 @@ export type ValidationCheckResult = {
 /** BYOK runs validate local agent definitions without sending them to Freebuff. */
 export const shouldValidateAgentsRemotely = (
   isFreebuff = IS_FREEBUFF,
-): boolean => !isFreebuff || !hasSelectedByokConnection()
+): boolean =>
+  !isFreebuff ||
+  (!hasSelectedByokConnection() && !hasMethatechSession(isFreebuff))
+
+/**
+ * The MethaTech panel session is active: a panel model is selected and the
+ * user is logged in (device-code session). Same reason as BYOK above: the
+ * panel is not the Freebuff backend and holds no spawnable-agent database
+ * to validate against, so the session path validates agent definitions
+ * LOCALLY (the SDK's built-in Zod validation, which still runs and can
+ * still fail the send) instead of calling the Freebuff-only
+ * /api/agents/validate endpoint. The panel deliberately does NOT implement
+ * that endpoint — a stub returning empty errors would claim a validation
+ * it does not perform.
+ */
+export const hasMethatechSession = (isFreebuff = IS_FREEBUFF): boolean =>
+  isFreebuff &&
+  isMethatechModelId(getSelectedFreebuffModel()) &&
+  getUserCredentials()?.authToken !== undefined
 
 /**
  * Invoke SDK validation using the inference source selected when a send starts.

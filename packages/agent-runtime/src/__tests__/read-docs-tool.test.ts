@@ -1,8 +1,8 @@
-import * as analytics from '@codebuff/common/analytics'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
+import * as analytics from '@methatech/common/analytics'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
 import {
   afterEach,
   beforeEach,
@@ -15,15 +15,15 @@ import {
 
 import { createToolCallChunk, mockFileContext } from './test-utils'
 import researcherAgent from './researcher-agent-fixture'
-import * as webApi from '../llm-api/codebuff-web-api'
+import * as webApi from '../llm-api/methatech-web-api'
 import { runAgentStep } from '../run-agent-step'
 import { assembleLocalAgentTemplates } from '../templates/agent-registry'
 
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
 
 let agentRuntimeImpl: AgentRuntimeDeps & AgentRuntimeScopedDeps
 let runAgentStepBaseParams: ParamsExcluding<
@@ -35,7 +35,7 @@ let runAgentStepBaseParams: ParamsExcluding<
   | 'agentTemplate'
 >
 
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
 
 function mockAgentStream(chunks: StreamChunk[]) {
   const mockPromptAiSdkStream = async function* ({}) {

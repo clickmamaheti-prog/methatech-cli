@@ -12,7 +12,7 @@ import { PartnerAdLineView, PartnerAdRow } from '../partner-ad-line'
 import { SuggestionMenu } from '../suggestion-menu'
 import { initializeThemeStore } from '../../hooks/use-theme'
 
-import type { AdEngagement } from '@codebuff/common/types/ad-client-context'
+import type { AdEngagement } from '@methatech/common/types/ad-client-context'
 
 beforeAll(() => {
   initializeThemeStore()

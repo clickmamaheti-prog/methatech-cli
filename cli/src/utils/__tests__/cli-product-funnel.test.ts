@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test'
 import { cliFunnelKey, createCliFunnelCapture } from '../cli-product-funnel'
 
 import type { CliFunnelDetails } from '../cli-product-funnel'
-import type { ProductFunnelEvent } from '@codebuff/common/constants/product-funnel'
+import type { ProductFunnelEvent } from '@methatech/common/constants/product-funnel'
 
 const flowId = '748a7a97-c663-41ef-9e99-87c422586d65'
 function fixture(enabled = true) {
@@ -54,7 +54,7 @@ test('rejects unexpected prompt/path/auth payloads rather than forwarding them',
   expect(events).toEqual([])
 })
 
-test('Codebuff is excluded and capture failures never escape', () => {
+test('MethaTech is excluded and capture failures never escape', () => {
   const { capture, events } = fixture(false)
   capture('launch', 'started')
   expect(events).toEqual([])

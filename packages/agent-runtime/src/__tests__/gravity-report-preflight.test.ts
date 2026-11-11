@@ -5,7 +5,7 @@ import {
   preflightReportIntegration,
 } from '../tools/handlers/tool/gravity-index'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const searchResult = (
   searchId: string,

@@ -1,12 +1,12 @@
 import {
   compactionPolicyForModel,
   DEEPSEEK_FLASH_COMPACTION_POLICY,
-} from '@codebuff/common/constants/compaction-policy'
+} from '@methatech/common/constants/compaction-policy'
 import {
   FREEBUFF_DEFAULT_CONTEXT_WINDOW,
   FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
   FREEBUFF_MODEL_CONTEXT_WINDOWS,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import { describe, test, expect } from 'bun:test'
 
 import baseChat from '../base-chat'

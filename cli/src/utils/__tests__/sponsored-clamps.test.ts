@@ -33,9 +33,9 @@ const { sponsoredContainmentTestGate } =
   await import('../../../../sdk/test/sponsored-containment-gate')
 const { sponsoredAgentDefinition } = await import('../sponsored-agent')
 const { SPONSORED_LOCAL_V1_GRANT } =
-  await import('@codebuff/common/ads/sponsored-local-execution')
+  await import('@methatech/common/ads/sponsored-local-execution')
 const { sponsoredCapabilityForTool } =
-  await import('@codebuff/common/ads/sponsored-capabilities')
+  await import('@methatech/common/ads/sponsored-capabilities')
 
 const { SponsoredEditRecorder } = await import('../sponsored-receipts')
 const { SPONSORED_INSTALL_TOOL_EXEC } = await import('../sponsored-install-tool')

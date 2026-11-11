@@ -1,8 +1,8 @@
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 
 import { getCliEnv } from './env'
 
-import type { LogRecordInput } from '@codebuff/common/schemas/logs'
+import type { LogRecordInput } from '@methatech/common/schemas/logs'
 
 type WindowsTerminalFailureEvent =
   | AnalyticsEvent.TERMINAL_BROKER_SPAWN_FAILED
@@ -104,7 +104,7 @@ export function reportWindowsTerminalFailure(
   if (process.platform !== 'win32' || env.FREEBUFF_MODE !== 'true') return
 
   const properties: WindowsTerminalFailureProperties = {
-    version: sanitizeWindowsCliVersion(env.CODEBUFF_CLI_VERSION ?? ''),
+    version: sanitizeWindowsCliVersion(env.METHATECH_CLI_VERSION ?? ''),
     platform: 'win32',
     stage: failure.stage,
     failureCode: failure.failureCode,
@@ -156,7 +156,7 @@ export function reportCliProcessHealth(
   const env = getCliEnv()
   deliverCliHealthEvent(event, {
     ...data,
-    version: sanitizeWindowsCliVersion(env.CODEBUFF_CLI_VERSION ?? ''),
+    version: sanitizeWindowsCliVersion(env.METHATECH_CLI_VERSION ?? ''),
     platform: process.platform,
     arch: process.arch,
     freebuff: env.FREEBUFF_MODE === 'true',

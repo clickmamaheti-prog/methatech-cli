@@ -12,7 +12,7 @@ export const CLAUDE_OPUS_4_6_MODEL_ID = 'anthropic/claude-opus-4.6'
  * the model that serves them now. Anthropic retired claude-sonnet-4-20250514
  * on 2026-06-15 (404 not_found_error) and OpenRouter serves Sonnet 4 on
  * Amazon Bedrock alone, but published agents are immutable (an old
- * `codebuff/base` still names it). Sonnet 4.6 bills at the same $3/$15 per
+ * `methatech/base` still names it). Sonnet 4.6 bills at the same $3/$15 per
  * million tokens.
  *
  * The Claude 3.x ids, Opus 4 and Opus 4.1 are retired too (Anthropic's model

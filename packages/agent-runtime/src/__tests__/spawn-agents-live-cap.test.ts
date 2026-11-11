@@ -1,12 +1,12 @@
 import {
   FREEBUFF_PROJECTS_MAX_LIVE_SUBAGENTS,
   FREEBUFF_PROJECTS_SUBAGENT_ID,
-} from '@codebuff/common/constants/free-agents'
-import { MAX_LIVE_SUBAGENTS_PER_ROOT } from '@codebuff/common/tools/params/tool/spawn-agents'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { assistantMessage } from '@codebuff/common/util/messages'
+} from '@methatech/common/constants/free-agents'
+import { MAX_LIVE_SUBAGENTS_PER_ROOT } from '@methatech/common/tools/params/tool/spawn-agents'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { assistantMessage } from '@methatech/common/util/messages'
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test'
 
 import { mockFileContext } from './test-utils'
@@ -16,7 +16,7 @@ import {
   liveCappedAgentCountForTests,
 } from '../tools/handlers/tool/spawn-agents'
 
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
 
 const template = (
   id: string,

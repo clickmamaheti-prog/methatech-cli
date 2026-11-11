@@ -2,12 +2,12 @@ import {
   AGENT_TRUST_GATE_HEADER,
   AGENT_TRUST_GATE_HEADER_VALUE,
   MAX_AGENT_STEP_ROWS,
-} from '@codebuff/common/constants/agents'
-import { FREEBUFF_ACTING_USER_HEADER } from '@codebuff/common/constants/freebuff-models'
-import { validateSingleAgent } from '@codebuff/common/templates/agent-validation'
-import { DynamicAgentTemplateSchema } from '@codebuff/common/types/dynamic-agent-template'
-import { getErrorObject } from '@codebuff/common/util/error'
-import { truncateString } from '@codebuff/common/util/string'
+} from '@methatech/common/constants/agents'
+import { METHATECH_ACTING_USER_HEADER } from '@methatech/common/constants/freebuff-models'
+import { validateSingleAgent } from '@methatech/common/templates/agent-validation'
+import { DynamicAgentTemplateSchema } from '@methatech/common/types/dynamic-agent-template'
+import { getErrorObject } from '@methatech/common/util/error'
+import { truncateString } from '@methatech/common/util/string'
 import z from 'zod/v4'
 
 import {
@@ -38,9 +38,9 @@ import type {
   GetUserInfoFromApiKeyOutput,
   StartAgentRunFn,
   UserColumn,
-} from '@codebuff/common/types/contracts/database'
-import type { DynamicAgentTemplate } from '@codebuff/common/types/dynamic-agent-template'
-import type { ParamsOf } from '@codebuff/common/types/function-params'
+} from '@methatech/common/types/contracts/database'
+import type { DynamicAgentTemplate } from '@methatech/common/types/dynamic-agent-template'
+import type { ParamsOf } from '@methatech/common/types/function-params'
 
 type CachedUserInfo = Partial<
   NonNullable<Awaited<GetUserInfoFromApiKeyOutput<UserColumn>>>
@@ -260,9 +260,9 @@ const PUBLISHED_VERSION = /^(latest|\d+\.\d+\.\d+)$/
  */
 export async function fetchAgentFromDatabase(
   params: ParamsOf<FetchAgentFromDatabaseFn> & {
-    /** `CodebuffClientOptions.trustedAgentPublishers`; unioned with the env var. */
+    /** `MethaTechClientOptions.trustedAgentPublishers`; unioned with the env var. */
     trustedAgentPublishers?: readonly string[]
-    /** Test seam for the `CODEBUFF_TRUSTED_AGENT_PUBLISHERS` read. */
+    /** Test seam for the `METHATECH_TRUSTED_AGENT_PUBLISHERS` read. */
     readTrustedAgentPublishersEnv?: () => string | undefined
   },
 ): ReturnType<FetchAgentFromDatabaseFn> {
@@ -277,8 +277,8 @@ export async function fetchAgentFromDatabase(
   const requestedVersion = version ? version : 'latest'
 
   // The trust gate below judges the REQUESTED publisher, so the URL must not be
-  // able to name another one: `codebuff/x@..\..\evil\payload\latest` resolves
-  // (WHATWG treats `\` as `/`) to evil's agent while the gate sees `codebuff`.
+  // able to name another one: `methatech/x@..\..\evil\payload\latest` resolves
+  // (WHATWG treats `\` as `/`) to evil's agent while the gate sees `methatech`.
   // Each segment is held to the shape the registry assigns.
   if (
     !PUBLISHED_ID_SEGMENT.test(publisherId) ||
@@ -419,7 +419,7 @@ export async function startAgentRun(
         method: 'POST',
         headers: {
           Authorization: `Bearer ${apiKey}`,
-          ...(userId ? { [FREEBUFF_ACTING_USER_HEADER]: userId } : {}),
+          ...(userId ? { [METHATECH_ACTING_USER_HEADER]: userId } : {}),
         },
         body: JSON.stringify({
           action: 'START',
@@ -498,7 +498,7 @@ export async function finishAgentRun(
         method: 'POST',
         headers: {
           Authorization: `Bearer ${apiKey}`,
-          ...(userId ? { [FREEBUFF_ACTING_USER_HEADER]: userId } : {}),
+          ...(userId ? { [METHATECH_ACTING_USER_HEADER]: userId } : {}),
         },
         body: JSON.stringify({
           action: 'FINISH',

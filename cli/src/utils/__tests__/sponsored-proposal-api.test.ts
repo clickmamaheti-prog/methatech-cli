@@ -14,7 +14,7 @@ const {
   sponsoredProcedureSha256,
 } = await import('../sponsored-proposal-api')
 const { SPONSORED_INSTALL_CAP_REFUSAL } = await import(
-  '@codebuff/common/ads/sponsored-install-tool'
+  '@methatech/common/ads/sponsored-install-tool'
 )
 const { getCliAdRequestUserAgent } = await import('../ad-client-identity')
 
@@ -323,7 +323,7 @@ describe('every proposal request names this CLI build (I3)', () => {
     )
     expect(seen).toHaveLength(5)
     const userAgent = getCliAdRequestUserAgent()
-    expect(userAgent).toMatch(/^(Freebuff|Codebuff)-CLI\//)
+    expect(userAgent).toMatch(/^(Freebuff|MethaTech)-CLI\//)
     for (const request of seen) expect(request.userAgent).toBe(userAgent)
   })
 })

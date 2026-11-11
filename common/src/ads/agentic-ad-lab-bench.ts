@@ -274,7 +274,7 @@ export const LAB_BENCH: readonly LabBenchRepository[] = [
     'Express API on Prisma: a settled database provider.',
   ),
   repo(
-    'CodebuffAI/stagehand',
+    'MethaTechAI/stagehand',
     'a656128f95549d0e8545747d4381970e93239678',
     {
       framework: 'nodejs',

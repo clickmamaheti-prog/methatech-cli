@@ -3,8 +3,8 @@
  * the fire-and-forget POST to `/api/v1/ads/engagement`, and the hook each ad
  * card calls. The timing rules live in `ad-engagement.ts`.
  */
-import { WEBSITE_URL } from '@codebuff/sdk'
-import { IS_TEST } from '@codebuff/common/env'
+import { WEBSITE_URL } from '@methatech/sdk'
+import { IS_TEST } from '@methatech/common/env'
 import { useCallback, useEffect, useRef } from 'react'
 
 import { createAdoptionWatcher, type AdoptionWatcher } from './ad-adoption'
@@ -32,7 +32,7 @@ import { getAuthToken } from '../utils/auth'
 import { clientEnvironmentHeaders } from '../utils/client-environment'
 import { logger } from '../utils/logger'
 
-import type { AdEngagement } from '@codebuff/common/types/ad-client-context'
+import type { AdEngagement } from '@methatech/common/types/ad-client-context'
 
 /** How often a transcript card re-measures whether it is inside the viewport. */
 export const TRANSCRIPT_VISIBILITY_POLL_MS = 500

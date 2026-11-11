@@ -1,4 +1,4 @@
-import { runTerminalCommand } from '@codebuff/sdk'
+import { runTerminalCommand } from '@methatech/sdk'
 import { createCliRenderer } from '@opentui/core'
 import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import path from 'path'
@@ -13,12 +13,12 @@ import { installTerminalProtocolController } from '../utils/terminal-protocol-co
 import { writeTerminalControlSync } from '../utils/terminal-io'
 
 import type { CliRenderer } from '@opentui/core'
-import type { CodebuffToolOutput } from '@codebuff/sdk'
+import type { MethaTechToolOutput } from '@methatech/sdk'
 
 const WAIT_INTERVAL_MS = 25
 
 type TerminalResult =
-  CodebuffToolOutput<'run_terminal_command'>[number]['value']
+  MethaTechToolOutput<'run_terminal_command'>[number]['value']
 
 type SmokeResult = {
   ok: boolean
@@ -55,7 +55,7 @@ function toBashPath(value: string): string {
 }
 
 function asTerminalResult(
-  output: CodebuffToolOutput<'run_terminal_command'>,
+  output: MethaTechToolOutput<'run_terminal_command'>,
 ): TerminalResult {
   assertSmoke(output.length === 1, 'terminal command returned no result')
   return output[0].value

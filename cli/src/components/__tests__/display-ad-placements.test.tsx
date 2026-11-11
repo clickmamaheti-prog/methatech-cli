@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, beforeEach, expect, test } from 'bun:test'
-import { sponsorFor, sponsorsFor } from '@codebuff/common/ads/display-ads/sponsors'
+import { sponsorFor, sponsorsFor } from '@methatech/common/ads/display-ads/sponsors'
 import { createTestRenderer } from '@opentui/core/testing'
 import { createRoot, flushSync } from '@opentui/react'
 

@@ -24,11 +24,11 @@ import {
   type ByokConnection,
   type ResolvedByokConnection,
 } from '../byok'
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 
-import { COMPACTION_SUMMARY_PROMPT_OPENING } from '@codebuff/common/constants/compaction-summary'
+import { COMPACTION_SUMMARY_PROMPT_OPENING } from '@methatech/common/constants/compaction-summary'
 
-import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
+import type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
 
 const FILES = 12
 const BASE_URL = 'https://llm.example.com/v1'
@@ -121,7 +121,7 @@ async function longTask(byok: ResolvedByokConnection, fetchImpl: typeof fetch) {
     await writeFile(path.join(cwd, `file${i}.ts`), `export const value${i} = ${i} // keep this line\n`.repeat(150))
   }
   globalThis.fetch = fetchImpl
-  const client = new CodebuffClient({ cwd, agentDefinitions: [agent], byok })
+  const client = new MethaTechClient({ cwd, agentDefinitions: [agent], byok })
   const passes: Array<{ trigger: string }> = []
   const lifecycle: string[] = []
   const result = await client.run({

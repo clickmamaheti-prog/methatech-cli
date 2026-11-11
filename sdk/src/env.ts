@@ -5,9 +5,9 @@
  * process env with SDK-specific vars for binary paths and WASM.
  */
 
-import { BYOK_OPENROUTER_ENV_VAR } from '@codebuff/common/constants/byok'
-import { API_KEY_ENV_VAR } from '@codebuff/common/constants/paths'
-import { getBaseEnv } from '@codebuff/common/env-process'
+import { BYOK_OPENROUTER_ENV_VAR } from '@methatech/common/constants/byok'
+import { API_KEY_ENV_VAR } from '@methatech/common/constants/paths'
+import { getBaseEnv } from '@methatech/common/env-process'
 import {
   ALLOW_CUSTOM_APP_URL_ENV_VAR,
   RUNTIME_APP_URL_ENV_VARS,
@@ -15,7 +15,7 @@ import {
   isAllowedRuntimeAppUrl,
   isCustomAppUrlOptIn,
   isFirstPartyRuntimeAppUrl,
-} from '@codebuff/common/util/runtime-app-url'
+} from '@methatech/common/util/runtime-app-url'
 
 import { TRUSTED_AGENT_PUBLISHERS_ENV_VAR } from './agent-publisher-trust'
 
@@ -31,12 +31,12 @@ export const getSdkEnv = (): SdkEnv => ({
   ...getBaseEnv(),
 
   // SDK-specific paths
-  CODEBUFF_RG_PATH: process.env.CODEBUFF_RG_PATH,
-  CODEBUFF_WASM_DIR: process.env.CODEBUFF_WASM_DIR,
+  METHATECH_RG_PATH: process.env.METHATECH_RG_PATH,
+  METHATECH_WASM_DIR: process.env.METHATECH_WASM_DIR,
 
   // Registry publishers whose executable (handleSteps) agents may run
-  CODEBUFF_TRUSTED_AGENT_PUBLISHERS:
-    process.env.CODEBUFF_TRUSTED_AGENT_PUBLISHERS,
+  METHATECH_TRUSTED_AGENT_PUBLISHERS:
+    process.env.METHATECH_TRUSTED_AGENT_PUBLISHERS,
 
   // Build flags
   VERBOSE: process.env.VERBOSE,
@@ -45,7 +45,7 @@ export const getSdkEnv = (): SdkEnv => ({
   OVERRIDE_ARCH: process.env.OVERRIDE_ARCH,
 })
 
-export const getCodebuffApiKeyFromEnv = (): string | undefined => {
+export const getMethaTechApiKeyFromEnv = (): string | undefined => {
   return process.env[API_KEY_ENV_VAR]
 }
 
@@ -82,7 +82,7 @@ const warnRejectedRuntimeAppUrl = (
  * may. Anything else needs {@link ALLOW_CUSTOM_APP_URL_ENV_VAR} set in the live
  * environment.
  *
- * The literal `process.env.NEXT_PUBLIC_CB_ENVIRONMENT` (not `@codebuff/common/env`)
+ * The literal `process.env.NEXT_PUBLIC_CB_ENVIRONMENT` (not `@methatech/common/env`)
  * is deliberate: it is what the SDK and CLI builds inline at bundle time, and
  * importing the validated env here would make every importer of this module
  * (tool modules, fixtures) fail without the full web env.
@@ -100,7 +100,7 @@ export const getTrustedAgentPublishersFromEnv = (): string | undefined => {
 }
 
 /**
- * Runtime override for the Codebuff backend base URL. Remote hosts that bundle
+ * Runtime override for the MethaTech backend base URL. Remote hosts that bundle
  * the SDK (Convex Node actions, Next server routes) set this at deploy time;
  * the bundle-time value can inline a dev-machine localhost URL the remote
  * runtime cannot reach.
@@ -110,14 +110,14 @@ export const getTrustedAgentPublishersFromEnv = (): string | undefined => {
  * when:
  * - {@link isAllowedRuntimeAppUrl} accepts its transport (https, or http on a
  *   loopback host), AND
- * - its host is first-party (`codebuff.com` / `freebuff.com` or a subdomain)
+ * - its host is first-party (`console.methatech.eu.org` / `freebuff.com` or a subdomain)
  *   or loopback ({@link isFirstPartyRuntimeAppUrl}), unless
  *   {@link isCustomRuntimeAppUrlAllowed} (a dev build, or the explicit
- *   `CODEBUFF_ALLOW_CUSTOM_APP_URL=1` opt-in).
+ *   `METHATECH_ALLOW_CUSTOM_APP_URL=1` opt-in).
  *
  * The host rule closes an https-to-anywhere redirect of the token: an external
  * report showed a repository's env file steering it. The release CLI no longer
- * reads cwd dotenv files and drops `CODEBUFF_*` / `NEXT_PUBLIC_*` from
+ * reads cwd dotenv files and drops `METHATECH_*` / `NEXT_PUBLIC_*` from
  * `.envrc`; this is the SDK's own fence for every other embedder and for
  * anything else able to set one variable. A rejected value is ignored — the
  * caller falls back to the bundled URL — and warned about once.

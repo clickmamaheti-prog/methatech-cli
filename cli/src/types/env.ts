@@ -7,7 +7,7 @@
  * - Binary build configuration
  */
 
-import type { BaseEnv } from '@codebuff/common/types/contracts/env'
+import type { BaseEnv } from '@methatech/common/types/contracts/env'
 
 /**
  * CLI-specific env vars for terminal/IDE detection and editor preferences.
@@ -71,35 +71,35 @@ export type CliEnv = BaseEnv & {
   // Editor preferences
   VISUAL?: string
   EDITOR?: string
-  CODEBUFF_CLI_EDITOR?: string
-  CODEBUFF_EDITOR?: string
+  METHATECH_CLI_EDITOR?: string
+  METHATECH_EDITOR?: string
 
   // Theme preferences
   OPEN_TUI_THEME?: string
   OPENTUI_THEME?: string
 
-  // Codebuff CLI-specific (set during binary build)
-  CODEBUFF_IS_BINARY?: string
-  CODEBUFF_CLI_VERSION?: string
-  CODEBUFF_CLI_TARGET?: string
-  CODEBUFF_RG_PATH?: string
+  // MethaTech CLI-specific (set during binary build)
+  METHATECH_IS_BINARY?: string
+  METHATECH_CLI_VERSION?: string
+  METHATECH_CLI_TARGET?: string
+  METHATECH_RG_PATH?: string
   // Comma-separated registry publishers whose agents may run executable
   // handleSteps on this machine; read by the SDK (sdk/src/agent-publisher-trust.ts)
-  CODEBUFF_TRUSTED_AGENT_PUBLISHERS?: string
-  CODEBUFF_SCROLL_MULTIPLIER?: string
-  CODEBUFF_PERF_TEST?: string
-  CODEBUFF_TRACE?: string
-  CODEBUFF_LAUNCHER_PID?: string
+  METHATECH_TRUSTED_AGENT_PUBLISHERS?: string
+  METHATECH_SCROLL_MULTIPLIER?: string
+  METHATECH_PERF_TEST?: string
+  METHATECH_TRACE?: string
+  METHATECH_LAUNCHER_PID?: string
   // npm wrapper version that spawned this binary (cli/release-core/launcher.js)
-  CODEBUFF_LAUNCHER_VERSION?: string
+  METHATECH_LAUNCHER_VERSION?: string
   // Toggle for mirroring CLI logs to the server's /api/logs sink (Axiom).
-  CODEBUFF_SHIP_LOGS?: string
+  METHATECH_SHIP_LOGS?: string
   // Set to 1/true to suppress the terminal-reset watchdog on machines where
   // the PowerShell process shape conflicts with endpoint-security policy.
-  CODEBUFF_NO_TERMINAL_WATCHDOG?: string
+  METHATECH_NO_TERMINAL_WATCHDOG?: string
   // Set to 1/true to load repository `.agents` files and mcp.json without the
   // interactive trust prompt (CI opt-in; see utils/agent-dir-trust.ts).
-  CODEBUFF_TRUST_AGENT_DIRS?: string
+  METHATECH_TRUST_AGENT_DIRS?: string
   FREEBUFF_MODE?: string
   /** Absolute per-process override for isolated CLI settings and transcripts. */
   METHATECH_CONFIG_DIR?: string

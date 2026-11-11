@@ -4,10 +4,10 @@ import {
   HostedServiceUnavailableError,
   callWebSearchAPI,
   callWebFetchAPI,
-} from '../codebuff-web-api'
+} from '../methatech-web-api'
 
-import type { ClientEnv, CiEnv } from '@codebuff/common/types/contracts/env'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { ClientEnv, CiEnv } from '@methatech/common/types/contracts/env'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 const logger: Logger = {
   debug: () => {},
@@ -18,12 +18,12 @@ const logger: Logger = {
 
 const env = {
   clientEnv: {
-    NEXT_PUBLIC_CODEBUFF_APP_URL: 'https://example.test',
+    NEXT_PUBLIC_METHATECH_APP_URL: 'https://example.test',
   } as ClientEnv,
-  ciEnv: { CODEBUFF_API_KEY: 'test-key' } as CiEnv,
+  ciEnv: { METHATECH_API_KEY: 'test-key' } as CiEnv,
 }
 
-describe('callCodebuffV1 retries', () => {
+describe('callMethaTechV1 retries', () => {
   test('a fetch that can never reach the hosted service fails on the first attempt', async () => {
     let calls = 0
     const fetch = (async () => {
@@ -52,7 +52,7 @@ describe('hosted web research transport', () => {
       expect(String(input)).toBe('https://example.test/api/v1/web-fetch')
       expect(init?.redirect).toBe('error')
       expect(new Headers(init?.headers).get('authorization')).toBe(
-        `Bearer ${env.ciEnv.CODEBUFF_API_KEY}`,
+        `Bearer ${env.ciEnv.METHATECH_API_KEY}`,
       )
       expect(JSON.parse(String(init?.body))).toEqual({
         url,

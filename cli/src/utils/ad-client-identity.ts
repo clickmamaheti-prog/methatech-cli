@@ -37,7 +37,7 @@ export function getAdDeviceInfo(): AdDeviceInfo {
 }
 
 export function getCliAdRequestUserAgent(): string {
-  const product = IS_FREEBUFF ? 'Freebuff-CLI' : 'Codebuff-CLI'
-  const version = getCliEnv().CODEBUFF_CLI_VERSION ?? 'dev'
+  const product = IS_FREEBUFF ? 'MethaTech-CLI' : 'MethaTech-CLI'
+  const version = getCliEnv().METHATECH_CLI_VERSION ?? 'dev'
   return `${product}/${version}`
 }

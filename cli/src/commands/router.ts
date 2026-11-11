@@ -1,6 +1,6 @@
 import { freebuffChatNeedsAdmission } from '../state/freebuff-chat-store'
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
-import { runTerminalCommand } from '@codebuff/sdk'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
+import { runTerminalCommand } from '@methatech/sdk'
 
 
 import {
@@ -292,9 +292,9 @@ export async function routeUserPrompt(
   noteAdUserSend()
 
   // DAU signal: one un-sampled event per user-submitted prompt. The CLI's
-  // distinct id resolves to the canonical codebuff user id (anonymous id is
+  // distinct id resolves to the canonical methatech user id (anonymous id is
   // aliased to the real user id on login), matching the web and chat surfaces
-  // so combined DAU is a single unique-users query. Freebuff-only: codebuff
+  // so combined DAU is a single unique-users query. Freebuff-only: methatech
   // CLI usage is intentionally excluded.
   if (IS_FREEBUFF) {
     const freebuffSession = useFreebuffSessionStore.getState().session

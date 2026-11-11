@@ -81,7 +81,7 @@ export type ErrorObject = {
   stack?: string
   /** HTTP status code from error.status (used by some libraries) */
   status?: number
-  /** HTTP status code from error.statusCode (used by AI SDK and Codebuff errors) */
+  /** HTTP status code from error.statusCode (used by AI SDK and MethaTech errors) */
   statusCode?: number
   /** Optional machine-friendly error code, if available */
   code?: string

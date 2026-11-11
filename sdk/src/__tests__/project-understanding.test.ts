@@ -6,8 +6,8 @@ import {
 } from '../project-understanding'
 
 import type { ProjectUnderstandingApi } from '../project-understanding'
-import type { ProjectUnderstandingTemplate } from '@codebuff/common/project-understanding/template'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { ProjectUnderstandingTemplate } from '@methatech/common/project-understanding/template'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 const TEMPLATE: ProjectUnderstandingTemplate = {
   version: 3,

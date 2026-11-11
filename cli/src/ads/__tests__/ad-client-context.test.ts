@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 
-import { parseAdClientContext } from '@codebuff/common/types/ad-client-context'
+import { parseAdClientContext } from '@methatech/common/types/ad-client-context'
 
 import {
   buildCliAdClientContext,
@@ -692,7 +692,7 @@ describe('wave 2: pure derivations', () => {
   test('installMethodOf: the npm wrapper, then a bare binary', () => {
     const launched = (invoked: string) =>
       installMethodOf(
-        { CODEBUFF_LAUNCHER_PID: '123', _: invoked },
+        { METHATECH_LAUNCHER_PID: '123', _: invoked },
         { isBinary: true },
       )
     expect(launched('/Users/a/.bun/bin/methatech')).toBe('bun')
@@ -706,7 +706,7 @@ describe('wave 2: pure derivations', () => {
 
   test('installMethodOf: the resolved wrapper path wins over the raw `_`', () => {
     const env = {
-      CODEBUFF_LAUNCHER_PID: '123',
+      METHATECH_LAUNCHER_PID: '123',
       // the bin symlink, whose own name says nothing
       _: '/opt/homebrew/bin/methatech',
     }
@@ -720,7 +720,7 @@ describe('wave 2: pure derivations', () => {
     // Windows exports no `_`: the PATH lookup's answer is all there is
     expect(
       installMethodOf(
-        { CODEBUFF_LAUNCHER_PID: '9' },
+        { METHATECH_LAUNCHER_PID: '9' },
         {
           isBinary: true,
           launcherPath: 'C:\\Users\\a\\AppData\\Roaming\\npm\\methatech.cmd',
@@ -791,7 +791,7 @@ describe('wave 2: pure derivations', () => {
         throw new Error('ENOENT')
       }),
     ).toBe('/home/a/.bun/bin/methatech')
-    expect(launcherBinNames(false)).toEqual(['codebuff', 'cb'])
+    expect(launcherBinNames(false)).toEqual(['methatech', 'cb'])
     expect(
       invokedLauncherPath(
         { _: 'C:\\Users\\a\\AppData\\Roaming\\npm\\CB.CMD' },

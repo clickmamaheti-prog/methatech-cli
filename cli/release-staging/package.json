@@ -33,9 +33,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CodebuffAI/codebuff.git"
+    "url": "https://github.com/MethaTechAI/methatech.git"
   },
-  "homepage": "https://codebuff.com",
+  "homepage": "https://console.methatech.eu.org",
   "publishConfig": {
     "access": "public"
   }

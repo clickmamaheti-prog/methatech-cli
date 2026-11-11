@@ -3,11 +3,11 @@ import { createTestRenderer } from '@opentui/core/testing'
 import { createRoot, flushSync } from '@opentui/react'
 import React from 'react'
 
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 
 import { fetchDockArm, useDockPanel, type DockPanelState } from '../use-dock-panel'
 
-import type { CliDockArm } from '@codebuff/common/util/ad-experiment'
+import type { CliDockArm } from '@methatech/common/util/ad-experiment'
 import type { AdResponse } from '../use-gravity-ad'
 
 type TrackedEvent = [AnalyticsEvent, Record<string, unknown>]

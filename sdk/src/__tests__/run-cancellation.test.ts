@@ -1,8 +1,8 @@
-import * as mainPromptModule from '@codebuff/agent-runtime/main-prompt'
-import { withSystemTags } from '@codebuff/agent-runtime/util/messages'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import * as mainPromptModule from '@methatech/agent-runtime/main-prompt'
+import { withSystemTags } from '@methatech/agent-runtime/util/messages'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test'
 import { RetryError } from 'ai'
 
@@ -14,7 +14,7 @@ interface ToolCallContentBlock {
   input: Record<string, unknown>
 }
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 import * as databaseModule from '../impl/database'
 
 import type { RunState } from '../run-state'
@@ -74,7 +74,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -112,7 +112,7 @@ describe('Run Cancellation Handling', () => {
       throw new Error('the request must never be sent')
     })
 
-    const client = new CodebuffClient({ apiKey: 'test-key' })
+    const client = new MethaTechClient({ apiKey: 'test-key' })
     const result = await client.run({
       agent: 'base2',
       prompt: 'hello',
@@ -200,7 +200,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -261,7 +261,7 @@ describe('Run Cancellation Handling', () => {
 
     spyOn(mainPromptModule, 'callMainPrompt').mockRejectedValue(apiError)
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -324,7 +324,7 @@ describe('Run Cancellation Handling', () => {
       }),
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -373,7 +373,7 @@ describe('Run Cancellation Handling', () => {
 
     spyOn(mainPromptModule, 'callMainPrompt').mockRejectedValue(apiError)
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -419,7 +419,7 @@ describe('Run Cancellation Handling', () => {
 
     spyOn(mainPromptModule, 'callMainPrompt').mockRejectedValue(apiError)
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -459,7 +459,7 @@ describe('Run Cancellation Handling', () => {
       new Error('Network connection failed'),
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -558,7 +558,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -620,7 +620,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -756,7 +756,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -855,7 +855,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -904,7 +904,7 @@ describe('Run Cancellation Handling', () => {
     // Abort before the run starts
     abortController.abort()
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -969,7 +969,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -1062,7 +1062,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -1310,7 +1310,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 
@@ -1438,7 +1438,7 @@ describe('Run Cancellation Handling', () => {
       },
     )
 
-    const client = new CodebuffClient({ apiKey: 'test-key' })
+    const client = new MethaTechClient({ apiKey: 'test-key' })
     await client.run({
       agent: 'base2',
       prompt: 'Fix the bug',

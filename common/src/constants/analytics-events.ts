@@ -8,7 +8,7 @@ export enum AnalyticsEvent {
   PROJECT_CONTRIBUTION_CHOICE_SAVED = 'project_contribution_choice_saved',
   // Cross-surface — DAU
   // Emitted exactly once per user-submitted message/prompt, on each surface,
-  // and never sampled. `distinct_id` is the canonical codebuff Postgres user
+  // and never sampled. `distinct_id` is the canonical methatech Postgres user
   // id on every surface, so unique-users of this event gives accurate
   // per-surface DAU (filter on the `surface` property) and a combined DAU (no
   // filter). The `surface` property is one of: cli, web, chat, desktop, cloud
@@ -35,7 +35,7 @@ export enum AnalyticsEvent {
   // Freebuff Cloud feature use: one event per publish, member invite,
   // integration, custom link, AI credential connect or delivery step.
   // Emitted from Convex's `recordCloudFeatureUsage` (PostHog + Axiom, via
-  // convex/analytics.ts) under the canonical codebuff user id. Properties:
+  // convex/analytics.ts) under the canonical methatech user id. Properties:
   // `feature` (one of CLOUD_FEATURES) and `project_id` (the Convex project id)
   // when the use belongs to a project. Never carries the branch or PR detail.
   CLOUD_FEATURE_USED = 'cloud_feature_used',
@@ -71,7 +71,7 @@ export enum AnalyticsEvent {
   // Rate-limited per kind at the emit site; see common/src/util/helper-process-census.ts.
   CLI_HELPER_PROCESS_FLOOD = 'cli.helper_process_flood',
   CLI_HELPER_OUTLIVED_PARENT = 'cli.helper_outlived_parent',
-  UPDATE_CODEBUFF_FAILED = 'cli.update_codebuff_failed',
+  UPDATE_METHATECH_FAILED = 'cli.update_methatech_failed',
   // A fatal exit (uncaught exception / unhandled rejection) of the PREVIOUS
   // launch, shipped by the next one: the crashing process can only write a
   // local report before process.exit. Bounded payload: label, error name,
@@ -128,7 +128,7 @@ export enum AnalyticsEvent {
   ONBOARD_PAGE_INSTALL_COMMAND_COPIED = 'onboard_page.install_command_copied',
 
   // Web - Creator Attribution
-  CODEBUFF_REFERRER_ATTRIBUTED = 'codebuff.referrer_attributed',
+  METHATECH_REFERRER_ATTRIBUTED = 'methatech.referrer_attributed',
 
   // Web - Install Dialog
   INSTALL_DIALOG_CD_COMMAND_COPIED = 'install_dialog.cd_command_copied',

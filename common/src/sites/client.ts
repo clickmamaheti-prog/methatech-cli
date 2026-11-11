@@ -131,7 +131,7 @@ export class SitesClient {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
-            'X-Freebuff-Product-Context': JSON.stringify({
+            'X-MethaTech-Product-Context': JSON.stringify({
               originApp: this.options.originApp,
               ...this.context.getStore(),
             }),

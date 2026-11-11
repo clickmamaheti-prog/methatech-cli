@@ -21,7 +21,7 @@
 import {
   sponsorFor,
   sponsorsFor,
-} from '@codebuff/common/ads/display-ads/sponsors'
+} from '@methatech/common/ads/display-ads/sponsors'
 import { createElement } from 'react'
 
 import {

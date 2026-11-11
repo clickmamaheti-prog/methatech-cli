@@ -35,7 +35,7 @@ const SOURCES = [
 ]
 
 const CANONICAL_TYPES_MODULE =
-  '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
+  '@methatech/common/templates/initial-agents-dir/types/agent-definition'
 
 // `agents/` (published) and `.agents/` (local templates, absent from the
 // published export, hence the existence check) used to carry hand-kept copies

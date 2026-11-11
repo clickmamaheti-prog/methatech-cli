@@ -1,16 +1,16 @@
 import {
   FREEBUFF_PROJECTS_MAX_LIVE_SUBAGENTS,
   FREEBUFF_PROJECTS_SUBAGENT_ID,
-} from '@codebuff/common/constants/free-agents'
+} from '@methatech/common/constants/free-agents'
 import {
   MAX_LIVE_SUBAGENTS_PER_ROOT,
   MAX_SPAWN_AGENTS_PER_CALL,
-} from '@codebuff/common/tools/params/tool/spawn-agents'
+} from '@methatech/common/tools/params/tool/spawn-agents'
 import {
   normalizeAgentIdForLookup,
   parseAgentId,
-} from '@codebuff/common/util/agent-id-parsing'
-import { jsonToolResult } from '@codebuff/common/util/messages'
+} from '@methatech/common/util/agent-id-parsing'
+import { jsonToolResult } from '@methatech/common/util/messages'
 
 import { outputForParent } from '../../../util/agent-output'
 import {
@@ -21,17 +21,17 @@ import {
   extractSubagentContextParams,
 } from './spawn-agent-utils'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
-import type { AgentState } from '@codebuff/common/types/session-state'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
+import type { AgentState } from '@methatech/common/types/session-state'
 import type { ToolSet } from 'ai'
 
 export type SendSubagentChunk = (data: {
@@ -115,7 +115,7 @@ export function liveCappedAgentCountForTests(): number {
 export const handleSpawnAgents = (async (
   params: {
     previousToolCallFinished: Promise<void>
-    toolCall: CodebuffToolCall<ToolName>
+    toolCall: MethaTechToolCall<ToolName>
 
     agentState: AgentState
     agentTemplate: AgentTemplate
@@ -147,7 +147,7 @@ export const handleSpawnAgents = (async (
       | 'parentTools'
       | 'onResponseChunk'
     >,
-): Promise<{ output: CodebuffToolOutput<ToolName> }> => {
+): Promise<{ output: MethaTechToolOutput<ToolName> }> => {
   const {
     previousToolCallFinished,
     toolCall,
@@ -376,4 +376,4 @@ export const handleSpawnAgents = (async (
   })
 
   return { output: jsonToolResult(reports) }
-}) satisfies CodebuffToolHandlerFunction<ToolName>
+}) satisfies MethaTechToolHandlerFunction<ToolName>

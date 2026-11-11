@@ -4,7 +4,7 @@
  *
  * The switch itself is `AGENT_CORE_WRITER` in
  * `packages/internal/src/agent-core/writer.ts`, which Convex cannot import
- * (only `@codebuff/common` is bundled into the Convex deployment). This leaf
+ * (only `@methatech/common` is bundled into the Convex deployment). This leaf
  * mirrors it so the public Convex functions the iOS and Android apps call by
  * name can tell when Postgres has become the writer:
  *

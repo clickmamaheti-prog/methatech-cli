@@ -1,6 +1,6 @@
-import type { SponsoredProposalRow } from '@codebuff/common/ads/sponsored-proposal-view'
+import type { SponsoredProposalRow } from '@methatech/common/ads/sponsored-proposal-view'
 import type { ChatTheme } from './theme-system'
-import type { ToolName } from '@codebuff/sdk'
+import type { ToolName } from '@methatech/sdk'
 import type { ReactNode } from 'react'
 
 /**
@@ -148,7 +148,7 @@ export type FileAttachment = {
  * and this one has to survive being written to and read back from history like
  * every other block. It carries the ROW and nothing derived -- every label,
  * every action and both destination gates come from
- * `@codebuff/common/ads/sponsored-proposal-view`, so the terminal card and the
+ * `@methatech/common/ads/sponsored-proposal-view`, so the terminal card and the
  * web card cannot drift.
  *
  * ACCEPT ARRIVED IN PHASE 2 (COD-339) and runs LOCALLY, in a git worktree on

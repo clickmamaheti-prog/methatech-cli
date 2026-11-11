@@ -3,7 +3,7 @@ import { promisify } from 'util'
 
 const execAsync = promisify(exec)
 
-import { withTimeout } from '@codebuff/common/util/promise'
+import { withTimeout } from '@methatech/common/util/promise'
 
 import { withTestRepo } from '../subagents/test-repo-utils'
 import { benchToolOverrides } from './tool-overrides'
@@ -14,7 +14,7 @@ import { OpenCodeRunner } from './runners/opencode'
 
 import type { Runner, AgentStep, ContextLogEntry } from './runners/runner'
 import type { EvalCommitV2, FileDiff, FinalCheckOutput } from './types'
-import type { CodebuffClient } from '@codebuff/sdk'
+import type { CodebuffClient } from '@methatech/sdk'
 
 export type { AgentStep }
 

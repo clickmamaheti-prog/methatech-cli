@@ -11,7 +11,7 @@ import {
   SingleAdBanner,
   dockPanelRowBudget,
 } from '../ad-banner'
-import { getDockPanelLayout } from '@codebuff/common/ads/inline-ad-layout'
+import { getDockPanelLayout } from '@methatech/common/ads/inline-ad-layout'
 import { initializeThemeStore } from '../../hooks/use-theme'
 
 import type { AdResponse } from '../../hooks/use-gravity-ad'

@@ -2,14 +2,14 @@ import { afterEach, beforeAll, expect, spyOn, test } from 'bun:test'
 import { createTestRenderer } from '@opentui/core/testing'
 import { createRoot, flushSync } from '@opentui/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { freebucksFixture } from '@codebuff/common/testing/freebuff'
+import { freebucksFixture } from '@methatech/common/testing/freebuff'
 
 import { FreebuffChatHeader } from '../freebuff-chat-header'
 import { freebuffPausedPlanMessage } from '../freebuff-paused-plan-notice'
 import { initializeThemeStore } from '../../hooks/use-theme'
 import * as auth from '../../utils/auth'
 
-import type { FreebuffSubscriptionInfo } from '@codebuff/common/types/freebuff-session'
+import type { FreebuffSubscriptionInfo } from '@methatech/common/types/freebuff-session'
 import type { FreebuffSessionResponse } from '../../types/freebuff-session'
 
 let cleanup: (() => void) | undefined

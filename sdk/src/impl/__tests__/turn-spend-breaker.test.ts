@@ -3,8 +3,8 @@
 import {
   FREEBUFF_TURN_SPEND_LIMIT_ERROR_CODE,
   FREEBUFF_TURN_SPEND_LIMIT_MESSAGE,
-} from '@codebuff/common/constants/freebuff-errors'
-import { extractApiErrorDetails } from '@codebuff/common/util/error'
+} from '@methatech/common/constants/freebuff-errors'
+import { extractApiErrorDetails } from '@methatech/common/util/error'
 import { APICallError, streamText } from 'ai'
 import { afterEach, describe, expect, test } from 'bun:test'
 

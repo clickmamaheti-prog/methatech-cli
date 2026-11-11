@@ -1,4 +1,4 @@
-import { FREEBUFF_GEMINI_38_FLASH_MODEL_ID } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_GEMINI_38_FLASH_MODEL_ID } from '@methatech/common/constants/freebuff-models'
 
 import { publisher } from '../constants'
 import type { SecretAgentDefinition } from '../types/secret-agent-definition'

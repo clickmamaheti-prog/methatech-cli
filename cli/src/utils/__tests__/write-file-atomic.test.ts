@@ -15,7 +15,7 @@ let tempDir = ''
 
 describe('writeFileAtomic', () => {
   beforeEach(() => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'codebuff-atomic-'))
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'methatech-atomic-'))
   })
 
   afterEach(() => {
@@ -73,7 +73,7 @@ describe('writeFileAtomic', () => {
 
 describe('writeFileAtomicAsync', () => {
   beforeEach(() => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'codebuff-atomic-async-'))
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'methatech-atomic-async-'))
   })
 
   afterEach(() => {
@@ -205,7 +205,7 @@ describe('durability', () => {
   let recorder: ReturnType<typeof recordingFs>
 
   beforeEach(() => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'codebuff-atomic-fsync-'))
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'methatech-atomic-fsync-'))
     recorder = recordingFs()
     setAtomicWriteFsForTesting(recorder.fs)
   })
@@ -305,7 +305,7 @@ describe.skipIf(process.platform === 'win32')('private file mode', () => {
   const modeOf = (file: string) => fs.statSync(file).mode & 0o777
 
   beforeEach(() => {
-    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'codebuff-atomic-mode-'))
+    tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'methatech-atomic-mode-'))
   })
 
   afterEach(() => {

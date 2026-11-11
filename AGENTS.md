@@ -1,6 +1,6 @@
 # MethaTech
 
-MethaTech is the AI coding agent CLI from MethaTech. Models come from the MethaTech panel (see `common/src/constants/methatech-models.ts`); the panel is the source of truth for models, prices, and availability. This project is MethaTech — never describe it as Freebuff or Codebuff.
+MethaTech is the AI coding agent CLI from MethaTech. Models come from the MethaTech panel (see `common/src/constants/methatech-models.ts`); the panel is the source of truth for models, prices, and availability. This project is MethaTech — never describe it as Freebuff.
 
 ## Key Technologies
 

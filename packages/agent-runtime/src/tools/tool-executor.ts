@@ -1,14 +1,14 @@
-import { endsAgentStepParam, toolNames } from '@codebuff/common/tools/constants'
-import { toolParams } from '@codebuff/common/tools/list'
-import { FILE_WRITE_GUARD_EVENT } from '@codebuff/common/util/axiom-only-log'
-import { generateCompactId } from '@codebuff/common/util/string'
+import { endsAgentStepParam, toolNames } from '@methatech/common/tools/constants'
+import { toolParams } from '@methatech/common/tools/list'
+import { FILE_WRITE_GUARD_EVENT } from '@methatech/common/util/axiom-only-log'
+import { generateCompactId } from '@methatech/common/util/string'
 import { cloneDeepKeepingZod } from '../util/zod-safe-clone'
 
 import { getMCPToolData } from '../mcp'
 import { MCP_TOOL_SEPARATOR } from '../mcp-constants'
 import { getAgentShortName, getAgentToolName } from '../templates/prompts'
 import { formatValueForError } from '../util/format-value'
-import { codebuffToolHandlers } from './handlers/list'
+import { methatechToolHandlers } from './handlers/list'
 import { getMatchingSpawn } from './handlers/tool/spawn-agent-utils'
 import { getAgentTemplate } from '../templates/agent-registry'
 import { repairCustomToolInput } from '../util/repair-custom-tool-input'
@@ -22,35 +22,35 @@ import {
 } from '../util/truncated-write-guard'
 
 import type { AgentTemplate } from '../templates/types'
-import type { CodebuffToolHandlerFunction } from './handlers/handler-function-type'
+import type { MethaTechToolHandlerFunction } from './handlers/handler-function-type'
 import type { FileProcessingState } from './handlers/tool/write-file'
-import type { ToolName } from '@codebuff/common/tools/constants'
+import type { ToolName } from '@methatech/common/tools/constants'
 import type {
   ClientToolCall,
   ClientToolName,
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 import type {
   Message,
   ToolMessage,
-} from '@codebuff/common/types/messages/codebuff-message'
-import type { ToolResultOutput } from '@codebuff/common/types/messages/content-part'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+} from '@methatech/common/types/messages/methatech-message'
+import type { ToolResultOutput } from '@methatech/common/types/messages/content-part'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 import type {
   AgentTemplateType,
   AgentState,
   Subgoal,
-} from '@codebuff/common/types/session-state'
+} from '@methatech/common/types/session-state'
 import type {
   CustomToolDefinitions,
   ProjectFileContext,
-} from '@codebuff/common/util/file'
+} from '@methatech/common/util/file'
 import type { ToolCallPart, ToolSet } from 'ai'
 
 export type CustomToolCall = {
@@ -65,7 +65,7 @@ export type ToolCallError = {
   /** The arguments were cut off mid-generation (see
    *  util/truncated-write-guard.ts). The partial input is not echoed back. */
   truncated?: true
-} & Pick<CodebuffToolCall, 'toolCallId'>
+} & Pick<MethaTechToolCall, 'toolCallId'>
 
 const bareStringFieldRepairAllowlist: Partial<
   Record<string, readonly string[]>
@@ -234,7 +234,7 @@ export function parseRawToolCall<T extends ToolName = ToolName>(params: {
     toolCallId: string
     input: unknown
   }
-}): CodebuffToolCall<T> | ToolCallError {
+}): MethaTechToolCall<T> | ToolCallError {
   const { rawToolCall } = params
   const toolName = rawToolCall.toolName
 
@@ -298,7 +298,7 @@ export function parseRawToolCall<T extends ToolName = ToolName>(params: {
     toolName,
     input: result.data,
     toolCallId: rawToolCall.toolCallId,
-  } as CodebuffToolCall<T>
+  } as MethaTechToolCall<T>
 }
 
 export type ExecuteToolCallParams<T extends string = ToolName> = {
@@ -336,8 +336,8 @@ export type ExecuteToolCallParams<T extends string = ToolName> = {
   system: string
   tools: ToolSet
   toolCallId: string | undefined
-  toolCalls: (CodebuffToolCall | CustomToolCall)[]
-  toolCallsToAddToMessageHistory: (CodebuffToolCall | CustomToolCall)[]
+  toolCalls: (MethaTechToolCall | CustomToolCall)[]
+  toolCallsToAddToMessageHistory: (MethaTechToolCall | CustomToolCall)[]
   toolResults: ToolMessage[]
   toolResultsToAddToMessageHistory: ToolMessage[]
   userId: string | undefined
@@ -375,7 +375,7 @@ export async function executeToolCall<T extends ToolName>(
   } = params
   const toolCallId = params.toolCallId ?? generateCompactId()
 
-  const toolCall: CodebuffToolCall<T> | ToolCallError = parseRawToolCall<T>({
+  const toolCall: MethaTechToolCall<T> | ToolCallError = parseRawToolCall<T>({
     rawToolCall: {
       toolName,
       toolCallId,
@@ -544,7 +544,7 @@ export async function executeToolCall<T extends ToolName>(
   // references must be resolved before any client sees or stores the call.
   if (toolName === 'render_ui') {
     const renderUIInput =
-      effectiveInput as CodebuffToolCall<'render_ui'>['input']
+      effectiveInput as MethaTechToolCall<'render_ui'>['input']
     const link = renderUIInput.widget.link
 
     if (typeof link !== 'string') {
@@ -585,15 +585,15 @@ export async function executeToolCall<T extends ToolName>(
   })
 
   // Cast to any to avoid type errors
-  const handler = codebuffToolHandlers[
+  const handler = methatechToolHandlers[
     toolName
-  ] as unknown as CodebuffToolHandlerFunction<T>
+  ] as unknown as MethaTechToolHandlerFunction<T>
 
   // Use normalized input for tools whose calls are prepared before dispatch.
   const finalToolCall =
     effectiveInput === toolCall.input
       ? toolCall
-      : ({ ...toolCall, input: effectiveInput } as CodebuffToolCall<T>)
+      : ({ ...toolCall, input: effectiveInput } as MethaTechToolCall<T>)
 
   toolCalls.push(finalToolCall)
   if (!excludeToolFromMessageHistory) {
@@ -618,7 +618,7 @@ export async function executeToolCall<T extends ToolName>(
         toolName: clientToolCall.toolName,
         input: clientToolCall.input,
       })
-      return clientToolResult.output as CodebuffToolOutput<T>
+      return clientToolResult.output as MethaTechToolOutput<T>
     }) as any,
   })
 
@@ -696,7 +696,7 @@ export function parseRawCustomToolCall(params: {
     processedParameters[param] = val
   }
 
-  // Add the required codebuff_end_step parameter with the correct value for this tool if requested
+  // Add the required methatech_end_step parameter with the correct value for this tool if requested
   if (autoInsertEndStepParam) {
     processedParameters[endsAgentStepParam] =
       customToolDefs?.[toolName]?.endsAgentStep

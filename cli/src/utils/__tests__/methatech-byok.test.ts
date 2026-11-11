@@ -4,7 +4,7 @@
 // for the requested model and selects it.
 import { afterEach, describe, expect, test } from 'bun:test'
 
-import { METHATECH_BYOK_BASE_URL } from '@codebuff/sdk'
+import { METHATECH_BYOK_BASE_URL } from '@methatech/sdk'
 
 import {
   ensureMethatechByokConnection,
@@ -16,7 +16,7 @@ import {
   useByokSelectionStore,
 } from '../byok'
 
-import type { ByokConnection, ByokConnectionStore } from '@codebuff/sdk'
+import type { ByokConnection, ByokConnectionStore } from '@methatech/sdk'
 
 function createFakeStore(
   initial: ByokConnection[] = [],

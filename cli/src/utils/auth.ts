@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-import { getCiEnv } from '@codebuff/common/env-ci'
+import { getCiEnv } from '@methatech/common/env-ci'
 import { z } from 'zod'
 
 import {
@@ -9,12 +9,12 @@ import {
   resolveSecretStore,
   setCachedKeychainToken,
 } from './auth-token-store'
-import { getApiClient, setApiClientAuthToken } from './codebuff-api'
+import { getApiClient, setApiClientAuthToken } from './methatech-api'
 import { getConfigDir as getConfigDirBase } from './config-dir'
 import { IS_FREEBUFF } from './constants'
 import { logger } from './logger'
 
-import type { CiEnv } from '@codebuff/common/types/contracts/env'
+import type { CiEnv } from '@methatech/common/types/contracts/env'
 
 // User schema
 const userSchema = z.object({
@@ -245,7 +245,7 @@ export const getAuthTokenDetails = (
     return { token: userCredentials.authToken, source: 'credentials' }
   }
 
-  const envToken = ciEnv.CODEBUFF_API_KEY
+  const envToken = ciEnv.METHATECH_API_KEY
   if (envToken) {
     return { token: envToken, source: 'environment' }
   }

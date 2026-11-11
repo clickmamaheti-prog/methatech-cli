@@ -12,11 +12,11 @@ import http from 'node:http'
 import {
   extractApiErrorDetails,
   isTransientNetworkError,
-} from '@codebuff/common/util/error'
+} from '@methatech/common/util/error'
 // The vendored fork, which is what model-provider.ts actually builds the
 // backend model from. Testing against the npm @ai-sdk/openai-compatible would
 // prove nothing about the client users are running.
-import { OpenAICompatibleChatLanguageModel } from '@codebuff/llm-providers/openai-compatible'
+import { OpenAICompatibleChatLanguageModel } from '@methatech/llm-providers/openai-compatible'
 import { APICallError, streamText } from 'ai'
 import { afterEach, describe, expect, it } from 'bun:test'
 
@@ -70,7 +70,7 @@ server.listen(0, '127.0.0.1', async () => {
 const consume = async (port: number) => {
   const result = streamText({
     model: new OpenAICompatibleChatLanguageModel('m', {
-      provider: 'codebuff',
+      provider: 'methatech',
       url: () => `http://127.0.0.1:${port}/chat/completions`,
       headers: () => ({}),
     }),
@@ -123,7 +123,7 @@ describe('late failure delivered in band', () => {
           classifyThrownStreamRecovery({ aborted: false, error }),
         ).toBeNull()
         // It is a provider failure, retried on the same capped path with a
-        // backoff (CodebuffAI/freebuff#1155).
+        // backoff (MethaTechAI/freebuff#1155).
         expect(
           classifyProviderErrorRecovery({ aborted: false, error }),
         ).toMatchObject({ source: 'provider-error', statusCode: 429 })

@@ -130,7 +130,7 @@ function heldStream(signal: AbortSignal, frames: string[], every?: { ms: number;
       },
       cancel() { clearInterval(timer) },
     }),
-    { headers: { 'content-type': 'text/event-stream', 'x-freebuff-stream-id': 'stream-1' } },
+    { headers: { 'content-type': 'text/event-stream', 'x-methatech-stream-id': 'stream-1' } },
   )
 }
 const later = { ...page, events: [{ id: '9007199254740994', kind: 'chunk', payload: 'later' }] }

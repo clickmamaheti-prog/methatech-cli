@@ -1,7 +1,7 @@
 /**
  * The CLI's R layer of the sponsored-proposal conformance matrix (COD-376).
  *
- * Rows come from the SHARED fixtures in `@codebuff/common`, not from literals
+ * Rows come from the SHARED fixtures in `@methatech/common`, not from literals
  * here: the whole claim being tested is that three surfaces render the same
  * bytes, and a fixture written in this file would be the CLI grading its own
  * homework.
@@ -24,7 +24,7 @@ import {
   SPONSORED_FIXTURE_STATES,
   SPONSORED_ROW_FIXTURES,
   VALID_LOGO_TOKEN,
-} from '@codebuff/common/ads/__fixtures__/sponsored-proposal-rows'
+} from '@methatech/common/ads/__fixtures__/sponsored-proposal-rows'
 import { createTestRenderer } from '@opentui/core/testing'
 import { createRoot, flushSync } from '@opentui/react'
 import {
@@ -55,7 +55,7 @@ import type {
   SponsoredProposalContentBlock,
   ContentBlock,
 } from '../../types/chat'
-import type { SponsoredProposalRow } from '@codebuff/common/ads/sponsored-proposal-view'
+import type { SponsoredProposalRow } from '@methatech/common/ads/sponsored-proposal-view'
 
 beforeAll(() => {
   initializeThemeStore()

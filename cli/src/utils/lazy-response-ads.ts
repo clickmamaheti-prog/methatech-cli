@@ -1,1 +1,1 @@
-export * from '@codebuff/common/util/lazy-response-ads'
+export * from '@methatech/common/util/lazy-response-ads'

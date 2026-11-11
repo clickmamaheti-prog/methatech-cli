@@ -11,9 +11,9 @@
  */
 import http from 'node:http'
 
-import { parseRawToolCall } from '@codebuff/agent-runtime/tools/tool-executor'
-import { toolParams } from '@codebuff/common/tools/list'
-import { OpenAICompatibleChatLanguageModel } from '@codebuff/llm-providers/openai-compatible'
+import { parseRawToolCall } from '@methatech/agent-runtime/tools/tool-executor'
+import { toolParams } from '@methatech/common/tools/list'
+import { OpenAICompatibleChatLanguageModel } from '@methatech/llm-providers/openai-compatible'
 import { streamText } from 'ai'
 import { describe, expect, it } from 'bun:test'
 
@@ -92,7 +92,7 @@ describe('write_file cut off by the output limit', () => {
     try {
       const result = streamText({
         model: new OpenAICompatibleChatLanguageModel('openai/gpt-6-luna', {
-          provider: 'codebuff',
+          provider: 'methatech',
           url: () => `http://127.0.0.1:${port}/chat/completions`,
           headers: () => ({}),
         }),

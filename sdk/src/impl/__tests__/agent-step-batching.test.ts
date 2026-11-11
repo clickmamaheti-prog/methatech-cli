@@ -1,13 +1,13 @@
 import { afterEach, describe, expect, mock, test } from 'bun:test'
-import { MAX_AGENT_STEP_ROWS } from '@codebuff/common/constants/agents'
+import { MAX_AGENT_STEP_ROWS } from '@methatech/common/constants/agents'
 
 import { addAgentStep, finishAgentRun } from '../database'
 
 import type {
   AddAgentStepFn,
   FinishAgentRunFn,
-} from '@codebuff/common/types/contracts/database'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+} from '@methatech/common/types/contracts/database'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 const originalFetch = globalThis.fetch
 const logger = {

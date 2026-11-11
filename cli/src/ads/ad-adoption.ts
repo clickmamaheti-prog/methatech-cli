@@ -25,7 +25,7 @@ import {
   parseAdEngagement,
   type AdEngagement,
   type AdVendor,
-} from '@codebuff/common/types/ad-client-context'
+} from '@methatech/common/types/ad-client-context'
 
 import type { EngagementStatus } from './ad-engagement'
 

@@ -12,7 +12,7 @@ export const HOSTED_WORKSPACE_ORIGIN = 'https://staging-2-auth.freebuffweb.site'
 export const HOSTED_WORKSPACE_ENVIRONMENTS = [
   { apiOrigin: HOSTED_WORKSPACE_API_ORIGIN, authOrigin: HOSTED_WORKSPACE_ORIGIN },
   { apiOrigin: 'https://staging-api.freebuff.com', authOrigin: 'https://staging-auth.freebuff.com' },
-  { apiOrigin: 'https://www.codebuff.com', authOrigin: 'https://freebuff.com' },
+  { apiOrigin: 'https://console.methatech.eu.org', authOrigin: 'https://freebuff.com' },
 ] as const
 
 

@@ -1,10 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 
-import { getErrorObject } from '@codebuff/common/util/error'
-import { withTimeout } from '@codebuff/common/util/promise'
+import { getErrorObject } from '@methatech/common/util/error'
+import { withTimeout } from '@methatech/common/util/promise'
 
-import type { CodebuffClient, AgentDefinition } from '@codebuff/sdk'
+import type { CodebuffClient, AgentDefinition } from '@methatech/sdk'
 
 export interface TaskAnalysisData {
   commitSha: string

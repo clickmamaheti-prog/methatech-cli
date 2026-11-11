@@ -1,11 +1,11 @@
-import { nextFreebucksPriceChange } from '@codebuff/common/util/freebuff-price-changes'
+import { nextFreebucksPriceChange } from '@methatech/common/util/freebuff-price-changes'
 import {
   getLimitedModelOffers,
   getRateLimitsByModel,
   getReferralInfo,
   getFreebucksInfo,
   getSubscriptionInfo,
-} from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/types/freebuff-session'
 import { useEffect } from 'react'
 
 import { startNewChat } from '../project-files'
@@ -69,7 +69,7 @@ import type { FreebuffSessionResponse } from '../types/freebuff-session'
 import type {
   FreebuffCountryBlockReason,
   FreebuffIpPrivacySignal,
-} from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/types/freebuff-session'
 
 const POLL_INTERVAL_ACTIVE_MS = 30_000
 
@@ -498,7 +498,7 @@ export function useFreebuffSession({
     const { setSession, setFailure } = useFreebuffSessionStore.getState()
 
     if (!IS_FREEBUFF || !enabled) {
-      // Non-freebuff (Codebuff) builds never gate on a free session; leave the
+      // Non-freebuff (MethaTech) builds never gate on a free session; leave the
       // store empty (app.tsx's session routing is all behind IS_FREEBUFF).
       setSession(null)
       return

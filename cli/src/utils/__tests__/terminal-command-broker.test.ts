@@ -16,7 +16,7 @@ import path from 'path'
 import {
   getActiveTerminalCommandProcesses,
   runTerminalCommand,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
 import {
   classifyTerminalBrokerFailure,
@@ -132,13 +132,13 @@ describe('terminal command broker', () => {
     expect(
       isTerminalCommandBrokerInvocation(
         ['freebuff', '--terminal-command-broker'],
-        { CODEBUFF_TERMINAL_COMMAND_BROKER: '1' },
+        { METHATECH_TERMINAL_COMMAND_BROKER: '1' },
       ),
     ).toBe(true)
     expect(
       isTerminalCommandBrokerInvocation(
         ['freebuff', '--', '--terminal-command-broker'],
-        { CODEBUFF_TERMINAL_COMMAND_BROKER: '1' },
+        { METHATECH_TERMINAL_COMMAND_BROKER: '1' },
       ),
     ).toBe(false)
     expect(
@@ -149,7 +149,7 @@ describe('terminal command broker', () => {
     ).toBe(false)
     expect(
       isTerminalCommandBrokerInvocation(['freebuff'], {
-        CODEBUFF_TERMINAL_COMMAND_BROKER: '1',
+        METHATECH_TERMINAL_COMMAND_BROKER: '1',
       }),
     ).toBe(false)
   })
@@ -161,12 +161,12 @@ describe('terminal command broker', () => {
     )
     expect(
       protocolPathFromEnv({
-        CODEBUFF_TERMINAL_COMMAND_BROKER_PROTOCOL: validPath,
+        METHATECH_TERMINAL_COMMAND_BROKER_PROTOCOL: validPath,
       }),
     ).toBe(validPath)
     expect(() =>
       protocolPathFromEnv({
-        CODEBUFF_TERMINAL_COMMAND_BROKER_PROTOCOL: path.join(
+        METHATECH_TERMINAL_COMMAND_BROKER_PROTOCOL: path.join(
           tmpdir(),
           'wrong-prefix.json',
         ),
@@ -174,7 +174,7 @@ describe('terminal command broker', () => {
     ).toThrow('terminal command broker protocol path was invalid')
     expect(() =>
       protocolPathFromEnv({
-        CODEBUFF_TERMINAL_COMMAND_BROKER_PROTOCOL: path.join(
+        METHATECH_TERMINAL_COMMAND_BROKER_PROTOCOL: path.join(
           tmpdir(),
           'nested',
           path.basename(validPath),
@@ -448,7 +448,7 @@ describe('terminal command broker', () => {
   })
 
   test('a failed result write removes the partial file and explains itself on stderr', () => {
-    const tempDir = mkdtempSync(path.join(tmpdir(), 'codebuff-broker-enospc-'))
+    const tempDir = mkdtempSync(path.join(tmpdir(), 'methatech-broker-enospc-'))
     const protocolPath = path.join(tempDir, 'result.json')
     const diagnostics: string[] = []
     try {
@@ -479,7 +479,7 @@ describe('terminal command broker', () => {
   })
 
   test('probes the temp directory without leaving files behind', () => {
-    const tempDir = mkdtempSync(path.join(tmpdir(), 'codebuff-broker-probe-'))
+    const tempDir = mkdtempSync(path.join(tmpdir(), 'methatech-broker-probe-'))
     try {
       expect(probeTempDirectory(tempDir)).toBeNull()
       expect(readdirSync(tempDir)).toEqual([])
@@ -555,7 +555,7 @@ describe('terminal command broker', () => {
 
   test('leaves no live background descendants after successful completion', async () => {
     if (process.platform === 'win32') return
-    const tempDir = mkdtempSync(path.join(tmpdir(), 'codebuff-broker-child-'))
+    const tempDir = mkdtempSync(path.join(tmpdir(), 'methatech-broker-child-'))
     const pidFile = path.join(tempDir, 'child.pid')
     try {
       await runTerminalCommand({
@@ -600,7 +600,7 @@ describe('terminal command broker', () => {
   })
 
   test('reaps its command when the owning CLI process disappears', async () => {
-    const tempDir = mkdtempSync(path.join(tmpdir(), 'codebuff-broker-owner-'))
+    const tempDir = mkdtempSync(path.join(tmpdir(), 'methatech-broker-owner-'))
     const brokerPidPath = path.join(tempDir, 'broker.pid')
     const commandPidPath = path.join(tempDir, 'command.pid')
     const owner = spawn(

@@ -20,15 +20,15 @@ import {
   displayAdEnabled,
   displayAdPlacementId,
   type DisplayAdPlacement,
-} from '@codebuff/common/ads/display-ads/placements'
-import { isValidBrandHex } from '@codebuff/common/ads/inline-ad-layout'
+} from '@methatech/common/ads/display-ads/placements'
+import { isValidBrandHex } from '@methatech/common/ads/inline-ad-layout'
 import { RGBA, type ColorInput } from '@opentui/core'
 
 import { loadSettings } from '../utils/settings'
 import { supportsTruecolor } from '../utils/theme-system'
 
 import type { ChatTheme } from '../types/theme-system'
-import type { SponsorTheme } from '@codebuff/common/ads/display-ads/sponsor-theme'
+import type { SponsorTheme } from '@methatech/common/ads/display-ads/sponsor-theme'
 
 let override: string | string[] | null | undefined
 

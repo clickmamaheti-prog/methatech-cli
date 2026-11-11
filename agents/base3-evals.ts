@@ -1,7 +1,7 @@
 import { createBase3CliRoot } from './base3'
 
 /**
- * Codebuff DEFAULT (base3) as buffbench runs it.
+ * MethaTech DEFAULT (base3) as buffbench runs it.
  *
  * `noAskUser` is the only difference, and it matters: there is no human in an
  * eval, so an ask_user call would stall the run rather than gather anything.

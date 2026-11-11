@@ -3,7 +3,7 @@ import {
   jsonToolResult,
   systemMessage,
   userMessage,
-} from '@codebuff/common/util/messages'
+} from '@methatech/common/util/messages'
 import {
   afterEach,
   beforeEach,
@@ -26,9 +26,9 @@ import {
 } from '../../util/messages'
 import * as tokenCounter from '../token-counter'
 
-import type { CodebuffToolMessage } from '@codebuff/common/tools/list'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { TextPart } from '@codebuff/common/types/messages/content-part'
+import type { MethaTechToolMessage } from '@methatech/common/tools/list'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { TextPart } from '@methatech/common/types/messages/content-part'
 
 /**
  * Type guard to check if a content part is a text part.
@@ -535,7 +535,7 @@ describe('getPreviouslyReadFiles', () => {
           file: 'test.ts',
           errorMessage: 'error',
         }),
-      } satisfies CodebuffToolMessage<'write_file'>,
+      } satisfies MethaTechToolMessage<'write_file'>,
     ]
 
     const result = getPreviouslyReadFiles({ messages, logger })
@@ -559,7 +559,7 @@ describe('getPreviouslyReadFiles', () => {
             content: 'export const utils = {}',
           },
         ] as const),
-      } satisfies CodebuffToolMessage<'read_files'>,
+      } satisfies MethaTechToolMessage<'read_files'>,
     ]
 
     const result = getPreviouslyReadFiles({ messages, logger })
@@ -588,7 +588,7 @@ describe('getPreviouslyReadFiles', () => {
             content: 'export const Button = () => {}',
           },
         ] as const),
-      } satisfies CodebuffToolMessage<'find_files'>,
+      } satisfies MethaTechToolMessage<'find_files'>,
     ]
 
     const result = getPreviouslyReadFiles({ messages, logger })
@@ -612,7 +612,7 @@ describe('getPreviouslyReadFiles', () => {
             content: 'content 1',
           },
         ]),
-      } satisfies CodebuffToolMessage<'read_files'>,
+      } satisfies MethaTechToolMessage<'read_files'>,
       {
         role: 'tool',
         toolName: 'find_files',
@@ -623,7 +623,7 @@ describe('getPreviouslyReadFiles', () => {
             content: 'content 2',
           },
         ]),
-      } satisfies CodebuffToolMessage<'find_files'>,
+      } satisfies MethaTechToolMessage<'find_files'>,
       userMessage('Some user message'),
     ]
 
@@ -654,7 +654,7 @@ describe('getPreviouslyReadFiles', () => {
             content: 'another small content',
           },
         ] as const),
-      } satisfies CodebuffToolMessage<'read_files'>,
+      } satisfies MethaTechToolMessage<'read_files'>,
     ]
 
     const result = getPreviouslyReadFiles({ messages, logger })
@@ -694,7 +694,7 @@ describe('getPreviouslyReadFiles', () => {
         content: jsonToolResult({
           message: 'No files found matching the criteria',
         }),
-      } satisfies CodebuffToolMessage<'find_files'>,
+      } satisfies MethaTechToolMessage<'find_files'>,
     ]
 
     const result = getPreviouslyReadFiles({ messages, logger })
@@ -716,7 +716,7 @@ describe('getPreviouslyReadFiles', () => {
             content: 'test content',
           },
         ]),
-      } satisfies CodebuffToolMessage<'read_files'>,
+      } satisfies MethaTechToolMessage<'read_files'>,
     ]
 
     const result = getPreviouslyReadFiles({ messages, logger })
@@ -730,7 +730,7 @@ describe('getPreviouslyReadFiles', () => {
         toolName: 'read_files',
         toolCallId: 'test-id',
         content: jsonToolResult([]),
-      } satisfies CodebuffToolMessage<'read_files'>,
+      } satisfies MethaTechToolMessage<'read_files'>,
     ]
 
     const result = getPreviouslyReadFiles({ messages, logger })

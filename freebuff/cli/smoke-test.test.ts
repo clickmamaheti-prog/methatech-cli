@@ -4,7 +4,7 @@
  *
  * Verifies the compiled Freebuff binary:
  * 1. Reports a valid version number
- * 2. Shows Freebuff branding (not Codebuff) in --help output
+ * 2. Shows Freebuff branding (not MethaTech) in --help output
  * 3. Excludes mode flags (--free, --max, --plan) from --help
  * 4. Renders the Freebuff title screen (ASCII logo) in tmux
  *
@@ -85,7 +85,7 @@ function runBinaryResult(args: string[]) {
       FREEBUFF_MODE: 'true',
       NO_COLOR: '1',
       NEXT_PUBLIC_CB_ENVIRONMENT: 'test',
-      NEXT_PUBLIC_CODEBUFF_APP_URL: 'http://127.0.0.1:9',
+      NEXT_PUBLIC_METHATECH_APP_URL: 'http://127.0.0.1:9',
       NEXT_PUBLIC_FREEBUFF_APP_URL: 'http://127.0.0.1:9',
       NEXT_PUBLIC_SUPPORT_EMAIL: 'test@example.com',
       NEXT_PUBLIC_POSTHOG_API_KEY: 'test',
@@ -129,8 +129,8 @@ describe.skipIf(!binaryExists)('Freebuff Binary Smoke Tests', () => {
       expect(output).toContain('Usage: freebuff')
       // Description is Freebuff-specific
       expect(output).toContain('Free AI coding assistant')
-      // Must NOT contain the Codebuff CLI name in the usage line
-      expect(output).not.toContain('Usage: codebuff')
+      // Must NOT contain the MethaTech CLI name in the usage line
+      expect(output).not.toContain('Usage: methatech')
     },
     TIMEOUT_MS,
   )
@@ -222,15 +222,15 @@ describe.skipIf(!binaryExists)('Freebuff Binary Smoke Tests', () => {
           )
         }
 
-        // Verify it's the FREEBUFF logo, not CODEBUFF.
+        // Verify it's the FREEBUFF logo, not METHATECH.
         // The Freebuff 'F' character's third line starts with the crossbar:
         //   █████╗  ██████╔╝
-        // whereas Codebuff 'C' has:
+        // whereas MethaTech 'C' has:
         //   ██║     ██║   ██║
         // We check for the F + R pattern on line 3 of the logo.
         expect(cleanOutput).toContain('█████╗  ██████╔╝')
 
-        // The Codebuff logo's distinctive C+O opening should NOT appear
+        // The MethaTech logo's distinctive C+O opening should NOT appear
         expect(cleanOutput).not.toContain('██╔════╝██╔═══██╗')
       },
       TIMEOUT_MS,

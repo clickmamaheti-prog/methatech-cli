@@ -1,22 +1,22 @@
-import { isSupportedImageExtension } from '@codebuff/common/constants/images'
-import { FILE_READ_STATUS } from '@codebuff/common/constants/paths'
-import { jsonToolResult, mediaToolResult } from '@codebuff/common/util/messages'
+import { isSupportedImageExtension } from '@methatech/common/constants/images'
+import { FILE_READ_STATUS } from '@methatech/common/constants/paths'
+import { jsonToolResult, mediaToolResult } from '@methatech/common/util/messages'
 
 import { getFileReadingUpdates } from '../../../get-file-reading-updates'
 import { renderReadFilesResult } from '../../../util/render-read-files-result'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
 import type {
   FileReadWindow,
   RequestImageFileFn,
-} from '@codebuff/common/types/contracts/client'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+} from '@methatech/common/types/contracts/client'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 type ToolName = 'read_files'
 
@@ -38,7 +38,7 @@ function isImagePath(path: string): boolean {
 export const handleReadFiles = (async (
   params: {
     previousToolCallFinished: Promise<void>
-    toolCall: CodebuffToolCall<ToolName>
+    toolCall: MethaTechToolCall<ToolName>
     agentTemplate: AgentTemplate
 
     fileContext: ProjectFileContext
@@ -47,7 +47,7 @@ export const handleReadFiles = (async (
     typeof getFileReadingUpdates,
     'requestedFiles' | 'fileWindows'
   >,
-): Promise<{ output: CodebuffToolOutput<ToolName> }> => {
+): Promise<{ output: MethaTechToolOutput<ToolName> }> => {
   const {
     previousToolCallFinished,
     toolCall,
@@ -144,4 +144,4 @@ export const handleReadFiles = (async (
       ),
     ],
   }
-}) satisfies CodebuffToolHandlerFunction<ToolName>
+}) satisfies MethaTechToolHandlerFunction<ToolName>

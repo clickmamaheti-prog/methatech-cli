@@ -7,7 +7,7 @@ import {
 } from '../compaction'
 import { countTokensMessages } from '../util/token-counter'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const user = (text: string): Message => ({
   role: 'user',

@@ -2,7 +2,7 @@
  * Fence between the published SDK bundle and code withheld from the public
  * repository export.
  *
- * `@codebuff/sdk` inlines every workspace module it imports (common/,
+ * `@methatech/sdk` inlines every workspace module it imports (common/,
  * packages/*) into dist/index.{mjs,cjs}. The public export
  * (scripts/public-export-manifest.txt) deliberately leaves some of those
  * modules out, so an SDK import of one would publish it on npm anyway. This

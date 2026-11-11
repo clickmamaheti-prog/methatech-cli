@@ -11,11 +11,11 @@
  */
 import { execFile } from 'child_process'
 
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 import {
   HelperProcessCensus,
   startMachineProcessCensus,
-} from '@codebuff/common/util/helper-process-census'
+} from '@methatech/common/util/helper-process-census'
 
 import { reportCliProcessHealth } from './windows-terminal-health'
 
@@ -23,7 +23,7 @@ import type {
   HelperProcessFloodReport,
   HelperProcessKind,
   TrackableProcess,
-} from '@codebuff/common/util/helper-process-census'
+} from '@methatech/common/util/helper-process-census'
 
 let census: HelperProcessCensus | null = null
 let machineCensus: { stop: () => void } | null = null

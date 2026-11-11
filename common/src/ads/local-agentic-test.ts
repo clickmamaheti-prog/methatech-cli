@@ -35,7 +35,7 @@ export function localAgenticTestCampaign(env: Environment): string | null {
   )
     throw new Error('TEST_AGENTIC_ADS_CAMPAIGN must be a local campaign UUID')
   for (const name of [
-    'NEXT_PUBLIC_CODEBUFF_APP_URL',
+    'NEXT_PUBLIC_METHATECH_APP_URL',
     'NEXT_PUBLIC_FREEBUFF_APP_URL',
   ]) {
     if (!isLoopbackUrl(env[name]))

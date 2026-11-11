@@ -135,8 +135,7 @@ describe('MiniMax M3 is RETIRED, not deleted', () => {
     // Completions: 410 freebuff_model_retired with this message.
     const message = freebuffRetiredModelMessage(M3)
     expect(message).toContain('MiniMax M3 is no longer available')
-    expect(message).toContain('npm install -g freebuff@latest')
-    expect(message).toContain('Freebuff Desktop')
+    expect(message).toContain('Update to the latest version to keep coding.')
     // Admission: 409 model_unavailable, withdrawn, with this label.
     expect(freebuffRetiredModelAvailabilityLabel()).toContain('update Freebuff')
   })

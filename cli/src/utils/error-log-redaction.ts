@@ -1,8 +1,8 @@
-import { summarizeAnalyticsValue } from '@codebuff/common/util/analytics-sampling'
+import { summarizeAnalyticsValue } from '@methatech/common/util/analytics-sampling'
 import {
   redactErrorFieldForLog,
   redactQueryErrorForLog,
-} from '@codebuff/common/util/log-redaction'
+} from '@methatech/common/util/log-redaction'
 
 /**
  * Keys whose values are a user's conversation or code: chat history, prompts,

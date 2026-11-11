@@ -5,7 +5,7 @@ import {
 import {
   compactOutcome,
   isCloudCompactPrompt,
-} from '@codebuff/common/desktop-cloud/compact'
+} from '@methatech/common/desktop-cloud/compact'
 import { capturePendingAttachments } from '../utils/pending-attachments'
 import { getSystemMessage } from '../utils/message-history'
 import { randomUUID } from 'node:crypto'
@@ -20,7 +20,8 @@ import {
   getSelectedFreebuffReasoningEffort,
   getSelectedFreebuffModel,
 } from '../state/freebuff-model-store'
-import { getCodebuffClient } from '../utils/codebuff-client'
+import { getMethaTechClient } from '../utils/methatech-client'
+import { getUserCredentials } from '../utils/auth'
 import {
   byokLoadFailureMessage,
   ensureMethatechByokConnection,
@@ -28,7 +29,7 @@ import {
   resolveByokConnection,
   selectedByokConnection,
 } from '../utils/byok'
-import { isMethatechModelId } from '@codebuff/common/constants/methatech-models'
+import { isMethatechModelId } from '@methatech/common/constants/methatech-models'
 import { AGENT_MODE_TO_COST_MODE, IS_FREEBUFF } from '../utils/constants'
 import { createEventHandlerState } from '../utils/create-event-handler-state'
 import { captureCliFunnel, cliFunnelKey } from '../utils/cli-product-funnel'
@@ -90,9 +91,9 @@ import {
   STATE_SNAPSHOT_INTERRUPTION_MESSAGE,
   toUserInterruptedRunState,
   withCompactionSummary,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 
-import type { AgentDefinition, MessageContent, RunState } from '@codebuff/sdk'
+import type { AgentDefinition, MessageContent, RunState } from '@methatech/sdk'
 import { isCoveredBySubscription } from '../utils/subscription'
 
 import type { SubscriptionResponse } from './use-subscription-query'
@@ -129,7 +130,7 @@ interface UseSendMessageOptions {
   continueChatId?: string
   subscriptionData?: SubscriptionResponse | null
   /** Dependency injection seam for component-level run lifecycle tests. */
-  getClient?: typeof getCodebuffClient
+  getClient?: typeof getMethaTechClient
 }
 
 // Choose the agent definition by explicit selection or mode-based fallback.
@@ -200,7 +201,7 @@ export const useSendMessage = ({
   continueChat,
   continueChatId,
   subscriptionData,
-  getClient = getCodebuffClient,
+  getClient = getMethaTechClient,
 }: UseSendMessageOptions): {
   sendMessage: SendMessageFn
   clearMessages: () => void
@@ -338,21 +339,30 @@ export const useSendMessage = ({
       // runs directly and must never attempt Freebuff session admission.
       let selectedByok =
         IS_FREEBUFF && !sponsored ? selectedByokConnection() : undefined
-      // FORK (MethaTech): panel models run through the MethaTech BYOK
-      // connection. When none is selected yet — fresh user on the default
-      // model, or after `/byok off` — resolve the MethaTech connection for
-      // the selected panel model so the first send works without a manual
-      // `/byok select`. Only the connection metadata is created/updated
-      // here; the key itself is resolved at send time from
-      // METHATECH_API_KEY, and a missing key still fails loudly at resolve
-      // below. A store failure leaves selectedByok unset, so the send
-      // falls through to the Freebuff admission path (and its error)
-      // instead of throwing here.
+      // FORK (MethaTech): panel models run on the PANEL SESSION (Freebuff
+      // flow: the login authorizes the backend models directly). When the
+      // user is logged in (device-code session in credentials.json, token
+      // resolved by getUserCredentials), a panel model needs no BYOK
+      // connection at all — the login token authorizes the panel relay,
+      // and the admission gate below is skipped for the session path
+      // (admission is for the MethaTech backend, which is not the panel).
+      // Only when there is NO login credential do we fall back to the
+      // MethaTech BYOK connection (env key METHATECH_API_KEY) as the
+      // alternative for outside use. A store failure leaves selectedByok
+      // unset, so the send falls through to the admission path (and its
+      // error) instead of throwing here.
+      const methatechModel = isMethatechModelId(getSelectedFreebuffModel())
+      const methatechSessionActive =
+        IS_FREEBUFF &&
+        !sponsored &&
+        methatechModel &&
+        getUserCredentials()?.authToken !== undefined
       if (
         IS_FREEBUFF &&
         !sponsored &&
         !selectedByok &&
-        isMethatechModelId(getSelectedFreebuffModel())
+        methatechModel &&
+        !methatechSessionActive
       ) {
         try {
           selectedByok = await ensureMethatechByokConnection(
@@ -374,6 +384,7 @@ export const useSendMessage = ({
         IS_FREEBUFF &&
         !shouldUseByok &&
         !sponsored &&
+        !methatechSessionActive &&
         freebuffChatNeedsAdmission()
       ) {
         // BYOK setup must never purchase a Freebuff session.
@@ -411,7 +422,7 @@ export const useSendMessage = ({
         run_id: runOwnerId,
         thread_id: cliFunnelKey(useChatStore.getState().chatSessionId),
         model: shouldUseByok ? 'byok' : getSelectedFreebuffModel(),
-        harness: 'codebuff' as const,
+        harness: 'methatech' as const,
         has_attachments:
           (attachments?.length ??
             useChatStore.getState().pendingAttachments.length) > 0,
@@ -658,7 +669,7 @@ export const useSendMessage = ({
       inputRef.current?.focus()
 
       // Get SDK client
-      let client: Awaited<ReturnType<typeof getCodebuffClient>>
+      let client: Awaited<ReturnType<typeof getMethaTechClient>>
       let byok: Awaited<ReturnType<typeof resolveByokConnection>> | undefined
       try {
         byok = selectedByok
@@ -852,7 +863,7 @@ export const useSendMessage = ({
               agentDefinitions,
               eventHandlerState,
               signal: abortController.signal,
-              extraCodebuffMetadata: plan.extraCodebuffMetadata,
+              extraMethaTechMetadata: plan.extraMethaTechMetadata,
             }),
             plan.onModelEvent,
           ),
@@ -882,7 +893,7 @@ export const useSendMessage = ({
               // BYOK never enters the Freebuff free-mode admission or budget path.
               costMode: byok ? 'normal' : AGENT_MODE_TO_COST_MODE[agentMode],
               ...(byok ? { byok } : {}),
-              extraCodebuffMetadata:
+              extraMethaTechMetadata:
                 IS_FREEBUFF && !byok && freebuffInstanceId
                   ? {
                       ...freebuffSessionMetadata(freebuffInstanceId),

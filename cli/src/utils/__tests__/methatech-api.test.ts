@@ -1,13 +1,13 @@
 import { describe, test, expect, mock, beforeEach } from 'bun:test'
 
-import type { FeedbackRequest } from '@codebuff/common/schemas/feedback'
+import type { FeedbackRequest } from '@methatech/common/schemas/feedback'
 
-import { createCodebuffApiClient } from '../codebuff-api'
+import { createMethaTechApiClient } from '../methatech-api'
 
 // Type for mocked fetch function
 type MockFetch = (url: string, options?: RequestInit) => Promise<Response>
 
-describe('createCodebuffApiClient', () => {
+describe('createMethaTechApiClient', () => {
   let mockFetch: ReturnType<typeof mock<MockFetch>>
 
   beforeEach(() => {
@@ -22,24 +22,24 @@ describe('createCodebuffApiClient', () => {
 
   describe('client creation', () => {
     test('should create client with default base URL', () => {
-      const client = createCodebuffApiClient()
+      const client = createMethaTechApiClient()
       expect(client.baseUrl).toBeTruthy()
     })
 
     test('should create client with custom base URL', () => {
-      const client = createCodebuffApiClient({ baseUrl: 'https://custom.api' })
+      const client = createMethaTechApiClient({ baseUrl: 'https://custom.api' })
       expect(client.baseUrl).toBe('https://custom.api')
     })
 
     test('should store auth token', () => {
-      const client = createCodebuffApiClient({ authToken: 'test-token' })
+      const client = createMethaTechApiClient({ authToken: 'test-token' })
       expect(client.authToken).toBe('test-token')
     })
   })
 
   describe('GET requests', () => {
     test('should make GET request with correct URL', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockFetch as unknown as typeof fetch,
       })
@@ -52,7 +52,7 @@ describe('createCodebuffApiClient', () => {
     })
 
     test('should add query parameters', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockFetch as unknown as typeof fetch,
       })
@@ -67,7 +67,7 @@ describe('createCodebuffApiClient', () => {
     })
 
     test('should include Authorization header when authToken provided', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         authToken: 'my-token',
         fetch: mockFetch as unknown as typeof fetch,
@@ -85,7 +85,7 @@ describe('createCodebuffApiClient', () => {
     })
 
     test('should not include Authorization header when includeAuth is false', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         authToken: 'my-token',
         fetch: mockFetch as unknown as typeof fetch,
@@ -103,7 +103,7 @@ describe('createCodebuffApiClient', () => {
 
   describe('POST requests', () => {
     test('should make POST request with JSON body', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockFetch as unknown as typeof fetch,
       })
@@ -122,7 +122,7 @@ describe('createCodebuffApiClient', () => {
     })
 
     test('sends the login token as a bearer, never as a cookie', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         authToken: 'my-token',
         fetch: mockFetch as unknown as typeof fetch,
@@ -143,7 +143,7 @@ describe('createCodebuffApiClient', () => {
 
   describe('PUT requests', () => {
     test('should make PUT request with JSON body', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockFetch as unknown as typeof fetch,
       })
@@ -163,7 +163,7 @@ describe('createCodebuffApiClient', () => {
 
   describe('PATCH requests', () => {
     test('should make PATCH request with JSON body', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockFetch as unknown as typeof fetch,
       })
@@ -180,7 +180,7 @@ describe('createCodebuffApiClient', () => {
 
   describe('DELETE requests', () => {
     test('should make DELETE request without body', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockFetch as unknown as typeof fetch,
       })
@@ -208,7 +208,7 @@ describe('createCodebuffApiClient', () => {
         } as Response),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockSuccessFetch as unknown as typeof fetch,
       })
@@ -232,7 +232,7 @@ describe('createCodebuffApiClient', () => {
         } as Response),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockErrorFetch as unknown as typeof fetch,
       })
@@ -257,7 +257,7 @@ describe('createCodebuffApiClient', () => {
         } as unknown as Response),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockErrorFetch as unknown as typeof fetch,
       })
@@ -280,7 +280,7 @@ describe('createCodebuffApiClient', () => {
         } as Response),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockNoContentFetch as unknown as typeof fetch,
       })
@@ -312,7 +312,7 @@ describe('createCodebuffApiClient', () => {
         } as Response)
       })
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockRetryFetch as unknown as typeof fetch,
         retry: {
@@ -338,7 +338,7 @@ describe('createCodebuffApiClient', () => {
         } as Response),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockBadRequestFetch as unknown as typeof fetch,
         retry: { maxRetries: 3, initialDelayMs: 10 },
@@ -361,7 +361,7 @@ describe('createCodebuffApiClient', () => {
         } as Response),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockServerErrorFetch as unknown as typeof fetch,
         retry: { maxRetries: 3 },
@@ -387,7 +387,7 @@ describe('createCodebuffApiClient', () => {
         } as Response)
       })
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockNetworkErrorFetch as unknown as typeof fetch,
         retry: { maxRetries: 3, initialDelayMs: 10 },
@@ -415,7 +415,7 @@ describe('createCodebuffApiClient', () => {
         },
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockFetchWithSignal as unknown as typeof fetch,
         defaultTimeoutMs: 5000,
@@ -434,7 +434,7 @@ describe('createCodebuffApiClient', () => {
         return Promise.reject(error)
       })
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockAbortFetch as unknown as typeof fetch,
       })
@@ -448,7 +448,7 @@ describe('createCodebuffApiClient', () => {
 
   describe('custom headers', () => {
     test('should merge custom headers', async () => {
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         authToken: 'my-token',
         fetch: mockFetch as unknown as typeof fetch,
@@ -477,7 +477,7 @@ describe('createCodebuffApiClient', () => {
         return Promise.reject(error)
       })
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://freebuff.com',
         fetch: mockTlsFetch as unknown as typeof fetch,
       })
@@ -496,7 +496,7 @@ describe('createCodebuffApiClient', () => {
         return Promise.reject(error)
       })
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://freebuff.com',
         fetch: mockTlsFetch as unknown as typeof fetch,
         retry: {
@@ -521,7 +521,7 @@ describe('createCodebuffApiClient', () => {
         Promise.reject(new Error(`ConnectionRefused fetching "${fullUrl}"`)),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://freebuff.com',
         fetch: mockFailingFetch as unknown as typeof fetch,
         retry: { maxRetries: 0 },
@@ -552,7 +552,7 @@ describe('createCodebuffApiClient', () => {
         ),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://freebuff.com',
         fetch: mockTlsFetch as unknown as typeof fetch,
       })
@@ -584,7 +584,7 @@ describe('createCodebuffApiClient', () => {
         } as Response),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockRateLimitFetch as unknown as typeof fetch,
         retry: { maxRetries: 3, initialDelayMs: 10 },
@@ -607,7 +607,7 @@ describe('createCodebuffApiClient', () => {
         } as Response),
       )
 
-      const client = createCodebuffApiClient({
+      const client = createMethaTechApiClient({
         baseUrl: 'https://test.api',
         fetch: mockServerErrorFetch as unknown as typeof fetch,
         retry: {

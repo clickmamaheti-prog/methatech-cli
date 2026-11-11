@@ -6,7 +6,7 @@
  *
  * @example
  * ```typescript
- * import { setupCryptoMocks, createMockUuid } from '@codebuff/common/testing/mocks/crypto'
+ * import { setupCryptoMocks, createMockUuid } from '@methatech/common/testing/mocks/crypto'
  *
  * // Setup deterministic UUIDs
  * const spies = setupCryptoMocks()

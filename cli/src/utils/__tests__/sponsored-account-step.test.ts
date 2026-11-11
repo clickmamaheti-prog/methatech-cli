@@ -9,8 +9,8 @@ import { inspect } from 'node:util'
 import {
   LAB_SIGNUP_DECLINED_NOTE,
   LAB_SIGNUP_NO_STEP_NOTE,
-} from '@codebuff/common/ads/agentic-ad-lab-run'
-import { resolveSponsoredCredentialLinks } from '@codebuff/common/ads/sponsored-run-links'
+} from '@methatech/common/ads/agentic-ad-lab-run'
+import { resolveSponsoredCredentialLinks } from '@methatech/common/ads/sponsored-run-links'
 
 import {
   SponsoredAccountStep,

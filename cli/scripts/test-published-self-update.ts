@@ -119,7 +119,7 @@ async function main() {
   }
 
   const assetName = `freebuff-${target}.tar.gz`
-  const assetUrl = `https://github.com/CodebuffAI/codebuff-community/releases/download/freebuff-v${fromVersion}/${assetName}`
+  const assetUrl = `https://github.com/MethaTechAI/methatech-community/releases/download/freebuff-v${fromVersion}/${assetName}`
   console.log(`Seeding ${assetName} from ${assetUrl}...`)
   const response = await fetch(assetUrl)
   if (!response.ok) {

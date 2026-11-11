@@ -8,9 +8,9 @@
  * lived inside `useGravityAd`'s closure, so a second caller was a second body,
  * free to omit one of them and be quietly mistargeted.
  */
-import { WEBSITE_URL } from '@codebuff/sdk'
-import { getAdUserAgent } from '@codebuff/common/util/ad-user-agent'
-import { COMPOSER_INTENT_MAX_DRAFT_CHARS } from '@codebuff/common/ads/composer-intent-scheduler'
+import { WEBSITE_URL } from '@methatech/sdk'
+import { getAdUserAgent } from '@methatech/common/util/ad-user-agent'
+import { COMPOSER_INTENT_MAX_DRAFT_CHARS } from '@methatech/common/ads/composer-intent-scheduler'
 
 import { collectCliAdClientContext } from './ad-client-context'
 import { getSessionDockArm } from '../hooks/use-dock-panel'
@@ -26,7 +26,7 @@ import { getAuthToken } from '../utils/auth'
 import { logger } from '../utils/logger'
 import { cachedSponsoredCliCapability } from '../utils/sponsored-cli-capability'
 
-import type { Message } from '@codebuff/sdk'
+import type { Message } from '@methatech/sdk'
 import type { AdProvider, AdSurface } from '../hooks/use-gravity-ad'
 
 type AdMessage = {

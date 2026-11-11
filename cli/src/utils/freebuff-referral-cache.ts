@@ -1,7 +1,7 @@
-import { getReferralInfo } from '@codebuff/common/types/freebuff-session'
+import { getReferralInfo } from '@methatech/common/types/freebuff-session'
 
-import type { FreebuffAccessTier } from '@codebuff/common/constants/freebuff-models'
-import type { FreebuffReferralInfo } from '@codebuff/common/types/freebuff-session'
+import type { FreebuffAccessTier } from '@methatech/common/constants/freebuff-models'
+import type { FreebuffReferralInfo } from '@methatech/common/types/freebuff-session'
 import type { FreebuffSessionResponse } from '../types/freebuff-session'
 
 /**

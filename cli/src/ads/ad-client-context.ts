@@ -1,7 +1,7 @@
 /**
  * The CLI's ad client context (COD-757): what the terminal, the session and
  * the agent look like at the moment an ad is requested, as the closed
- * vocabulary of `@codebuff/common/types/ad-client-context`.
+ * vocabulary of `@methatech/common/types/ad-client-context`.
  *
  * TRAINING FEATURES ONLY. Nothing here may decide billing, invalid traffic or
  * eligibility: every field is client-reported. Nothing raw leaves the machine:
@@ -18,7 +18,7 @@
 import { existsSync, promises as fsPromises, realpathSync } from 'fs'
 import os from 'os'
 
-import { env as buildEnv } from '@codebuff/common/env'
+import { env as buildEnv } from '@methatech/common/env'
 import {
   AD_CLIENT_CONTEXT_VERSION,
   bucketAdsThisSession,
@@ -58,7 +58,7 @@ import {
   type SHELLS,
   type TERMINALS,
   type TypingSummary,
-} from '@codebuff/common/types/ad-client-context'
+} from '@methatech/common/types/ad-client-context'
 
 import {
   ensureAdTerminalFocusWatch,
@@ -511,7 +511,7 @@ export function installMethodOfPath(
  * How this CLI was installed. The package manager that launched it wins
  * (`npm_config_user_agent`, which npm/npx/bunx/pnpm/yarn set for what they
  * run, and which a global bin run from the shell never has). Otherwise the npm
- * wrapper, which marks its child with `CODEBUFF_LAUNCHER_PID`, is located by
+ * wrapper, which marks its child with `METHATECH_LAUNCHER_PID`, is located by
  * `launcherPath` (resolved by the caller) or the path the shell ran (`_`). A
  * compiled binary started without the wrapper was run directly.
  */
@@ -525,7 +525,7 @@ export function installMethodOf(
   if (agent.startsWith('bun/')) return 'bunx'
   if (agent.startsWith('pnpm/')) return 'pnpm'
   if (agent.startsWith('yarn/')) return 'yarn'
-  if (set(env.CODEBUFF_LAUNCHER_PID)) {
+  if (set(env.METHATECH_LAUNCHER_PID)) {
     return (
       installMethodOfPath(host.launcherPath) ??
       installMethodOfPath(env._) ??
@@ -537,7 +537,7 @@ export function installMethodOf(
 
 /** The wrapper's bin names: the npm package's `bin` entries. */
 export const launcherBinNames = (freebuff: boolean): readonly string[] =>
-  freebuff ? ['methatech'] : ['codebuff', 'cb']
+  freebuff ? ['methatech'] : ['methatech', 'cb']
 
 const binNameOf = (path: string): string =>
   (path.split(/[\\/]/).pop() ?? '')
@@ -972,10 +972,10 @@ function countUserTurns(): number {
 
 /**
  * `agent.mode` in Desktop's vocabulary (`build` / `plan`). Freebuff is locked
- * to Codebuff's `LITE`, which is a billing mode rather than anything the user
+ * to MethaTech's `LITE`, which is a billing mode rather than anything the user
  * chose, so sending it made the field a constant on every Freebuff CLI row.
  * The CLI's one planning mode is the composer's `/plan`; every turn otherwise
- * builds. Codebuff keeps its own, user-chosen mode.
+ * builds. MethaTech keeps its own, user-chosen mode.
  */
 export function freebuffAgentModeOf(inputMode: string | undefined): string {
   return inputMode === 'plan' ? 'plan' : 'build'
@@ -991,7 +991,7 @@ function liveAgent(): AdContextAgent {
   } catch {
     // unknown harness
   }
-  // Codebuff's model is chosen per agent, not by the user, so only Freebuff
+  // MethaTech's model is chosen per agent, not by the user, so only Freebuff
   // has a model (and an effort) to report.
   if (IS_FREEBUFF) {
     try {
@@ -1033,7 +1033,7 @@ const diskFree = createLazyAsyncValue<number>(async () => {
 
 /**
  * When the CLI's config directory was created: the first launch of any
- * Codebuff/Freebuff CLI on this account. Read once; a filesystem without
+ * MethaTech/Freebuff CLI on this account. Read once; a filesystem without
  * birth times (some Linux mounts report 0) is unknown.
  */
 const configDirBirth = createLazyAsyncValue<number>(async () => {
@@ -1101,16 +1101,16 @@ function launcherOnPath(env: AdTermEnv): { done: boolean; path?: string } {
 function liveInstallMethod(): InstallMethod | undefined {
   if (cachedInstallMethod) return cachedInstallMethod
   const env = getSystemProcessEnv()
-  // A compile-time define: only the literal `process.env.CODEBUFF_IS_BINARY`
+  // A compile-time define: only the literal `process.env.METHATECH_IS_BINARY`
   // is replaced in the binary, so it must be read through getCliEnv(), never
   // off the runtime process.env (where it is always undefined).
-  const isBinary = getCliEnv().CODEBUFF_IS_BINARY === 'true'
+  const isBinary = getCliEnv().METHATECH_IS_BINARY === 'true'
   const names = launcherBinNames(IS_FREEBUFF)
   const quick = installMethodOf(env, {
     isBinary,
     launcherPath: invokedLauncherPath(env, names, realpathSync),
   })
-  if (quick !== 'other' || !set(env.CODEBUFF_LAUNCHER_PID)) {
+  if (quick !== 'other' || !set(env.METHATECH_LAUNCHER_PID)) {
     cachedInstallMethod = quick
     return quick
   }

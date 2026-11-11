@@ -1,9 +1,9 @@
-import { FREEBUFF_BASE3_FAST_WORKER_AGENT_ID } from '@codebuff/common/constants/free-agents'
+import { FREEBUFF_BASE3_FAST_WORKER_AGENT_ID } from '@methatech/common/constants/free-agents'
 
 import { createBase3, createBase3CliRoot } from './base3'
 import { publisher } from './constants'
 
-import type { CompactionPolicy } from '@codebuff/common/constants/compaction-policy'
+import type { CompactionPolicy } from '@methatech/common/constants/compaction-policy'
 import type { SecretAgentDefinition } from './types/secret-agent-definition'
 
 /**

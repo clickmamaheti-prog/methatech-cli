@@ -1,5 +1,5 @@
 /**
- * Mid-stream provider errors (CodebuffAI/freebuff#1155).
+ * Mid-stream provider errors (MethaTechAI/freebuff#1155).
  *
  * A retryable failure the provider reports in band (an `error` chunk after the
  * SSE headers) takes the same capped continuation path as a severed body,
@@ -8,7 +8,7 @@
  * web/src/llm-api/openai-responses.ts) or OpenRouter passes through, read by
  * the vendored provider that model-provider.ts actually builds.
  */
-import { OpenAICompatibleChatLanguageModel } from '@codebuff/llm-providers/openai-compatible'
+import { OpenAICompatibleChatLanguageModel } from '@methatech/llm-providers/openai-compatible'
 import { APICallError, RetryError, streamText } from 'ai'
 import { afterEach, describe, expect, it } from 'bun:test'
 
@@ -20,7 +20,7 @@ import {
   PROVIDER_RATE_LIMIT_DEFAULT_DELAY_MS,
 } from '../stream-interruption'
 
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
 
 const sse = (...events: unknown[]) =>
   events.map((event) => `data: ${JSON.stringify(event)}\n\n`).join('')
@@ -72,7 +72,7 @@ const sseResponse = (body: string) =>
 const errorPartFor = async (event: unknown): Promise<unknown> => {
   const result = streamText({
     model: new OpenAICompatibleChatLanguageModel('m', {
-      provider: 'codebuff',
+      provider: 'methatech',
       url: () => 'http://127.0.0.1/chat/completions',
       headers: () => ({}),
       fetch: (async () => sseResponse(sse(event))) as unknown as typeof fetch,

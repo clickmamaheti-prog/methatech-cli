@@ -12,7 +12,7 @@
  * - `key`: stable and opaque. What a client PERSISTS (a saved pick, a thread's
  *   model). It never selects anything on the wire, so learning it buys nothing.
  * - `handle`: what a client SENDS wherever it used to send a model id — the
- *   agent definition's `model`, and the `x-freebuff-model` admission header.
+ *   agent definition's `model`, and the `x-methatech-model` admission header.
  *   Minted per account, and it expires as the server rotates it, so a client
  *   must replace it from a fresh catalog rather than store it.
  * - The upstream model id never appears on this wire.
@@ -32,7 +32,7 @@ import { REASONING_EFFORTS } from '../constants/reasoning-effort'
 /** Sent on every catalog-aware request (`GET /api/v1/freebuff/models`, the
  *  session endpoints). Its presence is what tells the session endpoints to
  *  answer with catalog keys instead of model ids. */
-export const FREEBUFF_CATALOG_PROTOCOL_HEADER = 'x-freebuff-catalog-protocol'
+export const METHATECH_CATALOG_PROTOCOL_HEADER = 'x-methatech-catalog-protocol'
 export const FREEBUFF_CATALOG_PROTOCOL_VERSION = '1'
 export const FREEBUFF_MODEL_CATALOG_PATH = '/api/v1/freebuff/models'
 
@@ -49,7 +49,7 @@ export function isFreebuffModelHandle(value: string | null | undefined) {
  * `fetchId` of the catalog response its handles came from. It ties each
  * request to the fetch (account, install, time) that produced its handle.
  */
-export const FREEBUFF_CATALOG_FETCH_HEADER = 'x-freebuff-catalog-fetch'
+export const METHATECH_CATALOG_FETCH_HEADER = 'x-methatech-catalog-fetch'
 
 /**
  * Device-bound request signing. A client generates one Ed25519 key pair per
@@ -58,9 +58,9 @@ export const FREEBUFF_CATALOG_FETCH_HEADER = 'x-freebuff-catalog-fetch'
  * completions request with the private key, which never leaves the install.
  */
 export const FREEBUFF_DEVICE_KEYS_PATH = '/api/v1/freebuff/device-keys'
-export const FREEBUFF_DEVICE_KEY_HEADER = 'x-freebuff-device-key'
-export const FREEBUFF_DEVICE_TIMESTAMP_HEADER = 'x-freebuff-device-ts'
-export const FREEBUFF_DEVICE_SIGNATURE_HEADER = 'x-freebuff-device-sig'
+export const METHATECH_DEVICE_KEY_HEADER = 'x-methatech-device-key'
+export const METHATECH_DEVICE_TIMESTAMP_HEADER = 'x-methatech-device-ts'
+export const METHATECH_DEVICE_SIGNATURE_HEADER = 'x-methatech-device-sig'
 
 /**
  * The exact string a device signs (UTF-8), and the server verifies. Fields are
@@ -232,7 +232,7 @@ export const freebuffModelCatalogSchema = z.object({
    *  sections. A row naming a section not listed here takes the client's
    *  inferred place. */
   sections: z.array(freebuffCatalogSectionSchema).optional(),
-  /** This fetch's id; sent back as FREEBUFF_CATALOG_FETCH_HEADER on every
+  /** This fetch's id; sent back as METHATECH_CATALOG_FETCH_HEADER on every
    *  session and completions request made with these handles. */
   fetchId: z.string().optional(),
   /** Settings → General → Show all models, sent only to viewers the server

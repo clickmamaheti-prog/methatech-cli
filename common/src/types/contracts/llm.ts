@@ -7,7 +7,7 @@ import type {
 import type { ParamsExcluding } from '../function-params'
 import type { Logger } from './logger'
 import type { Model } from '../../old-constants'
-import type { Message } from '../messages/codebuff-message'
+import type { Message } from '../messages/methatech-message'
 import type { ProviderMetadata } from '../messages/provider-metadata'
 import type { PromptResult } from '../../util/error'
 import type { generateText, streamText, ToolCallPart } from 'ai'
@@ -119,10 +119,10 @@ export type PromptAiSdkStreamFn = (
     localAgentTemplates?: Record<string, AgentTemplate>
     /** Cost mode - 'free' mode means 0 credits charged for all agents */
     costMode?: string
-    /** Extra key/values merged into the request's `codebuff_metadata` field.
+    /** Extra key/values merged into the request's `methatech_metadata` field.
      *  Used to forward client-scoped identifiers (e.g. `freebuff_instance_id`)
      *  that server-side gates read from the chat-completions body. */
-    extraCodebuffMetadata?: Record<string, string>
+    extraMethaTechMetadata?: Record<string, string>
     sendAction: SendActionFn
     logger: Logger
     trackEvent: TrackEventFn

@@ -3,7 +3,7 @@ import { describe, expect, test } from 'bun:test'
 import {
   AD_MS_CAP,
   parseAdEngagement,
-} from '@codebuff/common/types/ad-client-context'
+} from '@methatech/common/types/ad-client-context'
 
 import {
   ADOPTION_MAX_WATCHES,
@@ -13,7 +13,7 @@ import {
 } from '../ad-adoption'
 
 import type { EngagementStatus } from '../ad-engagement'
-import type { AdEngagement } from '@codebuff/common/types/ad-client-context'
+import type { AdEngagement } from '@methatech/common/types/ad-client-context'
 
 describe('parseInstalledPackages', () => {
   test('the four package managers and their install verbs', () => {

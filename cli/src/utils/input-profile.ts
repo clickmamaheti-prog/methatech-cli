@@ -1,6 +1,6 @@
 /**
  * Counts of how the chat composer's text arrived, per submitted prompt, sent
- * in `codebuff_metadata` on the run that prompt starts.
+ * in `methatech_metadata` on the run that prompt starts.
  *
  * Counts and durations only — never the text itself:
  *
@@ -16,7 +16,7 @@
  * submitted text and starts a fresh count, and the run that sends that text
  * takes them.
  */
-import { FREEBUFF_CLIENT_DESCRIPTOR_VERSION } from '@codebuff/common/constants/freebuff-client-descriptor'
+import { FREEBUFF_CLIENT_DESCRIPTOR_VERSION } from '@methatech/common/constants/freebuff-client-descriptor'
 
 export type InputProfile = {
   typedChars: number

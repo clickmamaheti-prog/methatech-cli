@@ -1,10 +1,10 @@
-import { sanitizeTerminalOutput } from '@codebuff/common/util/terminal-safe-text'
+import { sanitizeTerminalOutput } from '@methatech/common/util/terminal-safe-text'
 import { memo, useCallback } from 'react'
 
 import { ContentWithMarkdown } from './content-with-markdown'
 import { useTheme } from '../../hooks/use-theme'
 import { useChatStore } from '../../state/chat-store'
-import { getToolDisplayInfo } from '../../utils/codebuff-client'
+import { getToolDisplayInfo } from '../../utils/methatech-client'
 import {
   canAgentHideToolCall,
   shouldCollapseToolByDefault,

@@ -7,7 +7,7 @@ import {
   afterEach,
   spyOn,
 } from 'bun:test'
-import { FREEBUFF_PROVIDER_USAGE_MESSAGE } from '@codebuff/common/constants/freebuff-errors'
+import { FREEBUFF_PROVIDER_USAGE_MESSAGE } from '@methatech/common/constants/freebuff-errors'
 
 import type { ChatMessage } from '../../../types/chat'
 import type { SendMessageTimerController } from '../../../utils/send-message-timer'
@@ -17,19 +17,19 @@ import type { StreamStatus } from '../../use-message-queue'
 const ensureEnv = () => {
   process.env.NEXT_PUBLIC_CB_ENVIRONMENT =
     process.env.NEXT_PUBLIC_CB_ENVIRONMENT || 'test'
-  process.env.NEXT_PUBLIC_CODEBUFF_APP_URL =
-    process.env.NEXT_PUBLIC_CODEBUFF_APP_URL || 'https://app.codebuff.test'
+  process.env.NEXT_PUBLIC_METHATECH_APP_URL =
+    process.env.NEXT_PUBLIC_METHATECH_APP_URL || 'https://app.methatech.test'
   process.env.NEXT_PUBLIC_SUPPORT_EMAIL =
-    process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'support@codebuff.test'
+    process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'support@methatech.test'
   process.env.NEXT_PUBLIC_POSTHOG_API_KEY =
     process.env.NEXT_PUBLIC_POSTHOG_API_KEY || 'phc_test_key'
   process.env.NEXT_PUBLIC_POSTHOG_HOST_URL =
-    process.env.NEXT_PUBLIC_POSTHOG_HOST_URL || 'https://posthog.codebuff.test'
+    process.env.NEXT_PUBLIC_POSTHOG_HOST_URL || 'https://posthog.methatech.test'
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY =
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_123'
   process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL =
     process.env.NEXT_PUBLIC_STRIPE_CUSTOMER_PORTAL ||
-    'https://stripe.codebuff.test'
+    'https://stripe.methatech.test'
   process.env.NEXT_PUBLIC_WEB_PORT = process.env.NEXT_PUBLIC_WEB_PORT || '3000'
 }
 
@@ -50,8 +50,8 @@ const { createBatchedMessageUpdater } =
 const freebuffSession = await import('../../use-freebuff-session')
 const { FREEBUFF_MODEL_UNAVAILABLE_MESSAGE, FREEBUFF_REFUNDED_START_HINT } =
   await import('../../../utils/error-handling')
-import { createPaymentRequiredError } from '@codebuff/sdk'
-import type { RunState } from '@codebuff/sdk'
+import { createPaymentRequiredError } from '@methatech/sdk'
+import type { RunState } from '@methatech/sdk'
 
 const createMockTimerController = (): SendMessageTimerController & {
   startCalls: string[]

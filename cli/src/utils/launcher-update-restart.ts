@@ -17,7 +17,7 @@
  * (the launcher's kill is TerminateProcess), so neither reaches this.
  */
 export function isLauncherUpdateTermination(params: {
-  /** `CODEBUFF_LAUNCHER_PID`, as set by the launcher on its child. */
+  /** `METHATECH_LAUNCHER_PID`, as set by the launcher on its child. */
   launcherPid: number
   /** `process.ppid`. A binary orphaned by a dead launcher is reparented. */
   parentPid: number

@@ -2,19 +2,19 @@ import {
   SPONSORED_CONSENT_IN_PLACE_SENTENCE,
   SPONSORED_CONSENT_NO_NAME,
   sponsoredConsentName,
-} from '@codebuff/common/ads/sponsored-consent'
+} from '@methatech/common/ads/sponsored-consent'
 import {
   SPONSORED_STEP_STATE_LABEL,
   sponsoredProposalAction,
   sponsoredProposalMenu,
   sponsoredProposalViewModel,
-} from '@codebuff/common/ads/sponsored-proposal-view'
-import { sponsoredProgressPill } from '@codebuff/common/ads/sponsored-offer-plan'
-import { toSponsoredProposalAdReport } from '@codebuff/common/ads/ad-report'
+} from '@methatech/common/ads/sponsored-proposal-view'
+import { sponsoredProgressPill } from '@methatech/common/ads/sponsored-offer-plan'
+import { toSponsoredProposalAdReport } from '@methatech/common/ads/ad-report'
 import {
   sanitizeTerminalStrings,
   sanitizeTerminalText,
-} from '@codebuff/common/util/terminal-safe-text'
+} from '@methatech/common/util/terminal-safe-text'
 import { TextAttributes } from '@opentui/core'
 import { useKeyboard } from '@opentui/react'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
@@ -36,7 +36,7 @@ import type { SponsoredProposalContentBlock } from '../../types/chat'
 import type {
   SponsoredProposalMenuKey,
   SponsoredProposalStep,
-} from '@codebuff/common/ads/sponsored-proposal-view'
+} from '@methatech/common/ads/sponsored-proposal-view'
 import type { KeyEvent } from '@opentui/core'
 
 /**
@@ -758,7 +758,7 @@ export const SponsoredProposalBlock: React.FC<{
 
 /**
  * Two choices, refusal first. The words themselves and the sentence above them
- * live in `@codebuff/common/ads/sponsored-consent`, which the desktop dialog
+ * live in `@methatech/common/ads/sponsored-consent`, which the desktop dialog
  * mirrors -- the two surfaces ask the same question, and a reader who has seen
  * one must recognise the other.
  */

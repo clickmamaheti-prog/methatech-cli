@@ -4,13 +4,13 @@ import {
 } from './util/stream-xml-parser'
 
 import type { StreamParserState } from './util/stream-xml-parser'
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
-import type { ProviderMetadata } from '@codebuff/common/types/messages/provider-metadata'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
+import type { ProviderMetadata } from '@methatech/common/types/messages/provider-metadata'
 import type {
   PrintModeError,
   PrintModeText,
-} from '@codebuff/common/types/print-mode'
-import type { PromptResult } from '@codebuff/common/util/error'
+} from '@methatech/common/types/print-mode'
+import type { PromptResult } from '@methatech/common/util/error'
 
 export async function* processStreamWithTools(params: {
   stream: AsyncGenerator<StreamChunk, PromptResult<string | null>>

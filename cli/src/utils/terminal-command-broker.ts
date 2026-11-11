@@ -3,12 +3,12 @@ import { readFileSync, rmSync, writeFileSync } from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
 import type {
   TerminalCommandBroker,
   TerminalCommandProcess,
   TerminalCommandSpawnRequest,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 import type { ChildProcess } from 'child_process'
 
 import { getCliEnv, getSystemProcessEnv } from './env'
@@ -16,9 +16,9 @@ import { trackHelperProcess } from './helper-process-telemetry'
 import { reportWindowsTerminalFailure } from './windows-terminal-health'
 
 export const TERMINAL_COMMAND_BROKER_FLAG = '--terminal-command-broker'
-const TERMINAL_COMMAND_BROKER_ENV = 'CODEBUFF_TERMINAL_COMMAND_BROKER'
+const TERMINAL_COMMAND_BROKER_ENV = 'METHATECH_TERMINAL_COMMAND_BROKER'
 const TERMINAL_COMMAND_BROKER_PROTOCOL_ENV =
-  'CODEBUFF_TERMINAL_COMMAND_BROKER_PROTOCOL'
+  'METHATECH_TERMINAL_COMMAND_BROKER_PROTOCOL'
 
 const MAX_REQUEST_BYTES = 4 * 1024 * 1024
 const MAX_PROTOCOL_BYTES = 64 * 1024
@@ -442,7 +442,7 @@ function defaultBrokerInvocation(): {
   return {
     executable: process.execPath,
     args:
-      getCliEnv().CODEBUFF_IS_BINARY === 'true'
+      getCliEnv().METHATECH_IS_BINARY === 'true'
         ? [TERMINAL_COMMAND_BROKER_FLAG]
         : [
             path.join(import.meta.dir, '..', 'entry.ts'),

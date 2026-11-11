@@ -26,7 +26,7 @@ describe('Freebuff: --help flag', () => {
       timeout: 10_000,
     })
 
-    // The --help output should say Freebuff, not Codebuff
+    // The --help output should say MethaTech, not Codebuff
     expect(output).not.toMatch(/\bcodebuff\b/i)
   })
 })

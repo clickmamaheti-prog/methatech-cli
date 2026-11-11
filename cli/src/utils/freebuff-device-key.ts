@@ -16,13 +16,13 @@
 import fs from 'fs'
 import path from 'path'
 
-import { IS_TEST } from '@codebuff/common/env'
-import { FREEBUFF_CATALOG_FETCH_HEADER } from '@codebuff/common/types/freebuff-model-catalog'
+import { IS_TEST } from '@methatech/common/env'
+import { METHATECH_CATALOG_FETCH_HEADER } from '@methatech/common/types/freebuff-model-catalog'
 import {
   FreebuffDeviceSigner,
   isFreebuffDeviceKeyUnknownError,
   parseFreebuffDeviceKeyRecord,
-} from '@codebuff/common/util/freebuff-device-signing'
+} from '@methatech/common/util/freebuff-device-signing'
 
 import { getFreebuffCatalog } from '../state/freebuff-catalog-store'
 import { getUserCredentials } from './auth'
@@ -33,7 +33,7 @@ import type {
   FreebuffDeviceKeyRecord,
   FreebuffDeviceKeyStore,
   FreebuffDeviceRequest,
-} from '@codebuff/common/util/freebuff-device-signing'
+} from '@methatech/common/util/freebuff-device-signing'
 
 const DEVICE_KEY_FILE_MODE = 0o600
 const CONFIG_DIR_MODE = 0o700
@@ -158,7 +158,7 @@ export function noteFreebuffDeviceKeyError(
 }
 
 /**
- * The SDK's `requestHeaders` hook for completions (codebuff-client.ts): in
+ * The SDK's `requestHeaders` hook for completions (methatech-client.ts): in
  * catalog mode, the held catalog's fetch id and a signature over the exact
  * body the SDK sends; in fallback mode, nothing, so the request is unchanged.
  */
@@ -170,7 +170,7 @@ export async function freebuffCatalogCompletionHeaders(
   if (!catalog) return {}
   const fetchId = catalog.fetchId
   return {
-    ...(fetchId ? { [FREEBUFF_CATALOG_FETCH_HEADER]: fetchId } : {}),
+    ...(fetchId ? { [METHATECH_CATALOG_FETCH_HEADER]: fetchId } : {}),
     ...(await freebuffDeviceHeaders(token, { ...request, fetchId })),
   }
 }

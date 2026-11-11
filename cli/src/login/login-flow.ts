@@ -1,13 +1,13 @@
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
-import { CLI_AUTH_CODE_LIFETIME_MS } from '@codebuff/common/constants/auth'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
+import { CLI_AUTH_CODE_LIFETIME_MS } from '@methatech/common/constants/auth'
 
-import { createCodebuffApiClient } from '../utils/codebuff-api'
+import { createMethaTechApiClient } from '../utils/methatech-api'
 
 import type {
-  CodebuffApiClient,
+  MethaTechApiClient,
   LoginCodeResponse,
-} from '../utils/codebuff-api'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+} from '../utils/methatech-api'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 // Re-export for backwards compatibility
 export type LoginUrlResponse = LoginCodeResponse
@@ -20,7 +20,7 @@ export type LoginVia = 'modal' | 'plain_command'
 
 export interface GenerateLoginUrlDeps {
   logger: Logger
-  apiClient?: CodebuffApiClient
+  apiClient?: MethaTechApiClient
   /**
    * Emit a login-funnel analytics event. Injected so login-flow stays a pure,
    * test-friendly module; callers wire in the real `trackEvent`. Omitted in
@@ -66,7 +66,7 @@ export async function generateLoginUrl(
 
   const apiClient =
     providedApiClient ??
-    createCodebuffApiClient({
+    createMethaTechApiClient({
       baseUrl,
     })
 
@@ -111,7 +111,7 @@ interface PollLoginStatusDeps {
   sleep: (ms: number) => Promise<void>
   logger: Logger
   now?: () => number
-  apiClient?: CodebuffApiClient
+  apiClient?: MethaTechApiClient
   trackEvent?: (event: AnalyticsEvent, properties?: Record<string, any>) => void
 }
 
@@ -156,7 +156,7 @@ export async function pollLoginStatus(
 
   const apiClient =
     providedApiClient ??
-    createCodebuffApiClient({
+    createMethaTechApiClient({
       baseUrl,
     })
 

@@ -1,10 +1,10 @@
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 import { describe, expect, it } from 'bun:test'
 
 import { cloneSessionState } from '../run'
 
-import type { SessionState } from '@codebuff/common/types/session-state'
+import type { SessionState } from '@methatech/common/types/session-state'
 
 function makeSession(): SessionState {
   const state = getInitialSessionState(getStubProjectFileContext())

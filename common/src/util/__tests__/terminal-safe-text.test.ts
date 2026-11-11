@@ -25,9 +25,9 @@ describe('sanitizeTerminalText', () => {
   test('removes an OSC 8 hyperlink, keeping only the visible text', () => {
     expect(
       sanitizeTerminalText(
-        `${ESC}]8;;https://evil.example/${ST}codebuff.com${ESC}]8;;${ST}`,
+        `${ESC}]8;;https://evil.example/${ST}console.methatech.eu.org${ESC}]8;;${ST}`,
       ),
-    ).toBe('codebuff.com')
+    ).toBe('console.methatech.eu.org')
   })
 
   test('removes cursor movement, screen clears and colour (CSI)', () => {
@@ -68,7 +68,7 @@ describe('sanitizeTerminalStrings', () => {
         {
           title: `Deal${ESC}]52;c;eA==${BEL}`,
           bullets: [`one${ESC}[2K`, 'two'],
-          clickUrl: 'https://codebuff.com/c?x=1',
+          clickUrl: 'https://console.methatech.eu.org/c?x=1',
           priority: 3,
           flag: true,
           missing: null,
@@ -81,7 +81,7 @@ describe('sanitizeTerminalStrings', () => {
         {
           title: 'Deal',
           bullets: ['one', 'two'],
-          clickUrl: 'https://codebuff.com/c?x=1',
+          clickUrl: 'https://console.methatech.eu.org/c?x=1',
           priority: 3,
           flag: true,
           missing: null,

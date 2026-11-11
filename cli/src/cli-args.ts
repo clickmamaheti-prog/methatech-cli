@@ -22,8 +22,8 @@ export type ParsedArgs = {
 
 export function loadPackageVersion(): string {
   const env = getCliEnv()
-  if (env.CODEBUFF_CLI_VERSION) {
-    return env.CODEBUFF_CLI_VERSION
+  if (env.METHATECH_CLI_VERSION) {
+    return env.METHATECH_CLI_VERSION
   }
 
   try {
@@ -72,10 +72,10 @@ export function parseArgs({
       )
       .helpOption('-h, --help', 'Show this help message')
   } else {
-    // Codebuff: full CLI with all options
+    // MethaTech: full CLI with all options
     program
-      .name('codebuff')
-      .description('Codebuff CLI - AI-powered coding assistant')
+      .name('methatech')
+      .description('MethaTech CLI - AI-powered coding assistant')
       .version(version, '-v, --version', 'Print the CLI version')
       .option(
         '--agent <agent-id>',

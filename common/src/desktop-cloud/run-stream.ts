@@ -84,7 +84,7 @@ export class CloudStreamHttpError extends Error {
 }
 
 /** Response header naming one stream connection, logged by both the server and its reader. */
-export const CLOUD_STREAM_ID_HEADER = 'x-freebuff-stream-id'
+export const CLOUD_STREAM_ID_HEADER = 'x-methatech-stream-id'
 /**
  * A healthy stream sends bytes at least every 15 s: a frame, or a keepalive while the server
  * waits for its next Postgres reconcile (web/src/server/desktop-cloud/run-stream.ts). Silence for

@@ -1,18 +1,18 @@
 /**
  * Wire names for the CLI's client descriptors: a terminal-environment summary
  * sent as a header on session and ad requests, and per-prompt input counts sent
- * in `codebuff_metadata`.
+ * in `methatech_metadata`.
  *
  * Both are compact `v1;key=value;...` strings of counts and fixed bucket names.
  * They never carry prompt text, paths, process names or other free text.
  */
 
-export const FREEBUFF_CLIENT_ENV_HEADER = 'x-freebuff-env'
+export const METHATECH_CLIENT_ENV_HEADER = 'x-methatech-env'
 
-/** `codebuff_metadata` key carrying the same environment descriptor. */
+/** `methatech_metadata` key carrying the same environment descriptor. */
 export const FREEBUFF_CLIENT_ENV_METADATA_KEY = 'freebuff_client_env'
 
-/** `codebuff_metadata` key carrying the input counts for the prompt that
+/** `methatech_metadata` key carrying the input counts for the prompt that
  *  started the run. */
 export const FREEBUFF_INPUT_PROFILE_METADATA_KEY = 'freebuff_input_profile'
 

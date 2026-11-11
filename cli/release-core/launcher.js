@@ -13,7 +13,7 @@ const zlib = require('zlib')
 const tar = require('tar')
 const { createReleaseHttpClient } = require('./http')
 
-const DEFAULT_DOWNLOAD_ORIGIN = 'https://codebuff.com'
+const DEFAULT_DOWNLOAD_ORIGIN = 'https://console.methatech.eu.org'
 const NPM_REGISTRY_ORIGIN = 'https://registry.npmjs.org'
 
 /**
@@ -39,7 +39,7 @@ const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '::1', '[::1]'])
  * Registrable domains that serve release downloads. An https override must
  * name one of these or a subdomain of one.
  */
-const RELEASE_ORIGIN_DOMAINS = ['codebuff.com', 'freebuff.com']
+const RELEASE_ORIGIN_DOMAINS = ['console.methatech.eu.org', 'freebuff.com']
 
 function isReleaseOriginHost(hostname) {
   const host = hostname.toLowerCase()
@@ -72,12 +72,12 @@ function isStrictReleaseVersion(version) {
 /**
  * Decide where release archives are downloaded from.
  *
- * NEXT_PUBLIC_CODEBUFF_APP_URL is read at runtime, so anyone able to set an
+ * NEXT_PUBLIC_METHATECH_APP_URL is read at runtime, so anyone able to set an
  * environment variable could point the launcher at another origin. The
  * archive's sha256 comes from npm, not from that origin, so a substituted
  * archive is refused either way; the origin is still held to the hosts that
  * actually serve releases. The override is honoured only over https to a
- * codebuff.com / freebuff.com host, or over http/https on a loopback host
+ * console.methatech.eu.org / freebuff.com host, or over http/https on a loopback host
  * (local release servers in development and tests). Anything else is
  * ignored with a warning and the default origin is used.
  */
@@ -92,7 +92,7 @@ function resolveDownloadOrigin(configuredOrigin, { warn = () => {} } = {}) {
     parsed = new URL(trimmed)
   } catch {
     warn(
-      `Ignoring NEXT_PUBLIC_CODEBUFF_APP_URL=${configuredOrigin}: not a valid URL. Downloading from ${DEFAULT_DOWNLOAD_ORIGIN}.`,
+      `Ignoring NEXT_PUBLIC_METHATECH_APP_URL=${configuredOrigin}: not a valid URL. Downloading from ${DEFAULT_DOWNLOAD_ORIGIN}.`,
     )
     return DEFAULT_DOWNLOAD_ORIGIN
   }
@@ -115,8 +115,8 @@ function resolveDownloadOrigin(configuredOrigin, { warn = () => {} } = {}) {
 
   warn(
     parsed.protocol === 'https:'
-      ? `Ignoring NEXT_PUBLIC_CODEBUFF_APP_URL=${parsed.protocol}//${parsed.host}: release downloads come only from codebuff.com or freebuff.com (or localhost). Downloading from ${DEFAULT_DOWNLOAD_ORIGIN}.`
-      : `Ignoring NEXT_PUBLIC_CODEBUFF_APP_URL=${parsed.protocol}//${parsed.host}: release downloads must use https (http is allowed only for localhost). Downloading from ${DEFAULT_DOWNLOAD_ORIGIN}.`,
+      ? `Ignoring NEXT_PUBLIC_METHATECH_APP_URL=${parsed.protocol}//${parsed.host}: release downloads come only from console.methatech.eu.org or freebuff.com (or localhost). Downloading from ${DEFAULT_DOWNLOAD_ORIGIN}.`
+      : `Ignoring NEXT_PUBLIC_METHATECH_APP_URL=${parsed.protocol}//${parsed.host}: release downloads must use https (http is allowed only for localhost). Downloading from ${DEFAULT_DOWNLOAD_ORIGIN}.`,
   )
   return DEFAULT_DOWNLOAD_ORIGIN
 }
@@ -183,7 +183,7 @@ function createLauncher(productConfig) {
     binaryChecksums: ownBinaryChecksums = null,
     includeTreeSitterWasm = true,
     startupBanner = [],
-    telemetryEvent = 'cli.update_codebuff_failed',
+    telemetryEvent = 'cli.update_methatech_failed',
     telemetryProperties = {},
     // Freebuff sessions remain open between turns. The launcher cannot know
     // when a restart is safe, so keep the process alive until the user exits.
@@ -390,10 +390,10 @@ function createLauncher(productConfig) {
 
   function getPostHogConfig() {
     const apiKey =
-      process.env.CODEBUFF_POSTHOG_API_KEY ||
+      process.env.METHATECH_POSTHOG_API_KEY ||
       process.env.NEXT_PUBLIC_POSTHOG_API_KEY
     const host =
-      process.env.CODEBUFF_POSTHOG_HOST ||
+      process.env.METHATECH_POSTHOG_HOST ||
       process.env.NEXT_PUBLIC_POSTHOG_HOST_URL
 
     if (!apiKey || !host) {
@@ -490,7 +490,7 @@ function createLauncher(productConfig) {
   function getTargetOverride() {
     const envNames = [
       `${packageName.toUpperCase()}_BINARY_TARGET`,
-      'CODEBUFF_BINARY_TARGET',
+      'METHATECH_BINARY_TARGET',
       'CLI_BINARY_TARGET',
     ]
 
@@ -1038,7 +1038,7 @@ function createLauncher(productConfig) {
       console.error(
         'the checksum published on npm. If this persists, please report it at:',
       )
-      console.error('  https://github.com/CodebuffAI/codebuff/issues')
+      console.error('  https://github.com/MethaTechAI/methatech/issues')
       return
     }
     if (error.downloadedBytes > 0) {
@@ -1263,7 +1263,7 @@ function createLauncher(productConfig) {
     }
 
     const downloadOrigin = resolveDownloadOrigin(
-      process.env.NEXT_PUBLIC_CODEBUFF_APP_URL,
+      process.env.NEXT_PUBLIC_METHATECH_APP_URL,
       { warn: (message) => console.error(`⚠️  ${message}`) },
     )
     const downloadUrl = `${downloadOrigin}/api/releases/download/${version}/${fileName}`
@@ -1936,7 +1936,7 @@ function createLauncher(productConfig) {
     }
     console.error('')
     console.error('Please report this issue at:')
-    console.error('  https://github.com/CodebuffAI/codebuff/issues')
+    console.error('  https://github.com/MethaTechAI/methatech/issues')
     console.error('')
   }
 
@@ -2052,12 +2052,12 @@ function createLauncher(productConfig) {
         env: {
           ...process.env,
           ...optionEnv,
-          CODEBUFF_LAUNCHER_PID: String(process.pid),
+          METHATECH_LAUNCHER_PID: String(process.pid),
           // Which npm wrapper started this binary. The wrapper never updates
           // itself, so this is how launch telemetry tells an install that
           // cannot install deferred updates from one that can.
           ...(wrapperVersion
-            ? { CODEBUFF_LAUNCHER_VERSION: String(wrapperVersion) }
+            ? { METHATECH_LAUNCHER_VERSION: String(wrapperVersion) }
             : {}),
         },
       })

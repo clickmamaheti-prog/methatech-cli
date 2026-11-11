@@ -1,4 +1,4 @@
-import { jsonToolResult } from '@codebuff/common/util/messages'
+import { jsonToolResult } from '@methatech/common/util/messages'
 
 import {
   requestRelevantFiles,
@@ -9,19 +9,19 @@ import { getSearchSystemPrompt } from '../../../system-prompt/search-system-prom
 import { renderReadFilesResult } from '../../../util/render-read-files-result'
 import { countTokens, countTokensJson } from '../../../util/token-counter'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { RequestFilesFn } from '@codebuff/common/types/contracts/client'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { RequestFilesFn } from '@methatech/common/types/contracts/client'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 import type {
   ParamsExcluding,
   ParamsOf,
-} from '@codebuff/common/types/function-params'
-import type { AgentState } from '@codebuff/common/types/session-state'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+} from '@methatech/common/types/function-params'
+import type { AgentState } from '@methatech/common/types/session-state'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 // Turn this on to collect full file context, using Claude-4-Opus to pick which files to send up
 // TODO: We might want to be able to turn this on on a per-repo basis.
@@ -30,7 +30,7 @@ const COLLECT_FULL_FILE_CONTEXT = false
 export const handleFindFiles = (async (
   params: {
     previousToolCallFinished: Promise<any>
-    toolCall: CodebuffToolCall<'find_files'>
+    toolCall: MethaTechToolCall<'find_files'>
     logger: Logger
 
     agentState: AgentState
@@ -50,7 +50,7 @@ export const handleFindFiles = (async (
       'messages' | 'system' | 'assistantPrompt'
     > &
     ParamsExcluding<typeof getFileReadingUpdates, 'requestedFiles'>,
-): Promise<{ output: CodebuffToolOutput<'find_files'> }> => {
+): Promise<{ output: MethaTechToolOutput<'find_files'> }> => {
   const {
     previousToolCallFinished,
     toolCall,
@@ -128,7 +128,7 @@ export const handleFindFiles = (async (
       }),
     }
   }
-}) satisfies CodebuffToolHandlerFunction<'find_files'>
+}) satisfies MethaTechToolHandlerFunction<'find_files'>
 
 async function uploadExpandedFileContextForTraining(
   params: {

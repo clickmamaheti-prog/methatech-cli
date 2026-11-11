@@ -1,4 +1,4 @@
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import { describe, expect, it } from 'bun:test'
 
 import {
@@ -13,7 +13,7 @@ import {
   writeTodosUnchangedMessage,
 } from '../todo-loop'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 function exchange(
   id: string,

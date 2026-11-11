@@ -24,7 +24,7 @@ dist-env
 .manicode
 __mock-projects__
 .aider*
-.codebuff*
+.methatech*
 **.log
 
 debug/

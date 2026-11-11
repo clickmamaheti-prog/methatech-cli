@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test'
 
-import { MAX_RATED_MESSAGE_CHARS } from '@codebuff/common/constants/feedback'
-import { feedbackRequestSchema } from '@codebuff/common/schemas/feedback'
+import { MAX_RATED_MESSAGE_CHARS } from '@methatech/common/constants/feedback'
+import { feedbackRequestSchema } from '@methatech/common/schemas/feedback'
 
 import {
   buildFeedbackPayload,

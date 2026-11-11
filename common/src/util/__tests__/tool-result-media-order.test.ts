@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test'
 
 import { convertCbToModelMessages } from '../messages'
 
-import type { Message } from '../../types/messages/codebuff-message'
+import type { Message } from '../../types/messages/methatech-message'
 
 /**
  * preview_screenshot returns [media, json] so the model sees the pixels before

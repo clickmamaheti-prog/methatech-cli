@@ -1,15 +1,15 @@
 import fs from 'fs'
 import path from 'path'
 
-import { getErrorObject } from '@codebuff/common/util/error'
-import { withTimeout } from '@codebuff/common/util/promise'
+import { getErrorObject } from '@methatech/common/util/error'
+import { withTimeout } from '@methatech/common/util/promise'
 
 import { truncateTrace } from './trace-utils'
 
 import type { AgentStep } from './agent-runner'
 import type { JudgingResult } from './judge'
 import type { FileDiff } from './types'
-import type { AgentDefinition, CodebuffClient } from '@codebuff/sdk'
+import type { AgentDefinition, CodebuffClient } from '@methatech/sdk'
 
 export interface Lesson {
   whatWentWrong: string

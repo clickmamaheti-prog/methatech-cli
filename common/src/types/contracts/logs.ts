@@ -6,7 +6,7 @@ export type LogSource = 'server' | 'cli' | 'browser'
 
 /**
  * One normalized log/event record. This is the provider-agnostic shape the
- * sink ingests (currently into Axiom — see `@codebuff/logging`). An "event" is
+ * sink ingests (currently into Axiom — see `@methatech/logging`). An "event" is
  * just a log row with `event` populated, so all logs and analytics events live
  * in one stream. See docs/logging.md.
  */

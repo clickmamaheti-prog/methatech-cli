@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 
 import type { AgentStep, ContextLogEntry, Runner, RunnerResult } from './runner'
-import type { CodebuffClient, TerminalCommandBroker } from '@codebuff/sdk'
+import type { CodebuffClient, TerminalCommandBroker } from '@methatech/sdk'
 
 const DEBUG_ERROR = true
 

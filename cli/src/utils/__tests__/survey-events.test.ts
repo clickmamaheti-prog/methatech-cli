@@ -3,8 +3,8 @@ import { afterEach, describe, expect, test } from 'bun:test'
 import {
   profileSurveyQuestion,
   profileSurveyVersion,
-} from '@codebuff/common/constants/freebuff-profile-survey'
-import { createFakeSponsoredSurveyClient } from '@codebuff/common/constants/freebuff-sponsored-survey-client'
+} from '@methatech/common/constants/freebuff-profile-survey'
+import { createFakeSponsoredSurveyClient } from '@methatech/common/constants/freebuff-sponsored-survey-client'
 
 import {
   closeProfileSurveyForTyping,
@@ -22,10 +22,10 @@ import {
   setCliSurveyEventSinkForTests,
 } from '../survey-events'
 
-import type { ProfileSurveyStateResponse } from '@codebuff/common/constants/freebuff-profile-survey'
-import type { SurveyEventInput } from '@codebuff/common/constants/freebuff-sponsored-survey'
-import type { SponsoredSurveyOffer } from '@codebuff/common/constants/freebuff-sponsored-survey-client'
-import type { SurveyEventSink } from '@codebuff/common/constants/freebuff-survey-events-client'
+import type { ProfileSurveyStateResponse } from '@methatech/common/constants/freebuff-profile-survey'
+import type { SurveyEventInput } from '@methatech/common/constants/freebuff-sponsored-survey'
+import type { SponsoredSurveyOffer } from '@methatech/common/constants/freebuff-sponsored-survey-client'
+import type { SurveyEventSink } from '@methatech/common/constants/freebuff-survey-events-client'
 
 const QUESTIONS = profileSurveyVersion(1)!.questionIds.map(
   (id) => profileSurveyQuestion(id)!,

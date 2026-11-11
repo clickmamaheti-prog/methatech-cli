@@ -5,7 +5,7 @@
  */
 import { describe, expect, test } from 'bun:test'
 
-import { agenticOfferRequestSchema } from '@codebuff/common/ads/agentic-offer'
+import { agenticOfferRequestSchema } from '@methatech/common/ads/agentic-offer'
 
 import { ensureCliTestEnv } from '../../__tests__/test-utils'
 
@@ -182,7 +182,7 @@ describe('asking', () => {
       campaignId: 'campaign-1',
     }),
     device: () => ({ os: 'macos', timezone: 'UTC', locale: 'en-US' }),
-    userAgent: () => 'Freebuff-CLI/1.2.3',
+    userAgent: () => 'MethaTech-CLI/1.2.3',
     ...over,
   })
   const input = {
@@ -209,7 +209,7 @@ describe('asking', () => {
       }),
     )
     expect(offered).toBe(true)
-    expect(userAgent).toBe('Freebuff-CLI/1.2.3')
+    expect(userAgent).toBe('MethaTech-CLI/1.2.3')
   })
 
   test('none, an invitation, a failure and no session are all "no offer"', async () => {

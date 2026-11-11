@@ -20,8 +20,8 @@ import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { AgentTemplateTypes } from '@codebuff/common/types/session-state'
-import { validateAgents } from '@codebuff/sdk'
+import { AgentTemplateTypes } from '@methatech/common/types/session-state'
+import { validateAgents } from '@methatech/sdk'
 import { afterEach, beforeEach, describe, expect, mock, test } from 'bun:test'
 
 mock.module('../utils/logger', () => ({
@@ -44,7 +44,7 @@ import {
 } from '../utils/local-agent-registry'
 import { catalogRow } from '../utils/__tests__/freebuff-catalog-fixtures'
 
-import type { AgentDefinition } from '@codebuff/sdk'
+import type { AgentDefinition } from '@methatech/sdk'
 
 const bundled = Object.values(bundledAgents) as AgentDefinition[]
 
@@ -98,7 +98,7 @@ describe('bundled agent definitions as the registry sends them', () => {
   let originalProjectRoot: string | undefined
 
   beforeEach(() => {
-    tempDir = mkdtempSync(path.join(os.tmpdir(), 'codebuff-bundle-validate-'))
+    tempDir = mkdtempSync(path.join(os.tmpdir(), 'methatech-bundle-validate-'))
     originalCwd = process.cwd()
     setProjectRoot(originalCwd)
     originalProjectRoot = getProjectRoot()

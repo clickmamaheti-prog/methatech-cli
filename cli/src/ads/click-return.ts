@@ -1,8 +1,8 @@
-import { WEBSITE_URL } from '@codebuff/sdk'
+import { WEBSITE_URL } from '@methatech/sdk'
 import {
   createClickAckGate,
   createClickReturnWatcher,
-} from '@codebuff/common/ads/click-return'
+} from '@methatech/common/ads/click-return'
 
 import { getAuthToken } from '../utils/auth'
 import { logger } from '../utils/logger'
@@ -10,7 +10,7 @@ import { logger } from '../utils/logger'
 import type {
   ClickReturnBody,
   ClickReturnWatcher,
-} from '@codebuff/common/ads/click-return'
+} from '@methatech/common/ads/click-return'
 
 /**
  * The CLI's half of the post-click return label (COD-694).
@@ -51,7 +51,7 @@ export function createCliClickReturn(
   })
 }
 
-/** Fire-and-forget POST to the Codebuff API. Never retried, never thrown. */
+/** Fire-and-forget POST to the MethaTech API. Never retried, never thrown. */
 export function postCliClickReturn(
   impUrl: string,
   body: ClickReturnBody,

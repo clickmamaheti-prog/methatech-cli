@@ -1,9 +1,9 @@
-import { freebuffLegacyModelDigest } from '@codebuff/common/types/freebuff-model-catalog'
+import { freebuffLegacyModelDigest } from '@methatech/common/types/freebuff-model-catalog'
 
 import type {
   FreebuffCatalogRow,
   FreebuffModelCatalog,
-} from '@codebuff/common/types/freebuff-model-catalog'
+} from '@methatech/common/types/freebuff-model-catalog'
 
 /** A catalog row with sensible defaults; `legacyIds` become its digests. */
 export function catalogRow(

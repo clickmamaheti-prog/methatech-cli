@@ -1,6 +1,6 @@
-import { writeTodosParams } from '@codebuff/common/tools/params/tool/write-todos'
+import { writeTodosParams } from '@methatech/common/tools/params/tool/write-todos'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 /**
  * Reminds an agent working through its own to-do list to tick items off as it

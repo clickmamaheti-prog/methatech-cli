@@ -1,9 +1,9 @@
-import { API_KEY_ENV_VAR } from '@codebuff/common/old-constants'
-import { CodebuffClient } from '@codebuff/sdk'
+import { API_KEY_ENV_VAR } from '@methatech/common/old-constants'
+import { MethaTechClient } from '@methatech/sdk'
 import { describe, expect, it } from 'bun:test'
 
 
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 /**
  * Integration tests for the editor-best-of-n-max agent.
@@ -46,7 +46,7 @@ console.log(subtract(5, 3))
         }),
       }
 
-      const client = new CodebuffClient({
+      const client = new MethaTechClient({
         apiKey,
         cwd: '/tmp/test-best-of-n-project',
         projectFiles,

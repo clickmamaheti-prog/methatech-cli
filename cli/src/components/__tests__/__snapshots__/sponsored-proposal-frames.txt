@@ -633,7 +633,8 @@
 │ sponsoring this  │
 │ agent run, so    │
 │ it’s free for    │
-│ you. Freebuff’s  │
+│ you.             │
+│ MethaTech’s      │
 │ agent edits the  │
 │ files in the     │
 │ folder below     │
@@ -646,7 +647,6 @@
 │ you can undo it  │
 │ after.           │
 │ Folder: /home/de │
-│ > No             │
 
 === consent @ 48 ===
 ┌──────────────────────────────────────────────┐
@@ -654,7 +654,7 @@
 │  [Report 1]                                  │
 │ Add one-click deploys to this project        │
 │ Acme Deploys is sponsoring this agent run,   │
-│ so it’s free for you. Freebuff’s agent       │
+│ so it’s free for you. MethaTech’s agent      │
 │ edits the files in the folder below and      │
 │ commits nothing. It runs in the background   │
 │ so you can keep working, and you can undo    │
@@ -680,15 +680,15 @@
 │  [Report 1]                                              │
 │ Add one-click deploys to this project                    │
 │ Acme Deploys is sponsoring this agent run, so it’s free  │
-│ for you. Freebuff’s agent edits the files in the folder  │
-│ below and commits nothing. It runs in the background so  │
-│ you can keep working, and you can undo it after.         │
+│ for you. MethaTech’s agent edits the files in the        │
+│ folder below and commits nothing. It runs in the         │
+│ background so you can keep working, and you can undo it  │
+│ after.                                                   │
 │ Folder: /home/dev/app                                    │
 │ > No                                                     │
 │   Yes                                                    │
 │ ↑↓ · enter choose · v steps · esc cancel                 │
 └──────────────────────────────────────────────────────────┘
-
 
 
 

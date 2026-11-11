@@ -2,19 +2,19 @@ import {
   DEFAULT_MAX_FILES,
   flattenTree,
   getProjectFileTree,
-} from '@codebuff/common/project-file-tree'
+} from '@methatech/common/project-file-tree'
 import micromatch from 'micromatch'
 
-import type { CodebuffToolOutput } from '@codebuff/common/tools/list'
-import type { CodebuffFileSystem } from '@codebuff/common/types/filesystem'
+import type { MethaTechToolOutput } from '@methatech/common/tools/list'
+import type { MethaTechFileSystem } from '@methatech/common/types/filesystem'
 
 export async function glob(params: {
   pattern: string
   projectPath: string
   cwd?: string
   maxResults?: number
-  fs: CodebuffFileSystem
-}): Promise<CodebuffToolOutput<'glob'>> {
+  fs: MethaTechFileSystem
+}): Promise<MethaTechToolOutput<'glob'>> {
   const { pattern, projectPath, cwd, maxResults, fs } = params
 
   try {

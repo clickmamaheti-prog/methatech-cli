@@ -1,6 +1,6 @@
 import { mock } from 'bun:test'
 
-import type { CodebuffApiClient } from '../../utils/codebuff-api'
+import type { MethaTechApiClient } from '../../utils/methatech-api'
 
 export interface MockApiClientOverrides {
   get?: ReturnType<typeof mock>
@@ -29,36 +29,36 @@ const defaultOkResponse = () =>
   Promise.resolve({ ok: true as const, status: 200 })
 
 /**
- * Creates a mock CodebuffApiClient with sensible defaults.
+ * Creates a mock MethaTechApiClient with sensible defaults.
  * All methods return { ok: true, status: 200 } by default.
  * Pass overrides to customize specific methods.
  */
 export const createMockApiClient = (
   overrides: MockApiClientOverrides = {},
-): CodebuffApiClient => ({
-  get: (overrides.get ?? mock(defaultOkResponse)) as CodebuffApiClient['get'],
+): MethaTechApiClient => ({
+  get: (overrides.get ?? mock(defaultOkResponse)) as MethaTechApiClient['get'],
   post: (overrides.post ??
-    mock(defaultOkResponse)) as CodebuffApiClient['post'],
-  put: (overrides.put ?? mock(defaultOkResponse)) as CodebuffApiClient['put'],
+    mock(defaultOkResponse)) as MethaTechApiClient['post'],
+  put: (overrides.put ?? mock(defaultOkResponse)) as MethaTechApiClient['put'],
   patch: (overrides.patch ??
-    mock(defaultOkResponse)) as CodebuffApiClient['patch'],
+    mock(defaultOkResponse)) as MethaTechApiClient['patch'],
   delete: (overrides.delete ??
-    mock(defaultOkResponse)) as CodebuffApiClient['delete'],
+    mock(defaultOkResponse)) as MethaTechApiClient['delete'],
   request: (overrides.request ??
-    mock(defaultOkResponse)) as CodebuffApiClient['request'],
-  me: (overrides.me ?? mock(defaultOkResponse)) as CodebuffApiClient['me'],
+    mock(defaultOkResponse)) as MethaTechApiClient['request'],
+  me: (overrides.me ?? mock(defaultOkResponse)) as MethaTechApiClient['me'],
   usage: (overrides.usage ??
-    mock(defaultOkResponse)) as CodebuffApiClient['usage'],
+    mock(defaultOkResponse)) as MethaTechApiClient['usage'],
   loginCode: (overrides.loginCode ??
-    mock(defaultOkResponse)) as CodebuffApiClient['loginCode'],
+    mock(defaultOkResponse)) as MethaTechApiClient['loginCode'],
   loginStatus: (overrides.loginStatus ??
-    mock(defaultOkResponse)) as CodebuffApiClient['loginStatus'],
+    mock(defaultOkResponse)) as MethaTechApiClient['loginStatus'],
   publish: (overrides.publish ??
-    mock(defaultOkResponse)) as CodebuffApiClient['publish'],
+    mock(defaultOkResponse)) as MethaTechApiClient['publish'],
   logout: (overrides.logout ??
-    mock(defaultOkResponse)) as CodebuffApiClient['logout'],
+    mock(defaultOkResponse)) as MethaTechApiClient['logout'],
   feedback: (overrides.feedback ??
-    mock(defaultOkResponse)) as CodebuffApiClient['feedback'],
-  baseUrl: overrides.baseUrl ?? 'https://test.codebuff.com',
+    mock(defaultOkResponse)) as MethaTechApiClient['feedback'],
+  baseUrl: overrides.baseUrl ?? 'https://test.console.methatech.eu.org',
   authToken: overrides.authToken,
 })

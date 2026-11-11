@@ -3,10 +3,10 @@ import { describe, it, expect, mock } from 'bun:test'
 import { handleGlob } from '../tool/glob'
 
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
 
 const testAgentTemplate: AgentTemplate = {
   id: 'test-agent',
@@ -35,7 +35,7 @@ interface GlobResultValue {
 describe('handleGlob', () => {
   it('delegates to requestClientToolCall and returns matching files', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         {
           type: 'json',
           value: {
@@ -51,7 +51,7 @@ describe('handleGlob', () => {
       ],
     )
 
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-1',
       input: {
@@ -81,7 +81,7 @@ describe('handleGlob', () => {
 
   it('handles glob pattern with cwd parameter', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         {
           type: 'json',
           value: {
@@ -94,7 +94,7 @@ describe('handleGlob', () => {
       ],
     )
 
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-2',
       input: {
@@ -123,7 +123,7 @@ describe('handleGlob', () => {
 
   it('handles glob pattern that matches all files with **/*', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         {
           type: 'json',
           value: {
@@ -141,7 +141,7 @@ describe('handleGlob', () => {
       ],
     )
 
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-3',
       input: {
@@ -164,7 +164,7 @@ describe('handleGlob', () => {
 
   it('handles glob pattern with no matches', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         {
           type: 'json',
           value: {
@@ -176,7 +176,7 @@ describe('handleGlob', () => {
       ],
     )
 
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-4',
       input: {
@@ -199,7 +199,7 @@ describe('handleGlob', () => {
 
   it('handles brace expansion patterns', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         {
           type: 'json',
           value: {
@@ -216,7 +216,7 @@ describe('handleGlob', () => {
       ],
     )
 
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-5',
       input: {
@@ -239,7 +239,7 @@ describe('handleGlob', () => {
 
   it('handles error responses from client', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         {
           type: 'json',
           value: {
@@ -249,7 +249,7 @@ describe('handleGlob', () => {
       ],
     )
 
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-6',
       input: {
@@ -280,7 +280,7 @@ describe('handleGlob', () => {
     })
 
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => {
+      async (): Promise<MethaTechToolOutput<'glob'>> => {
         expect(previousFinished).toBe(true)
         return [
           {
@@ -295,7 +295,7 @@ describe('handleGlob', () => {
       },
     )
 
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-7',
       input: {
@@ -316,7 +316,7 @@ describe('handleGlob', () => {
 
   it('handles nested directory patterns with cwd', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         {
           type: 'json',
           value: {
@@ -333,7 +333,7 @@ describe('handleGlob', () => {
       ],
     )
 
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-8',
       input: {
@@ -359,11 +359,11 @@ describe('handleGlob', () => {
 
   it('injects max_results for agents with windowedFileReads', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         { type: 'json', value: { files: [], count: 0, message: '' } },
       ],
     )
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-windowed',
       input: { pattern: '**/*.ts' },
@@ -384,11 +384,11 @@ describe('handleGlob', () => {
 
   it('keeps the model-provided max_results for windowed agents', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         { type: 'json', value: { files: [], count: 0, message: '' } },
       ],
     )
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-windowed-2',
       input: { pattern: '**/*.ts', max_results: 7 },
@@ -406,11 +406,11 @@ describe('handleGlob', () => {
 
   it('does not inject max_results for legacy agents', async () => {
     const mockRequestClientToolCall = mock(
-      async (): Promise<CodebuffToolOutput<'glob'>> => [
+      async (): Promise<MethaTechToolOutput<'glob'>> => [
         { type: 'json', value: { files: [], count: 0, message: '' } },
       ],
     )
-    const toolCall: CodebuffToolCall<'glob'> = {
+    const toolCall: MethaTechToolCall<'glob'> = {
       toolName: 'glob',
       toolCallId: 'tc-legacy',
       input: { pattern: '**/*.ts' },

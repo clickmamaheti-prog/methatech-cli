@@ -14,7 +14,7 @@
  * mixed in): billed impression on insertion, billed click before opening its
  * clickUrl (`ads/served-display-ads.ts`).
  */
-import { sponsorsFor } from '@codebuff/common/ads/display-ads/sponsors'
+import { sponsorsFor } from '@methatech/common/ads/display-ads/sponsors'
 
 import { Button } from './button'
 import {
@@ -37,7 +37,7 @@ import { useTerminalDimensions } from '../hooks/use-terminal-dimensions'
 import { useTheme } from '../hooks/use-theme'
 import { safeOpen } from '../utils/open-url'
 
-import type { PlacedSponsor } from '@codebuff/common/ads/display-ads/sponsors'
+import type { PlacedSponsor } from '@methatech/common/ads/display-ads/sponsors'
 
 export const DEALS_FOOTER_HINT = '/deals use 1   /deals off'
 

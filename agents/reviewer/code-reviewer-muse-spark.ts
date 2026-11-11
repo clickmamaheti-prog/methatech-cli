@@ -1,4 +1,4 @@
-import { FREEBUFF_MUSE_SPARK_12_CONTRIBUTOR_MODEL_ID } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_MUSE_SPARK_12_CONTRIBUTOR_MODEL_ID } from '@methatech/common/constants/freebuff-models'
 
 import { publisher } from '../constants'
 import type { SecretAgentDefinition } from '../types/secret-agent-definition'

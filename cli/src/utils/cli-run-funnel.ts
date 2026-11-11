@@ -1,10 +1,10 @@
 import { canAgentHideToolCall } from './constants'
 
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 import type {
   ProductFunnelStage,
   ProductFunnelState,
-} from '@codebuff/common/constants/product-funnel'
+} from '@methatech/common/constants/product-funnel'
 
 /** The native dispatch is observable; remote durable acceptance is not. */
 export function createCliRunFunnel(deps: {

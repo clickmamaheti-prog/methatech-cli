@@ -1,13 +1,13 @@
 import { describe, test, expect, mock } from 'bun:test'
 
-import { CLI_AUTH_CODE_LIFETIME_MS } from '@codebuff/common/constants/auth'
-import { createMockLogger } from '@codebuff/common/testing/mock-types'
+import { CLI_AUTH_CODE_LIFETIME_MS } from '@methatech/common/constants/auth'
+import { createMockLogger } from '@methatech/common/testing/mock-types'
 import { generateLoginUrl, pollLoginStatus } from '../../login/login-flow'
 import { createMockApiClient } from '../helpers/mock-api-client'
 
 import type { LoginUrlResponse } from '../../login/login-flow'
-import type { ApiResponse } from '../../utils/codebuff-api'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { ApiResponse } from '../../utils/methatech-api'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 const createClock = () => {
   let current = 0

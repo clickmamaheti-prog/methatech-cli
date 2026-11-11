@@ -1,12 +1,12 @@
-import { toolNames } from '@codebuff/common/tools/constants'
-import { buildArray } from '@codebuff/common/util/array'
-import { STREAM_RECOVERY_EVENT } from '@codebuff/common/util/axiom-only-log'
-import { AbortError } from '@codebuff/common/util/error'
+import { toolNames } from '@methatech/common/tools/constants'
+import { buildArray } from '@methatech/common/util/array'
+import { STREAM_RECOVERY_EVENT } from '@methatech/common/util/axiom-only-log'
+import { AbortError } from '@methatech/common/util/error'
 import {
   assistantMessage,
   userMessage,
-} from '@codebuff/common/util/messages'
-import { generateCompactId } from '@codebuff/common/util/string'
+} from '@methatech/common/util/messages'
+import { generateCompactId } from '@methatech/common/util/string'
 
 import { processStreamWithTools } from '../tool-stream-parser'
 import { INCLUDE_REASONING_IN_MESSAGE_HISTORY } from '../constants'
@@ -27,19 +27,19 @@ import type { CustomToolCall, ExecuteToolCallParams } from './tool-executor'
 import type { ThinkStreamSegment } from '../util/think-tag-stream'
 import type { AgentTemplate } from '../templates/types'
 import type { FileProcessingState } from './handlers/tool/write-file'
-import type { ToolName } from '@codebuff/common/tools/constants'
-import type { CodebuffToolCall } from '@codebuff/common/tools/list'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { StreamRecoverySource } from '@codebuff/common/types/contracts/llm'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
+import type { ToolName } from '@methatech/common/tools/constants'
+import type { MethaTechToolCall } from '@methatech/common/tools/list'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { StreamRecoverySource } from '@methatech/common/types/contracts/llm'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
 import type {
   Message,
   ToolMessage,
-} from '@codebuff/common/types/messages/codebuff-message'
-import type { ProviderMetadata } from '@codebuff/common/types/messages/provider-metadata'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
-import type { Subgoal } from '@codebuff/common/types/session-state'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+} from '@methatech/common/types/messages/methatech-message'
+import type { ProviderMetadata } from '@methatech/common/types/messages/provider-metadata'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
+import type { Subgoal } from '@methatech/common/types/session-state'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 /** History tags for the notes appended when a step's stream ends without a
  *  usable response and the loop auto-retries (see
@@ -264,8 +264,8 @@ export async function processStream(
   // === MUTABLE STATE ===
   const toolResults: ToolMessage[] = []
   const toolResultsToAddToMessageHistory: ToolMessage[] = []
-  const toolCalls: (CodebuffToolCall | CustomToolCall)[] = []
-  const toolCallsToAddToMessageHistory: (CodebuffToolCall | CustomToolCall)[] = []
+  const toolCalls: (MethaTechToolCall | CustomToolCall)[] = []
+  const toolCallsToAddToMessageHistory: (MethaTechToolCall | CustomToolCall)[] = []
   // The provider metadata each native tool call arrived with (e.g. Gemini's
   // thought signature), stored on its history part so the next request can
   // replay it. Kept off the tool call itself, which also reaches clients.

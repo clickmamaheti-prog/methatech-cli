@@ -9,7 +9,7 @@
 
 A template fetched from the public agent registry (`--agent publisher/agent`, a
 registry id in a local agent's `spawnableAgents`, or a bare id falling back to
-`codebuff/<id>`) is executable code when it carries `handleSteps`: the row's
+`methatech/<id>`) is executable code when it carries `handleSteps`: the row's
 `handleSteps` is a source string, validation only checks that it starts with
 `function*`, and the runtime evals it with no isolation on the user's machine.
 The registry GET is public, any account can create a publisher and publish
@@ -17,22 +17,22 @@ without review, and `latest` is unpinned. So the SDK's `fetchAgentFromDatabase`
 refuses a registry template with a string `handleSteps` unless its publisher is
 trusted (`sdk/src/agent-publisher-trust.ts`), and throws an
 `UntrustedAgentPublisherError` whose message names `publisher/agent@version`
-and the knob to set. Trusted publishers are `codebuff` (our own, also bundled)
-plus the comma-separated `CODEBUFF_TRUSTED_AGENT_PUBLISHERS` env var plus the
-`trustedAgentPublishers` option on `CodebuffClient` / `run()`. Data-only
+and the knob to set. Trusted publishers are `methatech` (our own, also bundled)
+plus the comma-separated `METHATECH_TRUSTED_AGENT_PUBLISHERS` env var plus the
+`trustedAgentPublishers` option on `MethaTechClient` / `run()`. Data-only
 registry templates (no `handleSteps`) load as before, and local `.agents` files
 and SDK `agentDefinitions` are never gated — they are code the user already
 chose to run. This is a trust floor, not isolation: sandboxing the eval,
 signing templates and pinning `latest` are separate work.
 
-Clients released before this gate (`codebuff` and `@codebuff/sdk` on npm) eval
+Clients released before this gate (`methatech` and `@methatech/sdk` on npm) eval
 whatever the registry returns, so the registry GET routes refuse (403) a
-non-`codebuff` template with `handleSteps` unless the request carries
+non-`methatech` template with `handleSteps` unless the request carries
 `AGENT_TRUST_GATE_HEADER` (`common/src/constants/agents.ts`), which only the
 gated SDK sends (`untrustedHandleStepsRefusal` in
 `web/src/app/api/agents/_registry-guard.ts`). The server cannot see the
 caller's trusted set, so the header defers that decision to the client.
-`mcpServers` from non-`codebuff` publishers are refused outright, at publish
+`mcpServers` from non-`methatech` publishers are refused outright, at publish
 and at GET, whatever the client.
 
 ### Trust gate for repository `.agents` directories
@@ -60,7 +60,7 @@ repository-scoped directories (`cli/src/utils/agent-dir-trust.ts`):
   absolute directory path to `{ "trustedAt": "<ISO>" }`. Delete an entry to
   be asked again.
 - **Non-interactive runs** (no TTY, CI) never prompt: the directory is skipped
-  with a warning unless `CODEBUFF_TRUST_AGENT_DIRS=1` or `--trust-agents` is
+  with a warning unless `METHATECH_TRUST_AGENT_DIRS=1` or `--trust-agents` is
   passed, which trusts every repository directory for that run only and writes
   nothing to the store.
 - **SDK semantics are unchanged**: `loadLocalAgents({ agentDirs })` and
@@ -75,11 +75,11 @@ other coding agents make for their project-level config.
 
 ### Shell Shims
 
-Direct commands without `codebuff` prefix:
+Direct commands without `methatech` prefix:
 
 ```bash
-codebuff shims install codebuff/base-lite@1.0.0
-eval "$(codebuff shims env)"
+methatech shims install methatech/base-lite@1.0.0
+eval "$(methatech shims env)"
 base-lite "fix this bug"
 ```
 
@@ -144,7 +144,7 @@ The SDK's `read_files` reads explicitly named text and images even when
 `.gitignore` or built-in discovery exclusions hide them (for example,
 `sandbox/` renders or dependency source). File-tree discovery and background
 project-understanding reads still apply those exclusions. Explicit reads honor
-`.codebuffignore` / `.manicodeignore` and caller-provided file filters; sensitive
+`.methatechignore` / `.manicodeignore` and caller-provided file filters; sensitive
 `.env` files remain blocked, and env templates still obey all project ignore
 rules. `.freebuffignore` controls workspace transfers, not this read policy.
 
@@ -178,7 +178,7 @@ length cut anyway.
 - `sdk/src/tools/run-terminal-command.ts` owns output buffering, timeouts,
   cancellation escalation, results, and process diagnostics. Headless SDK
   consumers use its direct process-group runner.
-- Interactive hosts provide `terminalCommandBroker` in `CodebuffClientOptions`
+- Interactive hosts provide `terminalCommandBroker` in `MethaTechClientOptions`
   (or directly to `runTerminalCommand`). Each call synchronously starts an
   isolated helper and returns a handle for its complete process tree. A startup
   failure prevents the shell from running; there is no direct-console fallback.

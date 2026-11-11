@@ -18,8 +18,8 @@
  * before the first `git` has answered, and caching the value would run the
  * command twice.
  */
-import { repoFullNameFromRemote } from '@codebuff/common/ads/sponsored-proposal-target'
-import type { SponsoredLocalTarget } from '@codebuff/common/ads/sponsored-capability'
+import { repoFullNameFromRemote } from '@methatech/common/ads/sponsored-proposal-target'
+import type { SponsoredLocalTarget } from '@methatech/common/ads/sponsored-capability'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 

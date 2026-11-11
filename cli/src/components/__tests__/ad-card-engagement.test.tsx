@@ -8,7 +8,7 @@ import { setAdEngagementRegistryForTests } from '../../ads/use-ad-engagement'
 import { initializeThemeStore } from '../../hooks/use-theme'
 import { AD_CARD_HEIGHT, AdCard } from '../ad-banner'
 
-import type { AdEngagement } from '@codebuff/common/types/ad-client-context'
+import type { AdEngagement } from '@methatech/common/types/ad-client-context'
 
 beforeAll(() => {
   initializeThemeStore()

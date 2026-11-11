@@ -13,7 +13,7 @@ import {
   PROJECT_IGNORE_FILES,
 } from './util/project-ignore'
 
-import type { CodebuffFileSystem } from './types/filesystem'
+import type { MethaTechFileSystem } from './types/filesystem'
 import type { DirectoryNode, FileTreeNode } from './util/file'
 import type { DirIgnore } from './util/project-ignore'
 
@@ -31,7 +31,7 @@ function logFileTreeError(
   error: unknown,
 ): void {
   // Only log in debug mode to avoid noisy output
-  if (!process.env.DEBUG && !process.env.CODEBUFF_DEBUG) {
+  if (!process.env.DEBUG && !process.env.METHATECH_DEBUG) {
     return
   }
 
@@ -89,7 +89,7 @@ export function isShallowScanRoot(
 export async function getProjectFileTree(params: {
   projectRoot: string
   maxFiles?: number
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   /**
    * Gitignore-style patterns skipped during the walk, on top of the defaults,
    * so what they hide is never counted against `maxFiles`.
@@ -203,7 +203,7 @@ export async function getProjectFileTree(params: {
 
 async function parseGitignoreWithMode(params: {
   fullDirPath: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   throwOnReadError: boolean
   explicitRead?: boolean
 }): Promise<ignore.Ignore> {
@@ -244,7 +244,7 @@ async function parseGitignoreWithMode(params: {
 
 export async function parseGitignore(params: {
   fullDirPath: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
 }): Promise<ignore.Ignore> {
   return parseGitignoreWithMode({ ...params, throwOnReadError: false })
 }
@@ -307,7 +307,7 @@ export function getLastReadFilePaths(
 export async function isFileIgnored(params: {
   filePath: string
   projectRoot: string
-  fs: CodebuffFileSystem
+  fs: MethaTechFileSystem
   /** Allow the env template past built-in rules while strictly applying project rules. */
   allowEnvTemplate?: boolean
   /** Explicit reads skip Git/discovery exclusions, but keep agent-owned ignore rules. */

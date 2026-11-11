@@ -1,11 +1,11 @@
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 import { describe, expect, test } from 'bun:test'
 
 import { truncateRunStateAtUserTurn } from '../compact-run-state'
 
 import type { RunState } from '../run-state'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const user = (text: string): Message => ({
   role: 'user',

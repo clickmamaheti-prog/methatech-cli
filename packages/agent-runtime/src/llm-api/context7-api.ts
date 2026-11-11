@@ -1,4 +1,4 @@
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 import { countTokens } from '../util/token-counter'
 
@@ -43,7 +43,7 @@ function getRequestHeaders(includeSource = false): Record<string, string> {
   const headers: Record<string, string> = {}
   const apiKey = process.env['CONTEXT7_API_KEY']
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`
-  if (includeSource) headers['X-Context7-Source'] = 'codebuff'
+  if (includeSource) headers['X-Context7-Source'] = 'methatech'
   return headers
 }
 

@@ -41,20 +41,20 @@ import { handleWebSearch } from './tool/web-search'
 import { handleWriteFile } from './tool/write-file'
 import { handleWriteTodos } from './tool/write-todos'
 
-import type { CodebuffToolHandlerFunction } from './handler-function-type'
-import type { ToolName } from '@codebuff/common/tools/constants'
+import type { MethaTechToolHandlerFunction } from './handler-function-type'
+import type { ToolName } from '@methatech/common/tools/constants'
 
 /**
  * Each value in this record that:
  * - Will be called immediately once it is parsed out of the stream.
  * - Takes as argument
  *   - The previous tool call (to await)
- *   - The CodebuffToolCall for the current tool
+ *   - The MethaTechToolCall for the current tool
  *   - Any additional arguments for the tool
  * - Returns a promise that will be awaited
  */
-export const codebuffToolHandlers: {
-  [K in ToolName]: CodebuffToolHandlerFunction<K>
+export const methatechToolHandlers: {
+  [K in ToolName]: MethaTechToolHandlerFunction<K>
 } = {
   add_message: handleAddMessage,
   add_subgoal: handleAddSubgoal,

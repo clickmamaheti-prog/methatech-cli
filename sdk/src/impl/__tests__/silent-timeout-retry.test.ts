@@ -7,11 +7,11 @@
  */
 import { afterEach, describe, expect, it } from 'bun:test'
 
-import { getAxiomOnlyLogEvent } from '@codebuff/common/util/axiom-only-log'
+import { getAxiomOnlyLogEvent } from '@methatech/common/util/axiom-only-log'
 
 import { promptAiSdkStream } from '../llm'
 
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
 
 const sse = (...events: unknown[]) =>
   events.map((event) => `data: ${JSON.stringify(event)}\n\n`).join('')

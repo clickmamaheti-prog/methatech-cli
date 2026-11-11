@@ -29,7 +29,7 @@
  * same histories and fails when they drift.
  */
 
-import { CONTEXT_COMPACTION_COMPLETED_EVENT } from '@codebuff/common/util/axiom-only-log'
+import { CONTEXT_COMPACTION_COMPLETED_EVENT } from '@methatech/common/util/axiom-only-log'
 import {
   WORKING_SET_SHARE,
   WORKING_SET_TOKEN_LIMIT,
@@ -42,12 +42,12 @@ import type {
   FilePart,
   ImagePart,
   TextPart,
-} from '@codebuff/common/types/messages/content-part'
+} from '@methatech/common/types/messages/content-part'
 import type {
   Message,
   ToolMessage,
-} from '@codebuff/common/types/messages/codebuff-message'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+} from '@methatech/common/types/messages/methatech-message'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 /** Agent IDs whose output should be excluded from spawn_agents results */
 const SPAWN_AGENTS_OUTPUT_BLACKLIST = [

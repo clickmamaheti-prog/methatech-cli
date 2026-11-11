@@ -1,12 +1,12 @@
-import { countTokensMessages } from '@codebuff/agent-runtime/util/token-counter'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+import { countTokensMessages } from '@methatech/agent-runtime/util/token-counter'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 import { describe, expect, test } from 'bun:test'
 
 import { buildCancelledSessionState } from '../run'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { SessionState } from '@codebuff/common/types/session-state'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { SessionState } from '@methatech/common/types/session-state'
 
 /**
  * The state a cancelled or errored turn persists is built HERE, after the

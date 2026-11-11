@@ -33,8 +33,7 @@ describe('retired free models', () => {
   test('the message names the model and how to update', () => {
     const message = freebuffRetiredModelMessage('minimax/minimax-m3')
     expect(message).toContain('MiniMax M3 is no longer available')
-    expect(message).toContain('npm install -g freebuff@latest')
-    expect(message).toContain('Freebuff Desktop')
+    expect(message).toContain('Update to the latest version to keep coding.')
   })
 })
 

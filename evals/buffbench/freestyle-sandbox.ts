@@ -2,9 +2,9 @@ import { execFileSync, spawnSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 
-import { API_KEY_ENV_VAR } from '@codebuff/common/old-constants'
-import { getErrorObject } from '@codebuff/common/util/error'
-import { getUserCredentials } from '@codebuff/sdk'
+import { API_KEY_ENV_VAR } from '@methatech/common/old-constants'
+import { getErrorObject } from '@methatech/common/util/error'
+import { getUserCredentials } from '@methatech/sdk'
 import { Freestyle } from 'freestyle'
 
 import type {
@@ -204,7 +204,7 @@ async function startTask(
       // --warning: macOS tar's extended headers are noise to GNU tar.
       // The install is retried: ~1 VM in 20 failed one registry tarball
       // ("Fail extracting tarball", 2026-10-12) and zeroed its task.
-      command: `tar --warning=no-unknown-keyword -xzf /tmp/buffbench.tgz -C ${VM_BENCH_DIR} && cd ${VM_BENCH_DIR} && for attempt in 1 2 3; do bun x bun@${PINNED_BUN} install --frozen-lockfile --filter @codebuff/evals && break; [ $attempt = 3 ] && exit 1; sleep 5; done`,
+      command: `tar --warning=no-unknown-keyword -xzf /tmp/buffbench.tgz -C ${VM_BENCH_DIR} && cd ${VM_BENCH_DIR} && for attempt in 1 2 3; do bun x bun@${PINNED_BUN} install --frozen-lockfile --filter @methatech/evals && break; [ $attempt = 3 ] && exit 1; sleep 5; done`,
       timeoutMs: 300_000,
     }),
   )

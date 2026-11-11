@@ -15,7 +15,7 @@
  * impression on insertion, billed click before opening its clickUrl. No fill
  * draws nothing. × stays local (this session only).
  */
-import { sponsorFor } from '@codebuff/common/ads/display-ads/sponsors'
+import { sponsorFor } from '@methatech/common/ads/display-ads/sponsors'
 
 import { Button } from './button'
 import {
@@ -39,7 +39,7 @@ import { useTheme } from '../hooks/use-theme'
 import { safeOpen } from '../utils/open-url'
 
 import type { CliSponsorColors } from '../ads/display-ads'
-import type { DisplaySponsor } from '@codebuff/common/ads/display-ads/served'
+import type { DisplaySponsor } from '@methatech/common/ads/display-ads/served'
 
 export const DEALS_HINT = '/deals'
 

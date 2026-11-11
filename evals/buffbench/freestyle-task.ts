@@ -1,8 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 
-import { API_KEY_ENV_VAR } from '@codebuff/common/old-constants'
-import { CodebuffClient, loadLocalAgents } from '@codebuff/sdk'
+import { API_KEY_ENV_VAR } from '@methatech/common/old-constants'
+import { CodebuffClient, loadLocalAgents } from '@methatech/sdk'
 
 import { logger } from '../logger'
 import { runAgentOnCommit } from './agent-runner'

@@ -14,11 +14,11 @@
  * very next turn.
  */
 import { createBase3CliRoot } from '../../../agents/base3'
-import { FREEBUFF_CLI_CATALOG_ROOT_AGENT_ID } from '@codebuff/common/constants/free-agents'
-import { compiledFreebuffModelIdOfRow } from '@codebuff/common/util/freebuff-catalog-compiled-model'
+import { FREEBUFF_CLI_CATALOG_ROOT_AGENT_ID } from '@methatech/common/constants/free-agents'
+import { compiledFreebuffModelIdOfRow } from '@methatech/common/util/freebuff-catalog-compiled-model'
 
-import type { FreebuffCatalogRow } from '@codebuff/common/types/freebuff-model-catalog'
-import type { AgentDefinition } from '@codebuff/sdk'
+import type { FreebuffCatalogRow } from '@methatech/common/types/freebuff-model-catalog'
+import type { AgentDefinition } from '@methatech/sdk'
 
 export function freebuffCatalogRootAgent(
   row: Pick<

@@ -13,7 +13,7 @@ describe('sponsoredClientVersionFromUserAgent', () => {
     expect(
       sponsoredClientVersionFromUserAgent('Freebuff-Desktop/0.0.151 (win32)'),
     ).toBe('desktop/0.0.151')
-    expect(sponsoredClientVersionFromUserAgent('Freebuff-CLI/1.0.700')).toBe(
+    expect(sponsoredClientVersionFromUserAgent('MethaTech-CLI/1.0.700')).toBe(
       'cli/1.0.700',
     )
   })
@@ -30,9 +30,9 @@ describe('sponsoredClientVersionFromUserAgent', () => {
       undefined,
       '',
       'Mozilla/5.0',
-      'Codebuff-CLI/1.0.0',
+      'OtherApp/1.0.0',
       'Freebuff-Desktop/',
-      `Freebuff-CLI/${'9'.repeat(40)}`,
+      `MethaTech-CLI/${'9'.repeat(40)}`,
       'Freebuff-Desktop/1.0;rm',
     ]) {
       expect(sponsoredClientVersionFromUserAgent(ua)).toBeNull()
@@ -41,7 +41,7 @@ describe('sponsoredClientVersionFromUserAgent', () => {
 
   test('every value it returns matches the stored pattern', () => {
     const value = sponsoredClientVersionFromUserAgent(
-      'Freebuff-CLI/1.2.3-beta+4',
+      'MethaTech-CLI/1.2.3-beta+4',
     )
     expect(value).toBe('cli/1.2.3-beta+4')
     expect(SPONSORED_CLIENT_VERSION_PATTERN.test(value!)).toBe(true)

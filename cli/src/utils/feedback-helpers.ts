@@ -4,12 +4,12 @@ import {
   MAX_ERRORS,
   MAX_RATED_MESSAGE_CHARS,
   MAX_RECENT_MESSAGES,
-} from '@codebuff/common/constants/feedback'
+} from '@methatech/common/constants/feedback'
 
 import type { ChatMessage } from '../types/chat'
-import type { FeedbackCategory } from '@codebuff/common/constants/feedback'
+import type { FeedbackCategory } from '@methatech/common/constants/feedback'
 
-import type { FeedbackRequest } from '@codebuff/common/schemas/feedback'
+import type { FeedbackRequest } from '@methatech/common/schemas/feedback'
 
 export type RecentMessageSummary = NonNullable<
   FeedbackRequest['recentMessages']

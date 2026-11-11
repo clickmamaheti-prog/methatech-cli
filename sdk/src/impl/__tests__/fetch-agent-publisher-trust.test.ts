@@ -1,7 +1,7 @@
 import {
   AGENT_TRUST_GATE_HEADER,
   AGENT_TRUST_GATE_HEADER_VALUE,
-} from '@codebuff/common/constants/agents'
+} from '@methatech/common/constants/agents'
 import { afterEach, describe, expect, mock, test } from 'bun:test'
 
 import {
@@ -13,7 +13,7 @@ import {
 import { getAgentRuntimeImpl } from '../agent-runtime'
 import { fetchAgentFromDatabase } from '../database'
 
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 /**
  * A registry template's handleSteps is a SOURCE STRING that the runtime evals
@@ -185,10 +185,10 @@ describe('fetchAgentFromDatabase publisher trust', () => {
       throw new Error('registry must not be reached')
     }) as unknown as typeof fetch
     for (const parsedAgentId of [
-      { publisherId: 'codebuff', agentId: 'x', version: '..\\..\\evil\\payload\\latest' },
-      { publisherId: 'codebuff', agentId: 'x', version: '../../evil/payload/latest' },
-      { publisherId: 'codebuff', agentId: 'x', version: '1.0.0?x=1' },
-      { publisherId: 'codebuff', agentId: '..', version: '1.0.0' },
+      { publisherId: 'methatech', agentId: 'x', version: '..\\..\\evil\\payload\\latest' },
+      { publisherId: 'methatech', agentId: 'x', version: '../../evil/payload/latest' },
+      { publisherId: 'methatech', agentId: 'x', version: '1.0.0?x=1' },
+      { publisherId: 'methatech', agentId: '..', version: '1.0.0' },
       { publisherId: '..\\evil', agentId: 'x', version: undefined },
     ]) {
       const template = await fetchAgentFromDatabase({
@@ -202,7 +202,7 @@ describe('fetchAgentFromDatabase publisher trust', () => {
     expect(fetched).toBe(0)
   })
 
-  test('trusted via CODEBUFF_TRUSTED_AGENT_PUBLISHERS (the real env read) loads', async () => {
+  test('trusted via METHATECH_TRUSTED_AGENT_PUBLISHERS (the real env read) loads', async () => {
     serveRegistry(
       '1.2.0',
       makeRegistryTemplate({ handleSteps: EXECUTABLE_HANDLE_STEPS }),
@@ -243,15 +243,15 @@ describe('fetchAgentFromDatabase publisher trust', () => {
     expect(template!.id).toBe('acme/deployer@1.2.0')
   })
 
-  test('the codebuff publisher is always trusted', async () => {
+  test('the methatech publisher is always trusted', async () => {
     serveRegistry(
       '1.2.0',
       makeRegistryTemplate({ handleSteps: EXECUTABLE_HANDLE_STEPS }),
     )
 
-    const template = await fetchAs('codebuff')
+    const template = await fetchAs('methatech')
     expect(template).not.toBeNull()
-    expect(template!.id).toBe('codebuff/deployer@1.2.0')
+    expect(template!.id).toBe('methatech/deployer@1.2.0')
   })
 
   test('publisher ids are matched exactly, not by case or substring', async () => {
@@ -314,7 +314,7 @@ describe('fetchAgentFromDatabase publisher trust', () => {
 
   test('disableAgentRegistry refuses every registry fetch, even a trusted publisher', async () => {
     // The embedded Freebuff Web runner bundles every agent it runs; a missing
-    // spawnable id must be "not found", never a fetch of codebuff/<id>@latest.
+    // spawnable id must be "not found", never a fetch of methatech/<id>@latest.
     let fetched = 0
     globalThis.fetch = (async () => {
       fetched++
@@ -336,7 +336,7 @@ describe('fetchAgentFromDatabase publisher trust', () => {
       sendAction: () => {},
       sendSubagentChunk: () => {},
     })
-    for (const publisherId of ['codebuff', 'acme']) {
+    for (const publisherId of ['methatech', 'acme']) {
       const template = await impl.fetchAgentFromDatabase({
         apiKey: 'k',
         parsedAgentId: { publisherId, agentId: 'deployer', version: undefined },
@@ -360,14 +360,14 @@ describe('trusted publisher list parsing', () => {
     ])
   })
 
-  test('resolveTrustedAgentPublishers is codebuff ∪ env ∪ option', () => {
-    expect([...resolveTrustedAgentPublishers({})]).toEqual(['codebuff'])
+  test('resolveTrustedAgentPublishers is methatech ∪ env ∪ option', () => {
+    expect([...resolveTrustedAgentPublishers({})]).toEqual(['methatech'])
     const resolved = resolveTrustedAgentPublishers({
       envValue: 'env-co, both',
       trustedAgentPublishers: ['opt-co', ' both ', ''],
     })
     expect([...resolved].sort()).toEqual(
-      ['both', 'codebuff', 'env-co', 'opt-co'].sort(),
+      ['both', 'methatech', 'env-co', 'opt-co'].sort(),
     )
   })
 })

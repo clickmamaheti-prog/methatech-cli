@@ -1,18 +1,18 @@
-import * as analytics from '@codebuff/common/analytics'
+import * as analytics from '@methatech/common/analytics'
 import {
   MAX_AGENT_STEP_ROWS,
   MAX_AGENT_STEPS_DEFAULT,
   MAX_SUBAGENT_STEPS_DEFAULT,
-} from '@codebuff/common/constants/agents'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { createTestAgentRuntimeParams } from '@codebuff/common/testing/fixtures/agent-runtime'
+} from '@methatech/common/constants/agents'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { createTestAgentRuntimeParams } from '@methatech/common/testing/fixtures/agent-runtime'
 import {
   createMockDbOperations,
   setupDbSpies,
-} from '@codebuff/common/testing/mocks/database'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
-import { userMessage } from '@codebuff/common/util/messages'
+} from '@methatech/common/testing/mocks/database'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
+import { userMessage } from '@methatech/common/util/messages'
 import {
   afterEach,
   beforeEach,
@@ -32,9 +32,9 @@ import {
 import { createToolCallChunk, mockFileContext } from './test-utils'
 
 import type { AgentTemplate } from '../templates/types'
-import type { DbSpies } from '@codebuff/common/testing/mocks/database'
-import type { StepGenerator } from '@codebuff/common/types/agent-template'
-import type { AgentState } from '@codebuff/common/types/session-state'
+import type { DbSpies } from '@methatech/common/testing/mocks/database'
+import type { StepGenerator } from '@methatech/common/types/agent-template'
+import type { AgentState } from '@methatech/common/types/session-state'
 
 const OLD_CEILING = 200
 const CEILING_MESSAGE = "I've made quite a few responses in a row."

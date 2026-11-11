@@ -39,7 +39,7 @@ same way upstream does it — env vars in the build config, never hardcoded:
 
 - `.github/workflows/ci.yml` (job-level `env:`):
   - `NEXT_PUBLIC_CB_ENVIRONMENT: prod`
-  - `NEXT_PUBLIC_CODEBUFF_APP_URL: https://console.methatech.eu.org` (was `https://codebuff.com`)
+  - `NEXT_PUBLIC_METHATECH_APP_URL: https://console.methatech.eu.org` (was `https://console.methatech.eu.org`)
   - `NEXT_PUBLIC_FREEBUFF_APP_URL: https://methatech.eu.org` (added; was unset)
   - `NEXT_PUBLIC_SUPPORT_EMAIL: admin@methatech.eu.org` (decided by Reza
     2026-11-10 22:39 WIB, applied to `ci.yml` by Vector; the binary rebuilt
@@ -80,7 +80,14 @@ methatech.eu.org fails (the CLI will show the panel's 404). Nothing in this
 fork can work around that; do not "fix" it by pointing the CLI back at
 freebuff.com.
 
-### Models via BYOK (MethaTech provider)
+### Models via BYOK (MethaTech provider) — now the ALTERNATIVE, not the main path
+
+> Since 2026-11-11 (Reza's binding order, "alurnya ke freebuff"): the
+> primary path for panel models is the **panel session** (§9 below) — a
+> logged-in user runs the panel's models with the login token, no BYOK
+> connection, no exported key. This BYOK connection is the fallback /
+> alternative, used only when there is no login credential. Everything
+> below still works as documented; its role changed, not its mechanics.
 
 No new provider type, no schema change, no duplicate subsystem. A MethaTech
 connection is a plain `openai-compatible` BYOK connection fixed to the panel
@@ -163,8 +170,8 @@ Proven pre-existing by running the same tests on the pristine snapshot
   `xcode-select` paths). Linux-irrelevant.
 - **agents suite: 6 fail — live e2e tests need a real API key**
   (`e2e/context-pruner.e2e.test.ts` 2, `e2e/editor-best-of-n.e2e.test.ts` 1,
-  `e2e/file-explorer.e2e.test.ts` 3): they construct a `CodebuffClient`
-  without a key and throw "Codebuff API key not found". Not runnable offline.
+  `e2e/file-explorer.e2e.test.ts` 3): they construct a `MethaTechClient`
+  without a key and throw "MethaTech API key not found". Not runnable offline.
   Note: the agents e2e files also refuse to LOAD without the full
   `NEXT_PUBLIC_*` test env (the zod env schema in `common/src/env-schema.ts`
   requires all of them); with the full env, 313 pass / 3 skip / 6 fail. The
@@ -255,9 +262,9 @@ Proven pre-existing by running the same tests on the pristine snapshot
   fetch it cannot stop DNS rebinding — the fetch happens provider-side.
 - Fetch fix that makes these tools work at all in BYOK runs: the handlers
   pass `globalThis.fetch`, NOT the runtime-injected `fetch`. The injected
-  fetch is the Codebuff hosted-services fetch, stubbed to throw in BYOK
+  fetch is the MethaTech hosted-services fetch, stubbed to throw in BYOK
   runs (`sdk/src/impl/agent-runtime.ts:171-177`). Exa/Firecrawl are
-  third-party APIs paid with the user's own keys, not Codebuff hosted
+  third-party APIs paid with the user's own keys, not MethaTech hosted
   services — same precedent as the direct provider fetch in
   `sdk/src/impl/model-provider.ts`, `sdk/src/tools/read-url.ts`, and
   `sdk/src/byok.ts`.
@@ -282,3 +289,187 @@ Proven pre-existing by running the same tests on the pristine snapshot
   explicitly ordered); Firecrawl v2 `POST /scrape`, `POST /crawl`,
   `GET /crawl/{id}` at `https://api.firecrawl.dev/v2` (header
   `Authorization: Bearer`).
+
+## 9. Panel session as the primary path + web-intelligence via the panel (2026-11-11)
+
+Reza's binding order: the fork follows the original Freebuff flow — user
+logs in, models are directly available through that account, no BYOK setup,
+no exported key. BYOK is only the alternative for outside providers.
+Reference: the original Freebuff source (`~/workspace/freebuff-source/`,
+never the old CLI), `sdk/src/impl/model-provider.ts:584-600` (non-BYOK
+models go to the backend's OpenAI-compatible endpoint with the session
+apiKey) and `cli/src/hooks/use-send-message.ts:336-351` (a selected BYOK
+runs directly; otherwise admission) + `cli/src/state/freebuff-chat-store.ts:73-81`
+(admission = local session-store check). The panel is the backend here.
+
+### Model routing (fork)
+
+- `sdk/src/impl/model-provider.ts` — new MethaTech session branch before
+  the inherited MethaTech branch: when `isMethatechModelId(model)`, the
+  request goes to the panel relay at `getWebsiteUrl() + /v1/chat/completions`
+  with `Authorization: Bearer ${apiKey}` where `apiKey` is the login token
+  (`cli/src/utils/methatech-client.ts` already resolves the login token
+  first). Same host as the login (build-time `NEXT_PUBLIC_METHATECH_APP_URL`),
+  same pattern as Freebuff's own `getWebsiteUrl() + /api/v1` — the panel
+  binary serves `/v1` on the console host too (verified live 2026-11-11:
+  `POST /v1/chat/completions` without a token answers 401 on BOTH
+  `console.methatech.eu.org` and `api.methatech.eu.org`, i.e. the route
+  exists on both). The panel authorizes the model against the logged-in
+  account (catalog + quota of that account, including the free models
+  from registration). The inherited MethaTech branch is untouched for
+  non-MethaTech models. Earlier the branch pointed at the hardcoded
+  `METHATECH_BYOK_BASE_URL` (`https://api.methatech.eu.org/v1`); that
+  was wrong for test panels and is now gone from this file.
+- `cli/src/utils/methatech-model-directory.ts` — `row()` is implemented
+  (`methatechCatalogRow`): a panel model yields a `FreebuffCatalogRow`
+  whose `key` and `handle` are the plain panel model id (the panel relay
+  resolves the plain id; there is no opaque server handle), `access:
+  'open'` (the panel enforces balance server-side with 402; the fork
+  never locks a row locally), `dataUse: 'service'`, `compaction`
+  undefined (base3 falls back to `compactionPolicyForModel(handle)`),
+  `legacyDigests: []`. This is the fix for the PTY blocker of 2026-11-11
+  14:23 UTC: with `row: () => undefined`, `selectedFreebuffCatalogRoot()`
+  never built a catalog root, so every turn ran plain base3 whose model
+  defaults to `OPUS_MODEL` (`anthropic/claude-opus-5`,
+  `agents/base3.ts:285`) — `isMethatechModelId` was false, the inherited
+  MethaTech branch ran, and the panel 404'd `POST /api/v1/chat/completions`
+  ("Invalid URL (POST /api/v1/chat/completions)"). With the row, the
+  turn runs the ONE catalog root (`base3-free-catalog`) built from the
+  row, model = the user's pick — the Freebuff catalog flow. (BYOK runs
+  never hit this: `sdk/src/run.ts:783-798` applies the BYOK model to
+  every template, masking the default.)
+- `cli/src/hooks/use-send-message.ts` — when the selected model is a panel
+  model AND `getUserCredentials()?.authToken` exists, the send takes the
+  session path: no `ensureMethatechByokConnection` call, and the Freebuff
+  admission gate is skipped for the session path (admission is for the
+  MethaTech backend, which is not the panel). When there is NO login
+  credential, the old behaviour stands: `ensureMethatechByokConnection`
+  (env key `METHATECH_API_KEY`) as the alternative; if that also fails,
+  the send falls through to the admission path, which prompts login.
+- `cli/src/utils/byok.ts` — `ensureMethatechByokConnection` doc updated:
+  fallback/alternative now. Users who already have a `methatech` BYOK
+  connection keep it working: when logged in, the session path takes
+  precedence (models follow the login account — if the env key belonged
+  to a different account, the login account wins); when logged out, the
+  BYOK connection runs as before. No migration needed.
+- Priority order: (a) panel session (login token → panel relay +
+  panel web-intelligence proxy); (b) BYOK provider of the user's choice
+  (OpenRouter, Ollama, UncensoredLLMs, ...) + direct env keys, only when
+  the user selects it or is not logged in.
+
+### Web-intelligence via the panel (fork + panel)
+
+- Panel (repo `done-hub`, uncommitted, NOT deployed): new endpoints under
+  `router/api-router.go`, `POST /api/v1/web-intelligence/exa/search`,
+  `POST /exa/find-similar`, `POST /firecrawl/scrape`, `POST /firecrawl/crawl`,
+  `GET /firecrawl/crawl/:id` — all behind `middleware.OpenaiAuth()`
+  (same auth as `/api/v1/me`), flat JSON responses (same rule as
+  `CliAuthCode`/`CliMe`). Handlers in `controller/web_intelligence.go`
+  forward the request body to Exa/Firecrawl as-is and return the upstream
+  status + JSON as-is. Server keys from env only
+  (`common/config/web_intelligence_env.go`: `EXA_API_KEY`,
+  `FIRECRAWL_API_KEY`; base-URL overrides `EXA_API_BASE_URL` /
+  `FIRECRAWL_API_BASE_URL` for tests), never hardcoded, never in git.
+  Request body capped at 64 KiB, upstream response at 1 MiB, 30 s timeout;
+  `http` upstream only allowed for loopback (tests).
+- Fork transport (`packages/agent-runtime/src/llm-api/web-intelligence-api.ts`):
+  panel proxy FIRST when the handler passes a login token (`apiKey`) and
+  the panel base URL comes from `clientEnv.NEXT_PUBLIC_METHATECH_APP_URL`
+  (same precedent as `llm-api/methatech-web-api.ts`) — `POST
+  {panel}/api/v1/web-intelligence/<op>` with `Bearer <login token>`, same
+  JSON body as the direct call, same formatters on the proxied JSON.
+  Fallback to the direct env-key call ONLY on: no login token, no panel
+  base URL, panel unreachable (network error), 404 (panel too old),
+  502, 503 (proxy not configured on the panel). A real panel failure is
+  surfaced, never silently worked around: 401/403 (bad token), 400, 402
+  (upstream quota), 429. Handlers (`exa-search`, `exa-find-similar`,
+  `firecrawl-scrape`, `firecrawl-crawl`, `firecrawl-check-crawl-status`)
+  now declare optional `apiKey` + `clientEnv` params (provided by the
+  executor, same as `handleWebSearch`) and pass them through.
+- Tests: `controller/web_intelligence_test.go` in the panel (7 tests, all
+  pass: proxy forwards key + body, 503 without a key, 400 empty/bad JSON,
+  GET crawl status, non-loopback http rejected, upstream error status
+  passed through). Fork: 6 new tests in
+  `packages/agent-runtime/src/tools/handlers/tool/__tests__/web-intelligence.test.ts`
+  (panel proxy used with the login token, 404 fallback to direct, 401
+  surfaced without fallback, scrape + crawl-status via panel, panel
+  skipped without a token) — suite 21/21 pass. Typecheck clean in
+  `sdk/`, `packages/agent-runtime/`, `cli/`.
+- Two more backend-surface gaps found by the PTY run (2026-11-11) and
+  fixed in source, not worked around:
+  - Agent validation: `cli/src/hooks/use-agent-validation.ts`
+    (`shouldValidateAgentsRemotely`) sends `POST
+    {websiteUrl}/api/agents/validate` whenever no BYOK connection is
+    selected — the panel has no such endpoint, so the send was blocked
+    with "agent validation failed ... (HTTP 404)". Fix in the fork:
+    `hasMethatechSession()` — on the panel session path the CLI validates
+    agent definitions LOCALLY (the SDK's built-in Zod validation, which
+    still runs and can still fail the send), the same rationale as BYOK
+    ("BYOK runs validate local agent definitions without sending them to
+    Freebuff"). The panel deliberately does NOT implement
+    `/api/agents/validate`: it holds no spawnable-agent database, and a
+    stub returning empty errors would claim a validation it does not
+    perform. Tests: 2 new cases in
+    `cli/src/hooks/__tests__/use-agent-validation.test.ts` (session →
+    local, no hosted request; panel model without login → remote).
+  - Health check: `sdk/src/client.ts` `checkConnection()` probes GET
+    `/api/healthz` expecting 200 + `{"status": "ok"}`; the panel 404'd
+    it, so the TUI showed a permanent "Can't reach MethaTech's servers"
+    warning on the session path (display-only, never blocked a send).
+    Fix in the panel: `router/api-router.go` registers `GET /api/healthz`
+    on the existing `controller.Health` handler (which already returns
+    exactly `{"status": "ok"}`), next to the existing `/health` route.
+    NOT implemented on the panel (and not needed for a send): the
+    MethaTech-only `/api/v1/freebuff/session`, `/api/v1/freebuff/models`,
+    `/api/v1/freebuff/streak`, `/api/v1/ads/policy`, `/api/ads`,
+    `/api/logs` — the CLI calls them best-effort and continues on 404.
+    If the panel ever needs them, that is separate work, not a stub.
+  - Agent runs: `sdk/src/impl/database.ts` `startAgentRun` POSTs
+    `/api/v1/agent-runs` (`{action: "START"}`) and throws "Failed to
+    start agent run" when the response carries no `runId` — the panel had
+    no such route, so the first successful send died there (PTY 2026-11-11
+    14:20 UTC). Fix in the panel: `controller/agent_runs.go`, `POST
+    /api/v1/agent-runs` behind `middleware.OpenaiAuth()`, flat JSON.
+    START creates an in-memory run (capped at 10,000, oldest evicted)
+    and returns `{"runId": "run_<12 random bytes hex>"}`; FINISH closes
+    it with status/steps/credits; FINISH of an unknown run (e.g. after a
+    panel restart) still returns 200. No database table, no invented
+    billing. Tests: `controller/agent_runs_test.go`, 4 tests, all pass.
+  - Catalog root (the 14:23 UTC blocker, fixed in the fork, see above):
+    `row()` was `() => undefined`, so turns ran plain base3 with
+    `OPUS_MODEL` and the inherited MethaTech branch 404'd on the panel.
+    Fixed by `methatechCatalogRow` in
+    `cli/src/utils/methatech-model-directory.ts`.
+- PTY proof (2026-11-11 ~14:37–14:39 UTC, test panel :3033 + fake
+  upstream :8898, CLI env clean, NO env key exported, NO BYOK setup):
+  login persisted from the device-code approval; `halo` → mock reply
+  "Halo! Ada yang bisa saya bantu hari ini?" via the panel relay
+  (`POST /v1/chat/completions` 200, user-agent
+  `ai-sdk/openai-compatible/0.0.0-test/methatech`, token "MethaTech
+  CLI", model `deepseek-v4-flash`); `exa_search` → TUI shows
+  "▸ Exa Search", panel `POST /api/v1/web-intelligence/exa/search` 200
+  (token "MethaTech CLI"), fake upstream `POST /search` with the SERVER
+  key; `firecrawl_scrape` → TUI shows "▸ Firecrawl Scrape", panel
+  `POST /api/v1/web-intelligence/firecrawl/scrape` 200, fake upstream
+  `FIRECRAWL-SCRAPE`. Screenshots (checked by eye, mobile 80x24 +
+  desktop 160x40): `~/workspace/your_files/fork-screenshots/session-webintel-mobile.png`,
+  `session-webintel-desktop.png`. Note: the mock's final answers repeat
+  its SHORT fallback text because its parser does not recognize the CLI's
+  tool-result message format — a test-harness artifact, not a product
+  defect; the tool executions are proven by the panel + upstream logs.
+  New tests: `sdk/src/impl/__tests__/methatech-session-model.test.ts`
+  (2: panel model → relay URL on the login host with the login token;
+  non-panel model → MethaTech branch) and
+  `cli/src/utils/__tests__/methatech-model-directory.test.ts` (3: row
+  handle = panel id, paid row premium, non-panel row undefined).
+  Final runs: Go controller `TestAgentRuns|TestWebIntel` 11/11 pass,
+  `go vet` clean; SDK byok/session suites 58/58; CLI
+  use-send-message + use-agent-validation + methatech-byok +
+  methatech-model-directory 24/24; agent-runtime web-intelligence 21/21;
+  tsc `--noEmit` clean in `sdk/`, `packages/agent-runtime/`, `cli/`.
+- OPEN (not invented, not built): the panel has NO per-user quota/billing
+  for these calls — `GlobalAPIRateLimit` (per IP) is the only throttle, so
+  every authenticated user draws on the same server keys and one heavy
+  user can burn the Exa/Firecrawl balance for everyone. Add a per-user
+  cap before exposing this to untrusted users. Panel deploy + putting the
+  real keys into the panel env still need Reza's explicit order.

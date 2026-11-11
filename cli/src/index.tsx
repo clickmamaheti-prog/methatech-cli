@@ -11,9 +11,9 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
-import { getProjectFileTree } from '@codebuff/common/project-file-tree'
-import { getDefaultAgentDirs, getWebsiteUrl } from '@codebuff/sdk'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
+import { getProjectFileTree } from '@methatech/common/project-file-tree'
+import { getDefaultAgentDirs, getWebsiteUrl } from '@methatech/sdk'
 import {
   createCliRenderer,
   resolveRenderLib,
@@ -48,8 +48,8 @@ import {
   getAuthTokenDetails,
   loadStoredAuthToken,
 } from './utils/auth'
-import { resetCodebuffClient } from './utils/codebuff-client'
-import { setApiClientAuthToken } from './utils/codebuff-api'
+import { resetMethaTechClient } from './utils/methatech-client'
+import { setApiClientAuthToken } from './utils/methatech-api'
 import { IS_FREEBUFF } from './utils/constants'
 import {
   describeForeignPreload,
@@ -96,7 +96,7 @@ import {
 import { applyOscDetectedTheme } from './utils/theme-system'
 
 import type { CliEnv } from './types/env'
-import type { FileTreeNode } from '@codebuff/common/util/file'
+import type { FileTreeNode } from '@methatech/common/util/file'
 
 // Configure TanStack Query's focusManager for terminal environments
 // This is required because there's no browser visibility API in terminal apps
@@ -174,11 +174,11 @@ async function main(): Promise<void> {
   // still ran first and rejected the unknown flag).
   if (process.argv.includes('--smoke-tree-sitter')) {
     const wasmBinary = (
-      globalThis as { __CODEBUFF_TREE_SITTER_WASM_BINARY__?: Uint8Array }
-    ).__CODEBUFF_TREE_SITTER_WASM_BINARY__
+      globalThis as { __METHATECH_TREE_SITTER_WASM_BINARY__?: Uint8Array }
+    ).__METHATECH_TREE_SITTER_WASM_BINARY__
     const wasmPath = (
-      globalThis as { __CODEBUFF_TREE_SITTER_WASM_PATH__?: string }
-    ).__CODEBUFF_TREE_SITTER_WASM_PATH__
+      globalThis as { __METHATECH_TREE_SITTER_WASM_PATH__?: string }
+    ).__METHATECH_TREE_SITTER_WASM_PATH__
 
     // Diagnostic dump so CI logs (and bug reports) show exactly what
     // the runtime saw when smoke fails. process.execPath, the
@@ -291,11 +291,11 @@ async function main(): Promise<void> {
     process.exit(
       await runDoctorCommand({
         argv: process.argv,
-        packageName: IS_FREEBUFF ? 'methatech' : 'codebuff',
+        packageName: IS_FREEBUFF ? 'methatech' : 'methatech',
         version: loadPackageVersion(),
         configDir: getConfigDir(),
         apiUrl: getWebsiteUrl(),
-        launcherVersion: getCliEnv().CODEBUFF_LAUNCHER_VERSION?.slice(0, 32) ?? null,
+        launcherVersion: getCliEnv().METHATECH_LAUNCHER_VERSION?.slice(0, 32) ?? null,
       }),
     )
   }
@@ -449,7 +449,7 @@ async function main(): Promise<void> {
     // update themselves, and only newer ones adopt an update the terminal
     // closed on, so this splits "pinned build" by install path.
     launcherVersion:
-      getCliEnv().CODEBUFF_LAUNCHER_VERSION?.slice(0, 32) ?? null,
+      getCliEnv().METHATECH_LAUNCHER_VERSION?.slice(0, 32) ?? null,
   })
   // The previous launch died on a fatal error and could only leave a local
   // report on its way out; ship it now (fatal-crash-report.ts).
@@ -481,7 +481,7 @@ async function main(): Promise<void> {
       homeAgentsDir: path.join(os.homedir(), '.agents'),
       interactive: Boolean(process.stdin.isTTY && process.stdout.isTTY),
       trustAll:
-        trustAgents || isTruthyOptIn(getCliEnv().CODEBUFF_TRUST_AGENT_DIRS),
+        trustAgents || isTruthyOptIn(getCliEnv().METHATECH_TRUST_AGENT_DIRS),
       storePath: getTrustStorePath(),
       prompt: promptForAgentDirTrust,
       notify: (message) => {
@@ -597,7 +597,7 @@ async function main(): Promise<void> {
         // Update the project root in the module state
         setProjectRoot(newProjectPath)
         // Reset client to ensure tools use the updated project root
-        resetCodebuffClient()
+        resetMethaTechClient()
         // Save to recent projects list
         saveRecentProject(newProjectPath)
         // Update local state

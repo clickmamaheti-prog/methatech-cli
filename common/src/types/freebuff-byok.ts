@@ -60,7 +60,7 @@ export function byokConnectionLabel(name: string) {
 export const ACCOUNT_BYOK_MAX_CONNECTIONS = 20
 
 /** Browser writes carry this header, which a cross-site form cannot send. */
-export const ACCOUNT_BYOK_REQUEST_HEADER = 'x-freebuff-byok'
+export const ACCOUNT_BYOK_REQUEST_HEADER = 'x-methatech-byok'
 
 export interface AccountByokConnection {
   id: string

@@ -6,7 +6,7 @@ import {
   MCP_CONFIG_FILE_NAME,
   listLocalAgentFiles,
   mcpFileSchema,
-} from '@codebuff/sdk'
+} from '@methatech/sdk'
 import { bold, cyan, yellow } from 'picocolors'
 
 import { getConfigDir } from './config-dir'
@@ -27,11 +27,11 @@ import { IS_FREEBUFF } from './constants'
  * Trust is recorded per absolute directory path in
  * `<configDir>/trusted-agent-dirs.json` (mode 0600). Non-interactive runs
  * never prompt: they skip the directory and say so, unless the operator
- * opted in with `CODEBUFF_TRUST_AGENT_DIRS=1` or `--trust-agents`.
+ * opted in with `METHATECH_TRUST_AGENT_DIRS=1` or `--trust-agents`.
  */
 
 export const TRUST_STORE_FILE_NAME = 'trusted-agent-dirs.json'
-export const TRUST_AGENT_DIRS_ENV_VAR = 'CODEBUFF_TRUST_AGENT_DIRS'
+export const TRUST_AGENT_DIRS_ENV_VAR = 'METHATECH_TRUST_AGENT_DIRS'
 export const TRUST_AGENTS_FLAG = '--trust-agents'
 
 const MAX_LISTED_AGENT_FILES = 10
@@ -190,7 +190,7 @@ export const inspectAgentDir = (dir: string): AgentDirInventory => {
 // Prompt text
 // ============================================================================
 
-const cliName = (): string => (IS_FREEBUFF ? 'methatech' : 'codebuff')
+const cliName = (): string => (IS_FREEBUFF ? 'methatech' : 'methatech')
 
 export const formatTrustPrompt = (inventory: AgentDirInventory): string => {
   const lines: string[] = []

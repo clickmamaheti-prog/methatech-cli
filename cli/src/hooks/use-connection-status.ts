@@ -9,7 +9,7 @@ import {
 export { getNextInterval } from '../utils/connection-monitor'
 
 /**
- * Hook to monitor connection status to the Codebuff backend.
+ * Hook to monitor connection status to the MethaTech backend.
  *
  * The health-check loop itself lives in `connection-monitor.ts` as a single process-wide
  * singleton: it starts on the first subscriber and owns its own adaptive-backoff timer,
@@ -44,7 +44,7 @@ export const useConnectionStatus = (
 
   useEffect(() => {
     // A BYOK run talks directly to its selected provider. Do not probe the
-    // Codebuff backend just to paint a connection badge.
+    // MethaTech backend just to paint a connection badge.
     if (hasSelectedByokConnection) {
       setIsConnected(true)
       previousConnectedRef.current = true

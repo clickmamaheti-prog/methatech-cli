@@ -45,16 +45,16 @@ const sha256 = (data: Buffer | string) =>
 describe('download origin', () => {
   const { resolveDownloadOrigin, DEFAULT_DOWNLOAD_ORIGIN } = launcherModule
 
-  test('defaults to codebuff.com over https', () => {
-    expect(DEFAULT_DOWNLOAD_ORIGIN).toBe('https://codebuff.com')
+  test('defaults to console.methatech.eu.org over https', () => {
+    expect(DEFAULT_DOWNLOAD_ORIGIN).toBe('https://console.methatech.eu.org')
     expect(resolveDownloadOrigin(undefined)).toBe(DEFAULT_DOWNLOAD_ORIGIN)
     expect(resolveDownloadOrigin('')).toBe(DEFAULT_DOWNLOAD_ORIGIN)
     expect(resolveDownloadOrigin('   ')).toBe(DEFAULT_DOWNLOAD_ORIGIN)
   })
 
   test('honours an https override to a release host, without a trailing slash', () => {
-    expect(resolveDownloadOrigin('https://staging.codebuff.com/')).toBe(
-      'https://staging.codebuff.com',
+    expect(resolveDownloadOrigin('https://staging.console.methatech.eu.org/')).toBe(
+      'https://staging.console.methatech.eu.org',
     )
     expect(resolveDownloadOrigin('https://www.freebuff.com')).toBe(
       'https://www.freebuff.com',
@@ -70,17 +70,17 @@ describe('download origin', () => {
     for (const origin of [
       'https://example.internal:8443',
       'https://evil.example.com',
-      'https://codebuff.com.evil.example',
-      'https://evilcodebuff.com',
-      'https://user:secret@codebuff.com',
-      'https://codebuff.com/?x=1',
+      'https://console.methatech.eu.org.evil.example',
+      'https://evilconsole.methatech.eu.org',
+      'https://user:secret@console.methatech.eu.org',
+      'https://console.methatech.eu.org/?x=1',
     ]) {
       expect(resolveDownloadOrigin(origin, { warn })).toBe(
         DEFAULT_DOWNLOAD_ORIGIN,
       )
     }
     expect(warnings).toHaveLength(6)
-    expect(warnings[0]).toContain('codebuff.com or freebuff.com')
+    expect(warnings[0]).toContain('console.methatech.eu.org or freebuff.com')
     // The rejected value is echoed as protocol//host only.
     expect(warnings.join('\n')).not.toContain('secret')
   })
@@ -100,7 +100,7 @@ describe('download origin', () => {
     const warnings: string[] = []
     const warn = (message: string) => warnings.push(message)
 
-    expect(resolveDownloadOrigin('http://codebuff.com', { warn })).toBe(
+    expect(resolveDownloadOrigin('http://console.methatech.eu.org', { warn })).toBe(
       DEFAULT_DOWNLOAD_ORIGIN,
     )
     expect(
@@ -110,7 +110,7 @@ describe('download origin', () => {
     expect(
       resolveDownloadOrigin('http://127.0.0.1.evil.example', { warn }),
     ).toBe(DEFAULT_DOWNLOAD_ORIGIN)
-    expect(resolveDownloadOrigin('ftp://codebuff.com', { warn })).toBe(
+    expect(resolveDownloadOrigin('ftp://console.methatech.eu.org', { warn })).toBe(
       DEFAULT_DOWNLOAD_ORIGIN,
     )
     expect(resolveDownloadOrigin('not a url', { warn })).toBe(
@@ -118,23 +118,23 @@ describe('download origin', () => {
     )
 
     expect(warnings).toHaveLength(5)
-    expect(warnings[0]).toContain('http://codebuff.com')
+    expect(warnings[0]).toContain('http://console.methatech.eu.org')
     expect(warnings[0]).toContain('must use https')
   })
 })
 
 describe('redirect policy', () => {
-  const start = 'https://codebuff.com/api/releases/download/1.0.0/x.tar.gz'
+  const start = 'https://console.methatech.eu.org/api/releases/download/1.0.0/x.tar.gz'
 
   test('follows the chain the release route actually produces', () => {
     const hop1 = evaluateRedirect(
       start,
-      'https://github.com/CodebuffAI/codebuff-community/releases/download/v1.0.0/x.tar.gz',
+      'https://github.com/MethaTechAI/methatech-community/releases/download/v1.0.0/x.tar.gz',
       { originalUrl: start },
     )
     expect(hop1).toEqual({
       ok: true,
-      url: 'https://github.com/CodebuffAI/codebuff-community/releases/download/v1.0.0/x.tar.gz',
+      url: 'https://github.com/MethaTechAI/methatech-community/releases/download/v1.0.0/x.tar.gz',
     })
 
     const hop2 = evaluateRedirect(
@@ -156,8 +156,8 @@ describe('redirect policy', () => {
     for (const host of [
       'freebuff.com',
       'www.freebuff.com',
-      'www.codebuff.com',
-      'CODEBUFF.COM',
+      'console.methatech.eu.org',
+      'METHATECH.EU.ORG',
     ]) {
       expect(evaluateRedirect(start, `https://${host}/asset`).ok).toBe(true)
     }
@@ -173,10 +173,10 @@ describe('redirect policy', () => {
   })
 
   test('refuses an https to http downgrade even to an allowed host', () => {
-    const result = evaluateRedirect(start, 'http://codebuff.com/asset')
+    const result = evaluateRedirect(start, 'http://console.methatech.eu.org/asset')
     expect(result.ok).toBe(false)
     expect(result.reason).toContain('insecure http')
-    expect(result.reason).toContain('codebuff.com')
+    expect(result.reason).toContain('console.methatech.eu.org')
 
     // The original host is not a loophole for the downgrade rule either.
     const original = 'https://releases.example.com/x'
@@ -190,7 +190,7 @@ describe('redirect policy', () => {
   test('refuses any host outside the allowlist and names it', () => {
     for (const location of [
       'https://evil.example.com/asset',
-      'https://codebuff.com.evil.example/asset',
+      'https://console.methatech.eu.org.evil.example/asset',
       'https://githubusercontent.com.evil.example/asset',
       'https://notgithubusercontent.com/asset',
       'https://github.com.evil/asset',
@@ -212,7 +212,7 @@ describe('redirect policy', () => {
   })
 
   test('refuses non-http protocols and unparsable locations', () => {
-    expect(evaluateRedirect(start, 'ftp://codebuff.com/x').ok).toBe(false)
+    expect(evaluateRedirect(start, 'ftp://console.methatech.eu.org/x').ok).toBe(false)
     expect(evaluateRedirect(start, 'file:///etc/passwd').ok).toBe(false)
     expect(evaluateRedirect(start, 'http://').ok).toBe(false)
   })
@@ -266,18 +266,18 @@ describe('httpGet enforces the redirect policy on the wire', () => {
     return { client, requested }
   }
 
-  test('follows codebuff.com -> github.com -> githubusercontent.com', async () => {
+  test('follows console.methatech.eu.org -> github.com -> githubusercontent.com', async () => {
     const { client, requested } = clientWithRedirects([
       [302, 'https://github.com/o/r/releases/download/v1/x.tar.gz'],
       [302, 'https://objects.githubusercontent.com/asset?sig=1'],
     ])
     const response = await client.httpGet(
-      'https://codebuff.com/api/releases/download/1/x.tar.gz',
+      'https://console.methatech.eu.org/api/releases/download/1/x.tar.gz',
     )
     response.resume()
     expect(response.statusCode).toBe(200)
     expect(requested).toEqual([
-      'codebuff.com/api/releases/download/1/x.tar.gz',
+      'console.methatech.eu.org/api/releases/download/1/x.tar.gz',
       'github.com/o/r/releases/download/v1/x.tar.gz',
       'objects.githubusercontent.com/asset?sig=1',
     ])
@@ -285,10 +285,10 @@ describe('httpGet enforces the redirect policy on the wire', () => {
 
   test('stops at a downgrade and does not contact the http host', async () => {
     const { client, requested } = clientWithRedirects([
-      [302, 'http://codebuff.com/asset'],
+      [302, 'http://console.methatech.eu.org/asset'],
     ])
     await expect(
-      client.httpGet('https://codebuff.com/api/releases/download/1/x.tar.gz'),
+      client.httpGet('https://console.methatech.eu.org/api/releases/download/1/x.tar.gz'),
     ).rejects.toMatchObject({
       code: 'EREDIRECT_REFUSED',
       retryable: false,
@@ -302,7 +302,7 @@ describe('httpGet enforces the redirect policy on the wire', () => {
       [307, 'https://evil.example.com/x.tar.gz'],
     ])
     await expect(
-      client.httpGet('https://codebuff.com/api/releases/download/1/x.tar.gz'),
+      client.httpGet('https://console.methatech.eu.org/api/releases/download/1/x.tar.gz'),
     ).rejects.toThrow('evil.example.com')
     expect(requested).toHaveLength(2)
   })
@@ -448,23 +448,23 @@ describe('write-binary-checksums.js (release side)', () => {
   })
 
   test('write stamps the map and verify accepts it; verify rejects a gap', () => {
-    const { root, digests } = fixtureBinaries('codebuff', TARGET_KEYS)
+    const { root, digests } = fixtureBinaries('methatech', TARGET_KEYS)
     const packageDir = join(root, 'pkg')
     mkdirSync(packageDir)
     const packageJsonPath = join(packageDir, 'package.json')
     writeFileSync(
       packageJsonPath,
-      JSON.stringify({ name: 'codebuff', version: '1.2.3', bin: {} }, null, 2) +
+      JSON.stringify({ name: 'methatech', version: '1.2.3', bin: {} }, null, 2) +
         '\n',
     )
     try {
       checksumScript.writeChecksums({
         binariesDir: root,
-        binaryName: 'codebuff',
+        binaryName: 'methatech',
         packageDir,
       })
       const written = JSON.parse(readFileSync(packageJsonPath, 'utf8'))
-      expect(written).toMatchObject({ name: 'codebuff', version: '1.2.3' })
+      expect(written).toMatchObject({ name: 'methatech', version: '1.2.3' })
       expect(written.binaryChecksums).toEqual(digests)
       expect(() => checksumScript.verifyChecksums({ packageDir })).not.toThrow()
 
@@ -484,7 +484,7 @@ describe('write-binary-checksums.js (release side)', () => {
     mkdirSync(packageDir)
     writeFileSync(
       join(packageDir, 'package.json'),
-      JSON.stringify({ name: 'codebuff', version: '1.0.0' }),
+      JSON.stringify({ name: 'methatech', version: '1.0.0' }),
     )
     try {
       expect(() =>
@@ -547,17 +547,17 @@ describe('the launcher end to end', () => {
     await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
     const { port } = server.address() as AddressInfo
     const previous = {
-      app: process.env.NEXT_PUBLIC_CODEBUFF_APP_URL,
+      app: process.env.NEXT_PUBLIC_METHATECH_APP_URL,
       noProxy: process.env.NO_PROXY,
     }
-    process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = `http://127.0.0.1:${port}`
+    process.env.NEXT_PUBLIC_METHATECH_APP_URL = `http://127.0.0.1:${port}`
     process.env.NO_PROXY = '127.0.0.1'
     try {
       await run(requestedPaths)
     } finally {
       if (previous.app === undefined) {
-        delete process.env.NEXT_PUBLIC_CODEBUFF_APP_URL
-      } else process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = previous.app
+        delete process.env.NEXT_PUBLIC_METHATECH_APP_URL
+      } else process.env.NEXT_PUBLIC_METHATECH_APP_URL = previous.app
       if (previous.noProxy === undefined) delete process.env.NO_PROXY
       else process.env.NO_PROXY = previous.noProxy
       await new Promise<void>((resolve) => server.close(() => resolve()))
@@ -845,17 +845,17 @@ describe('the launcher end to end', () => {
       source.indexOf('function replaceFileWithRollback'),
     )
     expect(stage).toContain('resolveDownloadOrigin(')
-    expect(stage).toContain('process.env.NEXT_PUBLIC_CODEBUFF_APP_URL')
+    expect(stage).toContain('process.env.NEXT_PUBLIC_METHATECH_APP_URL')
     expect(stage.indexOf('getExpectedChecksum(')).toBeLessThan(
       stage.indexOf('resolveDownloadOrigin('),
     )
     // Nowhere else reads the override.
-    expect(source.split('NEXT_PUBLIC_CODEBUFF_APP_URL').length - 1).toBe(
-      (stage.match(/NEXT_PUBLIC_CODEBUFF_APP_URL/g) ?? []).length +
+    expect(source.split('NEXT_PUBLIC_METHATECH_APP_URL').length - 1).toBe(
+      (stage.match(/NEXT_PUBLIC_METHATECH_APP_URL/g) ?? []).length +
         (
           source
             .slice(0, source.indexOf('function createLauncher'))
-            .match(/NEXT_PUBLIC_CODEBUFF_APP_URL/g) ?? []
+            .match(/NEXT_PUBLIC_METHATECH_APP_URL/g) ?? []
         ).length,
     )
   })

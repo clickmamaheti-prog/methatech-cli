@@ -14,7 +14,7 @@ import {
   SPONSORED_FRICTION_MAX_PER_RUN,
   SPONSORED_FRICTION_TOOL_LIMIT_RESULT,
   SPONSORED_FRICTION_TOOL_RESULT,
-} from '@codebuff/common/ads/sponsored-run-friction'
+} from '@methatech/common/ads/sponsored-run-friction'
 import {
   mkdirSync,
   mkdtempSync,
@@ -32,9 +32,9 @@ import { ensureCliTestEnv } from '../../__tests__/test-utils'
 ensureCliTestEnv()
 
 const { SPONSORED_PARTIAL_EDITS_COPY, sponsoredPartialEditsDiagnostic } =
-  await import('@codebuff/common/ads/sponsored-in-place')
+  await import('@methatech/common/ads/sponsored-in-place')
 const { sponsoredRunFailureCode } =
-  await import('@codebuff/common/ads/sponsored-run-funnel-metadata')
+  await import('@methatech/common/ads/sponsored-run-funnel-metadata')
 const {
   ACCEPT_RETRY_DELAYS_MS,
   SponsoredRun,
@@ -59,7 +59,7 @@ import type {
 import type { SponsoredProposal } from '../sponsored-proposal-api'
 import type { SponsoredInflightRecord } from '../sponsored-run-inflight'
 import type { StreamChunkEvent } from '../sdk-event-handlers'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 const PARENT = mkdtempSync(join(tmpdir(), 'sponsored-cli-run-'))
 afterAll(() => rmSync(PARENT, { recursive: true, force: true }))
@@ -415,7 +415,7 @@ describe('the turn', () => {
     const { plan, consent } = await runThrough(f)
     if (!consent.ok) throw new Error('refused')
     expect(plan.cwd).toBe(f.root)
-    expect(plan.extraCodebuffMetadata).toEqual({
+    expect(plan.extraMethaTechMetadata).toEqual({
       freebuff_sponsored_proposal_id: 'proposal-1',
       freebuff_sponsored_run_id: consent.runId,
       freebuff_sponsored_procedure_sha256: PROCEDURE_SHA,
@@ -423,7 +423,7 @@ describe('the turn', () => {
       freebuff_sponsored_surface: 'cli',
     })
     // No Freebuff session rides beside the grant: the user does not pay.
-    expect(plan.extraCodebuffMetadata).not.toHaveProperty(
+    expect(plan.extraMethaTechMetadata).not.toHaveProperty(
       'freebuff_instance_id',
     )
     expect(plan.prompt).toContain(PROCEDURE)

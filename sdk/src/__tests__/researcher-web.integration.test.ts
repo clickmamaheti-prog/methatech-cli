@@ -4,16 +4,16 @@ import path from 'path'
 
 import { describe, expect, it } from 'bun:test'
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 import { loadLocalAgents } from '../agents/load-agents'
 
-import type { AgentOutput } from '@codebuff/common/types/session-state'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { AgentOutput } from '@methatech/common/types/session-state'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 const DEFAULT_TIMEOUT_MS = 120_000
 const EXPECTED_KEYWORD = 'useActionState'
 const RESEARCHER_WEB_MAX_AGENT_STEPS = 10
-const RUN_LIVE_INTEGRATION = process.env.RUN_CODEBUFF_E2E === 'true'
+const RUN_LIVE_INTEGRATION = process.env.RUN_METHATECH_E2E === 'true'
 
 function loadEnvValue(name: string): string | undefined {
   if (process.env[name] && process.env[name] !== 'test') {
@@ -21,7 +21,7 @@ function loadEnvValue(name: string): string | undefined {
   }
 
   for (const envPath of [
-    path.join(homedir(), 'codebuff', '.env.local'),
+    path.join(homedir(), 'methatech', '.env.local'),
     path.join(process.cwd(), '.env.local'),
   ]) {
     if (!existsSync(envPath)) continue
@@ -137,15 +137,15 @@ describe('researcher-web SDK integration', () => {
     async () => {
       if (!RUN_LIVE_INTEGRATION) {
         console.log(
-          'Skipping researcher-web SDK integration test: set RUN_CODEBUFF_E2E=true and CODEBUFF_API_KEY to run.',
+          'Skipping researcher-web SDK integration test: set RUN_METHATECH_E2E=true and METHATECH_API_KEY to run.',
         )
         return
       }
 
-      const apiKey = loadEnvValue('CODEBUFF_API_KEY')
+      const apiKey = loadEnvValue('METHATECH_API_KEY')
       if (!apiKey) {
         console.log(
-          'Skipping researcher-web SDK integration test: set RUN_CODEBUFF_E2E=true and CODEBUFF_API_KEY to run.',
+          'Skipping researcher-web SDK integration test: set RUN_METHATECH_E2E=true and METHATECH_API_KEY to run.',
         )
         return
       }
@@ -159,7 +159,7 @@ describe('researcher-web SDK integration', () => {
       expect(researcherWeb).toBeDefined()
 
       const events: PrintModeEvent[] = []
-      const client = new CodebuffClient({
+      const client = new MethaTechClient({
         apiKey,
         cwd: process.cwd(),
       })

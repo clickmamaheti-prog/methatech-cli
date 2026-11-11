@@ -2,11 +2,11 @@ import { describe, expect, test } from 'bun:test'
 import {
   FREEBUFF_FABLE_5_1_MODEL_ID,
   isFreebuffSessionModelId,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import {
   isFreebuffHelperOnSessionModel,
   isFreeModeAllowedAgentModel,
-} from '@codebuff/common/constants/free-agents'
+} from '@methatech/common/constants/free-agents'
 
 import { bundledAgents } from '../../agents/bundled-agents.generated'
 import { getFreebuffCliAgentIdForModel } from '../freebuff-agent-selection'
@@ -74,6 +74,11 @@ describe('bundled Fable training campaign', () => {
     expect(bundledAgents['researcher-web'].toolNames).toEqual([
       'web_search',
       'read_url',
+      'exa_search',
+      'exa_find_similar',
+      'firecrawl_scrape',
+      'firecrawl_crawl',
+      'firecrawl_check_crawl_status',
     ])
     expect(bundledAgents['researcher-web'].stepPrompt).toBeTruthy()
   })

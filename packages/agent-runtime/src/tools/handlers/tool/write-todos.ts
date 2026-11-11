@@ -1,4 +1,4 @@
-import { jsonToolResult } from '@codebuff/common/util/messages'
+import { jsonToolResult } from '@methatech/common/util/messages'
 
 import {
   hasFileEditTool,
@@ -7,25 +7,25 @@ import {
   writeTodosUnchangedMessage,
 } from '../../../util/todo-loop'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { AgentState } from '@codebuff/common/types/session-state'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { AgentState } from '@methatech/common/types/session-state'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 type ToolName = 'write_todos'
 export const handleWriteTodos = (async (params: {
   previousToolCallFinished: Promise<void>
-  toolCall: CodebuffToolCall<ToolName>
+  toolCall: MethaTechToolCall<ToolName>
   agentState?: AgentState
   agentTemplate?: AgentTemplate
   logger?: Logger
   runId?: string
   userId?: string
-}): Promise<{ output: CodebuffToolOutput<ToolName> }> => {
+}): Promise<{ output: MethaTechToolOutput<ToolName> }> => {
   const {
     previousToolCallFinished,
     toolCall,
@@ -67,4 +67,4 @@ export const handleWriteTodos = (async (params: {
   }
 
   return { output: jsonToolResult({ message: 'Todos written' }) }
-}) satisfies CodebuffToolHandlerFunction<ToolName>
+}) satisfies MethaTechToolHandlerFunction<ToolName>

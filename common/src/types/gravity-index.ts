@@ -120,7 +120,7 @@ const runtimeAttributionFields = {
   metadata: jsonObjectSchema
     .optional()
     .describe(
-      'Non-sensitive API key metadata for Gravity attribution and debugging. Codebuff usually fills this automatically.',
+      'Non-sensitive API key metadata for Gravity attribution and debugging. MethaTech usually fills this automatically.',
     ),
 }
 

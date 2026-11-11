@@ -1,6 +1,6 @@
 import { z } from 'zod/v4'
 
-import type { Logger } from '@codebuff/common/types/contracts/logger'
+import type { Logger } from '@methatech/common/types/contracts/logger'
 
 export interface ParallelEnv {
   PARALLEL_API_KEY?: string

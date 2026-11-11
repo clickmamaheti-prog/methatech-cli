@@ -2,7 +2,7 @@ import type { BaseEnv, ProcessEnv } from './types/contracts/env'
 
 /**
  * Test-only helpers for process env snapshots.
- * Keep production code using `@codebuff/common/env-process`.
+ * Keep production code using `@methatech/common/env-process`.
  */
 export const createTestBaseEnv = (
   overrides: Partial<BaseEnv> = {},
@@ -55,20 +55,20 @@ export const createTestProcessEnv = (
   // Editor preferences
   VISUAL: undefined,
   EDITOR: undefined,
-  CODEBUFF_CLI_EDITOR: undefined,
-  CODEBUFF_EDITOR: undefined,
+  METHATECH_CLI_EDITOR: undefined,
+  METHATECH_EDITOR: undefined,
 
   // Theme preferences
   OPEN_TUI_THEME: undefined,
   OPENTUI_THEME: undefined,
 
-  // Codebuff CLI-specific
-  CODEBUFF_IS_BINARY: undefined,
-  CODEBUFF_CLI_VERSION: undefined,
-  CODEBUFF_CLI_TARGET: undefined,
-  CODEBUFF_RG_PATH: undefined,
-  CODEBUFF_WASM_DIR: undefined,
-  CODEBUFF_TRUSTED_AGENT_PUBLISHERS: undefined,
+  // MethaTech CLI-specific
+  METHATECH_IS_BINARY: undefined,
+  METHATECH_CLI_VERSION: undefined,
+  METHATECH_CLI_TARGET: undefined,
+  METHATECH_RG_PATH: undefined,
+  METHATECH_WASM_DIR: undefined,
+  METHATECH_TRUSTED_AGENT_PUBLISHERS: undefined,
 
   // Build/CI flags
   VERBOSE: undefined,

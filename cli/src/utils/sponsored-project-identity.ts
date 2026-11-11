@@ -13,7 +13,7 @@
  * refuses an in-place request without this id, so a Freebuff CLI writes it in
  * every Git project it opens -- the same thing Desktop has always done in
  * every project it opens (`freebuff-desktop/src/server/repo/project-db.ts`).
- * Codebuff keeps the old rule: a marker only where no GitHub remote can key
+ * MethaTech keeps the old rule: a marker only where no GitHub remote can key
  * the project.
  *
  * ## Without dirtying the repository
@@ -37,7 +37,7 @@ import {
 } from 'node:fs'
 import { dirname, isAbsolute, join } from 'node:path'
 
-import { repoFullNameFromRemote } from '@codebuff/common/ads/sponsored-proposal-target'
+import { repoFullNameFromRemote } from '@methatech/common/ads/sponsored-proposal-target'
 
 const UUID =
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i

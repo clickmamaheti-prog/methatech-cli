@@ -48,8 +48,8 @@ describe('the CLI turn carries the chosen effort', () => {
     'utf8',
   )
 
-  test('it reaches extraCodebuffMetadata under the name the server reads', () => {
-    const metadata = source.slice(source.indexOf('extraCodebuffMetadata:'))
+  test('it reaches extraMethaTechMetadata under the name the server reads', () => {
+    const metadata = source.slice(source.indexOf('extraMethaTechMetadata:'))
     expect(metadata).toContain('freebuff_reasoning_effort')
     expect(metadata).toContain('freebuffReasoningEffort')
   })

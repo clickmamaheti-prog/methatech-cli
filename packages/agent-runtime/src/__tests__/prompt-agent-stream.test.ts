@@ -1,11 +1,11 @@
 import { expect, test } from 'bun:test'
 
-import { createTestAgentRuntimeParams } from '@codebuff/common/testing/fixtures/agent-runtime'
+import { createTestAgentRuntimeParams } from '@methatech/common/testing/fixtures/agent-runtime'
 
 import { getAgentStreamFromTemplate } from '../prompt-agent-stream'
 
 import type { AgentTemplate } from '../templates/types'
-import type { PromptAiSdkStreamFn } from '@codebuff/common/types/contracts/llm'
+import type { PromptAiSdkStreamFn } from '@methatech/common/types/contracts/llm'
 
 test('agent requests do not set an automatic provider stop', () => {
   const runtime = createTestAgentRuntimeParams()

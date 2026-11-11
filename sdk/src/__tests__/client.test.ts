@@ -1,8 +1,8 @@
 import { describe, expect, test, mock, afterEach } from 'bun:test'
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 
-describe('CodebuffClient', () => {
+describe('MethaTechClient', () => {
   const originalFetch = globalThis.fetch
 
   const setFetchMock = (mockFetch: ReturnType<typeof mock>) => {
@@ -24,7 +24,7 @@ describe('CodebuffClient', () => {
 
       setFetchMock(mockFetch)
 
-      const client = new CodebuffClient({ apiKey: 'test-key' })
+      const client = new MethaTechClient({ apiKey: 'test-key' })
       const result = await client.checkConnection()
 
       expect(result).toBe(true)
@@ -39,7 +39,7 @@ describe('CodebuffClient', () => {
         return Promise.resolve({ ok: true, body: null } as Response)
       })
       setFetchMock(mockFetch)
-      const client = new CodebuffClient({
+      const client = new MethaTechClient({
         byok: {
           id: 'c', revision: 1, name: 'Anthropic', provider: 'openai-compatible',
           baseUrl: 'https://api.anthropic.com/v1', model: 'claude-sonnet-4-5',
@@ -63,7 +63,7 @@ describe('CodebuffClient', () => {
 
       setFetchMock(mockFetch)
 
-      const client = new CodebuffClient({ apiKey: 'test-key' })
+      const client = new MethaTechClient({ apiKey: 'test-key' })
       const result = await client.checkConnection()
 
       expect(result).toBe(false)
@@ -80,7 +80,7 @@ describe('CodebuffClient', () => {
 
       setFetchMock(mockFetch)
 
-      const client = new CodebuffClient({ apiKey: 'test-key' })
+      const client = new MethaTechClient({ apiKey: 'test-key' })
       const result = await client.checkConnection()
 
       expect(result).toBe(false)
@@ -96,7 +96,7 @@ describe('CodebuffClient', () => {
 
       setFetchMock(mockFetch)
 
-      const client = new CodebuffClient({ apiKey: 'test-key' })
+      const client = new MethaTechClient({ apiKey: 'test-key' })
       const result = await client.checkConnection()
 
       expect(result).toBe(false)
@@ -107,7 +107,7 @@ describe('CodebuffClient', () => {
 
       setFetchMock(mockFetch)
 
-      const client = new CodebuffClient({ apiKey: 'test-key' })
+      const client = new MethaTechClient({ apiKey: 'test-key' })
       const result = await client.checkConnection()
 
       expect(result).toBe(false)
@@ -123,7 +123,7 @@ describe('CodebuffClient', () => {
 
       setFetchMock(mockFetch)
 
-      const client = new CodebuffClient({ apiKey: 'test-key' })
+      const client = new MethaTechClient({ apiKey: 'test-key' })
       const result = await client.checkConnection()
 
       expect(result).toBe(false)
@@ -139,7 +139,7 @@ describe('CodebuffClient', () => {
 
       setFetchMock(mockFetch)
 
-      const client = new CodebuffClient({ apiKey: 'test-key' })
+      const client = new MethaTechClient({ apiKey: 'test-key' })
       const result = await client.checkConnection()
 
       expect(result).toBe(false)
@@ -155,7 +155,7 @@ describe('CodebuffClient', () => {
 
       setFetchMock(mockFetch)
 
-      const client = new CodebuffClient({ apiKey: 'test-key' })
+      const client = new MethaTechClient({ apiKey: 'test-key' })
       const result = await client.checkConnection()
 
       expect(result).toBe(false)

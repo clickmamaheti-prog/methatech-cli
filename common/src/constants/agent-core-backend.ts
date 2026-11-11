@@ -6,7 +6,7 @@
  * mode means for the mirror; it lives here so the web's backend map
  * (`freebuff/web/src/lib/fn-registry/backend-map.ts`) can route the agent
  * core's reactive reads off the same constant, without bundling
- * `@codebuff/internal` into the client. One constant, so the mirror and the
+ * `@methatech/internal` into the client. One constant, so the mirror and the
  * UI can only flip together. A reviewed diff, never an env var.
  */
 export type AgentCoreBackend = 'convex' | 'shadow' | 'postgres'

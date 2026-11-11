@@ -12,18 +12,18 @@ import {
   countTokens,
   countTokensJson,
   countTokensMessages,
-} from '@codebuff/agent-runtime/util/token-counter'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+} from '@methatech/agent-runtime/util/token-counter'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 import { describe, expect, test } from 'bun:test'
 
-import { messageFingerprint } from '@codebuff/agent-runtime/conversation-summary'
+import { messageFingerprint } from '@methatech/agent-runtime/conversation-summary'
 
 import { compactRunState, withCompactionSummary } from '../compact-run-state'
 
 import type { RunState } from '../run-state'
-import type { JSONValue } from '@codebuff/common/types/json'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { JSONValue } from '@methatech/common/types/json'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const SYSTEM_PROMPT = 'You are a coding agent. '.repeat(200)
 const TOOL_DEFINITIONS = {
@@ -109,7 +109,7 @@ function runStateWith(messageHistory: Message[]): RunState {
     sessionState,
     output: { type: 'lastMessage', value: [] },
     traceSessionId: 'trace-1',
-    inference: { source: 'codebuff' },
+    inference: { source: 'methatech' },
   }
 }
 
@@ -157,7 +157,7 @@ describe('compactRunState', () => {
     const before = runStateWith(history())
     const result = compact(before)!
     expect(result.runState.traceSessionId).toBe('trace-1')
-    expect(result.runState.inference).toEqual({ source: 'codebuff' })
+    expect(result.runState.inference).toEqual({ source: 'methatech' })
     expect(result.runState.sessionState!.fileContext).toEqual(
       before.sessionState!.fileContext,
     )

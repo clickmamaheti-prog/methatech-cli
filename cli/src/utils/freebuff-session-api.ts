@@ -1,37 +1,37 @@
-import { freebucksTimeZoneHeaders } from '@codebuff/common/util/freebucks-timezone'
+import { freebucksTimeZoneHeaders } from '@methatech/common/util/freebucks-timezone'
 import {
   sanitizeTerminalStrings,
   sanitizeTerminalText,
-} from '@codebuff/common/util/terminal-safe-text'
-import { env } from '@codebuff/common/env'
+} from '@methatech/common/util/terminal-safe-text'
+import { env } from '@methatech/common/env'
 import {
-  FREEBUFF_CLIENT_VERSION_HEADER,
-  FREEBUFF_DESKTOP_ATTEMPT_HEADER,
-  FREEBUFF_PURCHASE_CONTINUITY_HEADER,
-} from '@codebuff/common/constants/freebuff-desktop-sessions'
+  METHATECH_CLIENT_VERSION_HEADER,
+  METHATECH_DESKTOP_ATTEMPT_HEADER,
+  METHATECH_PURCHASE_CONTINUITY_HEADER,
+} from '@methatech/common/constants/freebuff-desktop-sessions'
 import { clientEnvironmentHeaders } from './client-environment'
 import { getCliEnv } from './env'
 import { timedApiCall } from '../ads/ad-signals'
 import { freebuffCliAttemptId } from './freebuff-session-identity'
 import {
-  FREEBUFF_COMPACT_SESSION_HEADER,
-  FREEBUFF_HEARTBEAT_HEADER,
-  FREEBUFF_INCLUDE_UNUSED_RATE_LIMITS_HEADER,
-  FREEBUFF_INSTANCE_HEADER,
-  FREEBUFF_MODEL_HEADER,
-  FREEBUFF_MULTI_SESSION_HEADER,
-  FREEBUFF_TAKEOVER_INSTANCE_HEADER,
-  FREEBUFF_WALLET_SPEND_LIMIT_HEADER,
+  METHATECH_COMPACT_SESSION_HEADER,
+  METHATECH_HEARTBEAT_HEADER,
+  METHATECH_INCLUDE_UNUSED_RATE_LIMITS_HEADER,
+  METHATECH_INSTANCE_HEADER,
+  METHATECH_MODEL_HEADER,
+  METHATECH_MULTI_SESSION_HEADER,
+  METHATECH_TAKEOVER_INSTANCE_HEADER,
+  METHATECH_WALLET_SPEND_LIMIT_HEADER,
   FREEBUFF_SESSION_ADMISSION_PATH,
   FREEBUFF_SESSION_UNSUPPORTED_MESSAGE,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 
 import {
-  FREEBUFF_CATALOG_FETCH_HEADER,
-  FREEBUFF_CATALOG_PROTOCOL_HEADER,
+  METHATECH_CATALOG_FETCH_HEADER,
+  METHATECH_CATALOG_PROTOCOL_HEADER,
   FREEBUFF_CATALOG_PROTOCOL_VERSION,
   FREEBUFF_CATALOG_STALE_ERROR,
-} from '@codebuff/common/types/freebuff-model-catalog'
+} from '@methatech/common/types/freebuff-model-catalog'
 
 import { useFreebuffCatalogStore } from '../state/freebuff-catalog-store'
 import {
@@ -41,8 +41,8 @@ import {
 import { freebuffCatalogHandleFor } from './freebuff-model-directory'
 
 import type { FreebuffSessionResponse } from '../types/freebuff-session'
-import type { FreebuffModelCatalog } from '@codebuff/common/types/freebuff-model-catalog'
-import type { FreebuffSessionServerResponse } from '@codebuff/common/types/freebuff-session'
+import type { FreebuffModelCatalog } from '@methatech/common/types/freebuff-model-catalog'
+import type { FreebuffSessionServerResponse } from '@methatech/common/types/freebuff-session'
 
 const SESSION_FETCH_TIMEOUT_MS = 20_000
 export type FreebuffSessionMethod = 'POST' | 'GET' | 'DELETE'
@@ -131,7 +131,7 @@ export function freebuffApiBaseUrl(): string {
 }
 
 function sessionBaseUrl(): string {
-  return (env.NEXT_PUBLIC_CODEBUFF_APP_URL || 'https://codebuff.com').replace(
+  return (env.NEXT_PUBLIC_METHATECH_APP_URL || 'https://console.methatech.eu.org').replace(
     /\/$/,
     '',
   )
@@ -248,47 +248,47 @@ async function requestFreebuffSession(
     ...clientEnvironmentHeaders(),
   }
   // Observe-only: ties a server-side refusal line to the build that saw it.
-  const cliVersion = getCliEnv().CODEBUFF_CLI_VERSION
-  if (cliVersion) headers[FREEBUFF_CLIENT_VERSION_HEADER] = cliVersion
+  const cliVersion = getCliEnv().METHATECH_CLI_VERSION
+  if (cliVersion) headers[METHATECH_CLIENT_VERSION_HEADER] = cliVersion
   const attemptId = freebuffCliAttemptId(opts.instanceId)
   const multiSession = opts.multiSession ?? Boolean(attemptId)
   if (multiSession) {
-    headers[FREEBUFF_MULTI_SESSION_HEADER] = '1'
-    headers[FREEBUFF_PURCHASE_CONTINUITY_HEADER] = '1'
+    headers[METHATECH_MULTI_SESSION_HEADER] = '1'
+    headers[METHATECH_PURCHASE_CONTINUITY_HEADER] = '1'
     if (attemptId && method !== 'GET') {
-      headers[FREEBUFF_DESKTOP_ATTEMPT_HEADER] = attemptId
+      headers[METHATECH_DESKTOP_ATTEMPT_HEADER] = attemptId
     }
     if (method === 'GET' && opts.instanceId) {
-      headers[FREEBUFF_HEARTBEAT_HEADER] = '1'
+      headers[METHATECH_HEARTBEAT_HEADER] = '1'
       // A bare heartbeat omits balances and quotas. Rich refreshes (including
       // expiry and identity changes) must explicitly ask for that snapshot.
       if (!opts.compact)
-        headers[FREEBUFF_INCLUDE_UNUSED_RATE_LIMITS_HEADER] = '1'
+        headers[METHATECH_INCLUDE_UNUSED_RATE_LIMITS_HEADER] = '1'
     }
   }
   if (catalog) {
-    headers[FREEBUFF_CATALOG_PROTOCOL_HEADER] = FREEBUFF_CATALOG_PROTOCOL_VERSION
-    if (catalog.fetchId) headers[FREEBUFF_CATALOG_FETCH_HEADER] = catalog.fetchId
+    headers[METHATECH_CATALOG_PROTOCOL_HEADER] = FREEBUFF_CATALOG_PROTOCOL_VERSION
+    if (catalog.fetchId) headers[METHATECH_CATALOG_FETCH_HEADER] = catalog.fetchId
   }
   if ((multiSession || method !== 'POST') && opts.instanceId) {
-    headers[FREEBUFF_INSTANCE_HEADER] = opts.instanceId
+    headers[METHATECH_INSTANCE_HEADER] = opts.instanceId
   }
   if (method === 'GET' && opts.compact) {
-    headers[FREEBUFF_COMPACT_SESSION_HEADER] = '1'
+    headers[METHATECH_COMPACT_SESSION_HEADER] = '1'
   }
   if (method === 'POST') {
     if (opts.takeoverInstanceId)
-      headers[FREEBUFF_TAKEOVER_INSTANCE_HEADER] = opts.takeoverInstanceId
+      headers[METHATECH_TAKEOVER_INSTANCE_HEADER] = opts.takeoverInstanceId
     if (opts.model) {
       // A key the catalog has no row for goes out as-is: the server answers
       // it stale, which refetches the catalog.
-      headers[FREEBUFF_MODEL_HEADER] = catalog
+      headers[METHATECH_MODEL_HEADER] = catalog
         ? (freebuffCatalogHandleFor(catalog, opts.model) ?? opts.model)
         : opts.model
     }
     // The admission route refuses a POST without this header; its value no
     // longer limits anything (wallet consent is the picker's own prompt).
-    headers[FREEBUFF_WALLET_SPEND_LIMIT_HEADER] = 'session'
+    headers[METHATECH_WALLET_SPEND_LIMIT_HEADER] = 'session'
   }
 
   const endpoint =

@@ -1209,7 +1209,7 @@ describe('freebuff model availability', () => {
     // model and is told it is gone, with what to use instead. The refusal is
     // not session-ending, so the client shows it rather than re-admitting.
     expect(freebuffWithdrawnModelMessage(MINIMAX_M3_MODEL_ID)).toContain(
-      'no longer available in Freebuff',
+      'no longer available in MethaTech',
     )
     // Names whatever the current default is. This is the one place a specific
     // model is still named TO a user: the pick is gone, so pointing somewhere

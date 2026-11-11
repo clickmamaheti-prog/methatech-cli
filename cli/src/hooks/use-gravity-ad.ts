@@ -1,15 +1,15 @@
-import { WEBSITE_URL } from '@codebuff/sdk'
-import type { PartnerBrand } from '@codebuff/common/ads/partner-brand'
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
-import { getAdUserAgent } from '@codebuff/common/util/ad-user-agent'
-import { FREEBUFF_EVENT_ID_HEADER } from '@codebuff/common/ads/ad-event-hygiene'
+import { WEBSITE_URL } from '@methatech/sdk'
+import type { PartnerBrand } from '@methatech/common/ads/partner-brand'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
+import { getAdUserAgent } from '@methatech/common/util/ad-user-agent'
+import { METHATECH_EVENT_ID_HEADER } from '@methatech/common/ads/ad-event-hygiene'
 import {
   acknowledgeFirstPartyView,
   firstPartyViewAckSettled,
   type FirstPartyViewAckRequest,
-} from '@codebuff/common/ads/first-party-view-ack'
-import { createFirstPartyViewAckTelemetry } from '@codebuff/common/util/axiom-only-log'
-import { sanitizeTerminalStrings } from '@codebuff/common/util/terminal-safe-text'
+} from '@methatech/common/ads/first-party-view-ack'
+import { createFirstPartyViewAckTelemetry } from '@methatech/common/util/axiom-only-log'
+import { sanitizeTerminalStrings } from '@methatech/common/util/terminal-safe-text'
 import { useRenderer } from '@opentui/react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -338,7 +338,7 @@ export function recordAdClick(
           Authorization: `Bearer ${authToken}`,
           'User-Agent': getCliAdRequestUserAgent(),
           ...clientEnvironmentHeaders(),
-          [FREEBUFF_EVENT_ID_HEADER]: clientEventId,
+          [METHATECH_EVENT_ID_HEADER]: clientEventId,
         },
         body: JSON.stringify({
           impUrl: ad.impUrl,
@@ -587,7 +587,7 @@ export const useGravityAd = (options?: GravityAdOptions): GravityAdState => {
             Authorization: `Bearer ${authToken}`,
             'User-Agent': getCliAdRequestUserAgent(),
             ...clientEnvironmentHeaders(),
-            [FREEBUFF_EVENT_ID_HEADER]: clientEventId,
+            [METHATECH_EVENT_ID_HEADER]: clientEventId,
           },
           body: JSON.stringify({
             impUrl,

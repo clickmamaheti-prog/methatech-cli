@@ -3,14 +3,14 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 
 import { afterEach, describe, expect, test } from 'bun:test'
-import { COMPACTION_SUMMARY_PROMPT_OPENING } from '@codebuff/common/constants/compaction-summary'
+import { COMPACTION_SUMMARY_PROMPT_OPENING } from '@methatech/common/constants/compaction-summary'
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 import { ByokConnectionStateError, createByokConnectionStore, type ByokConnection } from '../byok'
 import { getWebsiteUrl } from '../constants'
 import type { RunState } from '../run-state'
 
-import type { AgentDefinition } from '@codebuff/common/templates/initial-agents-dir/types/agent-definition'
+import type { AgentDefinition } from '@methatech/common/templates/initial-agents-dir/types/agent-definition'
 
 const agent: AgentDefinition = {
   id: 'byok-scripted-agent',
@@ -27,7 +27,7 @@ function sse(body: unknown): Response {
   })
 }
 
-function connection(overrides: Partial<ConstructorParameters<typeof CodebuffClient>[0]['byok']> = {}) {
+function connection(overrides: Partial<ConstructorParameters<typeof MethaTechClient>[0]['byok']> = {}) {
   return {
     id: 'failure-connection', revision: 1, name: 'failure test', provider: 'openai-compatible' as const,
     baseUrl: 'http://127.0.0.1:9876/v1', model: 'scripted/model',
@@ -56,7 +56,7 @@ describe('direct BYOK SDK runs', () => {
       return sse({ id: 'work', object: 'chat.completion.chunk', created: 1, model: body.model,
         choices: [{ index: 0, delta: { content: requests.length === 1 ? 'READ_FINDING: timeout uses milliseconds. '.repeat(1000) : 'Documented.' }, finish_reason: 'stop' }] })
     }) as typeof fetch
-    const client = new CodebuffClient({ byok: connection({ contextWindow: 32_768, maxOutputTokens: 4096 }), agentDefinitions: [agent] })
+    const client = new MethaTechClient({ byok: connection({ contextWindow: 32_768, maxOutputTokens: 4096 }), agentDefinitions: [agent] })
     const original = await client.run({ agent: agent.id, prompt: 'Document retry behavior.' })
     expect(original.output.type).not.toBe('error')
     const saved = JSON.stringify(original)
@@ -77,7 +77,7 @@ describe('direct BYOK SDK runs', () => {
     expect(sent).not.toContain('READ_FINDING')
   })
 
-  test('runs a real local write-file tool loop without any Codebuff request', async () => {
+  test('runs a real local write-file tool loop without any MethaTech request', async () => {
     const cwd = await mkdtemp(path.join(tmpdir(), 'methatech-byok-'))
     await writeFile(path.join(cwd, 'input.txt'), 'source value')
     const seen: Array<{ url: string; auth: string; body: string }> = []
@@ -120,7 +120,7 @@ describe('direct BYOK SDK runs', () => {
       })
     }) as unknown as typeof fetch
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       cwd,
       agentDefinitions: [agent],
       byok: {
@@ -153,14 +153,14 @@ describe('direct BYOK SDK runs', () => {
     expect(changed.output.message).toContain('different inference connection')
 
     const beforeSwitch = seen.length
-    const hostedHistory = { ...result, inference: { source: 'codebuff' as const } }
+    const hostedHistory = { ...result, inference: { source: 'methatech' as const } }
     const switched = await client.run({ agent: agent.id, prompt: 'Continue with my key.', previousRun: hostedHistory })
     expect(switched.output.type).not.toBe('error')
     expect(switched.inference).toEqual(result.inference)
     expect(seen.length).toBeGreaterThan(beforeSwitch)
     expect(seen.at(-1)!.body).toContain('Create result.txt.')
     expect(seen.slice(beforeSwitch).every(request => request.url === 'http://127.0.0.1:9876/v1/chat/completions')).toBe(true)
-    const hostedClient = new CodebuffClient({ cwd, apiKey: 'hosted-test-key', agentDefinitions: [agent] })
+    const hostedClient = new MethaTechClient({ cwd, apiKey: 'hosted-test-key', agentDefinitions: [agent] })
     const beforeReverse = seen.length
     const reverse = await hostedClient.run({ agent: agent.id, prompt: 'Go back.', previousRun: switched })
     expect(reverse.output.type).toBe('error')
@@ -186,7 +186,7 @@ describe('direct BYOK SDK runs', () => {
       id: 'researcher-web', displayName: 'Web Researcher', model: 'openai/gpt-6-luna',
       toolNames: ['read_url'], systemPrompt: 'Research the question.',
     }
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       agentDefinitions: [agent, helper],
       byok: connection({ contextWindow: 131_072, maxOutputTokens: 131_071 }),
     })
@@ -215,7 +215,7 @@ describe('direct BYOK SDK runs', () => {
       }
       return sse({ id: 'done', object: 'chat.completion.chunk', created: 1, model: 'm', choices: [{ index: 0, delta: { content: 'done' }, finish_reason: 'stop' }] })
     }) as unknown as typeof fetch
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       agentDefinitions: [{ ...agent, id: 'byok-web-agent', toolNames: ['web_search'] }],
       byok: { id: 'web-connection', revision: 1, name: 'web', provider: 'openai-compatible', baseUrl: 'http://127.0.0.1:9876/v1', model: 'm', credentialRef: 'connection:web-connection:1', createdAt: '2026-01-01T00:00:00.000Z', updatedAt: '2026-01-01T00:00:00.000Z', apiKey: 'web-canary' },
     })
@@ -245,7 +245,7 @@ describe('direct BYOK SDK runs', () => {
     }) as typeof fetch
 
     const original = await store.create({ name: 'Original', provider: 'openai-compatible', baseUrl: 'http://127.0.0.1:9876/v1', model: 'original/model', apiKey: 'original-canary' })
-    const client = new CodebuffClient({ byok: await store.resolve(original), agentDefinitions: [agent] })
+    const client = new MethaTechClient({ byok: await store.resolve(original), agentDefinitions: [agent] })
     const first = await client.run({ agent: agent.id, prompt: 'Remember the recovery marker: violet-otter.' })
     expect(first.output.type).not.toBe('error')
     const saved = JSON.stringify(first)
@@ -253,7 +253,7 @@ describe('direct BYOK SDK runs', () => {
     await expect(store.resolve(original)).rejects.toThrow('was removed')
 
     const replacement = await store.create({ name: 'Replacement', provider: 'openai-compatible', baseUrl: 'http://127.0.0.1:9877/v1', model: 'replacement/model', apiKey: 'replacement-canary' })
-    const replacementClient = new CodebuffClient({ byok: await store.resolve(replacement), agentDefinitions: [agent] })
+    const replacementClient = new MethaTechClient({ byok: await store.resolve(replacement), agentDefinitions: [agent] })
     const beforeRejected = requests.length
     const rejected = await replacementClient.run({ agent: agent.id, prompt: 'Unapproved switch.', previousRun: first })
     expect(rejected.output.type).toBe('error')
@@ -271,7 +271,7 @@ describe('direct BYOK SDK runs', () => {
     expect(JSON.stringify(first)).toBe(saved)
 
     const updated = await store.update({ ...replacement, patch: { apiKey: 'rotated-canary', model: 'updated/model' } })
-    const updatedClient = new CodebuffClient({ byok: await store.resolve(updated), agentDefinitions: [agent] })
+    const updatedClient = new MethaTechClient({ byok: await store.resolve(updated), agentDefinitions: [agent] })
     const rotated = await updatedClient.run({ agent: agent.id, prompt: 'Use my updated key and model.', previousRun: recovered, allowInferenceSourceChange: true })
     expect(rotated.output.type).not.toBe('error')
     expect(rotated.inference).toMatchObject({ connectionId: replacement.id, revision: 2, model: 'updated/model' })
@@ -279,10 +279,10 @@ describe('direct BYOK SDK runs', () => {
     expect(requests.at(-1)!.body).toContain('updated/model')
     expect(requests.at(-1)!.body).toContain('violet-otter')
 
-    const hosted = new CodebuffClient({ apiKey: 'hosted-recovery-canary', agentDefinitions: [agent] })
+    const hosted = new MethaTechClient({ apiKey: 'hosted-recovery-canary', agentDefinitions: [agent] })
     const returned = await hosted.run({ agent: agent.id, prompt: 'Continue with Freebuff.', previousRun: rotated, allowInferenceSourceChange: true })
     expect(returned.output.type).not.toBe('error')
-    expect(returned.inference).toEqual({ source: 'codebuff' })
+    expect(returned.inference).toEqual({ source: 'methatech' })
     expect(requests.at(-1)).toMatchObject({ url: new URL('/api/v1/chat/completions', getWebsiteUrl()).toString(), auth: 'Bearer hosted-recovery-canary' })
     expect(requests.at(-1)!.body).toContain(agent.model!)
     expect(requests.at(-1)!.body).toContain('violet-otter')
@@ -310,7 +310,7 @@ describe('direct BYOK SDK runs', () => {
       })
     }) as typeof fetch
 
-    const client = new CodebuffClient({ agentDefinitions: [agent], byok: connection() })
+    const client = new MethaTechClient({ agentDefinitions: [agent], byok: connection() })
     const result = await client.run({ agent: agent.id, prompt: 'Fail safely.' })
 
     expect(result.output.type).toBe('error')
@@ -363,7 +363,7 @@ describe('direct BYOK SDK runs', () => {
     if (failure === 'removed') await store.remove(saved)
     if (failure === 'corrupt') records = [{ ...saved, model: '' }]
     failCheck = true
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       agentDefinitions: [agent],
       byok: resolved,
     })
@@ -395,7 +395,7 @@ describe('direct BYOK SDK runs', () => {
         ? new Response('', { headers: { 'content-type': 'text/event-stream' } })
         : sse({ choices: [{ delta: { content: 'Partial output.' }, finish_reason: null }] })
     }) as typeof fetch
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       agentDefinitions: [agent], byok: connection(), handleEvent: () => {},
     })
     const result = await client.run({ agent: agent.id, prompt: 'Fail safely on repeated incomplete responses.' })
@@ -421,7 +421,7 @@ describe('direct BYOK SDK runs', () => {
       requests += 1
       throw new Error('unexpected request')
     }) as unknown as typeof fetch
-    const client = new CodebuffClient({ agentDefinitions: [agent], byok: connection() })
+    const client = new MethaTechClient({ agentDefinitions: [agent], byok: connection() })
 
     const result = await client.run({ agent: agent.id, prompt: 'Cancel.', signal: controller.signal })
     expect(result.output).toMatchObject({ type: 'error', message: 'Cancelled by user' })

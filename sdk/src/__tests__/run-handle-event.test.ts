@@ -1,16 +1,16 @@
 
-import * as mainPromptModule from '@codebuff/agent-runtime/main-prompt'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+import * as mainPromptModule from '@methatech/agent-runtime/main-prompt'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test'
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 import * as databaseModule from '../impl/database'
 
-import type { CodebuffClientOptions } from '../run'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { MethaTechClientOptions } from '../run'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
-describe('CodebuffClient handleEvent / handleStreamChunk', () => {
+describe('MethaTechClient handleEvent / handleStreamChunk', () => {
   afterEach(() => {
     mock.restore()
   })
@@ -106,13 +106,13 @@ describe('CodebuffClient handleEvent / handleStreamChunk', () => {
     )
 
     type StreamChunk = Parameters<
-      NonNullable<CodebuffClientOptions['handleStreamChunk']>
+      NonNullable<MethaTechClientOptions['handleStreamChunk']>
     >[0]
 
     const events: PrintModeEvent[] = []
     const streamChunks: StreamChunk[] = []
 
-    const client = new CodebuffClient({
+    const client = new MethaTechClient({
       apiKey: 'test-key',
     })
 

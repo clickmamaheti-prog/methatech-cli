@@ -1,10 +1,10 @@
-import { IS_DEV, IS_TEST, IS_CI } from '@codebuff/common/env'
-import { toJsonSafeLogData } from '@codebuff/common/util/log-data'
+import { IS_DEV, IS_TEST, IS_CI } from '@methatech/common/env'
+import { toJsonSafeLogData } from '@methatech/common/util/log-data'
 
-import { getApiClient } from './codebuff-api'
+import { getApiClient } from './methatech-api'
 import { getCliEnv } from './env'
 
-import type { LogRecordInput } from '@codebuff/common/schemas/logs'
+import type { LogRecordInput } from '@methatech/common/schemas/logs'
 
 /**
  * Client-side shipper that mirrors CLI logs/events into the server's Axiom
@@ -13,7 +13,7 @@ import type { LogRecordInput } from '@codebuff/common/schemas/logs'
  * through the app logger (which would recurse).
  *
  * Tuning via env:
- *  - CODEBUFF_SHIP_LOGS 'true' | 'false'  (default: on outside dev/test)
+ *  - METHATECH_SHIP_LOGS 'true' | 'false'  (default: on outside dev/test)
  */
 
 const MAX_BATCH = 50
@@ -79,7 +79,7 @@ const clientLogFlusher = createClientLogFlusher({
 })
 
 function enabled(): boolean {
-  const flag = getCliEnv().CODEBUFF_SHIP_LOGS
+  const flag = getCliEnv().METHATECH_SHIP_LOGS
   if (flag === 'true') return true
   if (flag === 'false') return false
   return !IS_DEV && !IS_TEST && !IS_CI

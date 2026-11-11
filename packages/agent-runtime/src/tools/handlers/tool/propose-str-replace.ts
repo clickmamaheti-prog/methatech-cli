@@ -4,20 +4,20 @@ import {
 } from './proposed-content-store'
 import { processStrReplace } from '../../../process-str-replace'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { RequestOptionalFileFn } from '@codebuff/common/types/contracts/client'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
-import type { AgentState } from '@codebuff/common/types/session-state'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { RequestOptionalFileFn } from '@methatech/common/types/contracts/client'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
+import type { AgentState } from '@methatech/common/types/session-state'
 
 export const handleProposeStrReplace = (async (
   params: {
     previousToolCallFinished: Promise<void>
-    toolCall: CodebuffToolCall<'propose_str_replace'>
+    toolCall: MethaTechToolCall<'propose_str_replace'>
 
     logger: Logger
     agentState: AgentState
@@ -25,7 +25,7 @@ export const handleProposeStrReplace = (async (
 
     requestOptionalFile: RequestOptionalFileFn
   } & ParamsExcluding<RequestOptionalFileFn, 'filePath'>,
-): Promise<{ output: CodebuffToolOutput<'propose_str_replace'> }> => {
+): Promise<{ output: MethaTechToolOutput<'propose_str_replace'> }> => {
   const {
     previousToolCallFinished,
     toolCall,
@@ -105,4 +105,4 @@ export const handleProposeStrReplace = (async (
       },
     ],
   }
-}) satisfies CodebuffToolHandlerFunction<'propose_str_replace'>
+}) satisfies MethaTechToolHandlerFunction<'propose_str_replace'>

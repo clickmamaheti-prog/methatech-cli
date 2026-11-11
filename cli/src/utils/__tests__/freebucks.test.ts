@@ -10,7 +10,7 @@ import {
   sortModelsByPrice,
 } from '../freebucks'
 
-import type { FreebuffFreebucksInfo } from '@codebuff/common/types/freebuff-session'
+import type { FreebuffFreebucksInfo } from '@methatech/common/types/freebuff-session'
 
 /** 30 left in today's pool, 20 banked, GLM 5 / MiMo 10 / Flash 15. */
 const metered = (

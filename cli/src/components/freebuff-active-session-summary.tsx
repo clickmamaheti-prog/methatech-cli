@@ -1,6 +1,6 @@
 import React from 'react'
-import { getFreebucksInfo } from '@codebuff/common/types/freebuff-session'
-import { getFreebuffModelMeter } from '@codebuff/common/util/freebuff-session-pools'
+import { getFreebucksInfo } from '@methatech/common/types/freebuff-session'
+import { getFreebuffModelMeter } from '@methatech/common/util/freebuff-session-pools'
 
 import { useFreebuffSessionProgress } from '../hooks/use-freebuff-session-progress'
 import { useNow } from '../hooks/use-now'

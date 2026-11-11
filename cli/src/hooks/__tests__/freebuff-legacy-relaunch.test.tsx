@@ -16,7 +16,7 @@ import {
   FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
   FREEBUFF_GLM_V53_FLASH_MODEL_ID,
   FREEBUFF_MIMO_V25_MODEL_ID,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 import * as auth from '../../utils/auth'
 import { useFreebuffSessionStore } from '../../state/freebuff-session-store'
 import { useFreebuffModelStore } from '../../state/freebuff-model-store'
@@ -145,10 +145,10 @@ if (process.env.CLI_LEGACY_RELAUNCH_TEST !== '1') {
       const headers = new Headers(init?.headers)
       const method = init?.method ?? 'GET'
       const token = headers.get('authorization')!.replace('Bearer ', '')
-      const multi = headers.get('x-freebuff-multi-session') === '1'
-      const instanceId = headers.get('x-freebuff-instance-id')
+      const multi = headers.get('x-methatech-multi-session') === '1'
+      const instanceId = headers.get('x-methatech-instance-id')
       requests.push({ method, multi, instanceId, token })
-      const model = headers.get('x-freebuff-model')!
+      const model = headers.get('x-methatech-model')!
       if (!multi) {
         const held = legacy.get(token)
         if (method === 'GET') {

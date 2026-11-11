@@ -29,11 +29,11 @@
 import {
   AGENTIC_OFFER_ROUTE_VERSION,
   type AgenticOfferRequest,
-} from '@codebuff/common/ads/agentic-offer'
-import { localAgenticTestCampaign } from '@codebuff/common/ads/local-agentic-test'
-import { SPONSORED_IN_PLACE_VERSION } from '@codebuff/common/ads/sponsored-in-place'
-import { SPONSORED_RUN_SPEC_VERSION } from '@codebuff/common/ads/sponsored-run-spec'
-import { env } from '@codebuff/common/env'
+} from '@methatech/common/ads/agentic-offer'
+import { localAgenticTestCampaign } from '@methatech/common/ads/local-agentic-test'
+import { SPONSORED_IN_PLACE_VERSION } from '@methatech/common/ads/sponsored-in-place'
+import { SPONSORED_RUN_SPEC_VERSION } from '@methatech/common/ads/sponsored-run-spec'
+import { env } from '@methatech/common/env'
 
 import { FREEBUFF_WEB_URL } from '../login/constants'
 import { getAdDeviceInfo, getCliAdRequestUserAgent } from './ad-client-identity'
@@ -46,8 +46,8 @@ import { sponsoredWorkspaceId } from './sponsored-proposal-target'
 
 import type { SponsoredCliCapabilityResult } from './sponsored-cli-capability'
 import type { AdDeviceInfo } from './ad-client-identity'
-import type { SponsoredCapability } from '@codebuff/common/ads/sponsored-capability'
-import type { AdTraceContext } from '@codebuff/common/ads/trace-context'
+import type { SponsoredCapability } from '@methatech/common/ads/sponsored-capability'
+import type { AdTraceContext } from '@methatech/common/ads/trace-context'
 import type { ChatMessage } from '../types/chat'
 
 /** The turns the route is shown. Desktop's figure, and the route's cap is 20. */
@@ -193,7 +193,7 @@ export function cliLocalTestCampaign(): string | null {
     TEST_AGENTIC_ADS_CAMPAIGN: cli.TEST_AGENTIC_ADS_CAMPAIGN,
     NODE_ENV: cli.NODE_ENV,
     NEXT_PUBLIC_CB_ENVIRONMENT: env.NEXT_PUBLIC_CB_ENVIRONMENT,
-    NEXT_PUBLIC_CODEBUFF_APP_URL: env.NEXT_PUBLIC_CODEBUFF_APP_URL,
+    NEXT_PUBLIC_METHATECH_APP_URL: env.NEXT_PUBLIC_METHATECH_APP_URL,
     NEXT_PUBLIC_FREEBUFF_APP_URL: FREEBUFF_WEB_URL,
   })
 }

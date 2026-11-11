@@ -1,7 +1,7 @@
 import {
   FREEBUFF_GEMINI_4_ARGON_MODEL_ID,
   FREEBUFF_GEMINI_4_ARGON_REASONING_EFFORT,
-} from '@codebuff/common/constants/freebuff-models'
+} from '@methatech/common/constants/freebuff-models'
 
 import { createBase2 } from './base2'
 

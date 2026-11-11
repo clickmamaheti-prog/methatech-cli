@@ -20,16 +20,16 @@
  * It deliberately does NOT own how the row draws. `partner-ad-line.tsx` does,
  * and the advertiser console previews it from the same layout function.
  */
-import { getPartnerLineLayout } from '@codebuff/common/ads/inline-ad-layout'
+import { getPartnerLineLayout } from '@methatech/common/ads/inline-ad-layout'
 import {
   CLI_COMPOSER_INTENT_PLACEMENT_ID,
   COMPOSER_INTENT_PLACEMENTS,
-} from '@codebuff/common/ads/partner-triggers'
-import { getAdUserAgent } from '@codebuff/common/util/ad-user-agent'
-import { createFirstPartyViewAckTelemetry } from '@codebuff/common/util/axiom-only-log'
-import { sanitizeTerminalStrings } from '@codebuff/common/util/terminal-safe-text'
-import { AnalyticsEvent } from '@codebuff/common/constants/analytics-events'
-import { WEBSITE_URL } from '@codebuff/sdk'
+} from '@methatech/common/ads/partner-triggers'
+import { getAdUserAgent } from '@methatech/common/util/ad-user-agent'
+import { createFirstPartyViewAckTelemetry } from '@methatech/common/util/axiom-only-log'
+import { sanitizeTerminalStrings } from '@methatech/common/util/terminal-safe-text'
+import { AnalyticsEvent } from '@methatech/common/constants/analytics-events'
+import { WEBSITE_URL } from '@methatech/sdk'
 
 import { buildAdAuctionRequest } from './ad-request'
 import { timedAdFetch } from './ad-signals'

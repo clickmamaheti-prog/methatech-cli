@@ -1,10 +1,10 @@
 import {
   resolveSponsoredBfcidTemplate,
   type SponsoredProcedureRuntimeInputs,
-} from '@codebuff/common/ads/sponsored-procedure-inputs'
-import { declaredRunCredentials } from '@codebuff/common/ads/sponsored-run-credentials'
+} from '@methatech/common/ads/sponsored-procedure-inputs'
+import { declaredRunCredentials } from '@methatech/common/ads/sponsored-run-credentials'
 
-import type { SponsoredSkill } from '@codebuff/common/ads/sponsored-skill'
+import type { SponsoredSkill } from '@methatech/common/ads/sponsored-skill'
 
 export type SponsoredSignupStep = {
   /** Null when the reviewed link cannot be resolved safely for this Accept. */

@@ -1,4 +1,4 @@
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import { describe, expect, it } from 'bun:test'
 
 import {
@@ -7,7 +7,7 @@ import {
   GRAVITY_REPORT_NUDGE_TAG,
 } from '../gravity-report-nudge'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 let ids = 0
 function call(

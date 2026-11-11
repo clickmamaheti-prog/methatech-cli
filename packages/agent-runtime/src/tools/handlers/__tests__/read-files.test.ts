@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'bun:test'
 
-import { FILE_READ_STATUS } from '@codebuff/common/constants/paths'
+import { FILE_READ_STATUS } from '@methatech/common/constants/paths'
 
 import { MAX_IMAGES_PER_READ_FILES_CALL, handleReadFiles } from '../tool/read-files'
 
-import type { CodebuffToolCall } from '@codebuff/common/tools/list'
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { FileReadWindow } from '@codebuff/common/types/contracts/client'
+import type { MethaTechToolCall } from '@methatech/common/tools/list'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { FileReadWindow } from '@methatech/common/types/contracts/client'
 
 const agentTemplate = (windowedFileReads: boolean): AgentTemplate => ({
   id: 'test-agent',
@@ -27,7 +27,7 @@ const agentTemplate = (windowedFileReads: boolean): AgentTemplate => ({
 })
 
 async function runHandler(params: {
-  paths: CodebuffToolCall<'read_files'>['input']['paths']
+  paths: MethaTechToolCall<'read_files'>['input']['paths']
   windowed: boolean
 }) {
   let seenFilePaths: string[] = []

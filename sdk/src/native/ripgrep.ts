@@ -34,8 +34,8 @@ export function getBundledRgPath(
   env: SdkEnv = getSdkEnv(),
 ): string {
   // Allow override via environment variable
-  if (env.CODEBUFF_RG_PATH) {
-    return env.CODEBUFF_RG_PATH
+  if (env.METHATECH_RG_PATH) {
+    return env.METHATECH_RG_PATH
   }
 
   const platform = process.platform
@@ -123,7 +123,7 @@ export function getBundledRgPath(
   const distVendorPath = join(
     process.cwd(),
     'node_modules',
-    '@codebuff',
+    '@methatech',
     'sdk',
     'dist',
     'vendor',
@@ -139,6 +139,6 @@ export function getBundledRgPath(
   throw new Error(
     `Ripgrep binary not found for ${platform}-${arch}. ` +
       `Expected at: ${vendorPath} or ${distVendorPath}. ` +
-      `Please run 'npm run fetch-ripgrep' or set CODEBUFF_RG_PATH environment variable.`,
+      `Please run 'npm run fetch-ripgrep' or set METHATECH_RG_PATH environment variable.`,
   )
 }

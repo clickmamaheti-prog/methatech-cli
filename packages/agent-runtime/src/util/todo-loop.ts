@@ -1,6 +1,6 @@
-import { writeTodosParams } from '@codebuff/common/tools/params/tool/write-todos'
+import { writeTodosParams } from '@methatech/common/tools/params/tool/write-todos'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 export const TODO_LOOP_RECOVERY_TAG = 'TODO_LOOP_RECOVERY'
 export const TODO_LOOP_RECOVERY_THRESHOLD = 3

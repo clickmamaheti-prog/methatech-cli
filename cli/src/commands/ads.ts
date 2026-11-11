@@ -38,13 +38,13 @@ export const handleAdsEnable = (): {
  *
  * The backstop exists because the rail is part of free mode's price:
  * `getAdsEnabled()` below returns true unconditionally on this binary, while
- * the SAME settings file is read by the Codebuff client, where the key does
+ * the SAME settings file is read by the MethaTech client, where the key does
  * turn ads off. If the registry guard ever regressed, a write here would
- * silently preselect an ad-free Codebuff session.
+ * silently preselect an ad-free MethaTech session.
  *
  * Do not "repair" a stored `adsEnabled: false` on either binary: with Freebuff
- * unable to write it, every such value is a Codebuff user's own choice
- * (including one made in Codebuff's old FREE mode, before 2026-04-18 when that
+ * unable to write it, every such value is a MethaTech user's own choice
+ * (including one made in MethaTech's old FREE mode, before 2026-04-18 when that
  * mode still forced ads on).
  */
 export const FREEBUFF_ADS_FIXED_COPY =
@@ -83,7 +83,7 @@ export const handleAdsDisable = (
 export const getAdsEnabled = (): boolean => {
   if (IS_FREEBUFF) return true
 
-  // Codebuff LITE is a paid mode now, so use the normal saved setting.
+  // MethaTech LITE is a paid mode now, so use the normal saved setting.
   const settings = loadSettings()
   return settings.adsEnabled ?? false
 }

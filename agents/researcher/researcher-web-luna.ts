@@ -1,4 +1,4 @@
-import { FREEBUFF_GPT_6_LUNA_MODEL_ID } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_GPT_6_LUNA_MODEL_ID } from '@methatech/common/constants/freebuff-models'
 
 import researcherWeb from './researcher-web'
 
@@ -21,7 +21,7 @@ For a web lookup, start with web_search and read its excerpts. Answer from them 
  * and step cap as the shared definition; only the model differs.
  *
  * A separate binding rather than a change to researcher-web.ts, because the CLI
- * and Codebuff's paid roots spawn that file too and keep Gemini Flash Lite.
+ * and MethaTech's paid roots spawn that file too and keep Gemini Flash Lite.
  * Free mode admits Luna for this id as helper traffic in any session
  * (FREEBUFF_LUNA_HELPER_AGENT_IDS in common/src/constants/free-agents.ts).
  *

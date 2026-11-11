@@ -1,13 +1,13 @@
-import { assistantContent } from '@codebuff/common/util/messages'
+import { assistantContent } from '@methatech/common/util/messages'
 
 import { stripThinkScaffolding } from './think-tag-stream'
 
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 import type {
   AgentState,
   AgentOutput,
-} from '@codebuff/common/types/session-state'
+} from '@methatech/common/types/session-state'
 
 /** Messages tagged with these tags are stripped from agent output. */
 const EXCLUDED_OUTPUT_TAGS = ['TOOL_CALL_ERROR'] as const

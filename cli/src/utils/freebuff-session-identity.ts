@@ -3,8 +3,8 @@ import { randomUUID } from 'node:crypto'
 import {
   FREEBUFF_CLIENT_ENV_METADATA_KEY,
   FREEBUFF_INPUT_PROFILE_METADATA_KEY,
-} from '@codebuff/common/constants/freebuff-client-descriptor'
-import { FREEBUFF_CLI_CLAIM_PREFIX } from '@codebuff/common/constants/freebuff-desktop-sessions'
+} from '@methatech/common/constants/freebuff-client-descriptor'
+import { FREEBUFF_CLI_CLAIM_PREFIX } from '@methatech/common/constants/freebuff-desktop-sessions'
 
 import { getClientEnvironmentDescriptor } from './client-environment'
 import { takeInputProfile } from './input-profile'

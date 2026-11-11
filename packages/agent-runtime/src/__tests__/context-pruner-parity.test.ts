@@ -22,7 +22,7 @@ import { describe, expect, it } from 'bun:test'
 import contextPruner from '../../../../agents/context-pruner'
 import { compactMessages } from '../compact-history'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const noopLogger = {
   debug: () => {},

@@ -1,4 +1,4 @@
-import { isFreebuffLimitedOfferModelId } from '@codebuff/common/constants/freebuff-models'
+import { isFreebuffLimitedOfferModelId } from '@methatech/common/constants/freebuff-models'
 import { describe, expect, test } from 'bun:test'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -347,8 +347,8 @@ describe('free mode agent model allowlist', () => {
     ).toBe(true)
   })
 
-  test("never allows Codebuff lite's paid model on the legacy reviewer id", () => {
-    // code-reviewer-lite belongs to Codebuff's paid lite mode now. The legacy
+  test("never allows MethaTech lite's paid model on the legacy reviewer id", () => {
+    // code-reviewer-lite belongs to MethaTech's paid lite mode now. The legacy
     // entry exists for released freebuff clients that pin a free model to that
     // id — a free session must never reach the paid one.
     expect(
@@ -548,7 +548,7 @@ describe('free mode agent model allowlist', () => {
   test('marks only the Luna helpers as helper traffic on a session model', () => {
     for (const agentId of [
       'file-picker',
-      'codebuff/file-lister@0.0.31',
+      'methatech/file-lister@0.0.31',
       'researcher-web',
     ]) {
       expect(
@@ -625,7 +625,7 @@ describe('free mode agent model allowlist', () => {
     )
     expect(
       isFreeModeAllowedAgentModel(
-        'codebuff/tmux-cli@0.0.1',
+        'methatech/tmux-cli@0.0.1',
         FREEBUFF_DEEPSEEK_V4_FLASH_MODEL_ID,
       ),
     ).toBe(true)
@@ -655,7 +655,7 @@ describe('free mode agent model allowlist', () => {
     )
     expect(
       isFreebuffGeminiThinkerAgent(
-        `codebuff/${FREEBUFF_GEMINI_THINKER_AGENT_ID}@0.0.1`,
+        `methatech/${FREEBUFF_GEMINI_THINKER_AGENT_ID}@0.0.1`,
       ),
     ).toBe(true)
     expect(
@@ -686,7 +686,7 @@ describe('isLimitedTierSubstitutedModel', () => {
       // The published, versioned form is how ids actually arrive.
       expect(
         isLimitedTierSubstitutedModel(
-          `codebuff/${agentId}@0.0.1`,
+          `methatech/${agentId}@0.0.1`,
           LIMITED_FREEBUFF_MODEL_ID,
         ),
       ).toBe(true)
@@ -1096,7 +1096,7 @@ describe('free tier helper agents (small-request exemption)', () => {
     )
     expect(
       isFreeAgentModel(
-        'codebuff/researcher-web@0.0.3',
+        'methatech/researcher-web@0.0.3',
         GEMINI_3_5_FLASH_LITE_MODEL_ID,
       ),
     ).toBe(true)

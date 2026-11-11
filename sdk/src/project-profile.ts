@@ -1,7 +1,7 @@
 import { createHash } from 'crypto'
 import path from 'path'
 
-import { FREEBUFF_ACTING_USER_HEADER } from '@codebuff/common/constants/freebuff-models'
+import { METHATECH_ACTING_USER_HEADER } from '@methatech/common/constants/freebuff-models'
 import z from 'zod/v4'
 
 import { getWebsiteUrl } from './constants'
@@ -9,7 +9,7 @@ import { getWebsiteUrl } from './constants'
 import type {
   GetProjectProfileFn,
   ReportProjectProfileFn,
-} from '@codebuff/common/types/contracts/database'
+} from '@methatech/common/types/contracts/database'
 
 const PROJECT_PROFILE_PATH = '/api/v1/project-profile'
 
@@ -44,11 +44,11 @@ export async function resolveProjectKey(params: {
 }
 
 export function projectProfileSurface(
-  extraCodebuffMetadata: Record<string, string> | undefined,
+  extraMethaTechMetadata: Record<string, string> | undefined,
 ): string {
   return (
-    extraCodebuffMetadata?.surface ??
-    (extraCodebuffMetadata?.freebuff_multi_session === '1' ? 'desktop' : 'cli')
+    extraMethaTechMetadata?.surface ??
+    (extraMethaTechMetadata?.freebuff_multi_session === '1' ? 'desktop' : 'cli')
   )
 }
 
@@ -64,7 +64,7 @@ export function createProjectProfileClient(params: {
   const headers = {
     Authorization: `Bearer ${params.apiKey}`,
     'Content-Type': 'application/json',
-    ...(params.userId ? { [FREEBUFF_ACTING_USER_HEADER]: params.userId } : {}),
+    ...(params.userId ? { [METHATECH_ACTING_USER_HEADER]: params.userId } : {}),
   }
   return {
     getProjectProfile: async ({ logger, signal }) => {

@@ -3,7 +3,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 
-import { createRedactor } from '@codebuff/common/doctor/redact'
+import { createRedactor } from '@methatech/common/doctor/redact'
 
 import {
   authFindings, binaryFindings, commandsOnPath, historyFindings, installFindings, leftoverFindings, logFindings,

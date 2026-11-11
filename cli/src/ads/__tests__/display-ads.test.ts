@@ -1,4 +1,4 @@
-import { sponsorFor } from '@codebuff/common/ads/display-ads/sponsors'
+import { sponsorFor } from '@methatech/common/ads/display-ads/sponsors'
 import { RGBA } from '@opentui/core'
 import { describe, expect, test } from 'bun:test'
 

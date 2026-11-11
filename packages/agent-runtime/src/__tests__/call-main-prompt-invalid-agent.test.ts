@@ -1,14 +1,14 @@
-import * as analytics from '@codebuff/common/analytics'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { createTestAgentRuntimeParams } from '@codebuff/common/testing/fixtures/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
+import * as analytics from '@methatech/common/analytics'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { createTestAgentRuntimeParams } from '@methatech/common/testing/fixtures/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test'
 
 import { callMainPrompt } from '../main-prompt'
 import { createToolCallChunk } from './test-utils'
 
-import type { ServerAction } from '@codebuff/common/actions'
-import type { ProjectFileContext } from '@codebuff/common/util/file'
+import type { ServerAction } from '@methatech/common/actions'
+import type { ProjectFileContext } from '@methatech/common/util/file'
 
 const fileContext = (
   agentTemplates: ProjectFileContext['agentTemplates'],

@@ -1,10 +1,10 @@
-import * as mainPromptModule from '@codebuff/agent-runtime/main-prompt'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import * as mainPromptModule from '@methatech/agent-runtime/main-prompt'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test'
 
-import { CodebuffClient } from '../client'
+import { MethaTechClient } from '../client'
 import * as databaseModule from '../impl/database'
 
 interface ToolCallContentBlock {
@@ -112,7 +112,7 @@ describe('Error preserves in-progress message history', () => {
       },
     )
 
-    const client = new CodebuffClient({ apiKey: 'test-key' })
+    const client = new MethaTechClient({ apiKey: 'test-key' })
     const result = await client.run({
       agent: 'base2',
       prompt: 'Fix the bug in auth.ts',
@@ -231,7 +231,7 @@ describe('Error preserves in-progress message history', () => {
       },
     )
 
-    const client = new CodebuffClient({ apiKey: 'test-key' })
+    const client = new MethaTechClient({ apiKey: 'test-key' })
     const firstResult = await client.run({
       agent: 'base2',
       prompt: 'Investigate the login bug',

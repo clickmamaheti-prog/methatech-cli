@@ -9,8 +9,8 @@ import { FREEBUFF_ADS_FIXED_COPY, handleAdsDisable } from '../ads'
  * The command is not registered there (freebuff-command-aliases.test.ts pins
  * that), so this is the backstop behind the registry: `getAdsEnabled()`
  * short-circuits to `true` when `IS_FREEBUFF`, and the shared settings file is
- * read by the Codebuff client, where `adsEnabled: false` does turn ads off. A
- * write here would preselect an ad-free Codebuff session.
+ * read by the MethaTech client, where `adsEnabled: false` does turn ads off. A
+ * write here would preselect an ad-free MethaTech session.
  *
  * The mode is injected rather than read from `process.env`, because `IS_FREEBUFF`
  * is a module constant fixed at import time and bun shares one module registry

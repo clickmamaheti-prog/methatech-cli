@@ -2,11 +2,11 @@ import { createHash } from 'node:crypto'
 import fs from 'fs'
 import path from 'path'
 
-import { withTimeout } from '@codebuff/common/util/promise'
+import { withTimeout } from '@methatech/common/util/promise'
 import { z } from 'zod/v4'
 
 import type { EvalCommitV2, FileDiff } from './types'
-import type { AgentDefinition, CodebuffClient } from '@codebuff/sdk'
+import type { AgentDefinition, CodebuffClient } from '@methatech/sdk'
 
 const DEBUG_ERROR = true
 

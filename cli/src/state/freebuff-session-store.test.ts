@@ -38,7 +38,7 @@ test('release owns the refund receipt and sends the held instance', async () => 
   expect(useFreebuffSessionStore.getState().lastRefund).toBe(4)
   const [, init] = fetchSpy.mock.calls[0]!
   expect(init.method).toBe('DELETE')
-  expect(new Headers(init.headers).get('x-freebuff-instance-id')).toBe(
+  expect(new Headers(init.headers).get('x-methatech-instance-id')).toBe(
     'held-cli',
   )
   useFreebuffSessionStore.getState().setSession({ status: 'none' })
@@ -183,7 +183,7 @@ test('a pending end releases the chat and later recovers its final receipt', asy
   expect(useFreebuffSessionStore.getState().pendingRefund).toBeNull()
   expect(
     new Headers(fetchSpy.mock.calls[1]![1].headers).get(
-      'x-freebuff-instance-id',
+      'x-methatech-instance-id',
     ),
   ).toBe('held-cli')
 })

@@ -126,7 +126,7 @@ describe('getErrorObject on an AI SDK APICallError', () => {
     const wrapper = new Error('Failed after 3 attempts') as Error & {
       lastError: unknown
     }
-    // Assigned, as codebuff-api.ts does, so it is enumerable and serialized.
+    // Assigned, as methatech-api.ts does, so it is enumerable and serialized.
     wrapper.cause = fetchError
     wrapper.lastError = providerError()
 

@@ -7,7 +7,7 @@ import {
   SKILL_DESCRIPTION_MAX_LENGTH,
   SKILL_FILE_NAME,
   SKILL_NAME_MAX_LENGTH,
-} from '@codebuff/common/constants/skills'
+} from '@methatech/common/constants/skills'
 
 import {
   loadSkills,
@@ -54,7 +54,7 @@ describe('loadSkills', () => {
   let projectDir: string
 
   beforeEach(() => {
-    tempRoot = mkdtempSync(path.join(os.tmpdir(), 'codebuff-sdk-load-skills-'))
+    tempRoot = mkdtempSync(path.join(os.tmpdir(), 'methatech-sdk-load-skills-'))
     homeDir = path.join(tempRoot, 'home')
     projectDir = path.join(tempRoot, 'project')
 

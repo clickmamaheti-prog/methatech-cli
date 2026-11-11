@@ -1,18 +1,18 @@
-import { AbortError } from '@codebuff/common/util/error'
+import { AbortError } from '@methatech/common/util/error'
 import { partition } from 'lodash'
 
 import { processFileBlock } from '../../../process-file-block'
 
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
   ClientToolCall,
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
-import type { RequestOptionalFileFn } from '@codebuff/common/types/contracts/client'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
-import type { AgentState } from '@codebuff/common/types/session-state'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
+import type { RequestOptionalFileFn } from '@methatech/common/types/contracts/client'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
+import type { AgentState } from '@methatech/common/types/session-state'
 
 type FileProcessingTools = 'write_file' | 'str_replace' | 'create_plan'
 export type FileProcessing<
@@ -62,7 +62,7 @@ export function getFileProcessingValues(
 export const handleWriteFile = (async (
   params: {
     previousToolCallFinished: Promise<void>
-    toolCall: CodebuffToolCall<'write_file'>
+    toolCall: MethaTechToolCall<'write_file'>
 
     agentState: AgentState
     clientSessionId: string
@@ -75,11 +75,11 @@ export const handleWriteFile = (async (
 
     requestClientToolCall: (
       toolCall: ClientToolCall<'write_file'>,
-    ) => Promise<CodebuffToolOutput<'write_file'>>
+    ) => Promise<MethaTechToolOutput<'write_file'>>
     requestOptionalFile: RequestOptionalFileFn
     writeToClient: (chunk: string) => void
   } & ParamsExcluding<RequestOptionalFileFn, 'filePath'>,
-): Promise<{ output: CodebuffToolOutput<'write_file'> }> => {
+): Promise<{ output: MethaTechToolOutput<'write_file'> }> => {
   const {
     previousToolCallFinished,
     toolCall,
@@ -159,7 +159,7 @@ export const handleWriteFile = (async (
       requestClientToolCall,
     ),
   }
-}) satisfies CodebuffToolHandlerFunction<'write_file'>
+}) satisfies MethaTechToolHandlerFunction<'write_file'>
 
 export async function postStreamProcessing<T extends FileProcessingTools>(
   toolCall: FileProcessing<T>,
@@ -167,8 +167,8 @@ export async function postStreamProcessing<T extends FileProcessingTools>(
   writeToClient: (chunk: string) => void,
   requestClientToolCall: (
     toolCall: ClientToolCall<T>,
-  ) => Promise<CodebuffToolOutput<T>>,
-): Promise<CodebuffToolOutput<T>> {
+  ) => Promise<MethaTechToolOutput<T>>,
+): Promise<MethaTechToolOutput<T>> {
   const allFileProcessingResults = await Promise.all(
     fileProcessingState.allPromises,
   )

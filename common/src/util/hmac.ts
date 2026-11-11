@@ -2,7 +2,7 @@
  * One HMAC-SHA256 construction for every keyed hash and signature in the repo
  * (COD-407).
  *
- * Five modules in `@codebuff/internal` each built their own
+ * Five modules in `@methatech/internal` each built their own
  * `createHmac('sha256', secret).update(...).digest(...)`. They were
  * byte-identical in the construction and differed only in ENCODING (hex for
  * stored hashes, base64url for tokens) and in what they fed it -- the salts

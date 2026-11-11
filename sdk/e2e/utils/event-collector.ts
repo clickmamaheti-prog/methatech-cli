@@ -2,7 +2,7 @@
  * Event collector utility for capturing and asserting on streaming events.
  */
 
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 export type StreamChunk =
   | string

@@ -1,13 +1,13 @@
-import type { CodebuffToolHandlerFunction } from '../handler-function-type'
+import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
-  CodebuffToolCall,
-  CodebuffToolOutput,
-} from '@codebuff/common/tools/list'
+  MethaTechToolCall,
+  MethaTechToolOutput,
+} from '@methatech/common/tools/list'
 
 export const handleCloudPlanReady = (async (params: {
   previousToolCallFinished: Promise<unknown>
-  toolCall: CodebuffToolCall<'cloud_plan_ready'>
-}): Promise<{ output: CodebuffToolOutput<'cloud_plan_ready'> }> => {
+  toolCall: MethaTechToolCall<'cloud_plan_ready'>
+}): Promise<{ output: MethaTechToolOutput<'cloud_plan_ready'> }> => {
   await params.previousToolCallFinished
   return {
     output: [
@@ -17,4 +17,4 @@ export const handleCloudPlanReady = (async (params: {
       },
     ],
   }
-}) satisfies CodebuffToolHandlerFunction<'cloud_plan_ready'>
+}) satisfies MethaTechToolHandlerFunction<'cloud_plan_ready'>

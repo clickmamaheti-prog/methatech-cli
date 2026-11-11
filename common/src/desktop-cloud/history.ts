@@ -196,7 +196,7 @@ export class CloudHistoryError extends Error {
  * only open hosted chats, so the chat list omits device chats for a direct
  * bearer request without it (`web/src/server/desktop-cloud/history-api.ts`).
  */
-export const CLOUD_HISTORY_DEVICE_CHATS_HEADER = 'x-freebuff-device-chats'
+export const CLOUD_HISTORY_DEVICE_CHATS_HEADER = 'x-methatech-device-chats'
 
 const bearer = (token: string) => ({
   Authorization: `Bearer ${token}`,

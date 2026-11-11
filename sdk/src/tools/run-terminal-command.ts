@@ -16,7 +16,7 @@ import { stripColors } from '../../../common/src/util/string'
 import { getSystemProcessEnv } from '../env'
 import { createWindowsBashNotFoundError, findWindowsBash } from './windows-bash'
 
-import type { CodebuffToolOutput } from '../../../common/src/tools/list'
+import type { MethaTechToolOutput } from '../../../common/src/tools/list'
 
 const COMMAND_OUTPUT_LIMIT = 50_000
 const TRUNCATION_MARKER = '\n[...TRUNCATED DUE TO LENGTH...]\n'
@@ -372,7 +372,7 @@ export function runTerminalCommand({
   scrubEnvironmentValues?: readonly string[]
   signal?: AbortSignal
   terminalCommandBroker?: TerminalCommandBroker
-}): Promise<CodebuffToolOutput<'run_terminal_command'>> {
+}): Promise<MethaTechToolOutput<'run_terminal_command'>> {
   return new Promise((resolve, reject) => {
     const isWindows = os.platform() === 'win32'
     const processEnv = {
@@ -710,8 +710,8 @@ async function startBackgroundCommand(
   command: string,
   signal?: AbortSignal,
   broker?: TerminalCommandBroker,
-): Promise<CodebuffToolOutput<'run_terminal_command'>> {
-  const logDirectory = mkdtempSync(path.join(os.tmpdir(), 'codebuff-process-'))
+): Promise<MethaTechToolOutput<'run_terminal_command'>> {
+  const logDirectory = mkdtempSync(path.join(os.tmpdir(), 'methatech-process-'))
   const stdoutPath = path.join(logDirectory, 'stdout.log')
   const stderrPath = path.join(logDirectory, 'stderr.log')
   let child: TerminalCommandProcess

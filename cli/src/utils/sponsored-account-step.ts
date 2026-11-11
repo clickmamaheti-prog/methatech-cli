@@ -34,24 +34,24 @@ import {
   labConnectedNote,
   labCredentialSection,
   labSignInConfirmedNote,
-} from '@codebuff/common/ads/agentic-ad-lab-run'
-import { signupUrlWithEmail } from '@codebuff/common/ads/sponsored-instant-setup'
+} from '@methatech/common/ads/agentic-ad-lab-run'
+import { signupUrlWithEmail } from '@methatech/common/ads/sponsored-instant-setup'
 import {
   guardSponsoredCredentials,
   guardSponsoredLink,
-} from '@codebuff/common/ads/sponsored-run-links'
+} from '@methatech/common/ads/sponsored-run-links'
 import {
   redactSponsoredCredentialDeep,
   redactSponsoredCredentialText,
   sponsoredCredentialValueProblem,
-} from '@codebuff/common/ads/sponsored-run-credentials'
+} from '@methatech/common/ads/sponsored-run-credentials'
 import { inspect } from 'node:util'
 
 import type {
   SponsoredRedactableSecret,
   SponsoredRunCredential,
-} from '@codebuff/common/ads/sponsored-run-credentials'
-import type { SponsoredSignupStep } from '@codebuff/common/ads/sponsored-signup-step'
+} from '@methatech/common/ads/sponsored-run-credentials'
+import type { SponsoredSignupStep } from '@methatech/common/ads/sponsored-signup-step'
 
 export const SPONSORED_SIGNUP_TOOL_NAME = 'request_sponsored_signup'
 

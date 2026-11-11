@@ -5,11 +5,11 @@ import {
   SPONSORED_FRICTION_TOOL_NAME,
   SPONSORED_FRICTION_TOOL_RESULT,
   sponsoredFrictionInputSchema,
-} from '@codebuff/common/ads/sponsored-run-friction'
-import { getCustomToolDefinition } from '@codebuff/sdk'
+} from '@methatech/common/ads/sponsored-run-friction'
+import { getCustomToolDefinition } from '@methatech/sdk'
 
-import type { SponsoredFrictionInput } from '@codebuff/common/ads/sponsored-run-friction'
-import type { CustomToolDefinition } from '@codebuff/sdk'
+import type { SponsoredFrictionInput } from '@methatech/common/ads/sponsored-run-friction'
+import type { CustomToolDefinition } from '@methatech/sdk'
 
 /**
  * `report_friction` for a CLI sponsored run, the same tool Desktop

@@ -1,4 +1,4 @@
-import { assistantMessage, userMessage } from '@codebuff/common/util/messages'
+import { assistantMessage, userMessage } from '@methatech/common/util/messages'
 import { describe, expect, it } from 'bun:test'
 
 import {
@@ -7,7 +7,7 @@ import {
   TODO_PROGRESS_REMINDER_TAG,
 } from '../todo-progress-reminder'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 type Todo = { task: string; completed: boolean }
 

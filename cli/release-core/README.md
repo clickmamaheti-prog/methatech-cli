@@ -1,7 +1,7 @@
 # Release launcher core
 
 This directory is the canonical implementation of the npm launchers used by
-Codebuff, Codecane, and Freebuff. Each product keeps a small `index.js` in its
+MethaTech, Codecane, and Freebuff. Each product keeps a small `index.js` in its
 release package that supplies product-specific configuration to
 `createLauncher()`.
 
@@ -13,7 +13,7 @@ or uninstall the packages.
 ## Download integrity
 
 The launcher downloads a `.tar.gz` from
-`https://codebuff.com/api/releases/download/<version>/<file>` (a 302 to the
+`https://console.methatech.eu.org/api/releases/download/<version>/<file>` (a 302 to the
 GitHub release asset) and verifies its sha256 **before** extracting it. The
 expected hashes never come from the download origin:
 
@@ -31,10 +31,10 @@ the package manifest, and its `verify` mode fails the release if any target is
 uncovered. Wrappers published before this field existed ignore it, so old
 installs keep working.
 
-Transport rules, in `http.js` / `launcher.js`: the `NEXT_PUBLIC_CODEBUFF_APP_URL`
+Transport rules, in `http.js` / `launcher.js`: the `NEXT_PUBLIC_METHATECH_APP_URL`
 override is honoured only over `https:` (or `http:` on localhost), redirects
 never downgrade `https:` to `http:`, and a redirect may only land on the
-original host, `codebuff.com`, `freebuff.com`, `github.com` (with `www.`
+original host, `console.methatech.eu.org`, `freebuff.com`, `github.com` (with `www.`
 variants) or `*.githubusercontent.com`. Extraction admits only the binary and
 `tree-sitter.wasm` as root-level plain files.
 

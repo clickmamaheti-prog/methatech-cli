@@ -1,14 +1,14 @@
-import { compactionPolicyForModel } from '@codebuff/common/constants/compaction-policy'
-import { contextPrunerBudgetForModel } from '@codebuff/common/constants/model-config'
-import * as analytics from '@codebuff/common/analytics'
-import { TEST_USER_ID } from '@codebuff/common/old-constants'
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
+import { compactionPolicyForModel } from '@methatech/common/constants/compaction-policy'
+import { contextPrunerBudgetForModel } from '@methatech/common/constants/model-config'
+import * as analytics from '@methatech/common/analytics'
+import { TEST_USER_ID } from '@methatech/common/old-constants'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
 import {
   assistantMessage,
   jsonToolResult,
   userMessage,
-} from '@codebuff/common/util/messages'
+} from '@methatech/common/util/messages'
 import {
   afterEach,
   beforeEach,
@@ -29,17 +29,17 @@ import * as toolExecutor from '../tools/tool-executor'
 
 import type { AgentTemplate, StepGenerator } from '../templates/types'
 import type { executeToolCall } from '../tools/tool-executor'
-import type { PublicAgentState } from '@codebuff/common/types/agent-template'
+import type { PublicAgentState } from '@methatech/common/types/agent-template'
 import type {
   AgentRuntimeDeps,
   AgentRuntimeScopedDeps,
-} from '@codebuff/common/types/contracts/agent-runtime'
-import type { SendActionFn } from '@codebuff/common/types/contracts/client'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ParamsOf } from '@codebuff/common/types/function-params'
-import type { ToolMessage } from '@codebuff/common/types/messages/codebuff-message'
-import type { ToolResultOutput } from '@codebuff/common/types/messages/content-part'
-import type { AgentState } from '@codebuff/common/types/session-state'
+} from '@methatech/common/types/contracts/agent-runtime'
+import type { SendActionFn } from '@methatech/common/types/contracts/client'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ParamsOf } from '@methatech/common/types/function-params'
+import type { ToolMessage } from '@methatech/common/types/messages/methatech-message'
+import type { ToolResultOutput } from '@methatech/common/types/messages/content-part'
+import type { AgentState } from '@methatech/common/types/session-state'
 
 const logger: Logger = {
   debug: () => {},

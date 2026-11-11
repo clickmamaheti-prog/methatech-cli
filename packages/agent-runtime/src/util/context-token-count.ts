@@ -1,4 +1,4 @@
-import { isFreebuffModelHandle } from '@codebuff/common/types/freebuff-model-catalog'
+import { isFreebuffModelHandle } from '@methatech/common/types/freebuff-model-catalog'
 
 import {
   countTokens,
@@ -6,9 +6,9 @@ import {
   countTokensMessages,
 } from './token-counter'
 
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
-import type { ModelUsageData } from '@codebuff/common/types/contracts/llm'
-import type { AgentState } from '@codebuff/common/types/session-state'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
+import type { ModelUsageData } from '@methatech/common/types/contracts/llm'
+import type { AgentState } from '@methatech/common/types/session-state'
 
 /** The slice of AgentState this file needs, so the SDK and the step loop can
  *  both call in without either owning the full type. */

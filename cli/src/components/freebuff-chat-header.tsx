@@ -1,16 +1,16 @@
-import { FREEBUFF_ENABLE_STREAK_IN_UI } from '@codebuff/common/constants/freebuff-models'
+import { FREEBUFF_ENABLE_STREAK_IN_UI } from '@methatech/common/constants/freebuff-models'
 import {
   dailyMeterQuiet,
   getReferralInfo,
   getGlmPromo,
   getSubscriptionInfo,
   getFreeWindowsInfo,
-} from '@codebuff/common/types/freebuff-session'
+} from '@methatech/common/types/freebuff-session'
 import {
   freebuffPlanSummary,
   freebuffFreeWindowsSummary,
   formatPlanWindows,
-} from '@codebuff/common/util/freebuff-plan-summary'
+} from '@methatech/common/util/freebuff-plan-summary'
 
 import {
   DisplayAdSplash,
@@ -29,7 +29,7 @@ import { useFreebuffStreakQuery } from '../hooks/use-freebuff-streak-query'
 import { useFreebuffModelDirectory } from '../state/freebuff-catalog-store'
 import { useFreebuffModelStore } from '../state/freebuff-model-store'
 import { useFreebuffChatStore } from '../state/freebuff-chat-store'
-import { formatHours } from '@codebuff/common/util/freebuff-hours'
+import { formatHours } from '@methatech/common/util/freebuff-hours'
 import { freebucksOf, freebucksRefundLine } from '../utils/freebucks'
 import { getFreebuffStreakBonusNoteForLayout } from '../utils/freebuff-streak-line'
 import type { FreebuffSessionResponse } from '../types/freebuff-session'

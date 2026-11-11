@@ -13,10 +13,10 @@ import {
   getInlineAdLayout,
   truncateToLines,
   truncateToWidth,
-} from '@codebuff/common/ads/inline-ad-layout'
-import type { DockClickOrigin } from '@codebuff/common/ads/ad-event-hygiene'
-import type { CliDockArm } from '@codebuff/common/util/ad-experiment'
-import { visibleWaitingRoomPlacementIds } from '@codebuff/common/ads/waiting-room-placements'
+} from '@methatech/common/ads/inline-ad-layout'
+import type { DockClickOrigin } from '@methatech/common/ads/ad-event-hygiene'
+import type { CliDockArm } from '@methatech/common/util/ad-experiment'
+import { visibleWaitingRoomPlacementIds } from '@methatech/common/ads/waiting-room-placements'
 import { safeOpen } from '../utils/open-url'
 import React, { useState, useMemo, useEffect } from 'react'
 
@@ -55,7 +55,7 @@ export {
   getDockAdLayout,
   getDockPanelLayout,
   getInlineAdLayout,
-} from '@codebuff/common/ads/inline-ad-layout'
+} from '@methatech/common/ads/inline-ad-layout'
 
 export function getCardAdLayout(
   ad: Pick<AdResponse, 'adText' | 'title' | 'cta' | 'url'>,

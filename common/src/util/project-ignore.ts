@@ -2,7 +2,7 @@ import * as ignore from 'ignore'
 
 export const PROJECT_IGNORE_FILES = [
   '.gitignore',
-  '.codebuffignore',
+  '.methatechignore',
   '.metatechignore',
 ] as const
 

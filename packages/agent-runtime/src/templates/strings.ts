@@ -1,9 +1,9 @@
 import {
   KNOWLEDGE_FILE_NAMES_LOWERCASE,
   PROJECT_INSTRUCTIONS_HEADER,
-} from '@codebuff/common/constants/knowledge'
-import { escapeString } from '@codebuff/common/util/string'
-import { withSystemReminderTags } from '@codebuff/common/util/system-reminder'
+} from '@methatech/common/constants/knowledge'
+import { escapeString } from '@methatech/common/util/string'
+import { withSystemReminderTags } from '@methatech/common/util/system-reminder'
 import { z } from 'zod/v4'
 
 import { getAgentTemplate } from './agent-registry'
@@ -17,21 +17,21 @@ import {
 import { parseUserMessage, unwrapSteeringText } from '../util/messages'
 
 import type { AgentTemplate, PlaceholderValue } from './types'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { ParamsExcluding } from '@codebuff/common/types/function-params'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { ParamsExcluding } from '@methatech/common/types/function-params'
 import type {
   Message,
   UserMessage,
-} from '@codebuff/common/types/messages/codebuff-message'
-import type { TextPart } from '@codebuff/common/types/messages/content-part'
+} from '@methatech/common/types/messages/methatech-message'
+import type { TextPart } from '@methatech/common/types/messages/content-part'
 import type {
   AgentState,
   AgentTemplateType,
-} from '@codebuff/common/types/session-state'
+} from '@methatech/common/types/session-state'
 import type {
   CustomToolDefinitions,
   ProjectFileContext,
-} from '@codebuff/common/util/file'
+} from '@methatech/common/util/file'
 
 export function formatCurrentDate(date: Date): string {
   return new Intl.DateTimeFormat('en-US', {

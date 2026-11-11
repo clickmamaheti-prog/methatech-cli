@@ -22,9 +22,9 @@ import {
   getPartnerLineLayout,
   isValidBrandHex,
   PARTNER_LINE_GAP,
-} from '@codebuff/common/ads/inline-ad-layout'
+} from '@methatech/common/ads/inline-ad-layout'
 import { TextAttributes } from '@opentui/core'
-import { toAdReport, type AdReport } from '@codebuff/common/ads/ad-report'
+import { toAdReport, type AdReport } from '@methatech/common/ads/ad-report'
 import { greptileTerminalColors } from '../ads/partner-brand'
 import React, { useEffect, useImperativeHandle, type Ref } from 'react'
 

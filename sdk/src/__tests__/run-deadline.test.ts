@@ -13,7 +13,7 @@ import type { AgentDefinition } from '../index'
 describe('run() with a caller deadline and a silent upstream', () => {
   let server: ReturnType<typeof Bun.serve>
   let reachedCompletion = false
-  const savedAppUrl = process.env.NEXT_PUBLIC_CODEBUFF_APP_URL
+  const savedAppUrl = process.env.NEXT_PUBLIC_METHATECH_APP_URL
 
   beforeAll(() => {
     server = Bun.serve({
@@ -35,14 +35,14 @@ describe('run() with a caller deadline and a silent upstream', () => {
         return Response.json({})
       },
     })
-    process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = `http://127.0.0.1:${server.port}`
+    process.env.NEXT_PUBLIC_METHATECH_APP_URL = `http://127.0.0.1:${server.port}`
   })
 
   afterAll(() => {
     server.stop(true)
     if (savedAppUrl === undefined)
-      delete process.env.NEXT_PUBLIC_CODEBUFF_APP_URL
-    else process.env.NEXT_PUBLIC_CODEBUFF_APP_URL = savedAppUrl
+      delete process.env.NEXT_PUBLIC_METHATECH_APP_URL
+    else process.env.NEXT_PUBLIC_METHATECH_APP_URL = savedAppUrl
   })
 
   test('resolves at the deadline as a cancellation', async () => {

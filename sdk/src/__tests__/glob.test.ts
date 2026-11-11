@@ -1,5 +1,5 @@
-import { DEFAULT_MAX_FILES } from '@codebuff/common/project-file-tree'
-import { createMockFs } from '@codebuff/common/testing/mocks/filesystem'
+import { DEFAULT_MAX_FILES } from '@methatech/common/project-file-tree'
+import { createMockFs } from '@methatech/common/testing/mocks/filesystem'
 import { describe, expect, it } from 'bun:test'
 
 import { glob } from '../tools/glob'

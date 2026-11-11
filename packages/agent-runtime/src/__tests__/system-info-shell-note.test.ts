@@ -1,4 +1,4 @@
-import { getStubProjectFileContext } from '@codebuff/common/util/file'
+import { getStubProjectFileContext } from '@methatech/common/util/file'
 import { describe, expect, test } from 'bun:test'
 
 import { getSystemInfoPrompt } from '../system-prompt/prompts'

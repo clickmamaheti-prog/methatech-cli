@@ -1,13 +1,13 @@
-import { contextPrunerBudgetForModel } from '@codebuff/common/constants/model-config'
+import { contextPrunerBudgetForModel } from '@methatech/common/constants/model-config'
 
 import { fitToolResults } from './fit-tool-results'
 import { countTokensMessages } from './token-counter'
 
-import type { AgentTemplate } from '@codebuff/common/types/agent-template'
+import type { AgentTemplate } from '@methatech/common/types/agent-template'
 import type {
   Message,
   ToolMessage,
-} from '@codebuff/common/types/messages/codebuff-message'
+} from '@methatech/common/types/messages/methatech-message'
 
 type ContextPolicy = Pick<AgentTemplate, 'model' | 'compactContext'>
 

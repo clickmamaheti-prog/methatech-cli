@@ -6,10 +6,10 @@ import {
   shouldOfferProjectProfileTool,
 } from '../project-profile'
 
-import type { ProjectProfileReport } from '@codebuff/common/constants/project-profile'
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { Message } from '@codebuff/common/types/messages/codebuff-message'
+import type { ProjectProfileReport } from '@methatech/common/constants/project-profile'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { Message } from '@methatech/common/types/messages/methatech-message'
 
 const logger: Logger = {
   debug: () => {},
@@ -57,7 +57,7 @@ describe('shouldOfferProjectProfileTool', () => {
   test('skips the project-understanding agent, which reports its own profile', () => {
     for (const agentId of [
       'freebuff-project-understanding',
-      'codebuff/freebuff-project-understanding@1.0.0',
+      'methatech/freebuff-project-understanding@1.0.0',
     ]) {
       expect(shouldOfferProjectProfileTool({ ...base, agentId })).toBe(false)
     }

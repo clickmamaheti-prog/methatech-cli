@@ -1,6 +1,6 @@
-import { TEST_AGENT_RUNTIME_IMPL } from '@codebuff/common/testing/impl/agent-runtime'
-import { getInitialSessionState } from '@codebuff/common/types/session-state'
-import { promptSuccess } from '@codebuff/common/util/error'
+import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
+import { getInitialSessionState } from '@methatech/common/types/session-state'
+import { promptSuccess } from '@methatech/common/util/error'
 import { describe, expect, it } from 'bun:test'
 
 import { mockFileContext } from './test-utils'
@@ -12,9 +12,9 @@ import {
 } from '../util/truncated-write-guard'
 
 import type { AgentTemplate } from '../templates/types'
-import type { StreamChunk } from '@codebuff/common/types/contracts/llm'
-import type { Logger } from '@codebuff/common/types/contracts/logger'
-import type { PrintModeEvent } from '@codebuff/common/types/print-mode'
+import type { StreamChunk } from '@methatech/common/types/contracts/llm'
+import type { Logger } from '@methatech/common/types/contracts/logger'
+import type { PrintModeEvent } from '@methatech/common/types/print-mode'
 
 const logger: Logger = {
   debug: () => {},

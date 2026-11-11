@@ -35,7 +35,7 @@ import { PYPI_EXACT_VERSION, PYPI_PACKAGE_NAME } from './sponsored-skill'
 import { sponsoredPackageManagerFromLockfiles } from './sponsored-step-check-context'
 
 import type { SponsoredPackageResolveResponse } from './sponsored-package-resolve'
-import type { CodebuffFileSystem } from '../types/filesystem'
+import type { MethaTechFileSystem } from '../types/filesystem'
 
 export const SPONSORED_INSTALL_TOOL_NAME = 'install_package'
 
@@ -149,7 +149,7 @@ export async function detectSponsoredInstallProject(
 
 /** The project probe over a file system rooted anywhere; `has` is any entry. */
 export function sponsoredInstallProbe(
-  fs: Pick<CodebuffFileSystem, 'stat' | 'readFile'>,
+  fs: Pick<MethaTechFileSystem, 'stat' | 'readFile'>,
   root: string,
 ): Pick<SponsoredInstallToolDeps, 'has' | 'readText'> {
   const join = (relative: string) =>
