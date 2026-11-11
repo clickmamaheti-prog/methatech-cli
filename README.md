@@ -2,7 +2,7 @@
 
 **The MethaTech coding agent.** An AI coding agent that runs in your terminal — describe what you want, and MethaTech edits your code.
 
-MethaTech brings specialized agents and a choice of models to your terminal. Models come from the MethaTech panel at [console.methatech.eu.org](https://console.methatech.eu.org): 9 free models and 18 paid models, priced per 1M tokens. You can also bring your own provider key (OpenRouter or any OpenAI-compatible API) with `/byok`.
+MethaTech brings specialized agents and a choice of models to your terminal. Models come from the MethaTech panel at [console.methatech.eu.org](https://console.methatech.eu.org): 9 free models and 25 paid models, priced per 1M tokens. You can also bring your own provider key (OpenRouter or any OpenAI-compatible API) with `/byok`.
 
 ## Quick start
 
@@ -27,7 +27,7 @@ bun run build:methatech
 
 ## Models
 
-The model catalog comes from the MethaTech panel, which is the source of truth for models, prices, and availability. The default model is **DeepSeek V4 Flash**. The picker shows 27 models:
+The model catalog comes from the MethaTech panel, which is the source of truth for models, prices, and availability. The default model is **DeepSeek V4 Flash**. The picker shows 34 models:
 
 **Free (9):**
 
@@ -43,7 +43,7 @@ The model catalog comes from the MethaTech panel, which is the source of truth f
 | **Qwen 3.7 Max** | Strong all-rounder |
 | **DeepSeek V4.1 Flash** | Smart and fast |
 
-**Paid (18, cheapest first, $ input / $ output per 1M tokens):**
+**Paid (25, cheapest first, $ input / $ output per 1M tokens):**
 
 | Model | Price |
 | ----- | ----- |
@@ -51,12 +51,19 @@ The model catalog comes from the MethaTech panel, which is the source of truth f
 | **MethaTech Uncensored** | $0.20 / $0.60 |
 | **Command R 08-2024** | $0.25 / $1.00 |
 | **GPT-OSS 120B Medium** | $0.25 / $1.00 |
+| **DeepSeek V4.1 Flash (CodeBuddy)** | $0.50 / $2.00 |
+| **Kimi K2.6 (CodeBuddy)** | $0.50 / $2.00 |
+| **Kimi K2.7 (CodeBuddy)** | $0.50 / $2.00 |
 | **Qwen 3.7 Plus** | $0.70 / $2.70 |
 | **Qwen 3.6 Plus** | $0.85 / $5.00 |
 | **GPT-6.1 Terra** | $1.70 / $8.35 |
 | **DeepSeek V4 Pro** | $2.20 / $6.60 |
 | **GLM 5.2** | $2.35 / $7.35 |
 | **GLM 5.3** | $2.35 / $7.35 |
+| **GLM 5.1 (CodeBuddy)** | $2.35 / $7.35 |
+| **GLM 5.2 (CodeBuddy)** | $2.35 / $7.35 |
+| **GLM 5V Turbo (CodeBuddy)** | $2.35 / $7.35 |
+| **MiniMax M3 (CodeBuddy)** | $2.35 / $7.35 |
 | **GPT-6.1 Sol** | $3.35 / $16.65 |
 | **Grok 4.7** | $3.35 / $10.00 |
 | **Kimi K3.1 Pro** | $3.35 / $16.65 |
