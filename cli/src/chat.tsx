@@ -2270,7 +2270,16 @@ export const Chat = ({
             flexDirection: 'column',
             gap: 0,
             shouldFill: true,
-            justifyContent: IS_FREEBUFF ? 'flex-start' : 'flex-end',
+            // FORK (MethaTech): bottom-anchor the chat. The upstream
+            // Freebuff branch used 'flex-start' (top-anchored: short
+            // content sits at the top, empty space below the messages),
+            // which Reza rejected. The 'flex-end' branch is the other side
+            // of this same upstream ternary (Codebuff/non-freebuff side);
+            // with shouldFill the content box fills the viewport, so the
+            // slack lands ABOVE the conversation and the latest message
+            // sits right above the composer. Verified in tmux probe:
+            // flex-start = rows 1-5, flex-end = rows 19-23 at 80x24.
+            justifyContent: 'flex-end',
             backgroundColor: 'transparent',
             paddingLeft: 1,
             paddingRight: 2,
