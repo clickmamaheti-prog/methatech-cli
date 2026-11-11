@@ -357,6 +357,35 @@ runs directly; otherwise admission) + `cli/src/state/freebuff-chat-store.ts:73-8
   (OpenRouter, Ollama, UncensoredLLMs, ...) + direct env keys, only when
   the user selects it or is not logged in.
 
+### Model sync from the panel (fork, 2026-11-12)
+
+Models come from the SERVER, not from the CLI build. The panel is the
+source of truth, and the CLI syncs its live model list at runtime — a
+model added on the panel shows up in the CLI with no code change, no git
+pull and no npm republish. (Reza's order 2026-11-11 ~23:07 UTC.)
+
+- `cli/src/utils/freebuff-model-catalog.ts` — the catalog fetch asks the
+  panel's `GET /api/available_model` (public; the bearer and device
+  headers ride along and are ignored). It used to ask
+  `GET /api/v1/freebuff/models`, which the panel does not serve, so every
+  fetch answered 404 and the CLI silently stayed on its compiled catalog.
+- `cli/src/utils/methatech-panel-catalog.ts` (new) — converts the panel
+  answer (`{ data: { <id>: { owned_by, price: { input, output, locked } } } }`)
+  into the server-catalog shape the picker, model store and session hooks
+  already read. A row's key and handle are both the plain panel id; the
+  free rows are the 9 compiled free ids plus any zero-price row; the
+  tagline is `Free` or `$in/$out per 1M` (ratio x 2, the panel's dollar
+  rule); a display name comes from the compiled catalog when the id is
+  known, else it is prettified from the id (`:variant` becomes a
+  parenthetical, so variants never share a name); `legacyDigests` carries
+  the id's digest so a saved pick migrates onto its live row. Locked
+  price rows are dropped. Refresh is every 10 minutes while the CLI runs.
+- `common/src/constants/methatech-models.ts` stays only as the fallback
+  (when the panel cannot be reached) and as the source of the display
+  names, free-model order and context windows the panel does not send.
+  Verified live 2026-11-12: the converter turns the real panel answer
+  into a valid catalog of 77 rows (13 free, 64 paid).
+
 ### Web-intelligence via the panel (fork + panel)
 
 - Panel (repo `done-hub`, uncommitted, NOT deployed): new endpoints under

@@ -1,11 +1,20 @@
 /**
  * Fetching and keeping the server model catalog (docs/freebuff-model-catalog.md).
  *
- * The CLI asks `GET /api/v1/freebuff/models` for its rows on start, again at
- * the catalog's `refreshAt`, whenever the session reports a different access
- * tier or plan, and once after the server answers `freebuff_catalog_stale`.
- * A valid answer puts the process in catalog mode; anything else keeps (or
- * returns) it in fallback mode, the compiled catalog.
+ * FORK (MethaTech): the server is the MethaTech panel, and the catalog is
+ * its GET /api/available_model — the panel lists every live model with its
+ * price, and the CLI syncs that list at runtime (see
+ * utils/methatech-panel-catalog.ts). The Freebuff endpoint
+ * `/api/v1/freebuff/models` does not exist on the panel, so asking for it
+ * always answered 404 and the CLI silently stayed on its compiled catalog.
+ * A model added on the panel now shows up in the CLI with no code change,
+ * no git pull and no npm republish.
+ *
+ * The CLI asks for its rows on start, again at the catalog's `refreshAt`,
+ * whenever the session reports a different access tier or plan, and once
+ * after the server answers `freebuff_catalog_stale`. A valid answer puts
+ * the process in catalog mode; anything else keeps (or returns) it in
+ * fallback mode, the compiled catalog.
  *
  * Two kinds of failure, deliberately treated differently:
  *
@@ -24,9 +33,7 @@ import {
   METHATECH_CATALOG_PROTOCOL_HEADER,
   FREEBUFF_CATALOG_PROTOCOL_VERSION,
   FREEBUFF_CATALOG_STALE_ERROR,
-  FREEBUFF_MODEL_CATALOG_PATH,
   listableFreebuffCatalogRows,
-  parseFreebuffModelCatalog,
 } from '@methatech/common/types/freebuff-model-catalog'
 import {
   getFreebuffServerAccessTier,
@@ -48,6 +55,10 @@ import {
 } from './freebuff-device-key'
 import { freebuffApiBaseUrl } from './freebuff-session-api'
 import { logger } from './logger'
+import {
+  METHATECH_PANEL_MODELS_PATH,
+  parseMethatechPanelCatalog,
+} from './methatech-panel-catalog'
 import {
   loadFreebuffModelKeyPreference,
   loadFreebuffModelPreference,
@@ -95,7 +106,10 @@ export async function fetchFreebuffModelCatalog(
     timeoutMs = CATALOG_FETCH_TIMEOUT_MS,
     deviceHeaders = freebuffDeviceHeaders,
   } = opts
-  const url = `${baseUrl}${FREEBUFF_MODEL_CATALOG_PATH}`
+  // FORK (MethaTech): the panel's live model list, not the Freebuff
+  // endpoint (which the panel does not serve). /api/available_model is
+  // public; the bearer and device headers ride along and are ignored.
+  const url = `${baseUrl}${METHATECH_PANEL_MODELS_PATH}`
   // Registration waits until this process holds a catalog; a key registered
   // earlier signs this GET in either mode.
   const signature = await deviceHeaders(
@@ -140,7 +154,9 @@ export async function fetchFreebuffModelCatalog(
   const body = await response.json().catch(() => undefined)
   // Every string in a row is drawn in the terminal, so escape sequences are
   // stripped before anything reads it — the same rule as session responses.
-  const catalog = parseFreebuffModelCatalog(sanitizeTerminalStrings(body))
+  // FORK (MethaTech): the panel's /api/available_model answer is converted
+  // into the catalog shape (utils/methatech-panel-catalog.ts).
+  const catalog = parseMethatechPanelCatalog(sanitizeTerminalStrings(body))
   // A catalog with no rows it may list leaves the picker nothing to draw;
   // the compiled one is the better answer, and the server refuses what it
   // must anyway. (Rows that have not opened are dropped when it is held.)

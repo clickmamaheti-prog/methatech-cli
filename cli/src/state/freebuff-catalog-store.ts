@@ -38,9 +38,11 @@ interface FreebuffCatalogStore {
 export const useFreebuffCatalogStore = create<FreebuffCatalogStore>(() => ({
   catalog: null,
   // FORK (MethaTech): the fork's fallback directory is the PANEL catalog,
-  // not the compiled Freebuff one. There is no Freebuff server in this
-  // fork, so the catalog fetch can never succeed and this is the directory
-  // the picker, the model store and the session hooks read.
+  // not the compiled Freebuff one. While the user is signed in, the
+  // catalog controller syncs the panel's live model list
+  // (GET /api/available_model) and the store swaps in the server-catalog
+  // directory; this compiled one is only the fallback when the panel
+  // cannot be reached.
   directory: methatechModelDirectory,
   refreshAfterStale: null,
 }))

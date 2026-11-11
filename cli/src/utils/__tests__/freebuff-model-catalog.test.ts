@@ -94,17 +94,55 @@ describe('fetchFreebuffModelCatalog', () => {
   }
 
   test('asks with the bearer, the protocol header and the CLI client name', async () => {
-    const { calls, fetchImpl } = respond(Response.json(CATALOG))
+    // FORK (MethaTech): the panel's live model list, not the Freebuff
+    // endpoint (which the panel does not serve).
+    const PANEL_BODY = {
+      success: true,
+      message: '',
+      data: {
+        'deepseek-v4-flash': {
+          groups: ['default'],
+          owned_by: 'Deepseek',
+          price: {
+            model: 'deepseek-v4-flash',
+            type: 'tokens',
+            channel_type: 28,
+            input: 0.25,
+            output: 1,
+            locked: false,
+          },
+        },
+        'claude-sonnet-5': {
+          groups: ['default'],
+          owned_by: 'Anthropic',
+          price: {
+            model: 'claude-sonnet-5',
+            type: 'tokens',
+            channel_type: 14,
+            input: 1.5,
+            output: 7.5,
+            locked: false,
+          },
+        },
+      },
+    }
+    const { calls, fetchImpl } = respond(Response.json(PANEL_BODY))
     const result = await fetchFreebuffModelCatalog('tok', {
       fetchImpl,
       baseUrl: 'https://api.test',
     })
-    expect(result).toEqual({ kind: 'ok', catalog: CATALOG })
-    expect(calls[0]!.url).toBe('https://api.test/api/v1/freebuff/models')
+    expect(result.kind).toBe('ok')
+    if (result.kind !== 'ok') return
+    expect(calls[0]!.url).toBe('https://api.test/api/available_model')
     const headers = new Headers(calls[0]!.init.headers)
     expect(headers.get('authorization')).toBe('Bearer tok')
     expect(headers.get('x-methatech-catalog-protocol')).toBe('1')
     expect(headers.get('x-methatech-client')).toBe('cli')
+    expect(result.catalog.rows.map((row) => row.key)).toEqual([
+      'deepseek-v4-flash',
+      'claude-sonnet-5',
+    ])
+    expect(result.catalog.recommendedKey).toBe('deepseek-v4-flash')
   })
 
   test('an older server (404) is a definitive "no catalog"', async () => {
@@ -125,7 +163,7 @@ describe('fetchFreebuffModelCatalog', () => {
       (await fetchFreebuffModelCatalog('tok', { fetchImpl: notJson.fetchImpl }))
         .kind,
     ).toBe('unsupported')
-    const empty = respond(Response.json(catalogFixture([])))
+    const empty = respond(Response.json({ data: {} }))
     expect(
       (await fetchFreebuffModelCatalog('tok', { fetchImpl: empty.fetchImpl }))
         .kind,
@@ -146,9 +184,24 @@ describe('fetchFreebuffModelCatalog', () => {
   })
 
   test('strips terminal escape sequences from every row string', async () => {
-    const hostile = catalogFixture([
-      catalogRow('m-x', { displayName: 'Evil\u001b[2J name' }),
-    ])
+    // FORK (MethaTech): the escape rides in the panel's owner name, which
+    // a prefixed id carries into its display name.
+    const hostile = {
+      data: {
+        'gemini/gemini-3.5-flash': {
+          groups: ['default'],
+          owned_by: 'Evil\u001b[2J name',
+          price: {
+            model: 'gemini/gemini-3.5-flash',
+            type: 'tokens',
+            channel_type: 25,
+            input: 0.75,
+            output: 4.5,
+            locked: false,
+          },
+        },
+      },
+    }
     const { fetchImpl } = respond(Response.json(hostile))
     const result = await fetchFreebuffModelCatalog('tok', { fetchImpl })
     expect(result.kind).toBe('ok')

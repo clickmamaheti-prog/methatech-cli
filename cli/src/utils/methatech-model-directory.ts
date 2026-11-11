@@ -16,8 +16,11 @@
  * - No availability windows: panel rows are `always`.
  * - No reasoning efforts: the provider default stands untouched.
  * - `catalog` is null: this is a compiled-style directory, not a server
- *   catalog. (The server catalog fetch can never succeed in this fork —
- *   there is no Freebuff server — so nothing ever replaces it.)
+ *   catalog. It is only the fallback: when the user is signed in, the
+ *   catalog controller fetches the panel's live model list
+ *   (GET /api/available_model, see utils/methatech-panel-catalog.ts) and
+ *   the store swaps this directory for the server-catalog one, so the
+ *   picker lists what the panel serves right now.
  * - `row()` IS implemented (see `methatechCatalogRow`): the catalog-root
  *   flow needs a row per model, or every turn runs plain base3 whose
  *   model defaults to OPUS_MODEL instead of the user's pick.
