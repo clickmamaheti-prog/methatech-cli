@@ -5,9 +5,10 @@
  * truth for models — prices, channels, on/off all live there. This module is
  * a compiled snapshot of the panel's live list, taken from the PUBLIC
  * endpoint GET https://console.methatech.eu.org/api/available_model on
- * 2026-11-10 ~23:04 UTC (27 active models). To re-sync, re-fetch that
- * endpoint and update the rows + METHATECH_MODEL_PRICES below; do not guess
- * prices or ids from memory.
+ * 2026-11-12 ~03:46 UTC (34 active models: the 27 from 2026-11-10 plus the
+ * 7 CodeBuddy (cbai/) models from the new panel channel 13). To re-sync,
+ * re-fetch that endpoint and update the rows + METHATECH_MODEL_PRICES
+ * below; do not guess prices or ids from memory.
  *
  * Prices in the panel response are RATIOS; display dollars per 1M tokens =
  * ratio x 2 (the panel's own rule: $1 = 500,000 quota). The taglines below
@@ -16,9 +17,11 @@
  * Free vs paid follows the panel's free-model allowlist
  * (isPlaygroundFreeModel): the 10 free models, of which kimi-k2.7-code is
  * NOT in the live list any more (provider retired it) and so is NOT in this
- * catalog — the 9 live free rows are the ones below. The other 18 live
+ * catalog — the 9 live free rows are the ones below. The other 25 live
  * models are paid (the panel enforces balance server-side with 402; the
- * fork never locks a row locally — there is no plan to buy here).
+ * fork never locks a row locally — there is no plan to buy here). The 7
+ * CodeBuddy rows (cbai/...) are paid; they come from panel channel 13
+ * (codebuddy, https://api.vectorhead.dpdns.org/v1), added 2026-11-12.
  *
  * This module deliberately does NOT touch the Freebuff catalog
  * (freebuff-models.ts): that catalog and its tests stay intact upstream
@@ -61,12 +64,19 @@ export const METHATECH_MODEL_PRICES: Record<
   'methatech/uncensored': { input: 0.2, output: 0.6 },
   'command-r-08-2024': { input: 0.25, output: 1 },
   'gpt-oss-120b-medium': { input: 0.25, output: 1 },
+  'cbai/deepseek-v4.1-flash': { input: 0.5, output: 2 },
+  'cbai/kimi-k2.6': { input: 0.5, output: 2 },
+  'cbai/kimi-k2.7': { input: 0.5, output: 2 },
   'qwen3.7-plus': { input: 0.7, output: 2.7 },
   'qwen3.6-plus': { input: 0.85, output: 5 },
   'gpt-6.1-terra': { input: 1.7, output: 8.35 },
   'deepseek-v4-pro': { input: 2.2, output: 6.6 },
   'glm-5.2': { input: 2.35, output: 7.35 },
   'glm-5.3': { input: 2.35, output: 7.35 },
+  'cbai/glm-5.1': { input: 2.35, output: 7.35 },
+  'cbai/glm-5.2': { input: 2.35, output: 7.35 },
+  'cbai/glm-5v-turbo': { input: 2.35, output: 7.35 },
+  'cbai/minimax-m3': { input: 2.35, output: 7.35 },
   'gpt-6.1-sol': { input: 3.35, output: 16.65 },
   'grok-4.7': { input: 3.35, output: 10 },
   'kimi-k3.1-pro': { input: 3.35, output: 16.65 },
@@ -92,6 +102,12 @@ export const METHATECH_MODEL_PRICES: Record<
  *   gpt-6.1-terra         publishes 1,050,000; entered low
  *   gemini-3.8-flash      publishes 1,048,576; entered low
  *   gemini-4-argon        publishes 1,048,576; entered low
+ *   cbai/*                CodeBuddy upstream publishes the contextWindow
+ *                         per model in GET /v1/models (fetched 2026-11-12):
+ *                         glm-5.2 1,000,000; glm-5.1 200,000;
+ *                         glm-5v-turbo 200,000; minimax-m3 1,000,000;
+ *                         kimi-k2.7 262,144; kimi-k2.6 262,144;
+ *                         deepseek-v4.1-flash 1,000,000.
  *
  * Every other panel model is absent and falls back to
  * METHATECH_DEFAULT_CONTEXT_WINDOW. Add one only with the rejection text or
@@ -107,6 +123,13 @@ export const METHATECH_MODEL_CONTEXT_WINDOWS: Record<string, number> = {
   'gpt-6.1-terra': 1_000_000,
   'gemini-3.8-flash': 1_000_000,
   'gemini-4-argon': 1_000_000,
+  'cbai/glm-5.2': 1_000_000,
+  'cbai/glm-5.1': 200_000,
+  'cbai/glm-5v-turbo': 200_000,
+  'cbai/minimax-m3': 1_000_000,
+  'cbai/kimi-k2.7': 262_144,
+  'cbai/kimi-k2.6': 262_144,
+  'cbai/deepseek-v4.1-flash': 1_000_000,
 }
 
 /**
@@ -171,12 +194,19 @@ export const METHATECH_MODELS = [
   panelRow('methatech/uncensored', 'MethaTech Uncensored', 'Uncensored · $0.20/$0.60 per 1M', true),
   panelRow('command-r-08-2024', 'Command R 08-2024', 'Efficient retrieval · $0.25/$1.00 per 1M', true),
   panelRow('gpt-oss-120b-medium', 'GPT-OSS 120B Medium', 'Open weights · $0.25/$1.00 per 1M', true),
+  panelRow('cbai/deepseek-v4.1-flash', 'DeepSeek V4.1 Flash (CodeBuddy)', 'Smart & fast · $0.50/$2.00 per 1M', true),
+  panelRow('cbai/kimi-k2.6', 'Kimi K2.6 (CodeBuddy)', 'Long context · $0.50/$2.00 per 1M', true),
+  panelRow('cbai/kimi-k2.7', 'Kimi K2.7 (CodeBuddy)', 'Long context · $0.50/$2.00 per 1M', true),
   panelRow('qwen3.7-plus', 'Qwen 3.7 Plus', 'Strong plus · $0.70/$2.70 per 1M', true),
   panelRow('qwen3.6-plus', 'Qwen 3.6 Plus', 'Capable plus · $0.85/$5.00 per 1M', true),
   panelRow('gpt-6.1-terra', 'GPT-6.1 Terra', 'Capable & efficient · $1.70/$8.35 per 1M', true),
   panelRow('deepseek-v4-pro', 'DeepSeek V4 Pro', 'Deep reasoning · $2.20/$6.60 per 1M', true),
   panelRow('glm-5.2', 'GLM 5.2', 'Solid reasoning · $2.35/$7.35 per 1M', true),
   panelRow('glm-5.3', 'GLM 5.3', 'Deep reasoning · $2.35/$7.35 per 1M', true),
+  panelRow('cbai/glm-5.1', 'GLM 5.1 (CodeBuddy)', 'Deep reasoning · $2.35/$7.35 per 1M', true),
+  panelRow('cbai/glm-5.2', 'GLM 5.2 (CodeBuddy)', 'Deep reasoning · $2.35/$7.35 per 1M', true),
+  panelRow('cbai/glm-5v-turbo', 'GLM 5V Turbo (CodeBuddy)', 'Vision & reasoning · $2.35/$7.35 per 1M', true),
+  panelRow('cbai/minimax-m3', 'MiniMax M3 (CodeBuddy)', 'Strong all-rounder · $2.35/$7.35 per 1M', true),
   panelRow('gpt-6.1-sol', 'GPT-6.1 Sol', 'Strong all-rounder · $3.35/$16.65 per 1M', true),
   panelRow('grok-4.7', 'Grok 4.7', 'Real-time knowledge · $3.35/$10.00 per 1M', true),
   panelRow('kimi-k3.1-pro', 'Kimi K3.1 Pro', 'Long context pro · $3.35/$16.65 per 1M', true),

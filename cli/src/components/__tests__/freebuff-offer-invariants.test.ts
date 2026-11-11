@@ -2,7 +2,7 @@
 // locked down a Freebuff-server invariant — every row the CLI offered had
 // to survive the Freebuff server's admission, plan locks and root-agent
 // allowlist. None of that exists in this fork: the CLI offers the PANEL's
-// 27 models, and the gate is the panel itself (a paid row with no balance
+// 34 models, and the gate is the panel itself (a paid row with no balance
 // fails server-side with 402 at send time, not a local lock).
 //
 // The invariant this file now locks down instead: a row the picker offers

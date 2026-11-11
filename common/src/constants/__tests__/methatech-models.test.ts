@@ -1,7 +1,8 @@
 // FORK (MethaTech): the fork's default catalog is the panel catalog, not
 // the Freebuff one. These pin the snapshot taken from the live
-// GET https://console.methatech.eu.org/api/available_model on 2026-11-10
-// (~23:04 UTC, 27 active models). Re-sync by re-fetching that endpoint;
+// GET https://console.methatech.eu.org/api/available_model on 2026-11-12
+// (~03:46 UTC, 34 active models: 27 + the 7 CodeBuddy cbai/ rows).
+// Re-sync by re-fetching that endpoint;
 // do not edit prices or ids from memory.
 import { describe, expect, test } from 'bun:test'
 
@@ -22,8 +23,8 @@ import {
 } from '../methatech-models'
 
 describe('MethaTech panel catalog', () => {
-  test('holds all 27 live panel models, ids unique', () => {
-    expect(METHATECH_MODELS).toHaveLength(27)
+  test('holds all 34 live panel models, ids unique', () => {
+    expect(METHATECH_MODELS).toHaveLength(34)
     const ids = METHATECH_MODELS.map((m) => m.id)
     expect(new Set(ids).size).toBe(ids.length)
   })
@@ -113,9 +114,9 @@ describe('MethaTech panel catalog', () => {
     }
   })
 
-  test('paid rows are the 18 non-free live models', () => {
+  test('paid rows are the 25 non-free live models', () => {
     const paid = METHATECH_MODELS.filter((m) => m.premium)
-    expect(paid).toHaveLength(18)
+    expect(paid).toHaveLength(25)
     for (const model of paid) {
       expect(isMethatechPremiumModelId(model.id)).toBe(true)
       expect(isMethatechFreeModelId(model.id)).toBe(false)

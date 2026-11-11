@@ -158,7 +158,7 @@ async function tick(): Promise<void> {
 }
 
 describe('MethaTech picker', () => {
-  test('hero shows the panel default and offers all 27 models', async () => {
+  test('hero shows the panel default and offers all 34 models', async () => {
     useFreebuffSessionStore.getState().setSession({
       status: 'none',
       accessTier: 'full',
@@ -168,7 +168,7 @@ describe('MethaTech picker', () => {
     const frame = setup.captureCharFrame()
     expect(frame).toContain('DeepSeek V4 Flash')
     expect(frame).toContain('Smart & fast · Free')
-    expect(frame).toContain('See all 27 models')
+    expect(frame).toContain('See all 34 models')
   })
 
   test('expanded list shows every panel row, free first', async () => {
@@ -176,10 +176,10 @@ describe('MethaTech picker', () => {
       status: 'none',
       accessTier: 'full',
     })
-    // A non-hero pick opens the picker expanded. Height 100 fits all 27
+    // A non-hero pick opens the picker expanded. Height 110 fits all 34
     // three-line cards plus the two section labels in one frame.
     useFreebuffModelStore.getState().setSelectedModel('gpt-6-luna')
-    const setup = await renderSelector(100)
+    const setup = await renderSelector(110)
     const frame = setup.captureCharFrame()
     for (const model of METHATECH_MODELS) {
       expect(frame).toContain(model.displayName)
@@ -280,7 +280,8 @@ describe('MethaTech picker', () => {
       accessTier: 'full',
     })
     useFreebuffModelStore.getState().setSelectedModel('claude-sonnet-4-6')
-    const setup = await renderSelector(80)
+    // Height 110 fits all 34 rows so the selected row is in the frame.
+    const setup = await renderSelector(110)
     const frame = setup.captureCharFrame()
     expect(frame).toContain('Claude Sonnet 4.6')
     expect(frame).toContain('$5.00/$25.00 per 1M')
