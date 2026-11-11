@@ -30,6 +30,11 @@ import { join } from 'node:path'
 import { applyPatch } from 'diff'
 
 import { loopAgentSteps } from '../run-agent-step'
+import {
+  clearE2BSandboxSession,
+  getE2BSandboxSession,
+  setE2BSandboxSession,
+} from '../llm-api/e2b-session'
 import { frameSteeringText, STEERING_NOTE } from '../util/messages'
 import { clearAgentGeneratorCache } from '../run-programmatic-step'
 import {
@@ -451,6 +456,19 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
   })
 
   describe('completion verification with real artifacts', () => {
+    // No panel in this test environment: the lazy E2B create probe must
+    // fail fast instead of hanging on a real fetch to the fake panel
+    // host, so sync commands fall back to local execution immediately.
+    const realFetch = globalThis.fetch
+    beforeEach(() => {
+      globalThis.fetch = (async () => {
+        throw new Error('panel unreachable in test')
+      }) as unknown as typeof globalThis.fetch
+    })
+    afterEach(() => {
+      globalThis.fetch = realFetch
+    })
+
     const good = 'module.exports = 42;\n'
     const wrong = 'module.exports = 0;\n'
     const check =
@@ -3062,4 +3080,119 @@ describe('loopAgentSteps - runAgentStep vs runProgrammaticStep behavior', () => 
       expect(asSubagent).toBeGreaterThan(10_000)
     })
   })
+
+describe('loopAgentSteps - E2B sandbox auto-kill at run end', () => {
+  const RUN_ID = 'test-run-id'
+  const PANEL_BASE = 'https://test.console.methatech.eu.org'
+  const realFetch = globalThis.fetch
+  let fetchCalls: { url: string; init?: RequestInit }[] = []
+
+  function jsonResponse(body: unknown, status = 200): Response {
+    return new Response(JSON.stringify(body), {
+      status,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  function stubFetch(
+    respond: (url: string, init?: RequestInit) => Response,
+  ): void {
+    fetchCalls = []
+    globalThis.fetch = (async (url: any, init?: RequestInit) => {
+      fetchCalls.push({ url: String(url), init })
+      return respond(String(url), init)
+    }) as typeof globalThis.fetch
+  }
+
+  function deleteCalls(): { url: string; init?: RequestInit }[] {
+    return fetchCalls.filter((c) => c.init?.method === 'DELETE')
+  }
+
+  afterEach(() => {
+    globalThis.fetch = realFetch
+    clearE2BSandboxSession(RUN_ID)
+  })
+
+  it('kills the run sandbox when the run completes successfully', async () => {
+    setE2BSandboxSession(RUN_ID, {
+      sandboxId: 'sbx-loop',
+      template: 'base',
+      createdAt: Date.now(),
+    })
+    stubFetch(() => jsonResponse({}))
+    await loopAgentSteps({ ...loopAgentStepsBaseParams })
+    expect(deleteCalls()).toHaveLength(1)
+    expect(deleteCalls()[0].url).toBe(
+      `${PANEL_BASE}/api/v1/e2b/sandboxes/sbx-loop`,
+    )
+    expect(getE2BSandboxSession(RUN_ID)).toBeUndefined()
+  })
+
+  it('kills the run sandbox when the run is aborted', async () => {
+    setE2BSandboxSession(RUN_ID, {
+      sandboxId: 'sbx-loop',
+      template: 'base',
+      createdAt: Date.now(),
+    })
+    stubFetch(() => jsonResponse({}))
+    const controller = new AbortController()
+    const result = await loopAgentSteps({
+      ...loopAgentStepsBaseParams,
+      signal: controller.signal,
+      promptAiSdkStream: async function* () {
+        yield { type: 'text', text: 'Working on it' }
+        controller.abort()
+        return promptSuccess('aborted')
+      },
+    })
+    expect(result.output.type).toBe('error')
+    expect(deleteCalls()).toHaveLength(1)
+    expect(deleteCalls()[0].url).toBe(
+      `${PANEL_BASE}/api/v1/e2b/sandboxes/sbx-loop`,
+    )
+    expect(getE2BSandboxSession(RUN_ID)).toBeUndefined()
+  })
+
+  it('kills the run sandbox when the run fails', async () => {
+    setE2BSandboxSession(RUN_ID, {
+      sandboxId: 'sbx-loop',
+      template: 'base',
+      createdAt: Date.now(),
+    })
+    stubFetch(() => jsonResponse({}))
+    let calls = 0
+    const result = await loopAgentSteps({
+      ...loopAgentStepsBaseParams,
+      requestToolCall: async () => ({
+        output: [{ type: 'json', value: { message: 'written' } }],
+      }),
+      promptAiSdkStream: async function* () {
+        calls++
+        if (calls === 1) {
+          yield createToolCallChunk('write_file', {
+            path: 'output.txt',
+            content: 'original',
+            instructions: 'Write result',
+          })
+        } else {
+          throw new Error('Unexpected internal bug')
+        }
+        return promptSuccess('x')
+      },
+    })
+    expect(result.output.type).toBe('error')
+    expect(deleteCalls()).toHaveLength(1)
+    expect(deleteCalls()[0].url).toBe(
+      `${PANEL_BASE}/api/v1/e2b/sandboxes/sbx-loop`,
+    )
+    expect(getE2BSandboxSession(RUN_ID)).toBeUndefined()
+  })
+
+  it('touches no panel endpoint when the run never used a sandbox', async () => {
+    stubFetch(() => jsonResponse({}))
+    await loopAgentSteps({ ...loopAgentStepsBaseParams })
+    expect(deleteCalls()).toHaveLength(0)
+    expect(getE2BSandboxSession(RUN_ID)).toBeUndefined()
+  })
+})
 })

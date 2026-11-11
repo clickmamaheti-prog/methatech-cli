@@ -8,7 +8,10 @@ import {
   runE2BCommand,
   truncateCommandOutput,
 } from '../../../llm-api/e2b-api'
-import { getE2BSandboxSession } from '../../../llm-api/e2b-session'
+import {
+  ensureE2BSandboxSession,
+  getE2BSandboxSession,
+} from '../../../llm-api/e2b-session'
 
 import type { MethaTechToolHandlerFunction } from '../handler-function-type'
 import type {
@@ -20,6 +23,47 @@ import type { ClientEnv } from '@methatech/common/types/contracts/env'
 import type { Logger } from '@methatech/common/types/contracts/logger'
 
 type ToolName = 'run_terminal_command'
+
+/**
+ * Annotate a local tool result with a note that it ran locally, not in
+ * the sandbox. Results that are not plain success objects pass through
+ * unchanged.
+ */
+function annotateLocalFallback(
+  output: MethaTechToolOutput<ToolName>,
+  message: string,
+): MethaTechToolOutput<ToolName> {
+  const inner = (output as unknown as Array<{ value?: unknown }>)[0]?.value
+  if (
+    inner &&
+    typeof inner === 'object' &&
+    'command' in inner &&
+    !('errorMessage' in inner)
+  ) {
+    const success = inner as {
+      command: string
+      startingCwd?: string
+      stdout?: string
+      stderr?: string
+      exitCode?: number
+      hint?: string
+    }
+    return jsonToolResult({
+      command: success.command,
+      ...(success.startingCwd !== undefined
+        ? { startingCwd: success.startingCwd }
+        : {}),
+      ...(success.stdout !== undefined ? { stdout: success.stdout } : {}),
+      ...(success.stderr !== undefined ? { stderr: success.stderr } : {}),
+      ...(success.exitCode !== undefined
+        ? { exitCode: success.exitCode }
+        : {}),
+      ...(success.hint !== undefined ? { hint: success.hint } : {}),
+      message,
+    })
+  }
+  return output
+}
 export const handleRunTerminalCommand = (async ({
   previousToolCallFinished,
   toolCall,
@@ -60,7 +104,50 @@ export const handleRunTerminalCommand = (async ({
   // dev servers and watchers need this machine, not a throwaway box.
   // The sandbox has its own working directory: the local cwd is not
   // passed through (it does not exist in the sandbox).
-  const session = getE2BSandboxSession(runId)
+  //
+  // No session yet? Lazily create a fresh one: the previous sandbox died
+  // with the previous run (auto-kill at run end), so the first SYNC
+  // command of a run that needs a sandbox just gets a new one — the
+  // agent never starts a sandbox by hand.
+  let session = getE2BSandboxSession(runId)
+  if (toolCall.input.process_type !== 'BACKGROUND' && !session) {
+    try {
+      session = await ensureE2BSandboxSession(runId, {
+        // globalThis.fetch, not the injected fetch: the injected fetch is
+        // the MethaTech hosted-services fetch, stubbed to throw in BYOK
+        // runs (same precedent as the sandbox command call below).
+        fetch: globalThis.fetch,
+        signal,
+        logger,
+        apiKey,
+        clientEnv,
+      })
+    } catch (error) {
+      if (!isE2BFallbackError(error)) {
+        // A real panel failure (bad token, bad request, quota, rate
+        // limit) must surface, not silently run locally.
+        logger.error({ error }, 'E2B sandbox create failed')
+        return {
+          output: jsonToolResult({
+            command: toolCall.input.command,
+            errorMessage: `Error creating E2B sandbox: ${
+              error instanceof Error ? error.message : 'Unknown error'
+            }`,
+          }),
+        }
+      }
+      // Panel unreachable (not logged in, proxy down): run locally and
+      // say so, exactly like the mid-run fallback below.
+      const output = await requestClientToolCall(clientToolCall)
+      return {
+        output: annotateLocalFallback(
+          output,
+          'The E2B sandbox was unavailable through the panel, so this command ran LOCALLY instead.',
+        ),
+      }
+    }
+  }
+
   if (session && toolCall.input.process_type !== 'BACKGROUND') {
     const seconds = toolCall.input.timeout_seconds ?? 30
     const timeoutMs =
@@ -111,42 +198,12 @@ export const handleRunTerminalCommand = (async ({
       // local execution — and say so in the result, so the agent and
       // the user know the command did NOT run in the sandbox.
       const output = await requestClientToolCall(clientToolCall)
-      const inner = output[0]?.value
-      if (
-        inner &&
-        typeof inner === 'object' &&
-        'command' in inner &&
-        !('errorMessage' in inner)
-      ) {
-        const success = inner as {
-          command: string
-          startingCwd?: string
-          stdout?: string
-          stderr?: string
-          exitCode?: number
-          hint?: string
-        }
-        return {
-          output: jsonToolResult({
-            command: success.command,
-            ...(success.startingCwd !== undefined
-              ? { startingCwd: success.startingCwd }
-              : {}),
-            ...(success.stdout !== undefined
-              ? { stdout: success.stdout }
-              : {}),
-            ...(success.stderr !== undefined
-              ? { stderr: success.stderr }
-              : {}),
-            ...(success.exitCode !== undefined
-              ? { exitCode: success.exitCode }
-              : {}),
-            ...(success.hint !== undefined ? { hint: success.hint } : {}),
-            message: `The E2B sandbox ${session.sandboxId} was unreachable through the panel, so this command ran LOCALLY instead.`,
-          }),
-        }
+      return {
+        output: annotateLocalFallback(
+          output,
+          `The E2B sandbox ${session.sandboxId} was unreachable through the panel, so this command ran LOCALLY instead.`,
+        ),
       }
-      return { output }
     }
   }
 

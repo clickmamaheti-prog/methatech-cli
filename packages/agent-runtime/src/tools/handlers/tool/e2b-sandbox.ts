@@ -2,12 +2,11 @@ import { jsonToolResult } from '@methatech/common/util/messages'
 
 import {
   createE2BSandbox,
-  killE2BSandbox,
   listE2BSandboxes,
 } from '../../../llm-api/e2b-api'
 import {
-  clearE2BSandboxSession,
   getE2BSandboxSession,
+  killE2BSandboxSession,
   setE2BSandboxSession,
 } from '../../../llm-api/e2b-session'
 
@@ -46,6 +45,14 @@ export const handleE2BSandbox = (async (params: {
 
   try {
     if (action === 'start') {
+      // A re-start replaces the run's sandbox: kill the old one first so
+      // it does not leak (the kill helper is idempotent and never throws).
+      await killE2BSandboxSession(runId, {
+        fetch: globalThis.fetch,
+        logger,
+        apiKey,
+        clientEnv,
+      })
       const info = await createE2BSandbox({
         template,
         timeoutMs: timeout_ms,
@@ -65,7 +72,7 @@ export const handleE2BSandbox = (async (params: {
       })
       return {
         output: jsonToolResult({
-          result: `Sandbox started: ${info.sandboxId} (template ${template ?? 'base'}, panel key used: ${info.keyUsed ?? 'primary'}). SYNC shell commands (run_terminal_command) and browser screenshots (e2b_screenshot) in this run now execute inside this sandbox. Stop it with e2b_sandbox stop when the sandbox work is done — sandboxes bill by lifetime.`,
+          result: `Sandbox started: ${info.sandboxId} (template ${template ?? 'base'}, panel key used: ${info.keyUsed ?? 'primary'}). SYNC shell commands (run_terminal_command) and browser screenshots (e2b_screenshot) in this run now execute inside this sandbox. It dies automatically when this run ends, and a fresh one is created automatically the next time the agent needs a sandbox — stop it early with e2b_sandbox stop if the sandbox work is done (sandboxes bill by lifetime).`,
         }),
       }
     }
@@ -79,15 +86,19 @@ export const handleE2BSandbox = (async (params: {
           }),
         }
       }
-      await killE2BSandbox({
-        sandboxId: session.sandboxId,
+      const killed = await killE2BSandboxSession(runId, {
         fetch: globalThis.fetch,
-        signal,
         logger,
         apiKey,
         clientEnv,
       })
-      clearE2BSandboxSession(runId)
+      if (!killed.killed && killed.error) {
+        return {
+          output: jsonToolResult({
+            errorMessage: `Could not stop sandbox ${session.sandboxId}: ${killed.error}`,
+          }),
+        }
+      }
       return {
         output: jsonToolResult({
           result: `Sandbox stopped: ${session.sandboxId}. Shell commands now run locally again.`,

@@ -41,6 +41,10 @@ describe('basher summarization short-circuit (end-to-end)', () => {
   let llmCallCount: number
   let dbSpies: DbSpies
   let runtime: any
+  // No panel in this test environment: the lazy E2B create probe must
+  // fail fast instead of hanging on a real fetch to the fake panel
+  // host, so sync commands fall back to local execution immediately.
+  const realFetch = globalThis.fetch
 
   const basherTemplate = {
     ...basher,
@@ -54,6 +58,9 @@ describe('basher summarization short-circuit (end-to-end)', () => {
   } as unknown as AgentTemplate
 
   beforeEach(() => {
+    globalThis.fetch = (async () => {
+      throw new Error('panel unreachable in test')
+    }) as unknown as typeof globalThis.fetch
     const {
       agentTemplate: _,
       localAgentTemplates: __,
@@ -74,6 +81,7 @@ describe('basher summarization short-circuit (end-to-end)', () => {
   })
 
   afterEach(() => {
+    globalThis.fetch = realFetch
     clearAgentGeneratorCache(runtime)
     dbSpies.restore()
     mock.restore()

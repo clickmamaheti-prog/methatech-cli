@@ -244,7 +244,7 @@ describe('e2b handlers', () => {
     clearE2BSandboxSession(runId)
   })
 
-  it('run_terminal_command stays local for BACKGROUND commands and when no session is active', async () => {
+  it('run_terminal_command stays local for BACKGROUND commands', async () => {
     const runId = freshRunId()
     setE2BSandboxSession(runId, {
       sandboxId: 'sbx-1',
@@ -274,24 +274,133 @@ describe('e2b handlers', () => {
     expect(localCalls).toBe(1)
     expect(stubCalls).toHaveLength(0)
     clearE2BSandboxSession(runId)
+  })
 
-    const runId2 = freshRunId()
-    await handleRunTerminalCommand({
+  it('run_terminal_command lazily creates a sandbox for a SYNC command when no session is active', async () => {
+    const runId = freshRunId()
+    stubFetchWith((url, init) => {
+      if (url.endsWith('/sandboxes') && init?.method === 'POST') {
+        return jsonResponse({ sandboxId: 'sbx-lazy', domain: 'e2b.app', keyUsed: 'primary' })
+      }
+      return jsonResponse({
+        sandboxId: 'sbx-lazy',
+        pid: 42,
+        stdout: 'hello sandbox\n',
+        stderr: '',
+        exitCode: 0,
+      })
+    })
+    let localCalled = false
+    const { output } = await handleRunTerminalCommand({
       previousToolCallFinished: Promise.resolve(),
       toolCall: {
         toolName: 'run_terminal_command',
         toolCallId: 'tc-5',
         input: { command: 'echo hi', process_type: 'SYNC', timeout_seconds: 30 },
       } as any,
-      requestClientToolCall: localStub,
+      requestClientToolCall: (async () => {
+        localCalled = true
+        return jsonToolResult({ command: 'echo hi', stdout: 'local\n', stderr: '', exitCode: 0 })
+      }) as any,
       logger,
       apiKey: TOKEN,
       clientEnv: { NEXT_PUBLIC_METHATECH_APP_URL: PANEL_BASE } as any,
-      runId: runId2,
+      runId,
       signal,
     })
-    expect(localCalls).toBe(2)
-    expect(stubCalls).toHaveLength(0)
+    expect(localCalled).toBe(false)
+    const value = outputValue(output)
+    expect(value.stdout).toBe('hello sandbox\n')
+    expect(String(value.message)).toContain('E2B sandbox sbx-lazy')
+    expect(stubCalls[0].url).toBe(`${PANEL_BASE}/api/v1/e2b/sandboxes`)
+    expect(stubCalls[0].init?.method).toBe('POST')
+    expect(stubCalls[1].url).toBe(
+      `${PANEL_BASE}/api/v1/e2b/sandboxes/sbx-lazy/commands`,
+    )
+    expect(getE2BSandboxSession(runId)?.sandboxId).toBe('sbx-lazy')
+    clearE2BSandboxSession(runId)
+  })
+
+  it('run_terminal_command runs locally (and says so) when the panel is unreachable and no session exists', async () => {
+    const runId = freshRunId()
+    stubFetchWith(() => {
+      throw new Error('network down')
+    })
+    let localCalled = false
+    const { output } = await handleRunTerminalCommand({
+      previousToolCallFinished: Promise.resolve(),
+      toolCall: {
+        toolName: 'run_terminal_command',
+        toolCallId: 'tc-6',
+        input: { command: 'echo hi', process_type: 'SYNC', timeout_seconds: 30 },
+      } as any,
+      requestClientToolCall: (async () => {
+        localCalled = true
+        return jsonToolResult({ command: 'echo hi', stdout: 'local\n', stderr: '', exitCode: 0 })
+      }) as any,
+      logger,
+      apiKey: TOKEN,
+      clientEnv: { NEXT_PUBLIC_METHATECH_APP_URL: PANEL_BASE } as any,
+      runId,
+      signal,
+    })
+    expect(localCalled).toBe(true)
+    const value = outputValue(output)
+    expect(value.stdout).toBe('local\n')
+    expect(String(value.message)).toContain('ran LOCALLY')
+    expect(getE2BSandboxSession(runId)).toBeUndefined()
+  })
+
+  it('run_terminal_command surfaces a real panel failure (402) when creating a sandbox', async () => {
+    const runId = freshRunId()
+    stubFetchWith(() => jsonResponse({ error: 'no credit' }, 402))
+    let localCalled = false
+    const { output } = await handleRunTerminalCommand({
+      previousToolCallFinished: Promise.resolve(),
+      toolCall: {
+        toolName: 'run_terminal_command',
+        toolCallId: 'tc-7',
+        input: { command: 'echo hi', process_type: 'SYNC', timeout_seconds: 30 },
+      } as any,
+      requestClientToolCall: (async () => {
+        localCalled = true
+        return jsonToolResult({ command: 'echo hi', stdout: 'local\n', stderr: '', exitCode: 0 })
+      }) as any,
+      logger,
+      apiKey: TOKEN,
+      clientEnv: { NEXT_PUBLIC_METHATECH_APP_URL: PANEL_BASE } as any,
+      runId,
+      signal,
+    })
+    expect(localCalled).toBe(false)
+    expect(String(outputValue(output).errorMessage)).toContain('402')
+    expect(getE2BSandboxSession(runId)).toBeUndefined()
+  })
+
+  it('e2b_sandbox stop reports the error when the panel kill fails', async () => {
+    const runId = freshRunId()
+    setE2BSandboxSession(runId, {
+      sandboxId: 'sbx-1',
+      template: 'base',
+      createdAt: Date.now(),
+    })
+    stubFetchWith(() => {
+      throw new Error('network down')
+    })
+    const { output } = await handleE2BSandbox({
+      previousToolCallFinished: Promise.resolve(),
+      toolCall: { toolName: 'e2b_sandbox', input: { action: 'stop' } } as any,
+      logger,
+      fetch: stubbedFetch,
+      signal,
+      apiKey: TOKEN,
+      clientEnv: { NEXT_PUBLIC_METHATECH_APP_URL: PANEL_BASE } as any,
+      runId,
+    })
+    expect(String(outputValue(output).errorMessage)).toContain(
+      'Could not stop sandbox sbx-1',
+    )
+    expect(getE2BSandboxSession(runId)).toBeUndefined()
   })
 
   it('e2b_screenshot runs Playwright in the sandbox and saves the PNG locally', async () => {

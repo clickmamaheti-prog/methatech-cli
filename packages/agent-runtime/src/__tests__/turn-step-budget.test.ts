@@ -45,8 +45,15 @@ describe('the step budget of a turn', () => {
   let chunks: string[]
   let dbSpies: DbSpies
   let params: Parameters<typeof loopAgentSteps>[0]
+  // No panel in this test environment: the lazy E2B create probe must
+  // fail fast instead of hanging on a real fetch to the fake panel
+  // host, so sync commands fall back to local execution immediately.
+  const realFetch = globalThis.fetch
 
   beforeEach(() => {
+    globalThis.fetch = (async () => {
+      throw new Error('panel unreachable in test')
+    }) as unknown as typeof globalThis.fetch
     const {
       agentTemplate: _,
       localAgentTemplates: __,
@@ -114,6 +121,7 @@ describe('the step budget of a turn', () => {
   })
 
   afterEach(() => {
+    globalThis.fetch = realFetch
     dbSpies.restore()
     mock.restore()
   })

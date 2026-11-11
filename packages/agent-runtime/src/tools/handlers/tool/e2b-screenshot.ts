@@ -4,16 +4,12 @@ import path from 'node:path'
 import { jsonToolResult } from '@methatech/common/util/messages'
 
 import {
-  createE2BSandbox,
   downloadE2BFile,
   isE2BFallbackError,
   runE2BCommand,
   truncateCommandOutput,
 } from '../../../llm-api/e2b-api'
-import {
-  getE2BSandboxSession,
-  setE2BSandboxSession,
-} from '../../../llm-api/e2b-session'
+import { ensureE2BSandboxSession } from '../../../llm-api/e2b-session'
 import { assertPublicHttpUrl } from '../../../llm-api/web-intelligence-api'
 
 import type { MethaTechToolHandlerFunction } from '../handler-function-type'
@@ -87,23 +83,14 @@ export const handleE2BScreenshot = (async (params: {
   try {
     // Ensure a sandbox for this run (creates one through the panel when
     // none is active — same lazy-create as the terminal-command routing).
-    let session = getE2BSandboxSession(runId)
-    if (!session) {
-      const info = await createE2BSandbox({
-        template: 'base',
-        fetch: globalThis.fetch,
-        signal,
-        logger,
-        apiKey,
-        clientEnv,
-      })
-      session = {
-        sandboxId: info.sandboxId,
-        template: 'base',
-        createdAt: Date.now(),
-      }
-      setE2BSandboxSession(runId, session)
-    }
+    const session = await ensureE2BSandboxSession(runId, {
+      template: 'base',
+      fetch: globalThis.fetch,
+      signal,
+      logger,
+      apiKey,
+      clientEnv,
+    })
     const e2b = {
       sandboxId: session.sandboxId,
       fetch: globalThis.fetch,

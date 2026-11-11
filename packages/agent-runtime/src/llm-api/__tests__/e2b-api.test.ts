@@ -96,6 +96,20 @@ describe('e2b-api', () => {
     expect(calls).toHaveLength(0)
   })
 
+  it('createE2BSandbox never calls the panel in a BYOK run (placeholder apiKey)', async () => {
+    const { fetch, calls } = captureFetch(() => jsonResponse({ sandboxId: 'sbx-1' }))
+    await expect(
+      createE2BSandbox({
+        fetch,
+        signal: new AbortController().signal,
+        logger,
+        apiKey: 'byok-local',
+        baseUrl: PANEL_BASE,
+      }),
+    ).rejects.toThrow('not available through the panel')
+    expect(calls).toHaveLength(0)
+  })
+
   it('createE2BSandbox surfaces a real panel failure (429) instead of falling back', async () => {
     const { fetch } = captureFetch(() => jsonResponse({ error: 'rate limited' }, 429))
     await expect(

@@ -473,3 +473,58 @@ runs directly; otherwise admission) + `cli/src/state/freebuff-chat-store.ts:73-8
   user can burn the Exa/Firecrawl balance for everyone. Add a per-user
   cap before exposing this to untrusted users. Panel deploy + putting the
   real keys into the panel env still need Reza's explicit order.
+
+## 10. E2B sandboxes via the panel (2026-11-11/12)
+
+- Panel (commit `d2b87ee`, DEPLOYED LIVE 2026-11-12 ~00:21 WIB, PID
+  106988): `/v1/e2b/*` endpoints (create/list/get/delete/commands/files)
+  behind `OpenaiAuth`, E2B keys from panel env only (`E2B_API_KEY` +
+  `E2B_API_KEY_FALLBACK`, fallback-key retry on 429/402 at create).
+- Fork transport (`packages/agent-runtime/src/llm-api/e2b-api.ts`): panel
+  proxy first with the login token; no direct E2B fallback with a user env
+  key, by design (keys stay in the backend). Fallback to local execution
+  (or "unavailable") only on: no login token, no panel base URL, panel
+  unreachable, 404/502/503. Real panel failures are surfaced, never
+  silently worked around: 401/403, 400, 402, 429.
+- Tools: `e2b_sandbox` (start/stop/status), `e2b_screenshot` (Playwright
+  inside the sandbox, PNG to `.methatech/e2b-shots/`). SYNC terminal
+  commands run in the sandbox when a session is active; BACKGROUND stays
+  local (dev servers and watchers need this machine).
+- Lifecycle (Reza's decision 2026-11-11 23:52 WIB): the sandbox dies
+  automatically when the agent run ends — the kill runs in the
+  `loopAgentSteps` `finally` block, so it also runs on abort and on
+  error, not only on success. Idempotent, never throws, never
+  double-kills (the session is cleared BEFORE the panel call; a fresh
+  10 s timeout signal, never the run's signal, which may be aborted).
+  Lazy recreate: the next SYNC command or screenshot with no active
+  session creates a fresh sandbox automatically via the panel — no manual
+  start. Manual `e2b_sandbox start` remains as an override (a re-start
+  kills the old session first, so it cannot leak).
+- Probe budgets: lazy-create 5 s (`E2B_LAZY_CREATE_TIMEOUT_MS`) — a dead
+  panel must not stall the first command of a run; explicit start keeps
+  the 30 s budget. Kill budget 10 s.
+- BYOK runs never touch the panel for E2B: the SDK passes the placeholder
+  apiKey `'byok-local'` (`BYOK_LOCAL_USER_ID`) when there is no hosted
+  key, and the transport returns "not available" without any fetch, so
+  sync commands run locally and the BYOK "no MethaTech request" invariant
+  holds. Explicit `e2b_sandbox start` in a BYOK run reports "not logged
+  in" (device-code login) instead of a confusing 401.
+- Tests: `e2b-api` (incl. the BYOK no-fetch case), `e2b-session` (kill
+  idempotence, ensure), `e2b.test.ts` (lazy-create SYNC, local fallback
+  with the "ran LOCALLY" note, 402 surfaced, stop failure),
+  `loop-agent-steps` (kill on success/abort/error, no-session no-op).
+  Full agent-runtime suite 1081/1081; `tsc --noEmit` clean in
+  `agent-runtime`, `common`, `cli`, `sdk`. Note: loop tests that run real
+  shell commands stub `globalThis.fetch` to throw — no panel exists in
+  the test env, and the lazy-create probe must fail fast there instead of
+  hanging on a real fetch to the fake panel host.
+- NOT proven live: TUI end-to-end (old PTY harness blocked by injection
+  checks), Playwright screenshot against a REAL E2B sandbox, Connect-JSON
+  wire vs real envd.
+- OPEN (not invented, not built): Playwright template (the base template
+  has no Playwright; install-on-first-screenshot is slow and may exceed
+  the 120 s panel timeout; custom template option), no per-user quota
+  (same gap as web-intelligence — one heavy user can burn the shared E2B
+  credit). Trade-off to know: when logged in and the panel is DOWN, the
+  first SYNC command of a run waits up to the 5 s probe budget before
+  falling back to local.

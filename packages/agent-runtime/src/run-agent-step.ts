@@ -68,6 +68,7 @@ import {
   untilAborted,
 } from './conversation-summary'
 import { CACHE_DEBUG_FULL_LOGGING } from './constants'
+import { killE2BSandboxSession } from './llm-api/e2b-session'
 import { getMCPToolData } from './mcp'
 import {
   runProjectProfileReport,
@@ -2635,6 +2636,17 @@ export async function loopAgentSteps(
     // but abort/error exits (e.g. chat SSE disconnects) would otherwise leak
     // the run's generator, STEP_ALL flag, and proposed file content forever.
     clearProgrammaticRunState(runId)
+    // Auto-kill the run's E2B sandbox: a sandbox lives for one agent run
+    // only, on every exit path (success, abort, error — the finally runs
+    // for all of them). The kill never throws and never uses the run's
+    // signal (the run may be ending because it was aborted); the next run
+    // lazily creates a fresh sandbox the first time the agent needs one.
+    await killE2BSandboxSession(runId, {
+      apiKey: params.apiKey,
+      clientEnv,
+      fetch: globalThis.fetch,
+      logger,
+    })
   }
 }
 

@@ -25,6 +25,7 @@
  * as Bearer auth), so this transport follows it.
  */
 
+import { BYOK_LOCAL_USER_ID } from '@methatech/common/constants/byok'
 import type { ClientEnv } from '@methatech/common/types/contracts/env'
 import type { Logger } from '@methatech/common/types/contracts/logger'
 
@@ -95,7 +96,12 @@ async function callPanelE2B(params: {
     label,
   } = params
   const panelBase = baseUrl ?? clientEnv?.NEXT_PUBLIC_METHATECH_APP_URL
-  if (!apiKey || !panelBase) return { fallback: true }
+  // A BYOK run carries the placeholder 'byok-local' as its apiKey: it has
+  // no panel login token. Never call the panel with it, and never send the
+  // placeholder out as a Bearer token — the caller falls back to local
+  // execution (or reports the sandbox as unavailable) instead.
+  if (!apiKey || apiKey === BYOK_LOCAL_USER_ID || !panelBase)
+    return { fallback: true }
   const url = `${panelBase.replace(/\/$/, '')}${PANEL_E2B_PATH}${endpoint}`
   let response: Response
   try {
@@ -189,6 +195,21 @@ function truncateResult(text: string): string {
   return `${text.slice(0, MAX_RESULT_CHARS)}\n\n[Result truncated to ${MAX_RESULT_CHARS} characters.]`
 }
 
+/**
+ * The fallback error: the panel cannot serve this call at all, so the
+ * caller falls back (local execution, or an "unavailable" message) and
+ * says so. Flagged with `isE2BFallback` so callers can tell it apart
+ * from a real panel failure — every transport function that can return
+ * `{fallback: true}` throws this, never a plain Error.
+ */
+function fallbackError(): Error & { isE2BFallback: boolean } {
+  const error = new Error(E2B_NOT_CONFIGURED_MESSAGE) as Error & {
+    isE2BFallback: boolean
+  }
+  error.isE2BFallback = true
+  return error
+}
+
 export function truncateCommandOutput(text: string): string {
   return truncateResult(text)
 }
@@ -197,14 +218,24 @@ export function truncateCommandOutput(text: string): string {
 export async function createE2BSandbox(params: {
   template?: string
   timeoutMs?: number
+  /** HTTP budget for the panel call (default 30s). Lazy-create callers pass a short budget. */
+  fetchTimeoutMs?: number
   fetch: typeof globalThis.fetch
   signal: AbortSignal
   logger: Logger
 } & PanelE2BOpts): Promise<E2BSandboxInfo> {
-  const { template = 'base', timeoutMs, fetch, signal, logger } = params
+  const {
+    template = 'base',
+    timeoutMs,
+    fetchTimeoutMs = FETCH_TIMEOUT_MS,
+    fetch,
+    signal,
+    logger,
+  } = params
   const panel = await callPanelE2B({
     endpoint: '/sandboxes',
     body: { template, timeoutMs },
+    timeoutMs: fetchTimeoutMs,
     apiKey: params.apiKey,
     baseUrl: params.baseUrl,
     clientEnv: params.clientEnv,
@@ -215,7 +246,7 @@ export async function createE2BSandbox(params: {
   })
   if ('json' in panel) return asSandboxInfo(panel.json)
   if ('error' in panel) throw new Error(panel.error)
-  throw new Error(E2B_NOT_CONFIGURED_MESSAGE)
+  throw fallbackError()
 }
 
 /** List sandboxes through the panel (passthrough of the E2B list). */
@@ -334,11 +365,7 @@ export async function runE2BCommand(params: {
   })
   if ('json' in panel) return asCommandResult(panel.json)
   if ('error' in panel) throw new Error(panel.error)
-  const fallbackError = new Error(E2B_NOT_CONFIGURED_MESSAGE) as Error & {
-    isE2BFallback: boolean
-  }
-  fallbackError.isE2BFallback = true
-  throw fallbackError
+  throw fallbackError()
 }
 
 /** Returns true when an error thrown by runE2BCommand means "panel cannot serve it". */
@@ -373,5 +400,5 @@ export async function downloadE2BFile(params: {
   })
   if ('bytes' in panel) return panel.bytes
   if ('error' in panel) throw new Error(panel.error)
-  throw new Error(E2B_NOT_CONFIGURED_MESSAGE)
+  throw fallbackError()
 }

@@ -5,7 +5,7 @@
  */
 import { TEST_AGENT_RUNTIME_IMPL } from '@methatech/common/testing/impl/agent-runtime'
 import { getInitialSessionState } from '@methatech/common/types/session-state'
-import { describe, expect, it } from 'bun:test'
+import { afterEach, beforeEach, describe, expect, it } from 'bun:test'
 
 import { mockFileContext } from './test-utils'
 import { MAX_CONCURRENT_READS, processStream } from '../tools/stream-parser'
@@ -101,6 +101,19 @@ async function run(
 }
 
 describe('processStream — concurrent reads', () => {
+  // No panel in this test environment: the lazy E2B create probe must
+  // fail fast instead of hanging on a real fetch to the fake panel
+  // host, so sync commands fall back to local execution immediately.
+  const realFetch = globalThis.fetch
+  beforeEach(() => {
+    globalThis.fetch = (async () => {
+      throw new Error('panel unreachable in test')
+    }) as unknown as typeof globalThis.fetch
+  })
+  afterEach(() => {
+    globalThis.fetch = realFetch
+  })
+
   it('runs adjacent reads at once and keeps their results in call order', async () => {
     let releaseFirst!: () => void
     const firstHeld = new Promise<void>((resolve) => (releaseFirst = resolve))
