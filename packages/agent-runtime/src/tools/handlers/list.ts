@@ -7,6 +7,8 @@ import { handleCodeSearch } from './tool/code-search'
 import { handleCloudPlanReady } from './tool/cloud-plan-ready'
 import { handleCreatePlan } from './tool/create-plan'
 import { handleEndTurn } from './tool/end-turn'
+import { handleE2BSandbox } from './tool/e2b-sandbox'
+import { handleE2BScreenshot } from './tool/e2b-screenshot'
 import { handleExaFindSimilar } from './tool/exa-find-similar'
 import { handleExaSearch } from './tool/exa-search'
 import { handleFindFiles } from './tool/find-files'
@@ -65,6 +67,8 @@ export const methatechToolHandlers: {
   cloud_plan_ready: handleCloudPlanReady,
   create_plan: handleCreatePlan,
   end_turn: handleEndTurn,
+  e2b_sandbox: handleE2BSandbox,
+  e2b_screenshot: handleE2BScreenshot,
   exa_search: handleExaSearch,
   exa_find_similar: handleExaFindSimilar,
   find_files: handleFindFiles,
