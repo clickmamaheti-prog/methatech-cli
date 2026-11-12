@@ -221,6 +221,11 @@ ${
       // and the surrounding prompt still demonstrated using it.
       !planOnly && 'str_replace',
       !planOnly && 'write_file',
+      // Delete files directly (apply_patch delete_file, fs.unlink): the
+      // main agent had no file tool that deletes, so deletion fell back
+      // to a terminal `rm` that needs a sandbox. Offered here so the
+      // agent deletes with a file tool, like Freebuff's base-deep agent.
+      !planOnly && 'apply_patch',
       !isLean && !planOnly && 'propose_str_replace',
       !isLean && !planOnly && 'propose_write_file',
       !noAskUser && 'ask_user',

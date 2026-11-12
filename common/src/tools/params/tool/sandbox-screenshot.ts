@@ -8,7 +8,7 @@ import {
 
 import type { $ToolParams } from '../../constants'
 
-const toolName = 'e2b_screenshot'
+const toolName = 'sandbox_screenshot'
 const endsAgentStep = true
 const screenshotSchema = z
   .object({
@@ -37,12 +37,12 @@ const screenshotSchema = z
       .optional()
       .describe('Viewport height in pixels. Default 720.'),
   })
-  .describe('Screenshot a web page inside an E2B sandbox with Playwright.')
+  .describe('Screenshot a web page inside a sandbox with Playwright.')
 const inputSchema = repairInput((input: Record<string, unknown>) => input, screenshotSchema)
 const description = `
-Screenshot a web page inside an E2B sandbox with Playwright (headless Chromium) and save the PNG locally under .methatech/e2b-shots/ in the working directory. Use it when you need to see how a page actually renders — a landing page, a deployed site, a design check — without opening a browser on the user's own machine.
+Screenshot a web page inside a sandbox with Playwright (headless Chromium) and save the PNG locally under .methatech/sandbox-shots/ in the working directory. Use it when you need to see how a page actually renders — a landing page, a deployed site, a design check — without opening a browser on the user's own machine.
 
-The sandbox is created on demand through the MethaTech panel (the panel holds the E2B keys; the CLI never sees a key). If the sandbox has no Playwright yet, the tool installs it inside the sandbox on first use — that takes a few minutes, so prefer a Playwright template via e2b_sandbox start when you know screenshots are coming. The returned result names the local PNG path; read it back with read_files or hand it to the user when you need to show what the page looks like. Only public http(s) URLs are allowed.
+The sandbox is created on demand through the MethaTech panel (the panel holds the keys; the CLI never sees a key). If the sandbox has no Playwright yet, the tool installs it inside the sandbox on first use — that takes a few minutes, so prefer a Playwright template via sandbox start when you know screenshots are coming. The returned result names the local PNG path; read it back with read_files or hand it to the user when you need to show what the page looks like. Only public http(s) URLs are allowed.
 
 Example:
 ${$getNativeToolCallExampleString({
@@ -56,7 +56,7 @@ ${$getNativeToolCallExampleString({
 })}
 `.trim()
 
-export const e2bScreenshotParams = {
+export const sandboxScreenshotParams = {
   toolName,
   endsAgentStep,
   description,

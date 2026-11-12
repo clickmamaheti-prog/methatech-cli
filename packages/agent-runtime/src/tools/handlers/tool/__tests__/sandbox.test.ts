@@ -5,8 +5,8 @@ import path from 'node:path'
 
 import { jsonToolResult } from '@methatech/common/util/messages'
 
-import { handleE2BSandbox } from '../e2b-sandbox'
-import { handleE2BScreenshot } from '../e2b-screenshot'
+import { handleSandbox } from '../sandbox'
+import { handleSandboxScreenshot } from '../sandbox-screenshot'
 import { handleRunTerminalCommand } from '../run-terminal-command'
 import {
   clearE2BSandboxSession,
@@ -39,10 +39,10 @@ const signal = new AbortController().signal
 let runCounter = 0
 function freshRunId(): string {
   runCounter += 1
-  return `run-e2b-test-${runCounter}`
+  return `run-sandbox-test-${runCounter}`
 }
 
-describe('e2b handlers', () => {
+describe('sandbox handlers', () => {
   const realFetch = globalThis.fetch
   let stubbedFetch: typeof globalThis.fetch
   let stubCalls: { url: string; init?: RequestInit }[] = []
@@ -66,7 +66,7 @@ describe('e2b handlers', () => {
     globalThis.fetch = realFetch
   })
 
-  it('e2b_sandbox start creates a sandbox through the panel and records the session', async () => {
+  it('sandbox start creates a sandbox through the panel and records the session', async () => {
     const runId = freshRunId()
     stubFetchWith(() =>
       jsonResponse({
@@ -76,9 +76,9 @@ describe('e2b handlers', () => {
         keyUsed: 'primary',
       }),
     )
-    const { output } = await handleE2BSandbox({
+    const { output } = await handleSandbox({
       previousToolCallFinished: Promise.resolve(),
-      toolCall: { toolName: 'e2b_sandbox', input: { action: 'start' } } as any,
+      toolCall: { toolName: 'sandbox', input: { action: 'start' } } as any,
       logger,
       fetch: stubbedFetch,
       signal,
@@ -92,12 +92,12 @@ describe('e2b handlers', () => {
     clearE2BSandboxSession(runId)
   })
 
-  it('e2b_sandbox start reports the panel as unavailable instead of failing silently', async () => {
+  it('sandbox start reports the panel as unavailable instead of failing silently', async () => {
     const runId = freshRunId()
     stubFetchWith(() => jsonResponse({ error: 'not configured' }, 503))
-    const { output } = await handleE2BSandbox({
+    const { output } = await handleSandbox({
       previousToolCallFinished: Promise.resolve(),
-      toolCall: { toolName: 'e2b_sandbox', input: { action: 'start' } } as any,
+      toolCall: { toolName: 'sandbox', input: { action: 'start' } } as any,
       logger,
       fetch: stubbedFetch,
       signal,
@@ -109,7 +109,7 @@ describe('e2b handlers', () => {
     expect(getE2BSandboxSession(runId)).toBeUndefined()
   })
 
-  it('e2b_sandbox stop kills the run sandbox and clears the session', async () => {
+  it('sandbox stop kills the run sandbox and clears the session', async () => {
     const runId = freshRunId()
     setE2BSandboxSession(runId, {
       sandboxId: 'sbx-1',
@@ -117,9 +117,9 @@ describe('e2b handlers', () => {
       createdAt: Date.now(),
     })
     stubFetchWith(() => jsonResponse({}))
-    const { output } = await handleE2BSandbox({
+    const { output } = await handleSandbox({
       previousToolCallFinished: Promise.resolve(),
-      toolCall: { toolName: 'e2b_sandbox', input: { action: 'stop' } } as any,
+      toolCall: { toolName: 'sandbox', input: { action: 'stop' } } as any,
       logger,
       fetch: stubbedFetch,
       signal,
@@ -170,7 +170,7 @@ describe('e2b handlers', () => {
     const value = outputValue(output)
     expect(value.stdout).toBe('hello sandbox\n')
     expect(value.exitCode).toBe(0)
-    expect(String(value.message)).toContain('E2B sandbox sbx-1')
+    expect(String(value.message)).toContain('sandbox sbx-1')
     expect(stubCalls[0].url).toBe(
       `${PANEL_BASE}/api/v1/e2b/sandboxes/sbx-1/commands`,
     )
@@ -311,7 +311,7 @@ describe('e2b handlers', () => {
     expect(localCalled).toBe(false)
     const value = outputValue(output)
     expect(value.stdout).toBe('hello sandbox\n')
-    expect(String(value.message)).toContain('E2B sandbox sbx-lazy')
+    expect(String(value.message)).toContain('sandbox sbx-lazy')
     expect(stubCalls[0].url).toBe(`${PANEL_BASE}/api/v1/e2b/sandboxes`)
     expect(stubCalls[0].init?.method).toBe('POST')
     expect(stubCalls[1].url).toBe(
@@ -377,7 +377,7 @@ describe('e2b handlers', () => {
     expect(getE2BSandboxSession(runId)).toBeUndefined()
   })
 
-  it('e2b_sandbox stop reports the error when the panel kill fails', async () => {
+  it('sandbox stop reports the error when the panel kill fails', async () => {
     const runId = freshRunId()
     setE2BSandboxSession(runId, {
       sandboxId: 'sbx-1',
@@ -387,9 +387,9 @@ describe('e2b handlers', () => {
     stubFetchWith(() => {
       throw new Error('network down')
     })
-    const { output } = await handleE2BSandbox({
+    const { output } = await handleSandbox({
       previousToolCallFinished: Promise.resolve(),
-      toolCall: { toolName: 'e2b_sandbox', input: { action: 'stop' } } as any,
+      toolCall: { toolName: 'sandbox', input: { action: 'stop' } } as any,
       logger,
       fetch: stubbedFetch,
       signal,
@@ -403,9 +403,9 @@ describe('e2b handlers', () => {
     expect(getE2BSandboxSession(runId)).toBeUndefined()
   })
 
-  it('e2b_screenshot runs Playwright in the sandbox and saves the PNG locally', async () => {
+  it('sandbox_screenshot runs Playwright in the sandbox and saves the PNG locally', async () => {
     const runId = freshRunId()
-    const cwd = await mkdtemp(path.join(tmpdir(), 'e2b-shot-test-'))
+    const cwd = await mkdtemp(path.join(tmpdir(), 'sandbox-shot-test-'))
     const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 1, 2, 3])
     stubFetchWith((url, init) => {
       if (url.endsWith('/sandboxes') && init?.method === 'POST') {
@@ -430,10 +430,10 @@ describe('e2b handlers', () => {
       }
       return jsonResponse({})
     })
-    const { output } = await handleE2BScreenshot({
+    const { output } = await handleSandboxScreenshot({
       previousToolCallFinished: Promise.resolve(),
       toolCall: {
-        toolName: 'e2b_screenshot',
+        toolName: 'sandbox_screenshot',
         input: { url: 'https://example.com', full_page: true, width: 1280, height: 720 },
       } as any,
       logger,
@@ -446,8 +446,8 @@ describe('e2b handlers', () => {
     })
     const result = String(outputValue(output).result ?? '')
     expect(result).toContain('Screenshot saved:')
-    expect(result).toContain('.methatech/e2b-shots/shot-')
-    const dir = path.join(cwd, '.methatech', 'e2b-shots')
+    expect(result).toContain('.methatech/sandbox-shots/shot-')
+    const dir = path.join(cwd, '.methatech', 'sandbox-shots')
     const files = await readdir(dir)
     expect(files).toHaveLength(1)
     const saved = await readFile(path.join(dir, files[0]))
@@ -456,9 +456,9 @@ describe('e2b handlers', () => {
     clearE2BSandboxSession(runId)
   })
 
-  it('e2b_screenshot installs Playwright when the sandbox check fails, then proceeds', async () => {
+  it('sandbox_screenshot installs Playwright when the sandbox check fails, then proceeds', async () => {
     const runId = freshRunId()
-    const cwd = await mkdtemp(path.join(tmpdir(), 'e2b-shot-test-'))
+    const cwd = await mkdtemp(path.join(tmpdir(), 'sandbox-shot-test-'))
     const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47])
     let installRan = false
     stubFetchWith((url, init) => {
@@ -485,10 +485,10 @@ describe('e2b handlers', () => {
       }
       return jsonResponse({})
     })
-    const { output } = await handleE2BScreenshot({
+    const { output } = await handleSandboxScreenshot({
       previousToolCallFinished: Promise.resolve(),
       toolCall: {
-        toolName: 'e2b_screenshot',
+        toolName: 'sandbox_screenshot',
         input: { url: 'https://example.com' },
       } as any,
       logger,

@@ -10,8 +10,8 @@ import { codeSearchParams } from './params/tool/code-search'
 import { cloudPlanReadyParams } from './params/tool/cloud-plan-ready'
 import { createPlanParams } from './params/tool/create-plan'
 import { endTurnParams } from './params/tool/end-turn'
-import { e2bSandboxParams } from './params/tool/e2b-sandbox'
-import { e2bScreenshotParams } from './params/tool/e2b-screenshot'
+import { sandboxParams } from './params/tool/sandbox'
+import { sandboxScreenshotParams } from './params/tool/sandbox-screenshot'
 import { exaFindSimilarParams } from './params/tool/exa-find-similar'
 import { exaSearchParams } from './params/tool/exa-search'
 import { findFilesParams } from './params/tool/find-files'
@@ -60,8 +60,8 @@ export const toolParams = {
   cloud_plan_ready: cloudPlanReadyParams,
   create_plan: createPlanParams,
   end_turn: endTurnParams,
-  e2b_sandbox: e2bSandboxParams,
-  e2b_screenshot: e2bScreenshotParams,
+  sandbox: sandboxParams,
+  sandbox_screenshot: sandboxScreenshotParams,
   exa_search: exaSearchParams,
   exa_find_similar: exaFindSimilarParams,
   find_files: findFilesParams,

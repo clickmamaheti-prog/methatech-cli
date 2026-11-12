@@ -195,6 +195,11 @@ export function createBase3(
       'read_files',
       'str_replace',
       'write_file',
+      // Delete files directly (apply_patch delete_file, fs.unlink): the
+      // main agent had no file tool that deletes, so deletion fell back
+      // to a terminal `rm` that needs a sandbox. Offered here so the
+      // agent deletes with a file tool, like Freebuff's base-deep agent.
+      'apply_patch',
       'run_terminal_command',
       'code_search',
       'glob',

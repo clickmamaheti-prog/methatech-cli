@@ -4,10 +4,10 @@ import type { ClientEnv } from '@methatech/common/types/contracts/env'
 import type { Logger } from '@methatech/common/types/contracts/logger'
 
 /**
- * Store for the active E2B sandbox session, keyed by agent runId.
- * One sandbox per agent run: it is created on first use (e2b_sandbox
+ * Store for the active sandbox session, keyed by agent runId.
+ * One sandbox per agent run: it is created on first use (sandbox
  * start, or the first sandboxed command / screenshot) and killed when
- * the run ends or when the agent calls e2b_sandbox stop. Same
+ * the run ends or when the agent calls sandbox stop. Same
  * module-level Map pattern as the proposed-content store
  * (tools/handlers/tool/proposed-content-store.ts): the runtime is one
  * CLI process, so a module-level store is the session. The sandbox ID

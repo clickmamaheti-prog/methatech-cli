@@ -35,7 +35,7 @@ const MAX_RESULT_CHARS = 20_000
 export const E2B_MAX_COMMAND_TIMEOUT_MS = 120_000
 export const E2B_DEFAULT_COMMAND_TIMEOUT_MS = 60_000
 
-export const E2B_NOT_CONFIGURED_MESSAGE = `E2B sandboxes are not available through the panel (not logged in, or the panel proxy did not answer). Log in to the panel (device-code login) so the CLI can use the panel's E2B keys. There is no local E2B key fallback: E2B keys stay in the backend panel by design and are never exported to the CLI.`
+export const E2B_NOT_CONFIGURED_MESSAGE = `Sandboxes are not available through the panel (not logged in, or the panel proxy did not answer). Log in to the panel (device-code login) so the CLI can use the panel's keys. There is no local key fallback: keys stay in the backend panel by design and are never exported to the CLI.`
 
 /** Panel E2B proxy path (panel router/api-router.go, /v1/e2b group). */
 const PANEL_E2B_PATH = '/api/v1/e2b'
@@ -117,7 +117,7 @@ async function callPanelE2B(params: {
   } catch (error) {
     logger.warn(
       { label, error: error instanceof Error ? error.message : 'Unknown error' },
-      'Panel E2B proxy unreachable, falling back',
+      'Panel sandbox proxy unreachable, falling back',
     )
     return { fallback: true }
   }
@@ -128,7 +128,7 @@ async function callPanelE2B(params: {
   ) {
     logger.warn(
       { label, status: response.status },
-      'Panel E2B proxy unavailable, falling back',
+      'Panel sandbox proxy unavailable, falling back',
     )
     return { fallback: true }
   }
@@ -242,7 +242,7 @@ export async function createE2BSandbox(params: {
     fetch,
     signal,
     logger,
-    label: 'E2B create sandbox',
+    label: 'create sandbox',
   })
   if ('json' in panel) return asSandboxInfo(panel.json)
   if ('error' in panel) throw new Error(panel.error)

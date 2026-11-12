@@ -18,9 +18,9 @@ import type {
 import type { ClientEnv } from '@methatech/common/types/contracts/env'
 import type { Logger } from '@methatech/common/types/contracts/logger'
 
-export const handleE2BSandbox = (async (params: {
+export const handleSandbox = (async (params: {
   previousToolCallFinished: Promise<void>
-  toolCall: MethaTechToolCall<'e2b_sandbox'>
+  toolCall: MethaTechToolCall<'sandbox'>
   logger: Logger
   apiKey?: string | undefined
   fetch: typeof globalThis.fetch
@@ -28,7 +28,7 @@ export const handleE2BSandbox = (async (params: {
   clientEnv?: ClientEnv
   runId: string
 }): Promise<{
-  output: MethaTechToolOutput<'e2b_sandbox'>
+  output: MethaTechToolOutput<'sandbox'>
 }> => {
   const {
     previousToolCallFinished,
@@ -72,7 +72,7 @@ export const handleE2BSandbox = (async (params: {
       })
       return {
         output: jsonToolResult({
-          result: `Sandbox started: ${info.sandboxId} (template ${template ?? 'base'}, panel key used: ${info.keyUsed ?? 'primary'}). SYNC shell commands (run_terminal_command) and browser screenshots (e2b_screenshot) in this run now execute inside this sandbox. It dies automatically when this run ends, and a fresh one is created automatically the next time the agent needs a sandbox — stop it early with e2b_sandbox stop if the sandbox work is done (sandboxes bill by lifetime).`,
+          result: `Sandbox started: ${info.sandboxId} (template ${template ?? 'base'}, panel key used: ${info.keyUsed ?? 'primary'}). SYNC shell commands (run_terminal_command) and browser screenshots (sandbox_screenshot) in this run now execute inside this sandbox. It dies automatically when this run ends, and a fresh one is created automatically the next time the agent needs a sandbox — stop it early with sandbox stop if the sandbox work is done (sandboxes bill by lifetime).`,
         }),
       }
     }
@@ -82,7 +82,7 @@ export const handleE2BSandbox = (async (params: {
       if (!session) {
         return {
           output: jsonToolResult({
-            result: 'No active E2B sandbox for this run.',
+            result: 'No active sandbox for this run.',
           }),
         }
       }
@@ -126,10 +126,10 @@ export const handleE2BSandbox = (async (params: {
     ]
     return { output: jsonToolResult({ result: lines.join('\n') }) }
   } catch (error) {
-    const errorMessage = `Error managing E2B sandbox: ${
+    const errorMessage = `Error managing sandbox: ${
       error instanceof Error ? error.message : 'Unknown error'
     }`
-    logger.error({ error }, 'E2B sandbox failed')
+    logger.error({ error }, 'sandbox failed')
     return { output: jsonToolResult({ errorMessage }) }
   }
-}) satisfies MethaTechToolHandlerFunction<'e2b_sandbox'>
+}) satisfies MethaTechToolHandlerFunction<'sandbox'>

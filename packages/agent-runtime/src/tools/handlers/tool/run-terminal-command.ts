@@ -98,8 +98,8 @@ export const handleRunTerminalCommand = (async ({
   }
   await previousToolCallFinished
 
-  // E2B routing: while a sandbox is active for this run, SYNC commands
-  // run inside the sandbox through the panel (the panel holds the E2B
+  // Sandbox routing: while a sandbox is active for this run, SYNC commands
+  // run inside the sandbox through the panel (the panel holds the
   // keys; the CLI never sees a key). BACKGROUND commands stay local —
   // dev servers and watchers need this machine, not a throwaway box.
   // The sandbox has its own working directory: the local cwd is not
@@ -126,11 +126,11 @@ export const handleRunTerminalCommand = (async ({
       if (!isE2BFallbackError(error)) {
         // A real panel failure (bad token, bad request, quota, rate
         // limit) must surface, not silently run locally.
-        logger.error({ error }, 'E2B sandbox create failed')
+        logger.error({ error }, 'sandbox create failed')
         return {
           output: jsonToolResult({
             command: toolCall.input.command,
-            errorMessage: `Error creating E2B sandbox: ${
+            errorMessage: `Error creating sandbox: ${
               error instanceof Error ? error.message : 'Unknown error'
             }`,
           }),
@@ -142,7 +142,7 @@ export const handleRunTerminalCommand = (async ({
       return {
         output: annotateLocalFallback(
           output,
-          'The E2B sandbox was unavailable through the panel, so this command ran LOCALLY instead.',
+          'The sandbox was unavailable through the panel, so this command ran LOCALLY instead.',
         ),
       }
     }
@@ -177,18 +177,18 @@ export const handleRunTerminalCommand = (async ({
           stdout: truncateCommandOutput(result.stdout),
           stderr: truncateCommandOutput(result.stderr),
           exitCode: result.exitCode,
-          message: `Ran in the E2B sandbox ${session.sandboxId} via the panel (sandbox working directory, not the local project directory).`,
+          message: `Ran in the sandbox ${session.sandboxId} via the panel (sandbox working directory, not the local project directory).`,
         }),
       }
     } catch (error) {
       if (!isE2BFallbackError(error)) {
         // A real panel failure (bad token, bad request, quota, rate
         // limit) must surface, not silently run locally.
-        logger.error({ error }, 'E2B terminal command failed')
+        logger.error({ error }, 'terminal command failed')
         return {
           output: jsonToolResult({
             command: toolCall.input.command,
-            errorMessage: `Error running command in the E2B sandbox: ${
+            errorMessage: `Error running command in the sandbox: ${
               error instanceof Error ? error.message : 'Unknown error'
             }`,
           }),
@@ -201,7 +201,7 @@ export const handleRunTerminalCommand = (async ({
       return {
         output: annotateLocalFallback(
           output,
-          `The E2B sandbox ${session.sandboxId} was unreachable through the panel, so this command ran LOCALLY instead.`,
+          `The sandbox ${session.sandboxId} was unreachable through the panel, so this command ran LOCALLY instead.`,
         ),
       }
     }

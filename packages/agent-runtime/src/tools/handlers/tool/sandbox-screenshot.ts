@@ -43,9 +43,9 @@ console.log('saved ' + out)
 `
 }
 
-export const handleE2BScreenshot = (async (params: {
+export const handleSandboxScreenshot = (async (params: {
   previousToolCallFinished: Promise<void>
-  toolCall: MethaTechToolCall<'e2b_screenshot'>
+  toolCall: MethaTechToolCall<'sandbox_screenshot'>
   logger: Logger
   apiKey?: string | undefined
   fetch: typeof globalThis.fetch
@@ -54,7 +54,7 @@ export const handleE2BScreenshot = (async (params: {
   runId: string
   fileContext: ProjectFileContext
 }): Promise<{
-  output: MethaTechToolOutput<'e2b_screenshot'>
+  output: MethaTechToolOutput<'sandbox_screenshot'>
 }> => {
   const {
     previousToolCallFinished,
@@ -102,7 +102,7 @@ export const handleE2BScreenshot = (async (params: {
 
     // 1. Playwright present? The base template has none; install it on
     // first use (slow, a few minutes — prefer a Playwright template via
-    // e2b_sandbox start when screenshots are planned).
+    // sandbox start when screenshots are planned).
     const check = await runE2BCommand({
       ...e2b,
       command: `node -e "try{require.resolve('playwright')}catch(e){process.exit(1)}"`,
@@ -119,7 +119,7 @@ export const handleE2BScreenshot = (async (params: {
       if (install.exitCode !== 0) {
         return {
           output: jsonToolResult({
-            errorMessage: `Playwright is not installed in sandbox ${session.sandboxId} and the install failed (exit ${install.exitCode}): ${truncateCommandOutput(install.stderr || install.stdout)}. Start a sandbox from a Playwright template with e2b_sandbox start instead.`,
+            errorMessage: `Playwright is not installed in sandbox ${session.sandboxId} and the install failed (exit ${install.exitCode}): ${truncateCommandOutput(install.stderr || install.stdout)}. Start a sandbox from a Playwright template with sandbox start instead.`,
           }),
         }
       }
@@ -161,7 +161,7 @@ export const handleE2BScreenshot = (async (params: {
       ...e2b,
       path: SANDBOX_PNG_PATH,
     })
-    const dir = path.join(fileContext.cwd, '.methatech', 'e2b-shots')
+    const dir = path.join(fileContext.cwd, '.methatech', 'sandbox-shots')
     await mkdir(dir, { recursive: true })
     const localPath = path.join(dir, `shot-${Date.now()}.png`)
     await writeFile(localPath, bytes)
@@ -175,15 +175,15 @@ export const handleE2BScreenshot = (async (params: {
       return {
         output: jsonToolResult({
           errorMessage:
-            'E2B screenshot is not available: the panel proxy did not answer (not logged in?). Log in to the panel so the CLI can use the panel\u2019s E2B keys. There is no local E2B key fallback.',
+            'Screenshot is not available: the panel proxy did not answer (not logged in?). Log in to the panel so the CLI can use the panel\u2019s keys. There is no local key fallback.',
         }),
       }
     }
-    logger.error({ error }, 'E2B screenshot failed')
+    logger.error({ error }, 'screenshot failed')
     return {
       output: jsonToolResult({
         errorMessage: `Error taking screenshot: ${error instanceof Error ? error.message : 'Unknown error'}`,
       }),
     }
   }
-}) satisfies MethaTechToolHandlerFunction<'e2b_screenshot'>
+}) satisfies MethaTechToolHandlerFunction<'sandbox_screenshot'>
