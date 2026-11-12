@@ -27,6 +27,7 @@ import {
   METHATECH_DEFAULT_MODEL_ID,
   METHATECH_FREE_MODEL_IDS,
   methatechModelContextWindow,
+  registerMethatechPanelModelIds,
 } from '@methatech/common/constants/methatech-models'
 import {
   freebuffLegacyModelDigest,
@@ -301,6 +302,12 @@ export function parseMethatechPanelCatalog(
   )
     ? METHATECH_DEFAULT_MODEL_ID
     : (rows.find((row) => !row.premium)?.key ?? rows[0]!.key)
+
+  // Register every panel row id as a MethaTech panel model, so the SDK
+  // routes it to the panel relay (/v1) instead of the Freebuff backend
+  // (/api/v1). The compiled list only has base ids; panel variants like
+  // 'glm-5.3-flash:fast' live only here.
+  registerMethatechPanelModelIds(rows.map((row) => row.key))
 
   return {
     protocol: 1,

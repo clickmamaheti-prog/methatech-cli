@@ -1315,30 +1315,21 @@ export const FreebuffModelSelector: React.FC<FreebuffModelSelectorProps> = ({
         return
       }
       setPendingAsk(null)
-      // FORK (MethaTech): panel models run through the MethaTech BYOK
-      // connection, not a Freebuff session — there is no Freebuff server
-      // in this fork, so starting a session would post to a server that
-      // cannot admit it. Ensure the connection for this model and select
-      // it; the send path then runs BYOK. A setup failure leaves the
-      // selection unchanged and logs, instead of starting a dead session.
+      // FORK (MethaTech): follow the original Freebuff pick path —
+      // startSession restarts the session with the picked model, so the
+      // session model and the picker selection stay in sync. The old
+      // fork branch only set the store and never restarted the session,
+      // so the session tick kept overwriting the pick back to the old
+      // model (deepseek) and the API kept using it. startFreebuffSession
+      // is the MethaTech session path (login token → panel /v1); the
+      // BYOK connection is only the fallback when there is no login.
       if (isMethatechModelId(modelId)) {
         admissionPending.current = true
         setPending(modelId)
-        void ensureMethatechByokConnection(modelId)
-          .then(() => {
-            setSelectedModel(modelId)
-            persistFreebuffModelPick(modelId)
-          })
-          .catch((error) => {
-            logger.error(
-              { error },
-              '[model-selector] Failed to select MethaTech model',
-            )
-          })
-          .finally(() => {
-            admissionPending.current = false
-            setPending(null)
-          })
+        startSession(modelId).finally(() => {
+          admissionPending.current = false
+          setPending(null)
+        })
         return
       }
       // Two Enter events can arrive before React commits the pending state.

@@ -10,7 +10,7 @@ import {
 import type { MCPConfig } from '@methatech/common/types/mcp'
 
 import { getFreebuffModelDirectory } from '../state/freebuff-catalog-store'
-import { getSelectedFreebuffModel } from '../state/freebuff-model-store'
+import { freebuffChatModel } from '../state/freebuff-chat-store'
 import { getProjectRoot } from '../project-files'
 import { IS_FREEBUFF, type AgentMode } from './constants'
 import { getAgentIdForMode } from './freebuff-agent-selection'
@@ -243,7 +243,7 @@ const cachedAgentsByMode: Map<string, LocalAgentInfo[]> = new Map()
 export const loadLocalAgents = (
   currentAgentMode?: AgentMode,
 ): LocalAgentInfo[] => {
-  const selectedFreebuffModel = IS_FREEBUFF ? getSelectedFreebuffModel() : null
+  const selectedFreebuffModel = IS_FREEBUFF ? freebuffChatModel() : null
   const cacheKey = selectedFreebuffModel
     ? `${currentAgentMode ?? 'all'}:${selectedFreebuffModel}`
     : (currentAgentMode ?? 'all')
@@ -397,7 +397,12 @@ export const loadAgentDefinitions = (): AgentDefinition[] => {
 
 /** The runtime root for the selected catalog row, when one is selected. */
 const selectedFreebuffCatalogRoot = (): AgentDefinition | undefined => {
-  const selection = getSelectedFreebuffModel()
+  // FORK (MethaTech): read freebuffChatModel(), which honors the chat
+  // store nextModel set by the picker. getSelectedFreebuffModel() (model
+  // store) is not updated by the chat picker for a logged-in user because
+  // the admission gate is skipped, so the catalog root kept resolving to
+  // the old model and the API kept using it.
+  const selection = freebuffChatModel()
   const row = getFreebuffModelDirectory().row(selection)
   if (!row || row.key !== selection) return undefined
   return freebuffCatalogRootAgent(row) as unknown as AgentDefinition

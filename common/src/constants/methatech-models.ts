@@ -222,9 +222,24 @@ export const METHATECH_MODELS = [
   ),
 ] as const satisfies readonly FreebuffModelOption[]
 
+/** Panel-synced model ids, registered at runtime when the CLI fetches
+ *  /api/available_model. The compiled METHATECH_MODELS list only has the
+ *  base ids; the panel also serves suffixed variants (e.g.
+ *  'glm-5.3-flash:fast') that must route to the panel relay too. */
+const methatechPanelModelIds = new Set<string>()
+
+export function registerMethatechPanelModelIds(ids: Iterable<string>): void {
+  for (const id of ids) {
+    if (id) methatechPanelModelIds.add(id)
+  }
+}
+
 export function isMethatechModelId(id: string | null | undefined): boolean {
   if (!id) return false
-  return METHATECH_MODELS.some((model) => model.id === id)
+  return (
+    METHATECH_MODELS.some((model) => model.id === id) ||
+    methatechPanelModelIds.has(id)
+  )
 }
 
 export function isMethatechFreeModelId(id: string | null | undefined): boolean {

@@ -5,7 +5,7 @@ import {
 } from '@methatech/common/constants/free-agents'
 
 import { getFreebuffModelDirectory } from '../state/freebuff-catalog-store'
-import { getSelectedFreebuffModel } from '../state/freebuff-model-store'
+import { freebuffChatModel } from '../state/freebuff-chat-store'
 import {
   AGENT_MODE_TO_ID,
   CLI_HARNESS,
@@ -43,7 +43,9 @@ export function getFreebuffCliAgentIdForSelection(selection: string): string {
 
 export function getAgentIdForMode(agentMode: AgentMode): string {
   if (IS_FREEBUFF && agentMode === 'LITE') {
-    return getFreebuffCliAgentIdForSelection(getSelectedFreebuffModel())
+    // FORK (MethaTech): freebuffChatModel() honors the picker nextModel;
+    // getSelectedFreebuffModel() does not get the pick for a logged-in user.
+    return getFreebuffCliAgentIdForSelection(freebuffChatModel())
   }
 
   return AGENT_MODE_TO_ID[agentMode]
