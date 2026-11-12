@@ -1,0 +1,12 @@
+# npm pack ignore list. Mirrors cli/.gitignore EXCEPT `bin/`: the published
+# package must ship bin/methatech, bin/tree-sitter.wasm and bin/skills/
+# (the binary + its bundled skills). When this file exists, `npm pack`
+# uses it instead of .gitignore, so `bin/` is included.
+node_modules
+dist
+*.log
+.DS_Store
+debug/
+
+# Generated files
+src/agents/bundled-agents.generated.ts
