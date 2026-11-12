@@ -444,7 +444,7 @@ function hasToolResultOutput(toolBlock: ToolContentBlock): boolean {
  * operations never briefly flash an input-derived full-file diff.
  */
 export function shouldShowEditDiff(toolBlock: ToolContentBlock): boolean {
-  if (!extractDiff(toolBlock) || isCreateFile(toolBlock)) {
+  if (!extractDiff(toolBlock)) {
     return false
   }
 

@@ -276,14 +276,11 @@ describe('sandbox handlers', () => {
     clearE2BSandboxSession(runId)
   })
 
-  it('run_terminal_command lazily creates a sandbox for a SYNC command when no session is active', async () => {
+  it('run_terminal_command runs locally when no sandbox session exists (no implicit sandbox creation)', async () => {
     const runId = freshRunId()
     stubFetchWith((url, init) => {
-      if (url.endsWith('/sandboxes') && init?.method === 'POST') {
-        return jsonResponse({ sandboxId: 'sbx-lazy', domain: 'e2b.app', keyUsed: 'primary' })
-      }
       return jsonResponse({
-        sandboxId: 'sbx-lazy',
+        sandboxId: 'sbx-should-not-be-created',
         pid: 42,
         stdout: 'hello sandbox\n',
         stderr: '',
@@ -308,20 +305,16 @@ describe('sandbox handlers', () => {
       runId,
       signal,
     })
-    expect(localCalled).toBe(false)
+    // Terminal runs locally by default; no sandbox is created implicitly.
+    expect(localCalled).toBe(true)
     const value = outputValue(output)
-    expect(value.stdout).toBe('hello sandbox\n')
-    expect(String(value.message)).toContain('sandbox sbx-lazy')
-    expect(stubCalls[0].url).toBe(`${PANEL_BASE}/api/v1/e2b/sandboxes`)
-    expect(stubCalls[0].init?.method).toBe('POST')
-    expect(stubCalls[1].url).toBe(
-      `${PANEL_BASE}/api/v1/e2b/sandboxes/sbx-lazy/commands`,
-    )
-    expect(getE2BSandboxSession(runId)?.sandboxId).toBe('sbx-lazy')
+    expect(value.stdout).toBe('local\n')
+    expect(stubCalls).toHaveLength(0)
+    expect(getE2BSandboxSession(runId)).toBeUndefined()
     clearE2BSandboxSession(runId)
   })
 
-  it('run_terminal_command runs locally (and says so) when the panel is unreachable and no session exists', async () => {
+  it('run_terminal_command runs locally when the panel is unreachable and no session exists', async () => {
     const runId = freshRunId()
     stubFetchWith(() => {
       throw new Error('network down')
@@ -344,14 +337,15 @@ describe('sandbox handlers', () => {
       runId,
       signal,
     })
+    // Local is the default: no sandbox attempt, no fallback annotation.
     expect(localCalled).toBe(true)
     const value = outputValue(output)
     expect(value.stdout).toBe('local\n')
-    expect(String(value.message)).toContain('ran LOCALLY')
+    expect(stubCalls).toHaveLength(0)
     expect(getE2BSandboxSession(runId)).toBeUndefined()
   })
 
-  it('run_terminal_command surfaces a real panel failure (402) when creating a sandbox', async () => {
+  it('run_terminal_command runs locally even when the panel would fail (no sandbox created for terminal)', async () => {
     const runId = freshRunId()
     stubFetchWith(() => jsonResponse({ error: 'no credit' }, 402))
     let localCalled = false
@@ -372,8 +366,11 @@ describe('sandbox handlers', () => {
       runId,
       signal,
     })
-    expect(localCalled).toBe(false)
-    expect(String(outputValue(output).errorMessage)).toContain('402')
+    // No sandbox is created for terminal commands, so a panel 402 is
+    // irrelevant: the command just runs locally.
+    expect(localCalled).toBe(true)
+    expect(outputValue(output).stdout).toBe('local\n')
+    expect(stubCalls).toHaveLength(0)
     expect(getE2BSandboxSession(runId)).toBeUndefined()
   })
 

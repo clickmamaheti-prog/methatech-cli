@@ -421,7 +421,7 @@ describe('shouldShowEditDiff', () => {
     expect(shouldShowEditDiff(block)).toBe(true)
   })
 
-  test('does not show write_file diffs after a create result', () => {
+  test('shows write_file diffs after a create result', () => {
     const block: ToolContentBlock = {
       type: 'tool',
       toolCallId: 'test-1',
@@ -430,7 +430,7 @@ describe('shouldShowEditDiff', () => {
       output: 'file: src/new.ts\nmessage: Created file successfully.',
     }
 
-    expect(shouldShowEditDiff(block)).toBe(false)
+    expect(shouldShowEditDiff(block)).toBe(true)
   })
 
   test('continues to show pending proposed write_file diffs', () => {

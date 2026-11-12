@@ -513,6 +513,11 @@ ${buildArray(
     `- For any task requiring 3+ steps, use the write_todos tool to write out your step-by-step implementation plan. Include ALL of the applicable tasks in the list.${noReview ? '' : ' You should include a step to review the changes after you have implemented the changes.'}: You should include at least one step to validate/test your changes: be specific about whether to typecheck, run tests, run lints, etc. You may be able to do reviewing and validation in parallel in the same step. Skip write_todos for simple tasks like quick edits or answering questions.`,
   `- ${THINKER_SPAWN_LIMIT}`,
   hasGeminiThinker && FREEBUFF_GEMINI_THINKER_INSTRUCTIONS_PROMPT,
+  // Direct file editing tools (Freebuff base-deep): implement code changes
+  // with file tools, preferring apply_patch — it also deletes files via
+  // delete_file. Terminal `rm` runs in a sandbox with its own filesystem,
+  // so it cannot delete local project files.
+  `- Implement code changes using direct file editing tools. Prefer apply_patch for edits. Use write_file only for creating or replacing entire files when that is simpler.`,
   (isDefault || isMax) &&
     `- For quick problems, briefly explain your reasoning to the user. If you need to think longer, write your thoughts within the <think> tags. Finally, for complex problems, spawn the thinker agent to help find the best solution. (gpt-5-agent is a last resort for complex problems)`,
   isDefault &&

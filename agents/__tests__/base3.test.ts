@@ -209,6 +209,7 @@ describe('base3 CLI roots', () => {
       'read_files',
       'str_replace',
       'write_file',
+      'apply_patch',
       'run_terminal_command',
       'code_search',
       'glob',

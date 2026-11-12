@@ -9,7 +9,6 @@ import {
   truncateCommandOutput,
 } from '../../../llm-api/e2b-api'
 import {
-  ensureE2BSandboxSession,
   getE2BSandboxSession,
 } from '../../../llm-api/e2b-session'
 
@@ -98,55 +97,13 @@ export const handleRunTerminalCommand = (async ({
   }
   await previousToolCallFinished
 
-  // Sandbox routing: while a sandbox is active for this run, SYNC commands
-  // run inside the sandbox through the panel (the panel holds the
-  // keys; the CLI never sees a key). BACKGROUND commands stay local —
-  // dev servers and watchers need this machine, not a throwaway box.
-  // The sandbox has its own working directory: the local cwd is not
-  // passed through (it does not exist in the sandbox).
-  //
-  // No session yet? Lazily create a fresh one: the previous sandbox died
-  // with the previous run (auto-kill at run end), so the first SYNC
-  // command of a run that needs a sandbox just gets a new one — the
-  // agent never starts a sandbox by hand.
-  let session = getE2BSandboxSession(runId)
-  if (toolCall.input.process_type !== 'BACKGROUND' && !session) {
-    try {
-      session = await ensureE2BSandboxSession(runId, {
-        // globalThis.fetch, not the injected fetch: the injected fetch is
-        // the MethaTech hosted-services fetch, stubbed to throw in BYOK
-        // runs (same precedent as the sandbox command call below).
-        fetch: globalThis.fetch,
-        signal,
-        logger,
-        apiKey,
-        clientEnv,
-      })
-    } catch (error) {
-      if (!isE2BFallbackError(error)) {
-        // A real panel failure (bad token, bad request, quota, rate
-        // limit) must surface, not silently run locally.
-        logger.error({ error }, 'sandbox create failed')
-        return {
-          output: jsonToolResult({
-            command: toolCall.input.command,
-            errorMessage: `Error creating sandbox: ${
-              error instanceof Error ? error.message : 'Unknown error'
-            }`,
-          }),
-        }
-      }
-      // Panel unreachable (not logged in, proxy down): run locally and
-      // say so, exactly like the mid-run fallback below.
-      const output = await requestClientToolCall(clientToolCall)
-      return {
-        output: annotateLocalFallback(
-          output,
-          'The sandbox was unavailable through the panel, so this command ran LOCALLY instead.',
-        ),
-      }
-    }
-  }
+  // Terminal commands run LOCALLY by default (Freebuff semantics: commands
+  // run from the project root on the local files). The sandbox is only for
+  // Playwright/Chrome work (screenshot): it is entered only when the agent
+  // explicitly started one with the sandbox tool, or when a screenshot
+  // created one. Never create a sandbox implicitly here — an `rm` in a
+  // sandbox targets a different filesystem from the local project files.
+  const session = getE2BSandboxSession(runId)
 
   if (session && toolCall.input.process_type !== 'BACKGROUND') {
     const seconds = toolCall.input.timeout_seconds ?? 30

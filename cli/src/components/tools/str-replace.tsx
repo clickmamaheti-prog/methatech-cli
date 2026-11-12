@@ -38,14 +38,13 @@ interface EditBodyProps {
   name: string
   filePath: string | null
   diffText: string
-  isCreate: boolean
 }
 
-const EditBody = ({ name, filePath, diffText, isCreate }: EditBodyProps) => {
+const EditBody = ({ name, filePath, diffText }: EditBodyProps) => {
   return (
     <box style={{ flexDirection: 'column', gap: 0, width: '100%' }}>
       <EditHeader name={name} filePath={filePath} />
-      {!isCreate && diffText.length > 0 && (
+      {diffText.length > 0 && (
         <box style={{ paddingLeft: 2, width: '100%' }}>
           <DiffViewer diffText={diffText} />
         </box>
@@ -69,7 +68,6 @@ export const StrReplaceComponent = defineToolComponent({
           name={isCreate ? 'Create' : 'Edit'}
           filePath={filePath}
           diffText={showDiff ? (diff ?? '') : ''}
-          isCreate={isCreate}
         />
       ),
     }
