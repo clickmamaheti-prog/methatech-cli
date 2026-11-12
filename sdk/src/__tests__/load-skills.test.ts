@@ -52,14 +52,17 @@ describe('loadSkills', () => {
   let tempRoot: string
   let homeDir: string
   let projectDir: string
+  let bundledDir: string
 
   beforeEach(() => {
     tempRoot = mkdtempSync(path.join(os.tmpdir(), 'methatech-sdk-load-skills-'))
     homeDir = path.join(tempRoot, 'home')
     projectDir = path.join(tempRoot, 'project')
+    bundledDir = path.join(tempRoot, 'bundled')
 
     mkdirSync(homeDir, { recursive: true })
     mkdirSync(projectDir, { recursive: true })
+    mkdirSync(bundledDir, { recursive: true })
 
     spyOn(os, 'homedir').mockReturnValue(homeDir)
   })
@@ -294,6 +297,109 @@ describe('loadSkills', () => {
     expect(skills['custom-skill']?.filePath).toBe(
       path.join(customSkillsDir, 'custom-skill', 'SKILL.md'),
     )
+  })
+
+  test('loads a bundled skill when no project or home skill exists', async () => {
+    writeSkill({
+      skillsRoot: bundledDir,
+      skillDirName: 'bundled-only',
+      description: 'Ships with the binary',
+    })
+
+    const skills = await loadSkills({
+      cwd: projectDir,
+      bundledSkillsDir: bundledDir,
+    })
+
+    expect(Object.keys(skills)).toEqual(['bundled-only'])
+    expect(skills['bundled-only']?.description).toBe('Ships with the binary')
+    expect(skills['bundled-only']?.filePath).toBe(
+      path.join(bundledDir, 'bundled-only', 'SKILL.md'),
+    )
+  })
+
+  test('a project skill of the same name wins over the bundled one', async () => {
+    writeSkill({
+      skillsRoot: bundledDir,
+      skillDirName: 'shared-skill',
+      description: 'bundled',
+    })
+    writeSkill({
+      skillsRoot: path.join(projectDir, '.agents', 'skills'),
+      skillDirName: 'shared-skill',
+      description: 'project',
+    })
+
+    const skills = await loadSkills({
+      cwd: projectDir,
+      bundledSkillsDir: bundledDir,
+    })
+
+    expect(skills['shared-skill']?.description).toBe('project')
+    expect(skills['shared-skill']?.filePath).toBe(
+      path.join(projectDir, '.agents', 'skills', 'shared-skill', 'SKILL.md'),
+    )
+  })
+
+  test('a home skill wins over the bundled one', async () => {
+    writeSkill({
+      skillsRoot: bundledDir,
+      skillDirName: 'shared-skill',
+      description: 'bundled',
+    })
+    writeSkill({
+      skillsRoot: path.join(homeDir, '.agents', 'skills'),
+      skillDirName: 'shared-skill',
+      description: 'home',
+    })
+
+    const skills = await loadSkills({
+      cwd: projectDir,
+      includeHomeSkills: true,
+      bundledSkillsDir: bundledDir,
+    })
+
+    expect(skills['shared-skill']?.description).toBe('home')
+  })
+
+  test('an explicit skillsPath ignores the bundled directory', async () => {
+    const customSkillsDir = path.join(tempRoot, 'custom-skills')
+    mkdirSync(customSkillsDir, { recursive: true })
+
+    writeSkill({
+      skillsRoot: bundledDir,
+      skillDirName: 'bundled-only',
+      description: 'Should not be found',
+    })
+    writeSkill({
+      skillsRoot: customSkillsDir,
+      skillDirName: 'custom-skill',
+      description: 'Found via skillsPath',
+    })
+
+    const skills = await loadSkills({
+      cwd: projectDir,
+      skillsPath: customSkillsDir,
+      bundledSkillsDir: bundledDir,
+    })
+
+    expect(Object.keys(skills)).toEqual(['custom-skill'])
+  })
+
+  test('the bundled directory is first (lowest precedence) in the search order', () => {
+    const dirs = resolveSkillsDirs({
+      cwd: projectDir,
+      homeDir,
+      bundledSkillsDir: bundledDir,
+    })
+
+    expect(dirs).toEqual([
+      bundledDir,
+      path.join(homeDir, '.claude', 'skills'),
+      path.join(homeDir, '.agents', 'skills'),
+      path.join(projectDir, '.claude', 'skills'),
+      path.join(projectDir, '.agents', 'skills'),
+    ])
   })
 })
 

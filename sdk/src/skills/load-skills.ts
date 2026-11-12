@@ -12,6 +12,7 @@ import {
   type SkillsMap,
 } from '@methatech/common/types/skill'
 import { parseSkillFileContent } from '@methatech/common/util/parse-skill'
+import { getBundledSkillsDir } from '@methatech/common/util/skills'
 
 // Re-export from common for backward compatibility
 export { formatAvailableSkillsXml } from '@methatech/common/util/skills'
@@ -105,6 +106,11 @@ function discoverSkillsFromDirectory(
  * home directory cannot be searched by default, by omission, or by accident:
  * some caller has to have said "this process is that user's".
  *
+ * `bundledSkillsDir` is the same idea for the skills shipped with the
+ * compiled CLI binary (the repo's `.agents/skills/`, copied next to the
+ * binary at build time). It is the LOWEST precedence source: a project or
+ * home skill of the same name always wins over the bundled one.
+ *
  * See `LoadSkillsOptions.includeHomeSkills` for the history.
  *
  * Exported for tests, which assert on the resolved paths directly — that is
@@ -114,10 +120,14 @@ export function resolveSkillsDirs(options: {
   cwd: string
   skillsPath?: string
   homeDir?: string
+  bundledSkillsDir?: string
 }): string[] {
-  const { cwd, skillsPath, homeDir } = options
+  const { cwd, skillsPath, homeDir, bundledSkillsDir } = options
   if (skillsPath) return [skillsPath]
   return [
+    // Bundled skills ship with the binary and are the fallback of last
+    // resort: first in the list, so every later directory overrides them.
+    ...(bundledSkillsDir ? [bundledSkillsDir] : []),
     // Global directories (Claude-compatible first, then MethaTech). Present
     // only when a home directory was explicitly supplied.
     ...(homeDir
@@ -139,6 +149,15 @@ export type LoadSkillsOptions = {
   skillsPath?: string
   /** Whether to log errors during loading */
   verbose?: boolean
+  /**
+   * Directory of skills bundled with the compiled CLI binary. Defaults to
+   * `getBundledSkillsDir()` (the `skills/` sibling of the binary), which
+   * resolves only when running as that binary — in any other host it is
+   * undefined and there is no bundled source. Pass an explicit directory to
+   * override it (tests). A bundled skill is used only when no project or
+   * home skill of the same name exists.
+   */
+  bundledSkillsDir?: string
   /**
    * Also search `~/.claude/skills` and `~/.agents/skills`. Defaults to FALSE.
    *
@@ -173,6 +192,12 @@ export type LoadSkillsOptions = {
  * - `~/.claude/skills/` (global, Claude Code compatible)
  * - `~/.agents/skills/` (global)
  *
+ * The skills bundled with the compiled CLI binary (the repo's
+ * `.agents/skills/`, copied next to the binary at build time) are searched
+ * first, at the LOWEST precedence: a bundled skill is used only when no
+ * project or home skill of the same name exists. Outside the compiled
+ * binary there is no bundled source and the search is unchanged.
+ *
  * Each skill must be in its own directory with a SKILL.md file:
  * - `.agents/skills/my-skill/SKILL.md`
  * - `.claude/skills/my-skill/SKILL.md`
@@ -206,6 +231,7 @@ export function loadSkillsSync(options: LoadSkillsOptions = {}): SkillsMap {
     skillsPath,
     verbose = false,
     includeHomeSkills = false,
+    bundledSkillsDir,
   } = options
 
   const skills: SkillsMap = {}
@@ -216,6 +242,9 @@ export function loadSkillsSync(options: LoadSkillsOptions = {}): SkillsMap {
     // The ONLY `os.homedir()` call in this module. Reaching it requires an
     // explicit opt-in, so no future caller inherits a home-directory read.
     homeDir: includeHomeSkills ? os.homedir() : undefined,
+    // The bundled skills are the fallback of last resort, and only exist
+    // inside the compiled CLI binary (see getBundledSkillsDir).
+    bundledSkillsDir: bundledSkillsDir ?? getBundledSkillsDir(),
   })
 
   for (const skillsDir of skillsDirs) {

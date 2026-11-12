@@ -237,3 +237,87 @@ describe('handleSkill home-directory opt-in', () => {
     expect(JSON.stringify((output as any)[0].value)).toContain('the REPO copy')
   })
 })
+
+describe('handleSkill bundled skills', () => {
+  let projectRoot: string
+  let fakeBin: string
+  let realExecPath: string
+  let realFlag: string | undefined
+
+  const writeBundledSkill = (name: string, description: string) => {
+    const skillDir = path.join(fakeBin, 'skills', name)
+    fs.mkdirSync(skillDir, { recursive: true })
+    fs.writeFileSync(
+      path.join(skillDir, 'SKILL.md'),
+      `---\nname: ${name}\ndescription: ${description}\nauthor: Hermes Agent\n---\n# ${name}\nbody for ${description}\n`,
+      'utf8',
+    )
+  }
+
+  /** Pretend this process IS the compiled binary, living in fakeBin. */
+  const pretendToBeBinary = () => {
+    process.env.METHATECH_IS_BINARY = 'true'
+    process.execPath = path.join(fakeBin, 'methatech')
+  }
+
+  beforeEach(() => {
+    projectRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'skill-bundled-project-'))
+    fakeBin = fs.mkdtempSync(path.join(os.tmpdir(), 'skill-bundled-bin-'))
+    realExecPath = process.execPath
+    realFlag = process.env.METHATECH_IS_BINARY
+  })
+
+  afterEach(() => {
+    process.execPath = realExecPath
+    if (realFlag === undefined) delete process.env.METHATECH_IS_BINARY
+    else process.env.METHATECH_IS_BINARY = realFlag
+    fs.rmSync(projectRoot, { recursive: true, force: true })
+    fs.rmSync(fakeBin, { recursive: true, force: true })
+  })
+
+  it('loads a bundled skill when no project or home copy exists', async () => {
+    pretendToBeBinary()
+    writeBundledSkill('demo', 'ships with the binary')
+
+    const { output } = await callSkill('demo', { projectRoot, skills: {} })
+    const value = (output as any)[0].value
+
+    expect(value.name).toBe('demo')
+    expect(value.description).toBe('ships with the binary')
+    expect(value.content).toContain('body for ships with the binary')
+    expect(value.content).toContain(
+      JSON.stringify(`${fakeBin.replace(/\\/g, '/')}/skills/demo/`),
+    )
+    // FIX 1: the frontmatter never reaches the model, even from a bundled skill.
+    expect(value.content).not.toContain('author:')
+    expect(value.content).not.toContain('Hermes Agent')
+  })
+
+  it('a project skill wins over the bundled one', async () => {
+    pretendToBeBinary()
+    writeBundledSkill('demo', 'bundled')
+    writeSkill(projectRoot, 'demo', 'project copy')
+
+    const { output } = await callSkill('demo', { projectRoot, skills: {} })
+    const value = (output as any)[0].value
+
+    expect(value.description).toBe('project copy')
+    expect(value.content).toContain('body for project copy')
+    // The bundled copy's body and path must not appear: the project won.
+    expect(value.content).not.toContain('body for bundled')
+    expect(value.content).not.toContain(
+      JSON.stringify(`${fakeBin.replace(/\\/g, '/')}/skills/demo/`),
+    )
+  })
+
+  it('does not read the bundled directory outside the compiled binary', async () => {
+    delete process.env.METHATECH_IS_BINARY
+    writeBundledSkill('demo', 'ships with the binary')
+
+    const { output } = await callSkill('demo', { projectRoot, skills: {} })
+    const value = (output as any)[0].value
+
+    expect(value.content).toContain("Skill 'demo' not found")
+    expect(JSON.stringify(value)).not.toContain('ships with the binary')
+  })
+})

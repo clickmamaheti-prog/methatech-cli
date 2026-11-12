@@ -3,6 +3,7 @@ import { parseSkillFileContent } from '@methatech/common/util/parse-skill'
 import type { SkillDefinition } from '@methatech/common/types/skill'
 import {
   formatSkillContent,
+  getBundledSkillsDir,
   isSkillModelInvocable,
 } from '@methatech/common/util/skills'
 import { jsonToolResult } from '@methatech/common/util/messages'
@@ -27,6 +28,7 @@ async function loadSkillFromDisk(
   includeHomeSkills: boolean,
 ): Promise<SkillDefinition | null> {
   const home = os.homedir()
+  const bundledSkillsDir = getBundledSkillsDir()
   const skillsDirs = [
     // Match loadSkills precedence: project over global, .agents over .claude.
     // This function returns the first match, so highest precedence comes first.
@@ -52,6 +54,11 @@ async function loadSkillFromDisk(
           path.join(home, '.claude', SKILLS_DIR_NAME),
         ]
       : []),
+    // Bundled skills ship with the compiled CLI binary and are the fallback
+    // of last resort: searched LAST, so a project or home skill of the same
+    // name always wins. Outside the binary this resolves to undefined and
+    // the search is unchanged.
+    ...(bundledSkillsDir ? [bundledSkillsDir] : []),
   ]
 
   for (const skillsDir of skillsDirs) {

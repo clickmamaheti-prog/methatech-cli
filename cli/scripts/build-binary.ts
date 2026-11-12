@@ -4,10 +4,12 @@ import { spawnSync, type SpawnSyncOptions } from 'child_process'
 import { createRequire } from 'module'
 import {
   chmodSync,
+  cpSync,
   existsSync,
   mkdirSync,
   readFileSync,
   realpathSync,
+  rmSync,
   writeFileSync,
 } from 'fs'
 import { dirname, join } from 'path'
@@ -218,6 +220,27 @@ async function main() {
   const siblingWasm = join(binDir, 'tree-sitter.wasm')
   writeFileSync(siblingWasm, readFileSync(sourceWasm))
   logAlways(`Copied tree-sitter.wasm sibling: ${sourceWasm} → ${siblingWasm}`)
+
+  // Ship the repo's bundled skills as a sibling directory next to the
+  // binary, the same way tree-sitter.wasm ships: a normal disk read from
+  // `dirname(process.execPath)`, not a bunfs lookup (Bun --compile asset
+  // embedding proved unreliable). The loader resolves this directory only
+  // when running as the compiled binary (see getBundledSkillsDir), at the
+  // lowest precedence, so an npm user in a fresh directory still gets the
+  // bundled skills while project and home skills always win.
+  //
+  // NOTE: cli/.gitignore ignores `bin/`, so a plain `npm pack` excludes this
+  // directory — the publish step must include `bin/skills/` the same way it
+  // includes `bin/methatech` and `bin/tree-sitter.wasm`.
+  const repoSkillsDir = join(cliRoot, '..', '.agents', 'skills')
+  const bundledSkillsDir = join(binDir, 'skills')
+  if (existsSync(repoSkillsDir)) {
+    rmSync(bundledSkillsDir, { recursive: true, force: true })
+    cpSync(repoSkillsDir, bundledSkillsDir, { recursive: true })
+    logAlways(`Copied bundled skills: ${repoSkillsDir} → ${bundledSkillsDir}`)
+  } else {
+    logAlways(`No bundled skills found at ${repoSkillsDir}, skipping`)
+  }
 
   if (targetInfo.platform !== 'win32') {
     chmodSync(outputFile, 0o755)
